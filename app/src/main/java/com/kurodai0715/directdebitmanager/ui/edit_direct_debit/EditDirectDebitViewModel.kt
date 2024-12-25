@@ -1,22 +1,28 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class EditDirectDebitUiState(
     val transferDest: String = "",
     val transferSource: String = "",
-    val transferDate: String = "",
-    val transferAmount: String = "",
+//    val transferDate: String = "",
+//    val transferAmount: String = "",
 )
 
+
 @HiltViewModel
-class EditDirectDebitViewModel @Inject constructor() : ViewModel() {
+class EditDirectDebitViewModel @Inject constructor(
+    private val directDebitDefRepo: DirectDebitDefaultRepository
+) : ViewModel() {
 
     /**
      * 更新用.
@@ -40,19 +46,24 @@ class EditDirectDebitViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    fun updateDate(date: String) {
-        _uiState.update {
-            it.copy(transferDate = date)
-        }
-    }
+//    fun updateDate(date: String) {
+//        _uiState.update {
+//            it.copy(transferDate = date)
+//        }
+//    }
+//
+//    fun updateAmount(amount: String) {
+//        _uiState.update {
+//            it.copy(transferAmount = amount)
+//        }
+//    }
 
-    fun updateAmount(amount: String) {
-        _uiState.update {
-            it.copy(transferAmount = amount)
+    fun saveData() {
+        viewModelScope.launch {
+            directDebitDefRepo.insert(
+                dest = uiState.value.transferDest,
+                source = uiState.value.transferSource
+            )
         }
-    }
-
-    fun saveData(){
-        // TODO
     }
 }

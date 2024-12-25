@@ -2,8 +2,8 @@
     <string name="app_name">振替管理</string>
 
     <!-- 口座振替 編集 画面 -->
-    <string name="transfer_dest">振替先</string>
-    <string name="transfer_source">振替元</string>
+    <string name="transfer_dest">振替先（支払対象）</string>
+    <string name="transfer_source">振替元（銀行）</string>
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
 

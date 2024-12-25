@@ -45,16 +45,16 @@ fun EditDirectDebitScreen(
             label = { Text(stringResource(R.string.transfer_source)) },
             modifier = Modifier.fillMaxWidth(),
         )
-        DatePickerText(onTextChanged = {
-            viewModel.updateDate(it)
-        })
-        TextField(
-            value = uiState.transferAmount.toString(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            onValueChange = { viewModel.updateAmount(it) },
-            label = { Text(stringResource(R.string.transfer_amount)) },
-            modifier = Modifier.fillMaxWidth(),
-        )
+//        DatePickerText(onTextChanged = {
+//            viewModel.updateDate(it)
+//        })
+//        TextField(
+//            value = uiState.transferAmount.toString(),
+//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+//            onValueChange = { viewModel.updateAmount(it) },
+//            label = { Text(stringResource(R.string.transfer_amount)) },
+//            modifier = Modifier.fillMaxWidth(),
+//        )
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
             Button(onClick = { viewModel.saveData() }) {
                 Text(stringResource(R.string.common_save))
