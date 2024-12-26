@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.kurodai0715.directdebitmanager.ui.app_base.AppBaseScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
 import com.kurodai0715.directdebitmanager.ui.theme.DirectDebitManagerTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,15 +26,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DirectDebitManagerTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .consumeWindowInsets(innerPadding)
-                    ) {
-                        EditDirectDebitScreen()
-                    }
-                }
+                AppBaseScreen()
             }
         }
     }
