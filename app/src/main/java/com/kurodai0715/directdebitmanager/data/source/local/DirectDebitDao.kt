@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface DirectDebitDao {
 
     @Query("SELECT * FROM direct_debit")
-    fun selectAll(): Flow<List<LocalDirectDebit>>
+    fun observeDirectDebit(): Flow<List<LocalDirectDebit>>
 
     /**
      * Insert 文.
