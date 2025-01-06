@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,6 +22,9 @@ import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitSc
 import com.kurodai0715.directdebitmanager.ui.theme.DirectDebitManagerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+lateinit var appColorScheme: ColorScheme
+lateinit var appTypography: Typography
+lateinit var appShapes: Shapes
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -26,6 +33,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DirectDebitManagerTheme {
+
+                appColorScheme = MaterialTheme.colorScheme
+                appTypography = MaterialTheme.typography
+                appShapes = MaterialTheme.shapes
+
                 AppBaseScreen()
             }
         }
