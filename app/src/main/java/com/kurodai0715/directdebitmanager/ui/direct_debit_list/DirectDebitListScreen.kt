@@ -8,9 +8,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,21 +26,28 @@ import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 
 @Composable
 fun DirectDebitListScreen(
-    viewModel: DirectDebitListViewModel = hiltViewModel()
+    viewModel: DirectDebitListViewModel = hiltViewModel(),
+    onNavigateToEdit: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    LazyColumn {
-        itemsIndexed(uiState.items) { index, item ->
-            val modifier = when (index) {
-                // 最初のアイテムは Bottom にのみパディング
-                0 -> Modifier.padding(bottom = 8.dp)
-                // 最後のアイテムは Top にのみパディング
-                uiState.items.size - 1 -> Modifier.padding(top = 8.dp)
-                // それ以外のアイテムは Top と Bottom にパディング
-                else -> Modifier.padding(vertical = 8.dp)
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        LazyColumn {
+            itemsIndexed(uiState.items) { index, item ->
+                val modifier = when (index) {
+                    // 最初のアイテムは Bottom にのみパディング
+                    0 -> Modifier.padding(bottom = 8.dp)
+                    // 最後のアイテムは Top にのみパディング
+                    uiState.items.size - 1 -> Modifier.padding(top = 8.dp)
+                    // それ以外のアイテムは Top と Bottom にパディング
+                    else -> Modifier.padding(vertical = 8.dp)
+                }
+                DirectDebitItem(item, modifier)
             }
-            DirectDebitItem(item, modifier)
+        }
+
+        Button(onClick = onNavigateToEdit) {
+            Text(stringResource(R.string.common_add))
         }
     }
 }
@@ -70,5 +79,5 @@ fun DirectDebitItem(directDebit: DirectDebit, modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun Preview() {
-    DirectDebitListScreen()
+    DirectDebitListScreen(onNavigateToEdit = { })
 }

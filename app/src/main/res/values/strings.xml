@@ -20,4 +20,5 @@
     <!-- 共通 -->
     <string name="menu">メニュー</string>
     <string name="common_save">保存</string>
+    <string name="common_add">追加</string>
 </resources>

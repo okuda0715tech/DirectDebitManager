@@ -19,7 +19,9 @@ fun AppNavGraph(
         modifier = modifier,
     ) {
 
-        listDestination()
+        listDestination(onNavigateToEdit = {
+            navController.navigateToEditDestination()
+        })
 
         editDestination()
 

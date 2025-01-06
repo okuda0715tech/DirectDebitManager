@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHost
 import androidx.navigation.compose.composable
@@ -14,9 +15,11 @@ object List
 @Serializable
 object Edit
 
-fun NavGraphBuilder.listDestination() {
+fun NavGraphBuilder.listDestination(
+    onNavigateToEdit: () -> Unit
+) {
     composable<List> {
-        DirectDebitListScreen()
+        DirectDebitListScreen(onNavigateToEdit = onNavigateToEdit)
     }
 }
 
@@ -26,4 +29,6 @@ fun NavGraphBuilder.editDestination() {
     }
 }
 
-
+fun NavController.navigateToEditDestination() {
+    navigate(Edit)
+}
