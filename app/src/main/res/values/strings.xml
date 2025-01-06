@@ -8,6 +8,9 @@
         <item>プライバシーポリシー</item>
     </string-array>
 
+    <!-- 口座振替 一覧 画面 -->
+    <string name="fetch_error">データの取得に失敗しました。</string>
+
     <!-- 口座振替 編集 画面 -->
     <string name="transfer_dest">振替先（支払対象）</string>
     <string name="transfer_source">振替元（銀行）</string>
