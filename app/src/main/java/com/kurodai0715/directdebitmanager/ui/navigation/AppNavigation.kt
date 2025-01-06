@@ -14,17 +14,13 @@ object List
 @Serializable
 object Edit
 
-fun NavGraphBuilder.listDestination(
-
-) {
+fun NavGraphBuilder.listDestination() {
     composable<List> {
         DirectDebitListScreen()
     }
 }
 
-fun NavGraphBuilder.editDestination(
-
-) {
+fun NavGraphBuilder.editDestination() {
     composable<Edit> {
         EditDirectDebitScreen()
     }
