@@ -3,6 +3,7 @@ package com.kurodai0715.directdebitmanager.ui.direct_debit_list
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,8 +32,11 @@ fun DirectDebitListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        LazyColumn {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LazyColumn(modifier = Modifier.weight(1f)) {
             itemsIndexed(uiState.items) { index, item ->
                 val modifier = when (index) {
                     // 最初のアイテムは Bottom にのみパディング
