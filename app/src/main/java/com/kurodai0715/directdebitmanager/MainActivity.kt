@@ -48,6 +48,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     DirectDebitManagerTheme {
-        EditDirectDebitScreen()
+        EditDirectDebitScreen(onNavigateUp = {})
     }
 }

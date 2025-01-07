@@ -16,16 +16,18 @@ object List
 object Edit
 
 fun NavGraphBuilder.listDestination(
-    onNavigateToEdit: () -> Unit
+    onNavigateToEdit: () -> Unit,
 ) {
     composable<List> {
         DirectDebitListScreen(onNavigateToEdit = onNavigateToEdit)
     }
 }
 
-fun NavGraphBuilder.editDestination() {
+fun NavGraphBuilder.editDestination(
+    onNavigateUp: () -> Unit,
+) {
     composable<Edit> {
-        EditDirectDebitScreen()
+        EditDirectDebitScreen(onNavigateUp = onNavigateUp)
     }
 }
 

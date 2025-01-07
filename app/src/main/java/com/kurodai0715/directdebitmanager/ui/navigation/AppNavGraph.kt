@@ -23,7 +23,9 @@ fun AppNavGraph(
             navController.navigateToEditDestination()
         })
 
-        editDestination()
+        editDestination(onNavigateUp = {
+            navController.popBackStack()
+        })
 
     }
 }
