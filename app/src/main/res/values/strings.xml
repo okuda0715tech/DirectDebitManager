@@ -8,6 +8,11 @@
         <item>プライバシーポリシー</item>
     </string-array>
 
+    <!-- 画面名 -->
+    <string name="no_title"> </string>
+    <string name="list_screen_title">口座振替 / 一覧</string>
+    <string name="edit_screen_title">口座振替 / 登録・編集</string>
+
     <!-- 口座振替 一覧 画面 -->
     <string name="fetch_error">データの取得に失敗しました。</string>
 

@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.app_base
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -20,6 +21,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -60,6 +62,8 @@ fun AppBaseScreen() {
         },
     ) {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
+        @StringRes var title by remember { mutableIntStateOf(R.string.no_title) }
+
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
@@ -71,14 +75,16 @@ fun AppBaseScreen() {
                                 if (isClosed) open() else close()
                             }
                         }
-                    }
+                    },
+                    title = stringResource(title),
                 )
             }
         ) { contentPadding ->
             AppNavGraph(
                 modifier = Modifier
                     .padding(contentPadding)
-                    .consumeWindowInsets(contentPadding)
+                    .consumeWindowInsets(contentPadding),
+                onChangeTitle = { title = it }
             )
         }
     }
@@ -88,7 +94,8 @@ fun AppBaseScreen() {
 @Composable
 fun AppTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    onClickMenu: () -> Unit
+    onClickMenu: () -> Unit,
+    title: String,
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -97,7 +104,7 @@ fun AppTopBar(
         ),
         title = {
             Text(
-                "Centered Top App Bar",
+                text = title,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

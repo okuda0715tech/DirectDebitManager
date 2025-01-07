@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 fun AppNavGraph(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier,
+    onChangeTitle: (Int) -> Unit,
 ) {
     NavHost(
         navController = navController,
@@ -19,13 +20,19 @@ fun AppNavGraph(
         modifier = modifier,
     ) {
 
-        listDestination(onNavigateToEdit = {
-            navController.navigateToEditDestination()
-        })
+        listDestination(
+            onNavigateToEdit = {
+                navController.navigateToEditDestination()
+            },
+            onChangeTitle = onChangeTitle
+        )
 
-        editDestination(onNavigateUp = {
-            navController.popBackStack()
-        })
+        editDestination(
+            onNavigateUp = {
+                navController.popBackStack()
+            },
+            onChangeTitle = onChangeTitle
+        )
 
     }
 }
