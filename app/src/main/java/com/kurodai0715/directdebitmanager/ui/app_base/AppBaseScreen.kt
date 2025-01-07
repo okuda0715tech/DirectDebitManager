@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    var selectedMenuItem by remember { mutableStateOf(0) }
+    var selectedMenuItem by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
