@@ -79,7 +79,6 @@ fun AppBaseScreen() {
                 modifier = Modifier
                     .padding(contentPadding)
                     .consumeWindowInsets(contentPadding)
-                    .padding(16.dp)
             )
         }
     }

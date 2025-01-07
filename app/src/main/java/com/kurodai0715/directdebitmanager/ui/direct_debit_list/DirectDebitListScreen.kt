@@ -24,6 +24,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.appColorScheme
 import com.kurodai0715.directdebitmanager.appTypography
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 
 @Composable
 fun DirectDebitListScreen(
@@ -34,7 +35,9 @@ fun DirectDebitListScreen(
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(SCREEN_EDGE_PADDING_DEF)
     ) {
         LazyColumn(modifier = Modifier.weight(1f)) {
             itemsIndexed(uiState.items) { index, item ->
