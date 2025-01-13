@@ -1,9 +1,8 @@
 package com.kurodai0715.directdebitmanager.data.source.local
 
 import androidx.room.Dao
-import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -12,22 +11,7 @@ interface DirectDebitDao {
     @Query("SELECT * FROM direct_debit")
     fun observeDirectDebit(): Flow<List<LocalDirectDebit>>
 
-    /**
-     * Insert 文.
-     *
-     * Room の 「 ID の自動採番」 機能を使用するために、
-     * Insert と Update を別の関数に分けています。
-     */
-    @Insert
-    suspend fun insert(directDebit: LocalDirectDebit)
-
-    /**
-     * Update 文.
-     *
-     * Room の 「 ID の自動採番」 機能を使用するために、
-     * Insert と Update を別の関数に分けています。
-     */
-    @Update
-    suspend fun update(directDebit: LocalDirectDebit)
+    @Upsert
+    suspend fun upsert(directDebit: LocalDirectDebit)
 
 }

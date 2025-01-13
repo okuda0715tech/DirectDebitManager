@@ -18,10 +18,10 @@ class DirectDebitDefaultRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun insert(dest: String, source: String) {
+    suspend fun upsert(id: Int, dest: String, source: String) {
         withContext(ioDispatcher) {
-            val directDebit = DirectDebit(destination = dest, source = source)
-            localDataSource.insert(directDebit.toLocal())
+            val directDebit = DirectDebit(id = id, destination = dest, source = source)
+            localDataSource.upsert(directDebit.toLocal())
         }
     }
 

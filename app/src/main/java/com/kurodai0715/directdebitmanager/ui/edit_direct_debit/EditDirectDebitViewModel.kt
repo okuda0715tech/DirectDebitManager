@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class EditDirectDebitUiState(
+    val id: Int = 0,
     val transferDest: String = "",
     val transferSource: String = "",
 //    val transferDate: String = "",
@@ -50,6 +51,7 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateAll(directDebit: DirectDebit) {
         _uiState.update {
             it.copy(
+                id = directDebit.id,
                 transferDest = directDebit.destination,
                 transferSource = directDebit.source,
             )
@@ -70,7 +72,8 @@ class EditDirectDebitViewModel @Inject constructor(
 
     fun saveData() {
         viewModelScope.launch {
-            directDebitDefRepo.insert(
+            directDebitDefRepo.upsert(
+                id = uiState.value.id,
                 dest = uiState.value.transferDest,
                 source = uiState.value.transferSource
             )
