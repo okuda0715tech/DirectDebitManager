@@ -28,6 +28,6 @@ interface DirectDebitDao {
      * Insert と Update を別の関数に分けています。
      */
     @Update
-    suspend fun update(directDebitList: LocalDirectDebit)
+    suspend fun update(directDebit: LocalDirectDebit)
 
 }
