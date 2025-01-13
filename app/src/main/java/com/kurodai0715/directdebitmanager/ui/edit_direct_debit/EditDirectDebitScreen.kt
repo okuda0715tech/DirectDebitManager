@@ -1,18 +1,24 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,33 +35,48 @@ fun EditDirectDebitScreen(
     directDebit: DirectDebit?,
     onNavigateUp: () -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    Scaffold(snackbarHost = {
+        SnackbarHost(hostState = snackbarHostState)
+    }) { paddingValues ->
 
-    LaunchedEffect(directDebit) {
-        if (directDebit != null) {
-            viewModel.updateAll(directDebit)
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        LaunchedEffect(directDebit) {
+            if (directDebit != null) {
+                viewModel.updateAll(directDebit)
+            }
         }
-    }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(SCREEN_EDGE_PADDING_DEF),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        TextField(
-            value = uiState.transferDest,
-            onValueChange = { viewModel.updateDest(it) },
-            label = { Text(stringResource(R.string.transfer_dest)) },
-            modifier = Modifier.fillMaxWidth(),
-        )
-        TextField(
-            value = uiState.transferSource,
-            onValueChange = { viewModel.updateSource(it) },
-            label = { Text(stringResource(R.string.transfer_source)) },
-            modifier = Modifier.fillMaxWidth(),
-        )
+        uiState.userMessage?.let { message ->
+            val snackbarText = stringResource(message)
+            LaunchedEffect(snackbarText) {
+                snackbarHostState.showSnackbar(snackbarText)
+                viewModel.clearMessage()
+            }
+        }
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .consumeWindowInsets(paddingValues)
+                .padding(SCREEN_EDGE_PADDING_DEF),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            TextField(
+                value = uiState.transferDest,
+                onValueChange = { viewModel.updateDest(it) },
+                label = { Text(stringResource(R.string.transfer_dest)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
+            TextField(
+                value = uiState.transferSource,
+                onValueChange = { viewModel.updateSource(it) },
+                label = { Text(stringResource(R.string.transfer_source)) },
+                modifier = Modifier.fillMaxWidth(),
+            )
 //        DatePickerText(onTextChanged = {
 //            viewModel.updateDate(it)
 //        })
@@ -66,16 +87,18 @@ fun EditDirectDebitScreen(
 //            label = { Text(stringResource(R.string.transfer_amount)) },
 //            modifier = Modifier.fillMaxWidth(),
 //        )
-        Row(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            OutlinedButton(onClick = onNavigateUp) {
-                Text(stringResource(R.string.common_back))
-            }
-            Button(onClick = { viewModel.saveData() }) {
-                Text(stringResource(R.string.common_save))
+            Row(
+                modifier = Modifier.padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(24.dp)
+            ) {
+                OutlinedButton(onClick = onNavigateUp) {
+                    Text(stringResource(R.string.common_back))
+                }
+                Button(onClick = { viewModel.saveData() }) {
+                    Text(stringResource(R.string.common_save))
+                }
             }
         }
     }
+
 }

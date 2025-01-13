@@ -27,4 +27,6 @@
     <string name="common_back">戻る</string>
     <string name="common_save">保存</string>
     <string name="common_add">追加</string>
+    <string name="common_save_successfully">保存しました。</string>
+    <string name="common_save_failed">保存に失敗しました。</string>
 </resources>

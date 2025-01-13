@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.data
 
+import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.toExternal
@@ -12,17 +13,27 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
+const val TAG = "DirectDebitDefaultRepository.kt"
+
 @Singleton
 class DirectDebitDefaultRepository @Inject constructor(
     private val localDataSource: DirectDebitDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
-    suspend fun upsert(id: Int, dest: String, source: String) {
+    suspend fun upsert(id: Int, dest: String, source: String): Boolean {
+        var resultSuccess: Boolean
         withContext(ioDispatcher) {
             val directDebit = DirectDebit(id = id, destination = dest, source = source)
-            localDataSource.upsert(directDebit.toLocal())
+            resultSuccess = try {
+                localDataSource.upsert(directDebit.toLocal())
+                true
+            } catch (e: Exception) {
+                false
+            }
+            Log.d(TAG, "resultSuccess = $resultSuccess")
         }
+        return resultSuccess
     }
 
     fun fetchDirectDebitStream(): Flow<List<DirectDebit>> {

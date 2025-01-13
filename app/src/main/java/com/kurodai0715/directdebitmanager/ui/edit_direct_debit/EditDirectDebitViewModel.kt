@@ -1,7 +1,9 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,12 +14,15 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val TAG = "EditDirectDebitViewModel.kt"
+
 data class EditDirectDebitUiState(
     val id: Int = 0,
     val transferDest: String = "",
     val transferSource: String = "",
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
+    val userMessage: Int? = null,
 )
 
 
@@ -72,10 +77,28 @@ class EditDirectDebitViewModel @Inject constructor(
 
     fun saveData() {
         viewModelScope.launch {
-            directDebitDefRepo.upsert(
+            val resultSuccess = directDebitDefRepo.upsert(
                 id = uiState.value.id,
                 dest = uiState.value.transferDest,
                 source = uiState.value.transferSource
+            )
+
+            _uiState.update {
+                it.copy(
+                    userMessage = if (resultSuccess) {
+                        R.string.common_save_successfully
+                    } else {
+                        R.string.common_save_failed
+                    }
+                )
+            }
+        }
+    }
+
+    fun clearMessage() {
+        _uiState.update {
+            it.copy(
+                userMessage = null
             )
         }
     }
