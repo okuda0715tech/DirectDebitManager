@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.direct_debit_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +30,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 @Composable
 fun DirectDebitListScreen(
     viewModel: DirectDebitListViewModel = hiltViewModel(),
-    onNavigateToEdit: () -> Unit,
+    onNavigateToEdit: (DirectDebit?) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -49,22 +50,27 @@ fun DirectDebitListScreen(
                     // それ以外のアイテムは Top と Bottom にパディング
                     else -> Modifier.padding(vertical = 8.dp)
                 }
-                DirectDebitItem(item, modifier)
+                DirectDebitItem(item, modifier, onClickItem = { onNavigateToEdit(item) })
             }
         }
 
-        Button(onClick = onNavigateToEdit) {
+        Button(onClick = { onNavigateToEdit(null) }) {
             Text(stringResource(R.string.common_add))
         }
     }
 }
 
 @Composable
-fun DirectDebitItem(directDebit: DirectDebit, modifier: Modifier = Modifier) {
+fun DirectDebitItem(
+    directDebit: DirectDebit,
+    modifier: Modifier = Modifier,
+    onClickItem: () -> Unit
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(appColorScheme.surfaceContainerLow)
+            .clickable(onClick = onClickItem)
             .padding(8.dp)
     ) {
         Text(

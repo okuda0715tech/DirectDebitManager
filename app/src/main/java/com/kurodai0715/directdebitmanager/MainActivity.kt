@@ -17,6 +17,7 @@ import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.app_base.AppBaseScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
 import com.kurodai0715.directdebitmanager.ui.theme.DirectDebitManagerTheme
@@ -48,6 +49,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     DirectDebitManagerTheme {
-        EditDirectDebitScreen(onNavigateUp = {})
+        EditDirectDebitScreen(
+            directDebit = DirectDebit(
+                destination = "横浜銀行クレジットカード",
+                source = "横浜銀行"
+            ), onNavigateUp = {})
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,15 +20,23 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 
 @Composable
 fun EditDirectDebitScreen(
     viewModel: EditDirectDebitViewModel = hiltViewModel(),
+    directDebit: DirectDebit?,
     onNavigateUp: () -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(directDebit) {
+        if (directDebit != null) {
+            viewModel.updateAll(directDebit)
+        }
+    }
 
     Column(
         modifier = Modifier

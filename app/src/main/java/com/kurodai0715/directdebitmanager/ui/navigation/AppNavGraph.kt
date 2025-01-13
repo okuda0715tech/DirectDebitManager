@@ -19,8 +19,8 @@ fun AppNavGraph(
     ) {
 
         listDestination(
-            onNavigateToEdit = {
-                navController.navigateToEditDestination()
+            onNavigateToEdit = { selectedItem ->
+                navController.navigateToEditDestination(selectedItem)
             },
             onChangeTitle = onChangeTitle
         )

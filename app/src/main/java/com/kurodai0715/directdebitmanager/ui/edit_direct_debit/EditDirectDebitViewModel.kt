@@ -3,6 +3,7 @@ package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,6 +44,15 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateSource(source: String) {
         _uiState.update {
             it.copy(transferSource = source)
+        }
+    }
+
+    fun updateAll(directDebit: DirectDebit) {
+        _uiState.update {
+            it.copy(
+                transferDest = directDebit.destination,
+                transferSource = directDebit.source,
+            )
         }
     }
 
