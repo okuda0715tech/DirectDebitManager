@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.appColorScheme
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 
@@ -96,6 +98,9 @@ fun EditDirectDebitScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
+                TextButton(onClick = { viewModel.deleteData() }) {
+                    Text(stringResource(R.string.common_delete), color = appColorScheme.error)
+                }
                 OutlinedButton(onClick = onNavigateUp) {
                     Text(stringResource(R.string.common_back))
                 }

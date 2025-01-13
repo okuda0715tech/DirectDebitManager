@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
@@ -89,6 +88,26 @@ class EditDirectDebitViewModel @Inject constructor(
                         R.string.common_save_successfully
                     } else {
                         R.string.common_save_failed
+                    }
+                )
+            }
+        }
+    }
+
+    fun deleteData() {
+        viewModelScope.launch {
+            val numOfDeleted = directDebitDefRepo.delete(
+                id = uiState.value.id,
+                dest = uiState.value.transferDest,
+                source = uiState.value.transferSource
+            )
+
+            _uiState.update {
+                it.copy(
+                    userMessage = if (numOfDeleted > 0) {
+                        R.string.common_delete_successfully
+                    } else {
+                        R.string.common_delete_failed
                     }
                 )
             }

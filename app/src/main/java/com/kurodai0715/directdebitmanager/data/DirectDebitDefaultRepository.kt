@@ -36,6 +36,28 @@ class DirectDebitDefaultRepository @Inject constructor(
         return resultSuccess
     }
 
+    /**
+     * レコードの削除.
+     *
+     * @param id 削除するレコードの id
+     * @param dest 削除するレコードの destination
+     * @param source 削除するレコードの source
+     * @return 削除したレコードの件数。エラーが発生した場合は -1。
+     */
+    suspend fun delete(id: Int, dest: String, source: String): Int {
+        var numOfDeleted: Int
+        withContext(ioDispatcher) {
+            val directDebit = DirectDebit(id = id, destination = dest, source = source)
+            numOfDeleted = try {
+                localDataSource.delete(directDebit.toLocal())
+            } catch (e: Exception) {
+                -1
+            }
+            Log.d(TAG, "NumOfDeleted = $numOfDeleted")
+        }
+        return numOfDeleted
+    }
+
     fun fetchDirectDebitStream(): Flow<List<DirectDebit>> {
         return localDataSource.observeDirectDebit().map { localDirectDebits ->
 

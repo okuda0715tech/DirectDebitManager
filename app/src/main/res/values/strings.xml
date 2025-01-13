@@ -24,9 +24,12 @@
 
     <!-- 共通 -->
     <string name="menu">メニュー</string>
+    <string name="common_delete">削除</string>
     <string name="common_back">戻る</string>
     <string name="common_save">保存</string>
     <string name="common_add">追加</string>
     <string name="common_save_successfully">保存しました。</string>
     <string name="common_save_failed">保存に失敗しました。</string>
+    <string name="common_delete_successfully">削除しました。</string>
+    <string name="common_delete_failed">削除に失敗しました。</string>
 </resources>
