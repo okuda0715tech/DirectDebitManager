@@ -30,10 +30,8 @@ class DirectDebitDefaultRepository @Inject constructor(
 
             val directDebits = mutableListOf<DirectDebit>()
 
-            if (localDirectDebits != null) {
-                for (localDirectDebit in localDirectDebits) {
-                    directDebits.add(localDirectDebit.toExternal())
-                }
+            for (localDirectDebit in localDirectDebits) {
+                directDebits.add(localDirectDebit.toExternal())
             }
 
             directDebits
