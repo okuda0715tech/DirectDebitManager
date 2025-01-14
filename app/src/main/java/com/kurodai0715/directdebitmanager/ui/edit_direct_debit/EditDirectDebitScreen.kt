@@ -98,8 +98,10 @@ fun EditDirectDebitScreen(
                 modifier = Modifier.padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                TextButton(onClick = { viewModel.deleteData() }) {
-                    Text(stringResource(R.string.common_delete), color = appColorScheme.error)
+                if (uiState.id != 0) {
+                    TextButton(onClick = { viewModel.deleteData() }) {
+                        Text(stringResource(R.string.common_delete), color = appColorScheme.error)
+                    }
                 }
                 OutlinedButton(onClick = onNavigateUp) {
                     Text(stringResource(R.string.common_back))
