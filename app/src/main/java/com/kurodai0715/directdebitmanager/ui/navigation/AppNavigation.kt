@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.navigation
 
+import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -9,6 +10,8 @@ import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
 import kotlinx.serialization.Serializable
+
+const val TAG = "AppNavigation.kt"
 
 @Serializable
 object List
@@ -44,7 +47,14 @@ fun NavGraphBuilder.editDestination(
             },
             onNavigateUp = onNavigateUp
         )
-        onChangeTitle(R.string.edit_screen_title)
+
+        Log.d(TAG, "edit.id = ${edit.id}")
+        val titleResId = if (edit.id == null) {
+            R.string.register_screen_title
+        } else {
+            R.string.edit_screen_title
+        }
+        onChangeTitle(titleResId)
     }
 }
 

@@ -11,7 +11,8 @@
     <!-- 画面名 -->
     <string name="no_title"> </string>
     <string name="list_screen_title">口座振替 / 一覧</string>
-    <string name="edit_screen_title">口座振替 / 登録・編集</string>
+    <string name="register_screen_title">口座振替 / 登録</string>
+    <string name="edit_screen_title">口座振替 / 変更</string>
 
     <!-- 口座振替 一覧 画面 -->
     <string name="fetch_error">データの取得に失敗しました。</string>
@@ -28,7 +29,8 @@
     <string name="common_back">戻る</string>
     <string name="common_save">保存</string>
     <string name="common_add">追加</string>
-    <string name="common_save_successfully">保存しました。</string>
+    <string name="common_save_successfully">新規に作成しました。</string>
+    <string name="common_update_successfully">更新しました。</string>
     <string name="common_save_failed">保存に失敗しました。</string>
     <string name="common_delete_successfully">削除しました。</string>
     <string name="common_delete_failed">削除に失敗しました。</string>
