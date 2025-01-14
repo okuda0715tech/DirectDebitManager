@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -64,26 +65,56 @@ fun EditDirectDebitScreen(
             }
         }
 
-        Column(
+        EditDirectDebitContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            TextField(
-                value = uiState.transferDest,
-                onValueChange = { viewModel.updateDest(it) },
-                label = { Text(stringResource(R.string.transfer_dest)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
-            TextField(
-                value = uiState.transferSource,
-                onValueChange = { viewModel.updateSource(it) },
-                label = { Text(stringResource(R.string.transfer_source)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
+            transferDest = uiState.transferDest,
+            onDestChanged = { viewModel.updateDest(it) },
+            transferSource = uiState.transferSource,
+            onSourceChanged = { viewModel.updateSource(it) },
+            itemId = uiState.id,
+            onClickDelete = { viewModel.deleteData() },
+            onNavigateUp = onNavigateUp,
+            onClickSave = { viewModel.saveData() }
+        )
+    }
+}
+
+@Composable
+fun EditDirectDebitContents(
+    modifier: Modifier = Modifier,
+    transferDest: String,
+    onDestChanged: (String) -> Unit,
+    transferSource: String,
+    onSourceChanged: (String) -> Unit,
+    itemId: Int,
+    onClickDelete: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onClickSave: () -> Unit,
+) {
+    Column(
+        modifier = modifier, // Modifier
+//            .fillMaxSize()
+//            .padding(paddingValues)
+//            .consumeWindowInsets(paddingValues)
+//            .padding(SCREEN_EDGE_PADDING_DEF),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TextField(
+            value = transferDest,
+            onValueChange = onDestChanged,
+            label = { Text(stringResource(R.string.transfer_dest)) },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        TextField(
+            value = transferSource,
+            onValueChange = onSourceChanged,
+            label = { Text(stringResource(R.string.transfer_source)) },
+            modifier = Modifier.fillMaxWidth(),
+        )
 //        DatePickerText(onTextChanged = {
 //            viewModel.updateDate(it)
 //        })
@@ -94,23 +125,52 @@ fun EditDirectDebitScreen(
 //            label = { Text(stringResource(R.string.transfer_amount)) },
 //            modifier = Modifier.fillMaxWidth(),
 //        )
-            Row(
-                modifier = Modifier.padding(16.dp),
-                horizontalArrangement = Arrangement.spacedBy(24.dp)
-            ) {
-                if (uiState.id != 0) {
-                    TextButton(onClick = { viewModel.deleteData() }) {
-                        Text(stringResource(R.string.common_delete), color = appColorScheme.error)
-                    }
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            if (itemId != 0) {
+                TextButton(onClick = onClickDelete) {
+                    Text(stringResource(R.string.common_delete), color = appColorScheme.error)
                 }
-                OutlinedButton(onClick = onNavigateUp) {
-                    Text(stringResource(R.string.common_back))
-                }
-                Button(onClick = { viewModel.saveData() }) {
-                    Text(stringResource(R.string.common_save))
-                }
+            }
+            OutlinedButton(onClick = onNavigateUp) {
+                Text(stringResource(R.string.common_back))
+            }
+            Button(onClick = onClickSave) {
+                Text(stringResource(R.string.common_save))
             }
         }
     }
-
 }
+
+@Preview
+@Composable
+private fun PreviewRegisterContents() {
+    EditDirectDebitContents(
+        transferDest = "横浜銀行クレジットカード",
+        onDestChanged = {},
+        transferSource = "横浜銀行",
+        onSourceChanged = {},
+        itemId = 0,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewUpdateContents() {
+    EditDirectDebitContents(
+        transferDest = "横浜銀行クレジットカード",
+        onDestChanged = {},
+        transferSource = "横浜銀行",
+        onSourceChanged = {},
+        itemId = 1,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+    )
+}
+
