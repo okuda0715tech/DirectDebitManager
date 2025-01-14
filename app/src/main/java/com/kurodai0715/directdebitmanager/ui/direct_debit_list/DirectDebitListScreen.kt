@@ -50,31 +50,45 @@ fun DirectDebitListScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
+        ListScreenContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
-                .padding(SCREEN_EDGE_PADDING_DEF)
-        ) {
-            LazyColumn(modifier = Modifier.weight(1f)) {
-                itemsIndexed(uiState.items) { index, item ->
-                    val modifier = when (index) {
-                        // 最初のアイテムは Bottom にのみパディング
-                        0 -> Modifier.padding(bottom = 8.dp)
-                        // 最後のアイテムは Top にのみパディング
-                        uiState.items.size - 1 -> Modifier.padding(top = 8.dp)
-                        // それ以外のアイテムは Top と Bottom にパディング
-                        else -> Modifier.padding(vertical = 8.dp)
-                    }
-                    DirectDebitItem(item, modifier, onClickItem = { onNavigateToEdit(item) })
-                }
-            }
+                .padding(SCREEN_EDGE_PADDING_DEF),
+            items = uiState.items,
+            onNavigateToEdit = onNavigateToEdit
+        )
 
-            Button(onClick = { onNavigateToEdit(null) }) {
-                Text(stringResource(R.string.common_add))
+    }
+}
+
+@Composable
+fun ListScreenContents(
+    modifier: Modifier = Modifier,
+    items: List<DirectDebit>,
+    onNavigateToEdit: (DirectDebit?) -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        LazyColumn(modifier = Modifier.weight(1f)) {
+            itemsIndexed(items) { index, item ->
+                val itemModifier = when (index) {
+                    // 最初のアイテムは Bottom にのみパディング
+                    0 -> Modifier.padding(bottom = 8.dp)
+                    // 最後のアイテムは Top にのみパディング
+                    items.size - 1 -> Modifier.padding(top = 8.dp)
+                    // それ以外のアイテムは Top と Bottom にパディング
+                    else -> Modifier.padding(vertical = 8.dp)
+                }
+                DirectDebitItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
             }
+        }
+
+        Button(onClick = { onNavigateToEdit(null) }) {
+            Text(stringResource(R.string.common_add))
         }
     }
 }
@@ -111,5 +125,13 @@ fun DirectDebitItem(
 @Preview
 @Composable
 private fun Preview() {
-    DirectDebitListScreen(onNavigateToEdit = { })
+    ListScreenContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(SCREEN_EDGE_PADDING_DEF),
+        items = listOf(
+            DirectDebit(1, "横浜銀行クレジットカード", "横浜銀行"),
+            DirectDebit(2, "Oliveクレジットカード", "三井住友銀行")
+        ),
+        onNavigateToEdit = { })
 }
