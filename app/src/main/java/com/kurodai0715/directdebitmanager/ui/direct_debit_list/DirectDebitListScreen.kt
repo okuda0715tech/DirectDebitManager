@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,8 +23,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.appColorScheme
-import com.kurodai0715.directdebitmanager.appTypography
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 
@@ -69,21 +68,21 @@ fun DirectDebitItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(appColorScheme.surfaceContainerLow)
+            .background(MaterialTheme.colorScheme.surfaceContainerLow)
             .clickable(onClick = onClickItem)
             .padding(8.dp)
     ) {
         Text(
             stringResource(R.string.transfer_dest),
-            style = appTypography.labelSmall,
-            color = appColorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(directDebit.destination)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             stringResource(R.string.transfer_source),
-            style = appTypography.labelSmall,
-            color = appColorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(directDebit.source)
     }

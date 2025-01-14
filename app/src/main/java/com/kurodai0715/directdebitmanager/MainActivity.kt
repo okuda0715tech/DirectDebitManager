@@ -23,10 +23,6 @@ import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitSc
 import com.kurodai0715.directdebitmanager.ui.theme.DirectDebitManagerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-lateinit var appColorScheme: ColorScheme
-lateinit var appTypography: Typography
-lateinit var appShapes: Shapes
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,11 +30,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             DirectDebitManagerTheme {
-
-                appColorScheme = MaterialTheme.colorScheme
-                appTypography = MaterialTheme.typography
-                appShapes = MaterialTheme.shapes
-
                 AppBaseScreen()
             }
         }
