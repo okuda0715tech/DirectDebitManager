@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,7 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
@@ -24,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 
 @Composable
@@ -53,7 +57,7 @@ fun EditDirectDebitScreen(
 
         LaunchedEffect(directDebit) {
             if (directDebit != null) {
-                viewModel.updateAll(directDebit)
+                viewModel.updateDirectDebit(directDebit)
             }
         }
 
@@ -76,10 +80,18 @@ fun EditDirectDebitScreen(
             transferSource = uiState.transferSource,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.id,
-            onClickDelete = { viewModel.deleteData() },
+            onClickDelete = { viewModel.updateDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
-            onClickSave = { viewModel.saveData() }
+            onClickSave = { viewModel.saveData() },
         )
+
+        if (uiState.showDelConfDialog) {
+            DeleteConfirmDialog(
+                onDismissRequest = { viewModel.updateDialogVisibility(false) },
+                onClickNo = { },
+                onClickYes = { viewModel.deleteData() },
+            )
+        }
     }
 }
 
@@ -147,6 +159,45 @@ fun EditDirectDebitContents(
     }
 }
 
+@Composable
+fun DeleteConfirmDialog(
+    onDismissRequest: () -> Unit,
+    onClickNo: () -> Unit,
+    onClickYes: () -> Unit,
+) {
+    AlertDialog(
+        icon = {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_delete_outline_24),
+                contentDescription = stringResource(id = R.string.del_icon_description),
+                modifier = Modifier.size(ICON_EX_LARGE_SIZE),
+            )
+        },
+        title = {
+            Text(text = stringResource(R.string.del_conf_title))
+        },
+        text = {
+            Text(text = stringResource(R.string.del_conf_text))
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(onClick = {
+                onClickYes()
+                onDismissRequest()
+            }) {
+                Text(stringResource(R.string.common_yes))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = {
+                onClickNo()
+                onDismissRequest()
+            }) {
+                Text(stringResource(R.string.common_no))
+            }
+        })
+}
+
 @Preview
 @Composable
 private fun PreviewRegisterContents() {
@@ -177,3 +228,12 @@ private fun PreviewUpdateContents() {
     )
 }
 
+@Preview
+@Composable
+private fun PreviewDialog() {
+    DeleteConfirmDialog(
+        onDismissRequest = {},
+        onClickNo = {},
+        onClickYes = {}
+    )
+}

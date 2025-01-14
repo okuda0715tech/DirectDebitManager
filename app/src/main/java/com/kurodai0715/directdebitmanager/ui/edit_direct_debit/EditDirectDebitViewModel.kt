@@ -22,6 +22,7 @@ data class EditDirectDebitUiState(
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
+    val showDelConfDialog: Boolean = false,
 )
 
 
@@ -52,13 +53,19 @@ class EditDirectDebitViewModel @Inject constructor(
         }
     }
 
-    fun updateAll(directDebit: DirectDebit) {
+    fun updateDirectDebit(directDebit: DirectDebit) {
         _uiState.update {
             it.copy(
                 id = directDebit.id,
                 transferDest = directDebit.destination,
                 transferSource = directDebit.source,
             )
+        }
+    }
+
+    fun updateDialogVisibility(show: Boolean){
+        _uiState.update {
+            it.copy(showDelConfDialog = show)
         }
     }
 

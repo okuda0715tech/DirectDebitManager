@@ -23,6 +23,11 @@
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
 
+    <!-- 削除確認 ダイアログ -->
+    <string name="del_conf_title">削除確認</string>
+    <string name="del_conf_text">表示中のデータを削除しますか？</string>
+    <string name="del_icon_description">削除確認アイコン</string>
+
     <!-- 共通 -->
     <string name="menu">メニュー</string>
     <string name="common_delete">削除</string>
@@ -34,4 +39,6 @@
     <string name="common_save_failed">保存に失敗しました。</string>
     <string name="common_delete_successfully">削除しました。</string>
     <string name="common_delete_failed">削除に失敗しました。</string>
+    <string name="common_yes">はい</string>
+    <string name="common_no">いいえ</string>
 </resources>
