@@ -83,13 +83,27 @@ class EditDirectDebitViewModel @Inject constructor(
             )
 
             _uiState.update {
-                it.copy(
-                    userMessage = if (resultSuccess) {
-                        R.string.common_save_successfully
+                if (resultSuccess) {
+                    // 新規作成 or 更新が成功した場合
+                    if (uiState.value.id == 0) {
+                        // 新規作成の場合
+                        it.copy(
+                            transferDest = "",
+                            transferSource = "",
+                            userMessage = R.string.common_save_successfully
+                        )
                     } else {
-                        R.string.common_save_failed
+                        // 更新の場合
+                        it.copy(
+                            userMessage = R.string.common_update_successfully
+                        )
                     }
-                )
+                } else {
+                    // 新規作成 or 更新が失敗した場合
+                    it.copy(
+                        userMessage = R.string.common_save_failed
+                    )
+                }
             }
         }
     }
