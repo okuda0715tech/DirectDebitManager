@@ -26,7 +26,12 @@
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>
     <string name="del_conf_text">表示中のデータを削除しますか？</string>
-    <string name="del_icon_description">削除確認アイコン</string>
+    <string name="del_conf_icon_description">削除確認アイコン</string>
+
+    <!-- 削除完了 ダイアログ -->
+    <string name="del_comp_title">削除完了</string>
+    <string name="del_comp_text">削除が完了しました。</string>
+    <string name="del_comp_icon_description">削除完了アイコン</string>
 
     <!-- 共通 -->
     <string name="menu">メニュー</string>

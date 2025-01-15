@@ -169,7 +169,7 @@ fun DeleteConfirmDialog(
         icon = {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_delete_outline_24),
-                contentDescription = stringResource(id = R.string.del_icon_description),
+                contentDescription = stringResource(id = R.string.del_conf_icon_description),
                 modifier = Modifier.size(ICON_EX_LARGE_SIZE),
             )
         },
