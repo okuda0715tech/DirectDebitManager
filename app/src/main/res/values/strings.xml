@@ -46,4 +46,5 @@
     <string name="common_delete_failed">削除に失敗しました。</string>
     <string name="common_yes">はい</string>
     <string name="common_no">いいえ</string>
+    <string name="common_close">閉じる</string>
 </resources>

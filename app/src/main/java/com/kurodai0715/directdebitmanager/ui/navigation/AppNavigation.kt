@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.ui.delete_compoletion.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
 import kotlinx.serialization.Serializable
@@ -23,6 +25,9 @@ data class Edit(
     val source: String? = null
 )
 
+@Serializable
+data object DelComp
+
 fun NavGraphBuilder.listDestination(
     onNavigateToEdit: (DirectDebit?) -> Unit,
     onChangeTitle: (Int) -> Unit,
@@ -36,6 +41,7 @@ fun NavGraphBuilder.listDestination(
 fun NavGraphBuilder.editDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
+    onNavigateToDelComp: () -> Unit,
 ) {
     composable<Edit> { backStackEntry ->
         val edit: Edit = backStackEntry.toRoute()
@@ -45,7 +51,8 @@ fun NavGraphBuilder.editDestination(
             } else {
                 DirectDebit(id = edit.id, destination = edit.dest!!, source = edit.source!!)
             },
-            onNavigateUp = onNavigateUp
+            onNavigateUp = onNavigateUp,
+            onNavigateToDelComp = onNavigateToDelComp,
         )
 
         Log.d(TAG, "edit.id = ${edit.id}")
@@ -58,6 +65,12 @@ fun NavGraphBuilder.editDestination(
     }
 }
 
+fun NavGraphBuilder.delCompDestination(onNavigateToList: () -> Unit) {
+    dialog<DelComp> {
+        DeleteCompletionDialog(onNavigateToList = onNavigateToList)
+    }
+}
+
 fun NavController.navigateToEditDestination(directDebit: DirectDebit?) {
     navigate(
         Edit(
@@ -66,4 +79,14 @@ fun NavController.navigateToEditDestination(directDebit: DirectDebit?) {
             source = directDebit?.source
         )
     )
+}
+
+fun NavController.navigateToDelCompDestination() {
+    navigate(DelComp)
+}
+
+fun NavController.popUpToListDestination() {
+    navigate(List) {
+        popUpTo(List)
+    }
 }

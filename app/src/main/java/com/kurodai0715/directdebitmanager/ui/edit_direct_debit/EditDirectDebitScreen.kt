@@ -42,6 +42,7 @@ fun EditDirectDebitScreen(
     viewModel: EditDirectDebitViewModel = hiltViewModel(),
     directDebit: DirectDebit?,
     onNavigateUp: () -> Unit,
+    onNavigateToDelComp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -80,17 +81,31 @@ fun EditDirectDebitScreen(
             transferSource = uiState.transferSource,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.id,
-            onClickDelete = { viewModel.updateDialogVisibility(true) },
+            onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },
         )
 
         if (uiState.showDelConfDialog) {
             DeleteConfirmDialog(
-                onDismissRequest = { viewModel.updateDialogVisibility(false) },
-                onClickNo = { },
+                onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
+                onClickNo = { /* 処理不要 */ },
                 onClickYes = { viewModel.deleteData() },
             )
+        }
+
+        LaunchedEffect(uiState.showDelCompDialog) {
+            if (uiState.showDelCompDialog) {
+                // 削除確認ダイアログは、単なる AlertDialog() コンポーザブルで実装しているが、
+                // 削除完了ダイアログは、 Navigation コンポーネントのダイアログデスティネーションとして実装している。
+                //
+                // その理由は、削除完了ダイアログを閉じた際に、変更画面を閉じて、一覧画面にポップバックする必要があります。
+                // もし、削除完了ダイアログで、ダイアログデスティネーションを使用しなかった場合、
+                // 削除完了ダイアログの「閉じる」ボタンをタップした際に、
+                // 変更画面が一覧画面に切り替わった後に、削除完了ダイアログが閉じるという、処理順序の逆転が発生してしまう。
+                // それを避けるために、削除完了ダイアログでは、ダイアログデスティネーションを使用しています。
+                onNavigateToDelComp()
+            }
         }
     }
 }

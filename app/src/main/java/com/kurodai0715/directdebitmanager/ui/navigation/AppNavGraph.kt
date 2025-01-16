@@ -29,7 +29,16 @@ fun AppNavGraph(
             onNavigateUp = {
                 navController.popBackStack()
             },
-            onChangeTitle = onChangeTitle
+            onChangeTitle = onChangeTitle,
+            onNavigateToDelComp = {
+                navController.navigateToDelCompDestination()
+            }
+        )
+
+        delCompDestination(
+            onNavigateToList = {
+                navController.popUpToListDestination()
+            }
         )
 
     }

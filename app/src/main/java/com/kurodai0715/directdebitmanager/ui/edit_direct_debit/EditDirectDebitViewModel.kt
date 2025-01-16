@@ -23,6 +23,7 @@ data class EditDirectDebitUiState(
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
     val showDelConfDialog: Boolean = false,
+    val showDelCompDialog: Boolean = false,
 )
 
 
@@ -63,7 +64,7 @@ class EditDirectDebitViewModel @Inject constructor(
         }
     }
 
-    fun updateDialogVisibility(show: Boolean){
+    fun updateDelConfDialogVisibility(show: Boolean) {
         _uiState.update {
             it.copy(showDelConfDialog = show)
         }
@@ -124,13 +125,19 @@ class EditDirectDebitViewModel @Inject constructor(
             )
 
             _uiState.update {
-                it.copy(
-                    userMessage = if (numOfDeleted > 0) {
-                        R.string.common_delete_successfully
-                    } else {
-                        R.string.common_delete_failed
-                    }
-                )
+                if (numOfDeleted > 0) {
+                    // 削除に成功した場合
+
+                    it.copy(
+                        showDelCompDialog = true,
+                    )
+                } else {
+                    // 削除に失敗した場合
+
+                    it.copy(
+                        userMessage = R.string.common_delete_failed,
+                    )
+                }
             }
         }
     }
