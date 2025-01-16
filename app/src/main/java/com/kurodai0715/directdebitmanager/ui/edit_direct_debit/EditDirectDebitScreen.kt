@@ -123,11 +123,7 @@ fun EditDirectDebitContents(
     onClickSave: () -> Unit,
 ) {
     Column(
-        modifier = modifier, // Modifier
-//            .fillMaxSize()
-//            .padding(paddingValues)
-//            .consumeWindowInsets(paddingValues)
-//            .padding(SCREEN_EDGE_PADDING_DEF),
+        modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextField(
