@@ -35,15 +35,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    DirectDebitManagerTheme {
-        EditDirectDebitScreen(
-            directDebit = DirectDebit(
-                destination = "横浜銀行クレジットカード",
-                source = "横浜銀行"
-            ), onNavigateUp = {})
-    }
-}
