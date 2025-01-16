@@ -230,7 +230,7 @@ private fun PreviewUpdateContents() {
 
 @Preview
 @Composable
-private fun PreviewDialog() {
+private fun PreviewDelConfDialog() {
     DeleteConfirmDialog(
         onDismissRequest = {},
         onClickNo = {},
