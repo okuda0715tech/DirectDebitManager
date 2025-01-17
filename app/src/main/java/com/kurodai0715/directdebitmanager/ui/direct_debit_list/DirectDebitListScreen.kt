@@ -30,6 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.ui.component.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 
 @Composable
@@ -59,6 +60,10 @@ fun DirectDebitListScreen(
             items = uiState.items,
             onNavigateToEdit = onNavigateToEdit
         )
+
+        if (uiState.isLoading) {
+            AppUncertainCircularIndicator()
+        }
 
     }
 }
