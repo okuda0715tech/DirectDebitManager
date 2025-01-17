@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.app_base
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -34,6 +35,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import kotlinx.coroutines.launch
 
@@ -102,11 +104,13 @@ fun AppTopBar(
             titleContentColor = MaterialTheme.colorScheme.primary,
         ),
         title = {
-            Text(
-                text = title,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
+            AnimatedContent(targetState = title, label = LABEL_APP_BAR_TITLE) { targetState ->
+                Text(
+                    text = targetState,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
         },
         navigationIcon = {
             IconButton(onClick = onClickMenu) {
