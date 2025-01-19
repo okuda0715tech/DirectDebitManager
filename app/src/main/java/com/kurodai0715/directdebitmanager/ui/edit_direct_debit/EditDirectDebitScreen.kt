@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -36,6 +37,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun EditDirectDebitScreen(
@@ -153,17 +155,20 @@ fun EditDirectDebitContents(
             horizontalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             if (itemId != 0) {
-                TextButton(onClick = onClickDelete) {
+                TextButton(onClick = { debouncedClick(onClickDelete) }) {
                     Text(
                         text = stringResource(R.string.common_delete),
                         color = MaterialTheme.colorScheme.error,
                     )
                 }
             }
-            OutlinedButton(onClick = onNavigateUp) {
+            OutlinedButton(onClick = {
+                Log.v(TAG, "back is clicked.")
+                debouncedClick(onNavigateUp)
+            }) {
                 Text(stringResource(R.string.common_back))
             }
-            Button(onClick = onClickSave) {
+            Button(onClick = { debouncedClick(onClickSave) }) {
                 Text(stringResource(R.string.common_save))
             }
         }
@@ -193,16 +198,20 @@ fun DeleteConfirmDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(onClick = {
-                onClickYes()
-                onDismissRequest()
+                debouncedClick {
+                    onClickYes()
+                    onDismissRequest()
+                }
             }) {
                 Text(stringResource(R.string.common_yes))
             }
         },
         dismissButton = {
             TextButton(onClick = {
-                onClickNo()
-                onDismissRequest()
+                debouncedClick {
+                    onClickNo()
+                    onDismissRequest()
+                }
             }) {
                 Text(stringResource(R.string.common_no))
             }

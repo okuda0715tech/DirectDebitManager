@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.direct_debit_list
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,9 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.component.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
+
+private const val TAG = "DirectDebitListScreen.kt"
 
 @Composable
 fun DirectDebitListScreen(
@@ -92,7 +96,7 @@ fun ListScreenContents(
             }
         }
 
-        Button(onClick = { onNavigateToEdit(null) }) {
+        Button(onClick = { debouncedClick { onNavigateToEdit(null) } }) {
             Text(stringResource(R.string.common_add))
         }
     }
@@ -108,7 +112,10 @@ fun DirectDebitItem(
         modifier = modifier
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.surfaceContainerLow)
-            .clickable(onClick = onClickItem)
+            .clickable(onClick = {
+                Log.v(TAG, "list item is clicked.")
+                debouncedClick(onClickItem)
+            })
             .padding(8.dp)
     ) {
         Text(

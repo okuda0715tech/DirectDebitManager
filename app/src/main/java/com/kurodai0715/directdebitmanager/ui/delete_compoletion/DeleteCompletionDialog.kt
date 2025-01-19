@@ -1,9 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.delete_compoletion
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -14,6 +12,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun DeleteCompletionDialog(
@@ -35,7 +34,7 @@ fun DeleteCompletionDialog(
         },
         onDismissRequest = {},
         confirmButton = {
-            TextButton(onClick = onNavigateToList) {
+            TextButton(onClick = { debouncedClick(onNavigateToList) }) {
                 Text(stringResource(R.string.common_close))
             }
         })

@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -113,7 +114,7 @@ fun AppTopBar(
             }
         },
         navigationIcon = {
-            IconButton(onClick = onClickMenu) {
+            IconButton(onClick = { debouncedClick(onClickMenu) }) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_menu_24),
                     contentDescription = stringResource(R.string.menu)
@@ -134,7 +135,7 @@ fun AppDrawerContent(selectedIndex: Int, items: Array<String>, onClickItem: (Int
             NavigationDrawerItem(
                 label = { Text(text = item) },
                 selected = index == selectedIndex,
-                onClick = { onClickItem(index) }
+                onClick = { debouncedClick { onClickItem(index) } }
             )
         }
     }
