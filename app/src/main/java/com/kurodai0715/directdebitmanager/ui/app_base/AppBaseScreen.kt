@@ -98,6 +98,7 @@ fun AppTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
     onClickMenu: () -> Unit,
     title: String,
+    // TODO アイコンリソースをパラメータで渡して、戻るアイコンも表示できるようにする
 ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
