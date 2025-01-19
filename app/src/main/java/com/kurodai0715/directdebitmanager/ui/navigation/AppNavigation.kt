@@ -13,7 +13,7 @@ import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListSc
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
 import kotlinx.serialization.Serializable
 
-const val TAG = "AppNavigation.kt"
+private const val TAG = "AppNavigation.kt"
 
 @Serializable
 object List
