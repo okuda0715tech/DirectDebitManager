@@ -6,6 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 
+private const val TAG = "AppNavGraph.kt"
+
 @Composable
 fun AppNavGraph(
     navController: NavHostController = rememberNavController(),
@@ -27,7 +29,7 @@ fun AppNavGraph(
 
         editDestination(
             onNavigateUp = {
-                navController.popBackStack()
+                navController.popUpToListDestination()
             },
             onChangeTitle = onChangeTitle,
             onNavigateToDelComp = {
