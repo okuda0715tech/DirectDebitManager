@@ -12,6 +12,9 @@
     <string name="list_screen_title">口座振替 / 一覧</string>
     <string name="register_screen_title">口座振替 / 登録</string>
     <string name="edit_screen_title">口座振替 / 変更</string>
+    <string name="bank_list_title">銀行 / 一覧</string>
+    <string name="bank_registration_title">銀行 / 登録</string>
+    <string name="bank_update_title">銀行 / 変更</string>
 
     <!-- 口座振替 一覧 画面 -->
     <string name="fetch_error">データの取得に失敗しました。</string>

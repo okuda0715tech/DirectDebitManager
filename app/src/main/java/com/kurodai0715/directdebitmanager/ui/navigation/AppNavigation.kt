@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.ui.navigation
 
 import android.util.Log
 import androidx.navigation.NavController
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
@@ -18,7 +19,7 @@ import kotlinx.serialization.Serializable
 private const val TAG = "AppNavigation.kt"
 
 @Serializable
-object List
+data object List
 
 @Serializable
 data class Edit(
@@ -79,9 +80,12 @@ fun NavGraphBuilder.delCompDestination(onNavigateToList: () -> Unit) {
     }
 }
 
-fun NavGraphBuilder.bankListDestination() {
+fun NavGraphBuilder.bankListDestination(
+    onChangeTitle: (Int) -> Unit,
+) {
     composable<BankList> {
         BankListScreen()
+        onChangeTitle(R.string.bank_list_title)
     }
 }
 

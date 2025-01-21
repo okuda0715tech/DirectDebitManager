@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.app_base
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -42,6 +43,8 @@ import com.kurodai0715.directdebitmanager.ui.navigation.List
 import com.kurodai0715.directdebitmanager.ui.navigation.PrivacyPolicy
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
+
+private const val TAG = "AppBaseScreen.kt"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -152,8 +155,8 @@ fun AppDrawerContent(
 
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.privacy_policy)) },
-            selected = selectedItem is PrivacyPolicy,
-            onClick = { debouncedClick { onClickItem(PrivacyPolicy) } }
+            selected = false,
+            onClick = { debouncedClick { TODO() } }
         )
     }
 }
