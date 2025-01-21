@@ -23,13 +23,13 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +37,9 @@ import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
+import com.kurodai0715.directdebitmanager.ui.navigation.BankList
+import com.kurodai0715.directdebitmanager.ui.navigation.List
+import com.kurodai0715.directdebitmanager.ui.navigation.PrivacyPolicy
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -45,17 +48,16 @@ import kotlinx.coroutines.launch
 fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    var selectedMenuItem by remember { mutableIntStateOf(0) }
     val scope = rememberCoroutineScope()
+    var selectedDrawerItem: Any by remember { mutableStateOf(List) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             AppDrawerContent(
-                selectedIndex = selectedMenuItem,
-                items = stringArrayResource(R.array.menu_items),
-                onClickItem = { index ->
-                    selectedMenuItem = index
+                selectedItem = selectedDrawerItem,
+                onClickItem = { selectedItem ->
+                    selectedDrawerItem = selectedItem
                     scope.launch {
                         drawerState.close()
                     }
@@ -86,7 +88,8 @@ fun AppBaseScreen() {
                 modifier = Modifier
                     .padding(contentPadding)
                     .consumeWindowInsets(contentPadding),
-                onChangeTitle = { title = it }
+                onChangeTitle = { title = it },
+                startDestination = selectedDrawerItem,
             )
         }
     }
@@ -127,18 +130,31 @@ fun AppTopBar(
 }
 
 @Composable
-fun AppDrawerContent(selectedIndex: Int, items: Array<String>, onClickItem: (Int) -> Unit) {
+fun AppDrawerContent(
+    selectedItem: Any,
+    onClickItem: (Any) -> Unit
+) {
     ModalDrawerSheet {
         Text(stringResource(R.string.screen_list), modifier = Modifier.padding(16.dp))
         HorizontalDivider()
 
-        for ((index, item) in items.withIndex()) {
-            NavigationDrawerItem(
-                label = { Text(text = item) },
-                selected = index == selectedIndex,
-                onClick = { debouncedClick { onClickItem(index) } }
-            )
-        }
+        NavigationDrawerItem(
+            label = { Text(text = stringResource(R.string.direct_debit_info)) },
+            selected = selectedItem is List,
+            onClick = { debouncedClick { onClickItem(List) } }
+        )
+
+        NavigationDrawerItem(
+            label = { Text(text = stringResource(R.string.bank_info)) },
+            selected = selectedItem is BankList,
+            onClick = { debouncedClick { onClickItem(BankList) } }
+        )
+
+        NavigationDrawerItem(
+            label = { Text(text = stringResource(R.string.privacy_policy)) },
+            selected = selectedItem is PrivacyPolicy,
+            onClick = { debouncedClick { onClickItem(PrivacyPolicy) } }
+        )
     }
 }
 
@@ -156,8 +172,7 @@ fun PreviewOpenedAppDrawer() {
     ModalNavigationDrawer(
         drawerContent = {
             AppDrawerContent(
-                selectedIndex = 0,
-                items = stringArrayResource(R.array.menu_items),
+                selectedItem = List,
                 onClickItem = {},
             )
         },

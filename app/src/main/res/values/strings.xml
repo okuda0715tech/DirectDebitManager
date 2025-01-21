@@ -3,10 +3,9 @@
 
     <!-- ドロワーメニュー -->
     <string name="screen_list">画面一覧</string>
-    <string-array name="menu_items">
-        <item>口座振替情報</item>
-        <item>プライバシーポリシー</item>
-    </string-array>
+    <string name="direct_debit_info">口座振替情報</string>
+    <string name="bank_info">銀行情報</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
 
     <!-- 画面名 -->
     <string name="no_title"> </string>

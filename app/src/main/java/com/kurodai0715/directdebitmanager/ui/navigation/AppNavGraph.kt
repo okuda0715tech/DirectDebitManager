@@ -13,10 +13,11 @@ fun AppNavGraph(
     navController: NavHostController = rememberNavController(),
     modifier: Modifier,
     onChangeTitle: (Int) -> Unit,
+    startDestination: Any,
 ) {
     NavHost(
         navController = navController,
-        startDestination = List,
+        startDestination = startDestination,
         modifier = modifier,
     ) {
 
@@ -42,6 +43,10 @@ fun AppNavGraph(
                 navController.popUpToListDestination()
             }
         )
+
+        bankListDestination()
+
+        privacyPolicyDestination()
 
     }
 }
