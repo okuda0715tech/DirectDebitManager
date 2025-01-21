@@ -31,6 +31,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -140,6 +141,9 @@ fun AppDrawerContent(
     onClickItem: (Any) -> Unit
 ) {
     ModalDrawerSheet {
+
+        val uriHandler = LocalUriHandler.current
+
         Text(stringResource(R.string.screen_list), modifier = Modifier.padding(16.dp))
         HorizontalDivider()
 
@@ -158,7 +162,11 @@ fun AppDrawerContent(
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.privacy_policy)) },
             selected = false,
-            onClick = { debouncedClick { TODO() } },
+            onClick = {
+                debouncedClick {
+                    uriHandler.openUri("https://sites.google.com/view/t-o-app-privacy-policy/version-1-0")
+                }
+            },
             badge = {
                 Icon(
                     painter = painterResource(R.drawable.baseline_arrow_outward_24),
