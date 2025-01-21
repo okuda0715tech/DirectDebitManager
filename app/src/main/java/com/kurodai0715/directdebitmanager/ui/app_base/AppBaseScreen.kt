@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,6 +42,7 @@ import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import com.kurodai0715.directdebitmanager.ui.navigation.BankList
 import com.kurodai0715.directdebitmanager.ui.navigation.List
 import com.kurodai0715.directdebitmanager.ui.navigation.PrivacyPolicy
+import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -156,7 +158,14 @@ fun AppDrawerContent(
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.privacy_policy)) },
             selected = false,
-            onClick = { debouncedClick { TODO() } }
+            onClick = { debouncedClick { TODO() } },
+            badge = {
+                Icon(
+                    painter = painterResource(R.drawable.baseline_arrow_outward_24),
+                    contentDescription = stringResource(R.string.open_in_outer_browser_icon_description),
+                    modifier = Modifier.size(ICON_DEF_SIZE)
+                )
+            }
         )
     }
 }

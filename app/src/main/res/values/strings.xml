@@ -6,6 +6,7 @@
     <string name="direct_debit_info">口座振替情報</string>
     <string name="bank_info">銀行情報</string>
     <string name="privacy_policy">プライバシーポリシー</string>
+    <string name="open_in_outer_browser_icon_description">外部ブラウザで開く</string>
 
     <!-- 画面名 -->
     <string name="no_title"> </string>
