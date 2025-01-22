@@ -52,6 +52,9 @@ fun AppNavGraph(
         )
 
         sourceEditDestination(
+            onNavigateUp = {
+                navController.popUpToSourceListDestination()
+            },
             onChangeTitle = onChangeTitle
         )
     }

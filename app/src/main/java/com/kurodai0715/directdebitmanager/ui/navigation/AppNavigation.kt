@@ -94,10 +94,13 @@ fun NavGraphBuilder.sourceListDestination(
 }
 
 fun NavGraphBuilder.sourceEditDestination(
+    onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<SourceEdit> {
-        SourceEditScreen()
+        SourceEditScreen(
+            onNavigateUp = onNavigateUp
+        )
         onChangeTitle(R.string.source_registration_title)
     }
 }
@@ -119,6 +122,7 @@ fun NavController.navigateToDelCompDestination() {
 fun NavController.popUpToListDestination() {
     navigate(List) {
         popUpTo(List)
+        launchSingleTop = true
     }
 }
 
@@ -129,5 +133,12 @@ fun NavController.navigateToSourceEditDestination(transSource: TransSource?) {
             source = transSource?.source
         )
     )
+}
+
+fun NavController.popUpToSourceListDestination() {
+    navigate(SourceList) {
+        popUpTo(SourceList)
+        launchSingleTop = true
+    }
 }
 

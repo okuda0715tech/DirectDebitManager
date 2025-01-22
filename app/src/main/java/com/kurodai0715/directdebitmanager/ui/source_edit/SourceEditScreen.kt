@@ -37,6 +37,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun SourceEditScreen(
     viewModel: SourceEditViewModel = hiltViewModel(),
+    onNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -68,7 +69,7 @@ fun SourceEditScreen(
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.id,
             onClickDelete = { TODO() },
-            onNavigateUp = { TODO() },
+            onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },
         )
     }
