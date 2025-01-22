@@ -1,0 +1,56 @@
+package com.kurodai0715.directdebitmanager.ui.source_list
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitsUiState
+import com.kurodai0715.directdebitmanager.ui.util.Async
+import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
+
+data class SourceListUiState(
+    val items: List<TransSource> = emptyList(),
+    val isLoading: Boolean = false,
+    val userMessage: Int? = null
+)
+
+@HiltViewModel
+class SourceListViewModel @Inject constructor(
+    private val directDebitDefRepo: DirectDebitDefaultRepository
+) : ViewModel() {
+
+    private val _transSourcesAsync = directDebitDefRepo.fetchTransSourceStream()
+        .map { Async.Success(it) }
+        .catch<Async<List<TransSource>>> { emit(Async.Error(R.string.fetch_error)) }
+
+    val uiState: StateFlow<SourceListUiState> = _transSourcesAsync.map { transSourcesAsync ->
+        when (transSourcesAsync) {
+            is Async.Loading -> {
+                SourceListUiState(isLoading = true)
+            }
+
+            is Async.Error -> {
+                SourceListUiState(userMessage = transSourcesAsync.errorMessage)
+            }
+
+            is Async.Success -> {
+                SourceListUiState(
+                    items = transSourcesAsync.data,
+                    isLoading = false,
+                )
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = WhileUiSubscribed,
+        initialValue = SourceListUiState(isLoading = true)
+    )
+
+}

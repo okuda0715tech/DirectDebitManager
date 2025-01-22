@@ -90,5 +90,23 @@ class DirectDebitDefaultRepository @Inject constructor(
         }
         return resultSuccess
     }
+
+    /**
+     * 振替元情報を取得するストリーム.
+     */
+    fun fetchTransSourceStream(): Flow<List<TransSource>> {
+        return localDataSource.observeTransSource().map { localTransSources ->
+
+            val transSources = mutableListOf<TransSource>()
+
+            for (localTransSource in localTransSources) {
+                transSources.add(localTransSource.toExternal())
+            }
+
+            transSources
+        }
+    }
+
+
 }
 

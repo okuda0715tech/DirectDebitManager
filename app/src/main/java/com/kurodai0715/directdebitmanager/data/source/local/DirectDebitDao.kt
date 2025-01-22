@@ -26,6 +26,9 @@ interface DirectDebitDao {
     @Delete
     suspend fun delete(directDebit: LocalDirectDebit): Int
 
+    @Query("SELECT * FROM transfer_source")
+    fun observeTransSource(): Flow<List<LocalTransSource>>
+
     /**
      * 口座振替情報テーブルのレコードに対する Insert or Update.
      */
