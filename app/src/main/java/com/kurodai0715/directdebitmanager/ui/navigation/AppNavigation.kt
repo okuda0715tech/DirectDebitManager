@@ -8,10 +8,12 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.delete_completion.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
+import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
 import kotlinx.serialization.Serializable
 
 private const val TAG = "AppNavigation.kt"
@@ -41,6 +43,12 @@ fun NavGraphBuilder.listDestination(
 
 @Serializable
 data object SourceList
+
+@Serializable
+data class SourceEdit(
+    val id: Int? = null,
+    val source: String? = null,
+)
 
 fun NavGraphBuilder.editDestination(
     onNavigateUp: () -> Unit,
@@ -76,11 +84,21 @@ fun NavGraphBuilder.delCompDestination(onNavigateToList: () -> Unit) {
 }
 
 fun NavGraphBuilder.sourceListDestination(
+    onNavigateToEdit: (TransSource?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<SourceList> {
-        SourceListScreen()
+        SourceListScreen(onNavigateToEdit = onNavigateToEdit)
         onChangeTitle(R.string.source_list_title)
+    }
+}
+
+fun NavGraphBuilder.sourceEditDestination(
+    onChangeTitle: (Int) -> Unit,
+) {
+    composable<SourceEdit> {
+        SourceEditScreen()
+        onChangeTitle(R.string.source_registration_title)
     }
 }
 
@@ -103,3 +121,13 @@ fun NavController.popUpToListDestination() {
         popUpTo(List)
     }
 }
+
+fun NavController.navigateToSourceEditDestination(transSource: TransSource?) {
+    navigate(
+        SourceEdit(
+            id = transSource?.id,
+            source = transSource?.source
+        )
+    )
+}
+

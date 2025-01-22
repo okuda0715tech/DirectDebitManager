@@ -45,8 +45,14 @@ fun AppNavGraph(
         )
 
         sourceListDestination(
+            onNavigateToEdit = { selectedItem ->
+                navController.navigateToSourceEditDestination(selectedItem)
+            },
             onChangeTitle = onChangeTitle
         )
 
+        sourceEditDestination(
+            onChangeTitle = onChangeTitle
+        )
     }
 }
