@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.delete_compoletion
+package com.kurodai0715.directdebitmanager.ui.delete_completion
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
