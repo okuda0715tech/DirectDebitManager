@@ -48,7 +48,5 @@ fun AppNavGraph(
             onChangeTitle = onChangeTitle
         )
 
-        privacyPolicyDestination()
-
     }
 }

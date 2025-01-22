@@ -9,7 +9,6 @@ import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
-import com.kurodai0715.directdebitmanager.ui.source_list.PrivacyPolicyScreen
 import com.kurodai0715.directdebitmanager.ui.delete_compoletion.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
@@ -42,9 +41,6 @@ fun NavGraphBuilder.listDestination(
 
 @Serializable
 data object SourceList
-
-@Serializable
-data object PrivacyPolicy
 
 fun NavGraphBuilder.editDestination(
     onNavigateUp: () -> Unit,
@@ -85,12 +81,6 @@ fun NavGraphBuilder.sourceListDestination(
     composable<SourceList> {
         SourceListScreen()
         onChangeTitle(R.string.source_list_title)
-    }
-}
-
-fun NavGraphBuilder.privacyPolicyDestination() {
-    composable<PrivacyPolicy> {
-        PrivacyPolicyScreen()
     }
 }
 
