@@ -13,13 +13,13 @@ interface DirectDebitDao {
     fun observeDirectDebit(): Flow<List<LocalDirectDebit>>
 
     /**
-     * レコードの Insert or Update.
+     * 口座振替情報テーブルのレコードに対する Insert or Update.
      */
     @Upsert
     suspend fun upsert(directDebit: LocalDirectDebit)
 
     /**
-     * レコードの削除.
+     * 口座振替情報テーブルのレコードの削除.
      *
      * @return 削除したレコードの件数
      */
