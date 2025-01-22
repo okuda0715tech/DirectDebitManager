@@ -26,4 +26,11 @@ interface DirectDebitDao {
     @Delete
     suspend fun delete(directDebit: LocalDirectDebit): Int
 
+    /**
+     * 口座振替情報テーブルのレコードに対する Insert or Update.
+     */
+    @Upsert
+    suspend fun upsert(transSource: LocalTransSource)
+
+
 }

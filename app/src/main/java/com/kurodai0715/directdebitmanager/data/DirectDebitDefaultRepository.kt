@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocal
@@ -69,6 +70,25 @@ class DirectDebitDefaultRepository @Inject constructor(
 
             directDebits
         }
+    }
+
+    /**
+     * 振替元情報を DB へ登録する.
+     */
+    suspend fun upsert(id: Int, source: String): Boolean {
+        var resultSuccess: Boolean
+        withContext(ioDispatcher) {
+            val transSource = TransSource(id = id, source = source)
+            resultSuccess = try {
+                localDataSource.upsert(transSource.toLocal())
+                true
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                false
+            }
+            Log.d(TAG, "resultSuccess = $resultSuccess")
+        }
+        return resultSuccess
     }
 }
 
