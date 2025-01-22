@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.TAG
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -37,6 +38,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun SourceEditScreen(
     viewModel: SourceEditViewModel = hiltViewModel(),
+    transSource: TransSource?,
     onNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -50,6 +52,13 @@ fun SourceEditScreen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        // リスト画面から引き継いだパラメータで UI 状態を初期化する。
+        LaunchedEffect(transSource) {
+            if (transSource != null) {
+                viewModel.updateTransSource(transSource)
+            }
+        }
 
         uiState.userMessage?.let { message ->
             val snackbarText = stringResource(message)

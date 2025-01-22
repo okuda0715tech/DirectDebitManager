@@ -97,11 +97,27 @@ fun NavGraphBuilder.sourceEditDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
-    composable<SourceEdit> {
+    composable<SourceEdit> { backStackEntry ->
+        val sourceEdit: SourceEdit = backStackEntry.toRoute()
+
         SourceEditScreen(
+            transSource = if (sourceEdit.id == null) {
+                null
+            } else {
+                TransSource(id = sourceEdit.id, source = sourceEdit.source!!)
+            },
             onNavigateUp = onNavigateUp
         )
-        onChangeTitle(R.string.source_registration_title)
+
+        Log.d(TAG, "sourceEdit.id = ${sourceEdit.id}")
+
+        val titleResId = if (sourceEdit.id == null) {
+            R.string.source_registration_title
+        } else {
+            R.string.source_update_title
+        }
+
+        onChangeTitle(titleResId)
     }
 }
 
