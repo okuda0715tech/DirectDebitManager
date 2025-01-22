@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.navigation
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -45,7 +44,7 @@ fun AppNavGraph(
             }
         )
 
-        bankListDestination(
+        sourceListDestination(
             onChangeTitle = onChangeTitle
         )
 

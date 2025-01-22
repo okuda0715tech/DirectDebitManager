@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.app_base
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -40,9 +39,8 @@ import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
-import com.kurodai0715.directdebitmanager.ui.navigation.BankList
+import com.kurodai0715.directdebitmanager.ui.navigation.SourceList
 import com.kurodai0715.directdebitmanager.ui.navigation.List
-import com.kurodai0715.directdebitmanager.ui.navigation.PrivacyPolicy
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
@@ -154,9 +152,9 @@ fun AppDrawerContent(
         )
 
         NavigationDrawerItem(
-            label = { Text(text = stringResource(R.string.bank_info)) },
-            selected = selectedItem is BankList,
-            onClick = { debouncedClick { onClickItem(BankList) } }
+            label = { Text(text = stringResource(R.string.source_info)) },
+            selected = selectedItem is SourceList,
+            onClick = { debouncedClick { onClickItem(SourceList) } }
         )
 
         NavigationDrawerItem(

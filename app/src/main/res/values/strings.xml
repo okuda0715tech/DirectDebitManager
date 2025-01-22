@@ -4,7 +4,7 @@
     <!-- ドロワーメニュー -->
     <string name="screen_list">画面一覧</string>
     <string name="direct_debit_info">口座振替情報</string>
-    <string name="bank_info">銀行情報</string>
+    <string name="source_info">振替元情報</string>
     <string name="privacy_policy">プライバシーポリシー</string>
     <string name="open_in_outer_browser_icon_description">外部ブラウザで開く</string>
 
@@ -13,9 +13,9 @@
     <string name="list_screen_title">口座振替 / 一覧</string>
     <string name="register_screen_title">口座振替 / 登録</string>
     <string name="edit_screen_title">口座振替 / 変更</string>
-    <string name="bank_list_title">銀行 / 一覧</string>
-    <string name="bank_registration_title">銀行 / 登録</string>
-    <string name="bank_update_title">銀行 / 変更</string>
+    <string name="source_list_title">振替元 / 一覧</string>
+    <string name="source_registration_title">振替元 / 登録</string>
+    <string name="source_update_title">振替元 / 変更</string>
 
     <!-- 口座振替 一覧 画面 -->
     <string name="fetch_error">データの取得に失敗しました。</string>

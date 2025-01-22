@@ -2,15 +2,14 @@ package com.kurodai0715.directdebitmanager.ui.navigation
 
 import android.util.Log
 import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
-import com.kurodai0715.directdebitmanager.ui.bank_list.BankListScreen
-import com.kurodai0715.directdebitmanager.ui.bank_list.PrivacyPolicyScreen
+import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
+import com.kurodai0715.directdebitmanager.ui.source_list.PrivacyPolicyScreen
 import com.kurodai0715.directdebitmanager.ui.delete_compoletion.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
@@ -42,7 +41,7 @@ fun NavGraphBuilder.listDestination(
 }
 
 @Serializable
-data object BankList
+data object SourceList
 
 @Serializable
 data object PrivacyPolicy
@@ -80,12 +79,12 @@ fun NavGraphBuilder.delCompDestination(onNavigateToList: () -> Unit) {
     }
 }
 
-fun NavGraphBuilder.bankListDestination(
+fun NavGraphBuilder.sourceListDestination(
     onChangeTitle: (Int) -> Unit,
 ) {
-    composable<BankList> {
-        BankListScreen()
-        onChangeTitle(R.string.bank_list_title)
+    composable<SourceList> {
+        SourceListScreen()
+        onChangeTitle(R.string.source_list_title)
     }
 }
 
