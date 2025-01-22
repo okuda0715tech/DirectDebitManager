@@ -8,7 +8,4 @@ fun SourceListScreen() {
     Text("バンクリスト")
 }
 
-@Composable
-fun PrivacyPolicyScreen() {
-    Text("プライバシーポリシー")
-}
+
