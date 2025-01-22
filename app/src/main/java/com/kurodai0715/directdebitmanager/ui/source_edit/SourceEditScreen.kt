@@ -1,17 +1,119 @@
 package com.kurodai0715.directdebitmanager.ui.source_edit
 
+import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.kurodai0715.directdebitmanager.ui.navigation.SourceEdit
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.TAG
+import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun SourceEditScreen() {
-    SourceEditContents()
+fun SourceEditScreen(
+    viewModel: SourceEditViewModel = hiltViewModel(),
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    SourceEditContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(SCREEN_EDGE_PADDING_DEF),
+        source = uiState.source,
+        onSourceChanged = { viewModel.updateSource(it) },
+        itemId = uiState.id,
+        onClickDelete = { TODO() },
+        onNavigateUp = { TODO() },
+        onClickSave = { TODO() },
+    )
 }
 
 @Composable
-fun SourceEditContents() {
-    Text("振替元変更")
+fun SourceEditContents(
+    modifier: Modifier = Modifier,
+    source: String,
+    onSourceChanged: (String) -> Unit,
+    itemId: Int,
+    onClickDelete: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onClickSave: () -> Unit,
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TextField(
+            value = source,
+            onValueChange = onSourceChanged,
+            label = { Text(stringResource(R.string.transfer_source)) },
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(24.dp)
+        ) {
+            if (itemId != 0) {
+                TextButton(onClick = { debouncedClick(onClickDelete) }) {
+                    Text(
+                        text = stringResource(R.string.common_delete),
+                        color = MaterialTheme.colorScheme.error,
+                    )
+                }
+            }
+            OutlinedButton(onClick = {
+                Log.v(TAG, "back is clicked.")
+                debouncedClick(onNavigateUp)
+            }) {
+                Text(stringResource(R.string.common_back))
+            }
+            Button(onClick = { debouncedClick(onClickSave) }) {
+                Text(stringResource(R.string.common_save))
+            }
+        }
+    }
 }
 
+@Preview
+@Composable
+private fun PreviewRegisterContents() {
+    SourceEditContents(
+        source = "横浜銀行",
+        onSourceChanged = {},
+        itemId = 0,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewUpdateContents() {
+    SourceEditContents(
+        source = "横浜銀行",
+        onSourceChanged = {},
+        itemId = 1,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+    )
+}
