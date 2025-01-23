@@ -22,6 +22,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
+    /**
+     * 口座振替情報を DB へ登録する.
+     */
     suspend fun upsert(id: Int, dest: String, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
@@ -38,7 +41,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * レコードの削除.
+     * 口座振替情報を DB から削除する.
      *
      * @param id 削除するレコードの id
      * @param dest 削除するレコードの destination
@@ -60,6 +63,9 @@ class DirectDebitDefaultRepository @Inject constructor(
         return numOfDeleted
     }
 
+    /**
+     * 口座振替情報を取得するストリーム.
+     */
     fun fetchDirectDebitStream(): Flow<List<DirectDebit>> {
         return localDataSource.observeDirectDebit().map { localDirectDebits ->
 
