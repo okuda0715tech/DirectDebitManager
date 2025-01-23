@@ -52,6 +52,7 @@ class DirectDebitDefaultRepository @Inject constructor(
             numOfDeleted = try {
                 localDataSource.delete(directDebit.toLocal())
             } catch (e: Exception) {
+                Log.e(TAG, "$e")
                 -1
             }
             Log.d(TAG, "NumOfDeleted = $numOfDeleted")
