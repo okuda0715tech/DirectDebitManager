@@ -31,6 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.TAG
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -40,6 +41,7 @@ fun SourceEditScreen(
     viewModel: SourceEditViewModel = hiltViewModel(),
     transSource: TransSource?,
     onNavigateUp: () -> Unit,
+    onNavigateToDelComp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -77,10 +79,33 @@ fun SourceEditScreen(
             source = uiState.source,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.id,
-            onClickDelete = { TODO() },
+            onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },
         )
+
+        if (uiState.showDelConfDialog) {
+            DeleteConfirmDialog(
+                onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
+                onClickNo = { /* 処理不要 */ },
+                onClickYes = { viewModel.deleteData() },
+            )
+        }
+
+        LaunchedEffect(uiState.showDelCompDialog) {
+            if (uiState.showDelCompDialog) {
+                // 削除確認ダイアログは、単なる AlertDialog() コンポーザブルで実装しているが、
+                // 削除完了ダイアログは、 Navigation コンポーネントのダイアログデスティネーションとして実装している。
+                //
+                // その理由は、削除完了ダイアログを閉じた際に、変更画面を閉じて、一覧画面にポップバックする必要があります。
+                // もし、削除完了ダイアログで、ダイアログデスティネーションを使用しなかった場合、
+                // 削除完了ダイアログの「閉じる」ボタンをタップした際に、
+                // 変更画面が一覧画面に切り替わった後に、削除完了ダイアログが閉じるという、処理順序の逆転が発生してしまう。
+                // それを避けるために、削除完了ダイアログでは、ダイアログデスティネーションを使用しています。
+                onNavigateToDelComp()
+            }
+        }
+
     }
 }
 

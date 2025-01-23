@@ -89,6 +89,31 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
+    fun deleteData() {
+        viewModelScope.launch {
+            val numOfDeleted = directDebitDefRepo.delete(
+                id = uiState.value.id,
+                source = uiState.value.source
+            )
+
+            _uiState.update {
+                if (numOfDeleted > 0) {
+                    // 削除に成功した場合
+
+                    it.copy(
+                        showDelCompDialog = true,
+                    )
+                } else {
+                    // 削除に失敗した場合
+
+                    it.copy(
+                        userMessage = R.string.common_delete_failed,
+                    )
+                }
+            }
+        }
+    }
+
     fun clearMessage() {
         _uiState.update {
             it.copy(

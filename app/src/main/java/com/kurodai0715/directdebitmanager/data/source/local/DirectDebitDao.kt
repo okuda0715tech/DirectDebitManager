@@ -30,10 +30,17 @@ interface DirectDebitDao {
     fun observeTransSource(): Flow<List<LocalTransSource>>
 
     /**
-     * 口座振替情報テーブルのレコードに対する Insert or Update.
+     * 振替元情報テーブルのレコードに対する Insert or Update.
      */
     @Upsert
     suspend fun upsert(transSource: LocalTransSource)
 
+    /**
+     * 振替元情報テーブルのレコードの削除.
+     *
+     * @return 削除したレコードの件数
+     */
+    @Delete
+    suspend fun delete(transSource: LocalTransSource): Int
 
 }

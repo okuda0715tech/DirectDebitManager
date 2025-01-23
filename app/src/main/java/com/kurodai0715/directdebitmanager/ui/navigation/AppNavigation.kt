@@ -96,6 +96,7 @@ fun NavGraphBuilder.sourceListDestination(
 fun NavGraphBuilder.sourceEditDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
+    onNavigateToDelComp: () -> Unit,
 ) {
     composable<SourceEdit> { backStackEntry ->
         val sourceEdit: SourceEdit = backStackEntry.toRoute()
@@ -106,7 +107,8 @@ fun NavGraphBuilder.sourceEditDestination(
             } else {
                 TransSource(id = sourceEdit.id, source = sourceEdit.source!!)
             },
-            onNavigateUp = onNavigateUp
+            onNavigateUp = onNavigateUp,
+            onNavigateToDelComp = onNavigateToDelComp,
         )
 
         Log.d(TAG, "sourceEdit.id = ${sourceEdit.id}")

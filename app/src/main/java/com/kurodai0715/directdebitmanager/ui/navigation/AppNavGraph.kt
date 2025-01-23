@@ -1,7 +1,10 @@
 package com.kurodai0715.directdebitmanager.ui.navigation
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
@@ -40,7 +43,15 @@ fun AppNavGraph(
 
         delCompDestination(
             onNavigateToList = {
-                navController.popUpToListDestination()
+                val hasList = navController.graph.findStartDestination().hasRoute<List>()
+                val hasSourceList =
+                    navController.graph.findStartDestination().hasRoute<SourceList>()
+
+                if (hasList) {
+                    navController.popUpToListDestination()
+                } else if (hasSourceList) {
+                    navController.popUpToSourceListDestination()
+                }
             }
         )
 
@@ -55,7 +66,10 @@ fun AppNavGraph(
             onNavigateUp = {
                 navController.popUpToSourceListDestination()
             },
-            onChangeTitle = onChangeTitle
+            onChangeTitle = onChangeTitle,
+            onNavigateToDelComp = {
+                navController.navigateToDelCompDestination()
+            }
         )
     }
 }

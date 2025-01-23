@@ -93,6 +93,28 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
+     * 振替元情報を DB から削除する.
+     *
+     * @param id 削除するレコードの id
+     * @param source 削除するレコードの source
+     * @return 削除したレコードの件数。エラーが発生した場合は -1。
+     */
+    suspend fun delete(id: Int, source: String): Int {
+        var numOfDeleted: Int
+        withContext(ioDispatcher) {
+            val transSource = TransSource(id = id, source = source)
+            numOfDeleted = try {
+                localDataSource.delete(transSource.toLocal())
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                -1
+            }
+            Log.d(TAG, "NumOfDeleted = $numOfDeleted")
+        }
+        return numOfDeleted
+    }
+
+    /**
      * 振替元情報を取得するストリーム.
      */
     fun fetchTransSourceStream(): Flow<List<TransSource>> {
