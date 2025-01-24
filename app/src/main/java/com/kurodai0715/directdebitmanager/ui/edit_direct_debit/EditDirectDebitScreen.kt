@@ -125,17 +125,25 @@ fun EditDirectDebitScreen(
         }
 
         if (uiState.showSourceListDialog) {
-            SourceListDialog(
-                items = uiState.sources,
-                onDismissRequest = { viewModel.updateSourceListDialogVisibility(false) },
-                onClickItem = { index ->
-                    val transSource = uiState.sources[index]
-                    viewModel.updateSource(
-                        sourceId = transSource.id,
-                        source = transSource.source
+            if (uiState.sources.isNotEmpty()) {
+                SourceListDialog(
+                    items = uiState.sources,
+                    onDismissRequest = { viewModel.updateSourceListDialogVisibility(false) },
+                    onClickItem = { index ->
+                        val transSource = uiState.sources[index]
+                        viewModel.updateSource(
+                            sourceId = transSource.id,
+                            source = transSource.source
+                        )
+                    }
+                )
+            } else {
+                NoSourceDataDialog(onDismissRequest = {
+                    viewModel.updateSourceListDialogVisibility(
+                        false
                     )
-                }
-            )
+                })
+            }
         }
     }
 }
@@ -331,6 +339,38 @@ fun SourceListDialog(
     }
 }
 
+@Composable
+fun NoSourceDataDialog(
+    onDismissRequest: () -> Unit,
+) {
+
+    AlertDialog(
+        icon = {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_info_outline_24),
+                contentDescription = stringResource(id = R.string.usage_rules_icon_description),
+                modifier = Modifier.size(ICON_EX_LARGE_SIZE),
+            )
+        },
+        title = {
+            Text(text = stringResource(R.string.no_source_data_title))
+        },
+        text = {
+            Text(text = stringResource(R.string.no_source_data_text))
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(onClick = {
+                debouncedClick {
+                    onDismissRequest()
+                }
+            }) {
+                Text(stringResource(R.string.common_close))
+            }
+        },
+    )
+}
+
 @Preview
 @Composable
 private fun PreviewRegisterContents() {
@@ -385,3 +425,10 @@ private fun PreviewSourceListDialog() {
     )
 }
 
+@Preview
+@Composable
+private fun PreviewNoSourceDataDialog() {
+    NoSourceDataDialog(
+        onDismissRequest = {},
+    )
+}
