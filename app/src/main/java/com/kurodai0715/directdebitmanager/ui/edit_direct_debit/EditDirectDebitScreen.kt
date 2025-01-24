@@ -1,17 +1,25 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -29,12 +37,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.ui.component.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -82,11 +95,11 @@ fun EditDirectDebitScreen(
             transferDest = uiState.transferDest,
             onDestChanged = { viewModel.updateDest(it) },
             transferSource = uiState.transferSource,
-            onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.id,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },
+            onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
         )
 
         if (uiState.showDelConfDialog) {
@@ -110,6 +123,20 @@ fun EditDirectDebitScreen(
                 onNavigateToDelComp()
             }
         }
+
+        if (uiState.showSourceListDialog) {
+            SourceListDialog(
+                items = uiState.sources,
+                onDismissRequest = { viewModel.updateSourceListDialogVisibility(false) },
+                onClickItem = { index ->
+                    val transSource = uiState.sources[index]
+                    viewModel.updateSource(
+                        sourceId = transSource.id,
+                        source = transSource.source
+                    )
+                }
+            )
+        }
     }
 }
 
@@ -119,11 +146,11 @@ fun EditDirectDebitContents(
     transferDest: String,
     onDestChanged: (String) -> Unit,
     transferSource: String,
-    onSourceChanged: (String) -> Unit,
     itemId: Int,
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
+    onClickSource: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -135,11 +162,56 @@ fun EditDirectDebitContents(
             label = { Text(stringResource(R.string.transfer_dest)) },
             modifier = Modifier.fillMaxWidth(),
         )
-        TextField(
-            value = transferSource,
-            onValueChange = onSourceChanged,
-            label = { Text(stringResource(R.string.transfer_source)) },
-            modifier = Modifier.fillMaxWidth(),
+        SurfaceButton(
+            onClick = {
+                debouncedClick {
+                    onClickSource()
+                }
+            },
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    .fillMaxWidth()
+                    .heightIn(min = 56.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalArrangement = Arrangement.Center
+            ) {
+                if (transferSource.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.transfer_source),
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.transfer_source),
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            lineHeight = 16.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = transferSource,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            lineHeight = 22.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+            }
+        }
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 //        DatePickerText(onTextChanged = {
 //            viewModel.updateDate(it)
@@ -219,6 +291,46 @@ fun DeleteConfirmDialog(
         })
 }
 
+@Composable
+fun SourceListDialog(
+    modifier: Modifier = Modifier,
+    items: List<TransSource>,
+    onDismissRequest: () -> Unit,
+    onClickItem: (Int) -> Unit,
+) {
+    Dialog(onDismissRequest = onDismissRequest) {
+        Card {
+            LazyColumn(modifier = Modifier.padding(SCREEN_EDGE_PADDING_DEF)) {
+                itemsIndexed(items) { index, item ->
+
+                    SurfaceButton(
+                        onClick = {
+                            debouncedClick {
+                                onClickItem(index)
+                                onDismissRequest()
+                            }
+                        },
+                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    ) {
+                        Text(
+                            text = item.source,
+                            modifier = modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                                .padding(12.dp)
+                        )
+                    }
+
+                    // 最後のアイテム以外なら分割線を引く
+                    if (index != items.size - 1) {
+                        HorizontalDivider()
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Preview
 @Composable
 private fun PreviewRegisterContents() {
@@ -226,11 +338,11 @@ private fun PreviewRegisterContents() {
         transferDest = "横浜銀行クレジットカード",
         onDestChanged = {},
         transferSource = "横浜銀行",
-        onSourceChanged = {},
         itemId = 0,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
+        onClickSource = {},
     )
 }
 
@@ -241,11 +353,11 @@ private fun PreviewUpdateContents() {
         transferDest = "横浜銀行クレジットカード",
         onDestChanged = {},
         transferSource = "横浜銀行",
-        onSourceChanged = {},
         itemId = 1,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
+        onClickSource = {},
     )
 }
 
@@ -258,3 +370,18 @@ private fun PreviewDelConfDialog() {
         onClickYes = {}
     )
 }
+
+@Preview
+@Composable
+private fun PreviewSourceListDialog() {
+    SourceListDialog(
+        items = listOf(
+            TransSource(id = 1, source = "横浜銀行"),
+            TransSource(id = 2, source = "三井住友銀行"),
+            TransSource(id = 3, source = "PayPay銀行"),
+        ),
+        onDismissRequest = {},
+        onClickItem = {},
+    )
+}
+

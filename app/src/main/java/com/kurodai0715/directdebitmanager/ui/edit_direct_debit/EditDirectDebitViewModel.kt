@@ -1,10 +1,12 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.TransSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,12 +20,15 @@ const val TAG = "EditDirectDebitViewModel.kt"
 data class EditDirectDebitUiState(
     val id: Int = 0,
     val transferDest: String = "",
+    val sourceId: Int = 0,
     val transferSource: String = "",
+    val sources: List<TransSource> = emptyList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
+    val showSourceListDialog: Boolean = false,
 )
 
 
@@ -42,15 +47,40 @@ class EditDirectDebitViewModel @Inject constructor(
      */
     val uiState: StateFlow<EditDirectDebitUiState> = _uiState.asStateFlow()
 
+    init {
+        viewModelScope.launch {
+            // 振替元情報を取得し、 UI 画面状態に反映する。
+            try {
+                val sources = directDebitDefRepo.fetchTransSource()
+
+                _uiState.update {
+                    it.copy(
+                        sources = sources
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                _uiState.update {
+                    it.copy(
+                        userMessage = R.string.fetch_error
+                    )
+                }
+            }
+        }
+    }
+
     fun updateDest(dest: String) {
         _uiState.update {
             it.copy(transferDest = dest)
         }
     }
 
-    fun updateSource(source: String) {
+    fun updateSource(sourceId: Int, source: String) {
         _uiState.update {
-            it.copy(transferSource = source)
+            it.copy(
+                sourceId = sourceId,
+                transferSource = source,
+            )
         }
     }
 
@@ -67,6 +97,12 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateDelConfDialogVisibility(show: Boolean) {
         _uiState.update {
             it.copy(showDelConfDialog = show)
+        }
+    }
+
+    fun updateSourceListDialogVisibility(show: Boolean) {
+        _uiState.update {
+            it.copy(showSourceListDialog = show)
         }
     }
 
