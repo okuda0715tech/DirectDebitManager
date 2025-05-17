@@ -38,7 +38,10 @@ fun AppNavGraph(
             onChangeTitle = onChangeTitle,
             onNavigateToDelComp = {
                 navController.navigateToDelCompDestination()
-            }
+            },
+            onNavigateToSourceList = {
+                navController.navigateToSourceListDestination()
+            },
         )
 
         delCompDestination(

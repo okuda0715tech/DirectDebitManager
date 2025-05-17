@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,6 +59,7 @@ fun EditDirectDebitScreen(
     directDebit: DirectDebit?,
     onNavigateUp: () -> Unit,
     onNavigateToDelComp: () -> Unit,
+    onNavigateToSourceList: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -100,6 +102,7 @@ fun EditDirectDebitScreen(
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },
             onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
+            onClickEditSource = onNavigateToSourceList,
         )
 
         if (uiState.showDelConfDialog) {
@@ -159,6 +162,7 @@ fun EditDirectDebitContents(
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
     onClickSource: () -> Unit,
+    onClickEditSource: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -224,7 +228,8 @@ fun EditDirectDebitContents(
                     contentDescription = stringResource(id = R.string.edit_source_icon_description),
                     modifier = Modifier
                         .size(ICON_EX_LARGE_SIZE)
-                        .align(alignment = Alignment.CenterVertically),
+                        .align(alignment = Alignment.CenterVertically)
+                        .clickable(onClick = { debouncedClick(onClickEditSource) }),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -395,6 +400,7 @@ private fun PreviewRegisterContents() {
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
+        onClickEditSource = {},
     )
 }
 
@@ -410,6 +416,7 @@ private fun PreviewUpdateContents() {
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
+        onClickEditSource = {},
     )
 }
 

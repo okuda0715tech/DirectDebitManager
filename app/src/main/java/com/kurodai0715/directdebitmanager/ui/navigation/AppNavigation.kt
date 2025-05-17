@@ -54,6 +54,7 @@ fun NavGraphBuilder.editDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
     onNavigateToDelComp: () -> Unit,
+    onNavigateToSourceList: () -> Unit,
 ) {
     composable<Edit> { backStackEntry ->
         val edit: Edit = backStackEntry.toRoute()
@@ -65,6 +66,7 @@ fun NavGraphBuilder.editDestination(
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
+            onNavigateToSourceList = onNavigateToSourceList,
         )
 
         Log.d(TAG, "edit.id = ${edit.id}")
@@ -158,5 +160,9 @@ fun NavController.popUpToSourceListDestination() {
         popUpTo(SourceList)
         launchSingleTop = true
     }
+}
+
+fun NavController.navigateToSourceListDestination() {
+    navigate(SourceList)
 }
 
