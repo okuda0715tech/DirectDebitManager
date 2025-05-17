@@ -25,6 +25,7 @@
     <string name="transfer_source">振替元（銀行・クレカ等）</string>
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
+    <string name="edit_source_icon_description">振替元編集アイコン</string>
 
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>

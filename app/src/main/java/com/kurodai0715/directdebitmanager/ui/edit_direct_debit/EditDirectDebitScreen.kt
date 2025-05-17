@@ -179,42 +179,54 @@ fun EditDirectDebitContents(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceContainerHighest)
         ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                     .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                     .heightIn(min = 56.dp)
                     .padding(horizontal = 16.dp, vertical = 8.dp),
-                verticalArrangement = Arrangement.Center
             ) {
-                if (transferSource.isEmpty()) {
-                    Text(
-                        text = stringResource(R.string.transfer_source),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                } else {
-                    Text(
-                        text = stringResource(R.string.transfer_source),
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                        ),
-                        color = MaterialTheme.colorScheme.primary,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = transferSource,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 22.sp,
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    if (transferSource.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.transfer_source),
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                lineHeight = 24.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    } else {
+                        Text(
+                            text = stringResource(R.string.transfer_source),
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = transferSource,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                lineHeight = 22.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
                 }
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_edit_note_24),
+                    contentDescription = stringResource(id = R.string.edit_source_icon_description),
+                    modifier = Modifier
+                        .size(ICON_EX_LARGE_SIZE)
+                        .align(alignment = Alignment.CenterVertically),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
             }
         }
         HorizontalDivider(
