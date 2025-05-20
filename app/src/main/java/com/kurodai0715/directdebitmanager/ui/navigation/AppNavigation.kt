@@ -14,7 +14,6 @@ import com.kurodai0715.directdebitmanager.ui.delete_completion.DeleteCompletionD
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
 import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
 import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
-import com.kurodai0715.directdebitmanager.ui.source_select.SourceSelectDialog
 import kotlinx.serialization.Serializable
 
 private const val TAG = "AppNavigation.kt"
@@ -31,9 +30,6 @@ data class Edit(
 
 @Serializable
 data object DelComp
-
-@Serializable
-data object SourceSelect
 
 fun NavGraphBuilder.listDestination(
     onNavigateToEdit: (DirectDebit?) -> Unit,
@@ -59,7 +55,6 @@ fun NavGraphBuilder.editDestination(
     onChangeTitle: (Int) -> Unit,
     onNavigateToDelComp: () -> Unit,
     onNavigateToSourceList: () -> Unit,
-    onNavigateToSourceSelect: () -> Unit,
 ) {
     composable<Edit> { backStackEntry ->
         val edit: Edit = backStackEntry.toRoute()
@@ -72,7 +67,6 @@ fun NavGraphBuilder.editDestination(
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
             onNavigateToSourceList = onNavigateToSourceList,
-            onNavigateToSourceSelect = onNavigateToSourceSelect
         )
 
         Log.d(TAG, "edit.id = ${edit.id}")
@@ -131,16 +125,6 @@ fun NavGraphBuilder.sourceEditDestination(
     }
 }
 
-fun NavGraphBuilder.sourceSelectDestination() {
-    dialog<SourceSelect> {
-        SourceSelectDialog(
-            onDismissRequest = {},
-            onClickItem = {},
-            onClickEdit = {}
-        )
-    }
-}
-
 fun NavController.navigateToEditDestination(directDebit: DirectDebit?) {
     navigate(
         Edit(
@@ -180,9 +164,5 @@ fun NavController.popUpToSourceListDestination() {
 
 fun NavController.navigateToSourceListDestination() {
     navigate(SourceList)
-}
-
-fun NavController.navigateToSourceSelectDestination() {
-    navigate(SourceSelect)
 }
 

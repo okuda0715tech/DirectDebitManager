@@ -42,12 +42,7 @@ fun AppNavGraph(
             onNavigateToSourceList = {
                 navController.navigateToSourceListDestination()
             },
-            onNavigateToSourceSelect = {
-                navController.navigateToSourceSelectDestination()
-            }
         )
-
-        sourceSelectDestination()
 
         delCompDestination(
             onNavigateToList = {

@@ -22,11 +22,13 @@ data class EditDirectDebitUiState(
     val transferDest: String = "",
     val sourceId: Int = 0,
     val transferSource: String = "",
+    val sources: List<TransSource> = emptyList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
+    val showSourceListDialog: Boolean = false,
 )
 
 
@@ -44,6 +46,28 @@ class EditDirectDebitViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<EditDirectDebitUiState> = _uiState.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            // 振替元情報を取得し、 UI 画面状態に反映する。
+            try {
+                val sources = directDebitDefRepo.fetchTransSource()
+
+                _uiState.update {
+                    it.copy(
+                        sources = sources
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                _uiState.update {
+                    it.copy(
+                        userMessage = R.string.fetch_error
+                    )
+                }
+            }
+        }
+    }
 
     fun updateDest(dest: String) {
         _uiState.update {
@@ -73,6 +97,12 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateDelConfDialogVisibility(show: Boolean) {
         _uiState.update {
             it.copy(showDelConfDialog = show)
+        }
+    }
+
+    fun updateSourceListDialogVisibility(show: Boolean) {
+        _uiState.update {
+            it.copy(showSourceListDialog = show)
         }
     }
 
