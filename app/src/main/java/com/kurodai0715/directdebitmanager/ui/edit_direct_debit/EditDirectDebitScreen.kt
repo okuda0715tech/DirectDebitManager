@@ -138,6 +138,10 @@ fun EditDirectDebitScreen(
                             sourceId = transSource.id,
                             source = transSource.source
                         )
+                    },
+                    onClickEdit = {
+                        viewModel.updateSourceListDialogVisibility(false)
+                        viewModel.updateEditSourceListEventConsumed(false)
                     }
                 )
             } else {
@@ -146,6 +150,11 @@ fun EditDirectDebitScreen(
                         false
                     )
                 })
+            }
+        } else {
+            if(!uiState.editSourceListEventConsumed){
+                onNavigateToSourceList()
+                viewModel.updateEditSourceListEventConsumed(true)
             }
         }
     }
@@ -322,34 +331,43 @@ fun SourceListDialog(
     items: List<TransSource>,
     onDismissRequest: () -> Unit,
     onClickItem: (Int) -> Unit,
+    onClickEdit: () -> Unit,
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card {
-            LazyColumn(modifier = Modifier.padding(SCREEN_EDGE_PADDING_DEF)) {
-                itemsIndexed(items) { index, item ->
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                LazyColumn(modifier = Modifier.padding(SCREEN_EDGE_PADDING_DEF)) {
+                    itemsIndexed(items) { index, item ->
 
-                    SurfaceButton(
-                        onClick = {
-                            debouncedClick {
-                                onClickItem(index)
-                                onDismissRequest()
-                            }
-                        },
-                        modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                    ) {
-                        Text(
-                            text = item.source,
-                            modifier = modifier
-                                .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                                .padding(12.dp)
-                        )
-                    }
+                        SurfaceButton(
+                            onClick = {
+                                debouncedClick {
+                                    onClickItem(index)
+                                    onDismissRequest()
+                                }
+                            },
+                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                        ) {
+                            Text(
+                                text = item.source,
+                                modifier = modifier
+                                    .fillMaxWidth()
+                                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                                    .padding(12.dp)
+                            )
+                        }
 
-                    // 最後のアイテム以外なら分割線を引く
-                    if (index != items.size - 1) {
-                        HorizontalDivider()
+                        // 最後のアイテム以外なら分割線を引く
+                        if (index != items.size - 1) {
+                            HorizontalDivider()
+                        }
                     }
+                }
+
+                HorizontalDivider()
+
+                OutlinedButton(onClick = { debouncedClick(onClickEdit) }) {
+                    Text(text = stringResource(R.string.common_edit))
                 }
             }
         }
@@ -441,6 +459,7 @@ private fun PreviewSourceListDialog() {
         ),
         onDismissRequest = {},
         onClickItem = {},
+        onClickEdit = {},
     )
 }
 

@@ -29,6 +29,7 @@ data class EditDirectDebitUiState(
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val showSourceListDialog: Boolean = false,
+    val editSourceListEventConsumed: Boolean = true,
 )
 
 
@@ -103,6 +104,12 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateSourceListDialogVisibility(show: Boolean) {
         _uiState.update {
             it.copy(showSourceListDialog = show)
+        }
+    }
+
+    fun updateEditSourceListEventConsumed(value: Boolean) {
+        _uiState.update {
+            it.copy(editSourceListEventConsumed = value)
         }
     }
 
