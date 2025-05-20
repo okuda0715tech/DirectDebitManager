@@ -22,7 +22,7 @@ data class DirectDebitsUiState(
 
 @HiltViewModel
 class DirectDebitListViewModel @Inject constructor(
-    private val directDebitDefRepo: DirectDebitDefaultRepository
+    directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
     private val _directDebitAsync = directDebitDefRepo.fetchDirectDebitStream()
