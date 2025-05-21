@@ -68,14 +68,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      */
     fun fetchDirectDebitStream(): Flow<List<DirectDebit>> {
         return localDataSource.observeDirectDebit().map { localDirectDebits ->
-
-            val directDebits = mutableListOf<DirectDebit>()
-
-            for (localDirectDebit in localDirectDebits) {
-                directDebits.add(localDirectDebit.toExternal())
-            }
-
-            directDebits
+            localDirectDebits.map { it.toExternal() }
         }
     }
 
