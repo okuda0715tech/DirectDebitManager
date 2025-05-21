@@ -118,14 +118,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      */
     fun fetchTransSourceStream(): Flow<List<TransSource>> {
         return localDataSource.observeTransSource().map { localTransSources ->
-
-            val transSources = mutableListOf<TransSource>()
-
-            for (localTransSource in localTransSources) {
-                transSources.add(localTransSource.toExternal())
-            }
-
-            transSources
+            localTransSources.map { it.toExternal() }
         }
     }
 
