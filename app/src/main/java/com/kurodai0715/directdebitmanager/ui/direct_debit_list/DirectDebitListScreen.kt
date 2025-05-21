@@ -21,6 +21,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -55,6 +56,14 @@ fun DirectDebitListScreen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        uiState.userMessage?.let { message ->
+            val snackbarText = stringResource(message)
+            LaunchedEffect(snackbarText) {
+                snackbarHostState.showSnackbar(snackbarText)
+                viewModel.snackbarMessageShown()
+            }
+        }
 
         ListScreenContents(
             modifier = Modifier

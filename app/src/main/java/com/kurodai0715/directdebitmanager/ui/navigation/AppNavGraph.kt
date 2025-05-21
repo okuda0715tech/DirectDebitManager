@@ -33,7 +33,7 @@ fun AppNavGraph(
 
         editDestination(
             onNavigateUp = {
-                navController.popUpToListDestination()
+                navController.navigateUp()
             },
             onChangeTitle = onChangeTitle,
             onNavigateToDelComp = {
