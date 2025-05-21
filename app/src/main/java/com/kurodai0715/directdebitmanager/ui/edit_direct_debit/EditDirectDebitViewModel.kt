@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,24 +50,28 @@ class EditDirectDebitViewModel @Inject constructor(
     val uiState: StateFlow<EditDirectDebitUiState> = _uiState.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            // 振替元情報を取得し、 UI 画面状態に反映する。
-            try {
-                val sources = directDebitDefRepo.fetchTransSource()
+        startCollectingSourceList()
+    }
 
-                _uiState.update {
-                    it.copy(
-                        sources = sources
-                    )
+    private fun startCollectingSourceList() {
+        viewModelScope.launch {
+            directDebitDefRepo.fetchTransSourceStream()
+                .catch {
+                    Log.e(TAG, "$it")
+
+                    _uiState.update {
+                        it.copy(
+                            userMessage = R.string.fetch_error
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "$e")
-                _uiState.update {
-                    it.copy(
-                        userMessage = R.string.fetch_error
-                    )
+                .collect { sources ->
+                    _uiState.update {
+                        it.copy(
+                            sources = sources
+                        )
+                    }
                 }
-            }
         }
     }
 
