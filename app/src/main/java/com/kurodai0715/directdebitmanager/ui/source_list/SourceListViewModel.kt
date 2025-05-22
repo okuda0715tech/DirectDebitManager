@@ -25,7 +25,7 @@ class SourceListViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
-    private val _SourcesAsync = directDebitDefRepo.fetchTransSourceStream()
+    private val _SourcesAsync = directDebitDefRepo.fetchSourcesStream()
         .map { Async.Success(it) }
         .catch<Async<List<Source>>> { emit(Async.Error(R.string.fetch_error)) }
 

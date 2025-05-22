@@ -49,7 +49,7 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(DestinationEditUiState())
 
-    private val _sourcesAsync = directDebitDefRepo.fetchTransSourceStream()
+    private val _sourcesAsync = directDebitDefRepo.fetchSourcesStream()
         .map { Async.Success(it) }
         .catch<Async<List<Source>>> {
             Log.e(TAG, "Failed to read trans sources.", it)
@@ -153,7 +153,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun saveData() {
         viewModelScope.launch {
-            val resultSuccess = directDebitDefRepo.upsert(
+            val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = uiState.value.destId,
                 dest = uiState.value.destName,
                 sourceId = uiState.value.sourceId,
@@ -188,7 +188,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun deleteData() {
         viewModelScope.launch {
-            val numOfDeleted = directDebitDefRepo.delete(
+            val numOfDeleted = directDebitDefRepo.deleteDestination(
                 id = uiState.value.destId,
                 dest = uiState.value.destName,
                 sourceId = uiState.value.sourceId,

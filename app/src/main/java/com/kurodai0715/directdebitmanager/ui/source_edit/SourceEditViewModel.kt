@@ -59,7 +59,7 @@ class SourceEditViewModel @Inject constructor(
 
     fun saveData() {
         viewModelScope.launch {
-            val resultSuccess = directDebitDefRepo.upsert(
+            val resultSuccess = directDebitDefRepo.upsertSource(
                 id = uiState.value.id,
                 source = uiState.value.source
             )
@@ -91,7 +91,7 @@ class SourceEditViewModel @Inject constructor(
 
     fun deleteData() {
         viewModelScope.launch {
-            val numOfDeleted = directDebitDefRepo.delete(
+            val numOfDeleted = directDebitDefRepo.deleteSource(
                 id = uiState.value.id,
                 source = uiState.value.source
             )

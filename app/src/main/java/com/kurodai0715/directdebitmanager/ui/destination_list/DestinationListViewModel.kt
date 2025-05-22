@@ -32,7 +32,7 @@ class DestinationListViewModel @Inject constructor(
 
     private val _userMessage: MutableStateFlow<Int?> = MutableStateFlow(null)
 
-    private val _destinationAsync = directDebitDefRepo.fetchDirectDebitStream()
+    private val _destinationAsync = directDebitDefRepo.fetchDestinationsStream()
         .map { Async.Success(it) }
         .catch<Async<List<Destination>>> { e ->
             Log.e(TAG, "fetchDirectDebitStream failed.", e)

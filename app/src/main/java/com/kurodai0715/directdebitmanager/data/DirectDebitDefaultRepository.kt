@@ -25,7 +25,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 口座振替情報を DB へ登録する.
      */
-    suspend fun upsert(id: Int, dest: String, sourceId: Int, source: String): Boolean {
+    suspend fun upsertDestination(id: Int, dest: String, sourceId: Int, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId, sourceName = source)
@@ -49,7 +49,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      * @param source 削除するレコードの source
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun delete(id: Int, dest: String, sourceId: Int, source: String): Int {
+    suspend fun deleteDestination(id: Int, dest: String, sourceId: Int, source: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId, sourceName = source)
@@ -67,7 +67,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 口座振替情報を取得するストリーム.
      */
-    fun fetchDirectDebitStream(): Flow<List<Destination>> {
+    fun fetchDestinationsStream(): Flow<List<Destination>> {
         return localDataSource.observeDirectDebit().map { localDirectDebits ->
             localDirectDebits.map { it.toExternal() }
         }
@@ -76,7 +76,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を DB へ登録する.
      */
-    suspend fun upsert(id: Int, source: String): Boolean {
+    suspend fun upsertSource(id: Int, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             val source = Source(id = id, name = source)
@@ -99,7 +99,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      * @param source 削除するレコードの source
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun delete(id: Int, source: String): Int {
+    suspend fun deleteSource(id: Int, source: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             val source = Source(id = id, name = source)
@@ -117,7 +117,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を取得するストリーム.
      */
-    fun fetchTransSourceStream(): Flow<List<Source>> {
+    fun fetchSourcesStream(): Flow<List<Source>> {
         return localDataSource.observeTransSource().map { localTransSources ->
             localTransSources.map { it.toExternal() }
         }
