@@ -19,10 +19,10 @@ import kotlinx.serialization.Serializable
 private const val TAG = "AppNavigation.kt"
 
 @Serializable
-data object List
+data object DestList
 
 @Serializable
-data class Edit(
+data class DestEdit(
     val id: Int? = null,
     val dest: String? = null,
     val source: String? = null
@@ -35,7 +35,7 @@ fun NavGraphBuilder.listDestination(
     onNavigateToEdit: (DirectDebit?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
-    composable<List> {
+    composable<DestList> {
         DirectDebitListScreen(onNavigateToEdit = onNavigateToEdit)
         onChangeTitle(R.string.list_screen_title)
     }
@@ -56,21 +56,21 @@ fun NavGraphBuilder.editDestination(
     onNavigateToDelComp: () -> Unit,
     onNavigateToSourceList: () -> Unit,
 ) {
-    composable<Edit> { backStackEntry ->
-        val edit: Edit = backStackEntry.toRoute()
+    composable<DestEdit> { backStackEntry ->
+        val destEdit: DestEdit = backStackEntry.toRoute()
         EditDirectDebitScreen(
-            directDebit = if (edit.id == null) {
+            directDebit = if (destEdit.id == null) {
                 null
             } else {
-                DirectDebit(id = edit.id, destination = edit.dest!!, source = edit.source!!)
+                DirectDebit(id = destEdit.id, destination = destEdit.dest!!, source = destEdit.source!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
             onNavigateToSourceList = onNavigateToSourceList,
         )
 
-        Log.d(TAG, "edit.id = ${edit.id}")
-        val titleResId = if (edit.id == null) {
+        Log.d(TAG, "edit.id = ${destEdit.id}")
+        val titleResId = if (destEdit.id == null) {
             R.string.register_screen_title
         } else {
             R.string.edit_screen_title
@@ -127,7 +127,7 @@ fun NavGraphBuilder.sourceEditDestination(
 
 fun NavController.navigateToEditDestination(directDebit: DirectDebit?) {
     navigate(
-        Edit(
+        DestEdit(
             id = directDebit?.id,
             dest = directDebit?.destination,
             source = directDebit?.source
@@ -140,8 +140,8 @@ fun NavController.navigateToDelCompDestination() {
 }
 
 fun NavController.popUpToListDestination() {
-    navigate(List) {
-        popUpTo(List)
+    navigate(DestList) {
+        popUpTo(DestList)
         launchSingleTop = true
     }
 }

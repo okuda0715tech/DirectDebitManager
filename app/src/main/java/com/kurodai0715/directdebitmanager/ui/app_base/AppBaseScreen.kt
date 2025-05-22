@@ -40,7 +40,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import com.kurodai0715.directdebitmanager.ui.navigation.SourceList
-import com.kurodai0715.directdebitmanager.ui.navigation.List
+import com.kurodai0715.directdebitmanager.ui.navigation.DestList
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
@@ -53,7 +53,7 @@ fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var selectedDrawerItem: Any by remember { mutableStateOf(List) }
+    var selectedDrawerItem: Any by remember { mutableStateOf(DestList) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -147,8 +147,8 @@ fun AppDrawerContent(
 
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.direct_debit_info)) },
-            selected = selectedItem is List,
-            onClick = { debouncedClick { onClickItem(List) } }
+            selected = selectedItem is DestList,
+            onClick = { debouncedClick { onClickItem(DestList) } }
         )
 
         NavigationDrawerItem(
@@ -190,7 +190,7 @@ fun PreviewOpenedAppDrawer() {
     ModalNavigationDrawer(
         drawerContent = {
             AppDrawerContent(
-                selectedItem = List,
+                selectedItem = DestList,
                 onClickItem = {},
             )
         },
