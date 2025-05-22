@@ -7,11 +7,17 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.DirectDebit
 import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.ui.source_list.SourceListUiState
+import com.kurodai0715.directdebitmanager.ui.util.Async
+import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,6 +37,7 @@ data class EditDirectDebitUiState(
     val showDelCompDialog: Boolean = false,
     val showSourceListDialog: Boolean = false,
     val editSourceListEventConsumed: Boolean = true,
+    val isLoading: Boolean = false,
 )
 
 
@@ -47,7 +54,7 @@ class EditDirectDebitViewModel @Inject constructor(
     /**
      * 読み取り専用.
      */
-    val uiState: StateFlow<EditDirectDebitUiState> = _uiState.asStateFlow()
+//    val uiState: StateFlow<EditDirectDebitUiState> = _uiState.asStateFlow()
 
     init {
         startCollectingSourceList()
@@ -74,6 +81,34 @@ class EditDirectDebitViewModel @Inject constructor(
                 }
         }
     }
+
+    private val _transSourcesAsync = directDebitDefRepo.fetchTransSourceStream()
+        .map { Async.Success(it) }
+        .catch<Async<List<TransSource>>> { emit(Async.Error(R.string.fetch_error)) }
+
+    val uiState: StateFlow<EditDirectDebitUiState> =
+        combine(_transSourcesAsync, _uiState) { transSourcesAsync, uiState ->
+            when (transSourcesAsync) {
+                is Async.Loading -> {
+                    uiState.copy(isLoading = true)
+                }
+
+                is Async.Error -> {
+                    uiState.copy(userMessage = transSourcesAsync.errorMessage)
+                }
+
+                is Async.Success -> {
+                    uiState.copy(
+                        sources = transSourcesAsync.data,
+                        isLoading = false,
+                    )
+                }
+            }
+        }.stateIn(
+            scope = viewModelScope,
+            started = WhileUiSubscribed,
+            initialValue = EditDirectDebitUiState(isLoading = true)
+        )
 
     fun updateDest(dest: String) {
         _uiState.update {
