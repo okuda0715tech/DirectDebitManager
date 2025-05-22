@@ -2,7 +2,7 @@ package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.Destination
-import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocal
@@ -79,9 +79,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun upsert(id: Int, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val transSource = TransSource(id = id, source = source)
+            val source = Source(sourceId = id, source = source)
             resultSuccess = try {
-                localDataSource.upsert(transSource.toLocal())
+                localDataSource.upsert(source.toLocal())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
@@ -102,9 +102,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun delete(id: Int, source: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val transSource = TransSource(id = id, source = source)
+            val source = Source(sourceId = id, source = source)
             numOfDeleted = try {
-                localDataSource.delete(transSource.toLocal())
+                localDataSource.delete(source.toLocal())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
@@ -117,7 +117,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を取得するストリーム.
      */
-    fun fetchTransSourceStream(): Flow<List<TransSource>> {
+    fun fetchTransSourceStream(): Flow<List<Source>> {
         return localDataSource.observeTransSource().map { localTransSources ->
             localTransSources.map { it.toExternal() }
         }

@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.component.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -39,7 +39,7 @@ private const val TAG = "SourceListScreen.kt"
 @Composable
 fun SourceListScreen(
     viewModel: SourceListViewModel = hiltViewModel(),
-    onNavigateToEdit: (TransSource?) -> Unit,
+    onNavigateToEdit: (Source?) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -73,8 +73,8 @@ fun SourceListScreen(
 @Composable
 fun SourceListContents(
     modifier: Modifier = Modifier,
-    items: List<TransSource>,
-    onNavigateToEdit: (TransSource?) -> Unit,
+    items: List<Source>,
+    onNavigateToEdit: (Source?) -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -104,7 +104,7 @@ fun SourceListContents(
 
 @Composable
 fun TransSourceItem(
-    transSource: TransSource,
+    source: Source,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit
 ) {
@@ -123,7 +123,7 @@ fun TransSourceItem(
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(transSource.source)
+        Text(source.source)
     }
 }
 
@@ -135,8 +135,8 @@ private fun Preview() {
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
-            TransSource(1, "横浜銀行クレジットカード"),
-            TransSource(2, "横浜銀行")
+            Source(1, "横浜銀行クレジットカード"),
+            Source(2, "横浜銀行")
         ),
         onNavigateToEdit = { })
 }

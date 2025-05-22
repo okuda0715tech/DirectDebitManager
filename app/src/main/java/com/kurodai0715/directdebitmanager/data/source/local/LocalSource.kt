@@ -3,8 +3,8 @@ package com.kurodai0715.directdebitmanager.data.source.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "transfer_source")
-data class LocalTransSource(
+@Entity(tableName = "source")
+data class LocalSource(
     /**
      * ID.
      *
@@ -12,8 +12,8 @@ data class LocalTransSource(
      * ID は自動採番されます。
      */
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val sourceId: Int = 0,
 
-    val source: String
+    val sourceName: String
 
 )

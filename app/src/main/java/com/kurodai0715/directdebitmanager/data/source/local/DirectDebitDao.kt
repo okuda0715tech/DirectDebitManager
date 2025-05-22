@@ -26,17 +26,17 @@ interface DirectDebitDao {
     @Delete
     suspend fun delete(directDebit: LocalDestination): Int
 
-    @Query("SELECT * FROM transfer_source")
-    fun observeTransSource(): Flow<List<LocalTransSource>>
+    @Query("SELECT * FROM source")
+    fun observeTransSource(): Flow<List<LocalSource>>
 
-    @Query("SELECT * FROM transfer_source")
-    fun fetchTransSource(): List<LocalTransSource>
+    @Query("SELECT * FROM source")
+    fun fetchTransSource(): List<LocalSource>
 
     /**
      * 振替元情報テーブルのレコードに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsert(transSource: LocalTransSource)
+    suspend fun upsert(transSource: LocalSource)
 
     /**
      * 振替元情報テーブルのレコードの削除.
@@ -44,6 +44,6 @@ interface DirectDebitDao {
      * @return 削除したレコードの件数
      */
     @Delete
-    suspend fun delete(transSource: LocalTransSource): Int
+    suspend fun delete(transSource: LocalSource): Int
 
 }

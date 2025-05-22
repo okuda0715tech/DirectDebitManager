@@ -47,7 +47,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Destination
-import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.component.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
@@ -135,7 +135,7 @@ fun EditDirectDebitScreen(
                     onClickItem = { index ->
                         val transSource = uiState.sources[index]
                         viewModel.updateSource(
-                            sourceId = transSource.id,
+                            sourceId = transSource.sourceId,
                             source = transSource.source
                         )
                     },
@@ -328,7 +328,7 @@ fun DeleteConfirmDialog(
 @Composable
 fun SourceListDialog(
     modifier: Modifier = Modifier,
-    items: List<TransSource>,
+    items: List<Source>,
     onDismissRequest: () -> Unit,
     onClickItem: (Int) -> Unit,
     onClickEdit: () -> Unit,
@@ -453,9 +453,9 @@ private fun PreviewDelConfDialog() {
 private fun PreviewSourceListDialog() {
     SourceListDialog(
         items = listOf(
-            TransSource(id = 1, source = "横浜銀行"),
-            TransSource(id = 2, source = "三井住友銀行"),
-            TransSource(id = 3, source = "PayPay銀行"),
+            Source(sourceId = 1, source = "横浜銀行"),
+            Source(sourceId = 2, source = "三井住友銀行"),
+            Source(sourceId = 3, source = "PayPay銀行"),
         ),
         onDismissRequest = {},
         onClickItem = {},

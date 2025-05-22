@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Destination
-import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ data class EditDirectDebitUiState(
     val transferDest: String = "",
     val sourceId: Int = 0,
     val transferSource: String = "",
-    val sources: List<TransSource> = emptyList(),
+    val sources: List<Source> = emptyList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
@@ -49,9 +49,9 @@ class EditDirectDebitViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(EditDirectDebitUiState())
 
-    private val _transSourcesAsync = directDebitDefRepo.fetchTransSourceStream()
+    private val _SourcesAsync = directDebitDefRepo.fetchTransSourceStream()
         .map { Async.Success(it) }
-        .catch<Async<List<TransSource>>> {
+        .catch<Async<List<Source>>> {
             Log.e(TAG, "Failed to read trans sources.", it)
             emit(Async.Error(R.string.fetch_error))
         }
@@ -60,7 +60,7 @@ class EditDirectDebitViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<EditDirectDebitUiState> =
-        combine(_transSourcesAsync, _uiState) { transSourcesAsync, uiState ->
+        combine(_SourcesAsync, _uiState) { transSourcesAsync, uiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
                     uiState.copy(isLoading = true)
@@ -87,9 +87,9 @@ class EditDirectDebitViewModel @Inject constructor(
             initialValue = EditDirectDebitUiState(isLoading = true)
         )
 
-    private fun updateSourceString(sourceId: Int, sources: List<TransSource>): String {
+    private fun updateSourceString(sourceId: Int, sources: List<Source>): String {
         for (source in sources) {
-            if (source.id == sourceId) {
+            if (source.sourceId == sourceId) {
                 return source.source
             }
         }

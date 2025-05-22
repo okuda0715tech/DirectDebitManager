@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.data.source.Source
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,11 +42,11 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun updateTransSource(transSource: TransSource) {
+    fun updateTransSource(source: Source) {
         _uiState.update {
             it.copy(
-                id = transSource.id,
-                source = transSource.source,
+                id = source.sourceId,
+                source = source.source,
             )
         }
     }

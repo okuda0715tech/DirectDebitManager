@@ -8,7 +8,7 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Destination
-import com.kurodai0715.directdebitmanager.data.source.TransSource
+import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.delete_completion.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
@@ -23,9 +23,9 @@ data object DestList
 
 @Serializable
 data class DestEdit(
-    val id: Int? = null,
-    val dest: String? = null,
-    val source: String? = null
+    val destId: Int? = null,
+    val destName: String? = null,
+    val sourceName: String? = null
 )
 
 @Serializable
@@ -46,8 +46,8 @@ data object SourceList
 
 @Serializable
 data class SourceEdit(
-    val id: Int? = null,
-    val source: String? = null,
+    val sourceId: Int? = null,
+    val sourceName: String? = null,
 )
 
 fun NavGraphBuilder.editDestination(
@@ -59,18 +59,18 @@ fun NavGraphBuilder.editDestination(
     composable<DestEdit> { backStackEntry ->
         val destEdit: DestEdit = backStackEntry.toRoute()
         EditDirectDebitScreen(
-            destination = if (destEdit.id == null) {
+            destination = if (destEdit.destId == null) {
                 null
             } else {
-                Destination(destId = destEdit.id, destName = destEdit.dest!!, sourceName = destEdit.source!!)
+                Destination(destId = destEdit.destId, destName = destEdit.destName!!, sourceName = destEdit.sourceName!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
             onNavigateToSourceList = onNavigateToSourceList,
         )
 
-        Log.d(TAG, "edit.id = ${destEdit.id}")
-        val titleResId = if (destEdit.id == null) {
+        Log.d(TAG, "edit.id = ${destEdit.destId}")
+        val titleResId = if (destEdit.destId == null) {
             R.string.register_screen_title
         } else {
             R.string.edit_screen_title
@@ -86,7 +86,7 @@ fun NavGraphBuilder.delCompDestination(onNavigateToList: () -> Unit) {
 }
 
 fun NavGraphBuilder.sourceListDestination(
-    onNavigateToEdit: (TransSource?) -> Unit,
+    onNavigateToEdit: (Source?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<SourceList> {
@@ -104,18 +104,18 @@ fun NavGraphBuilder.sourceEditDestination(
         val sourceEdit: SourceEdit = backStackEntry.toRoute()
 
         SourceEditScreen(
-            transSource = if (sourceEdit.id == null) {
+            source = if (sourceEdit.sourceId == null) {
                 null
             } else {
-                TransSource(id = sourceEdit.id, source = sourceEdit.source!!)
+                Source(sourceId = sourceEdit.sourceId, source = sourceEdit.sourceName!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
         )
 
-        Log.d(TAG, "sourceEdit.id = ${sourceEdit.id}")
+        Log.d(TAG, "sourceEdit.id = ${sourceEdit.sourceId}")
 
-        val titleResId = if (sourceEdit.id == null) {
+        val titleResId = if (sourceEdit.sourceId == null) {
             R.string.source_registration_title
         } else {
             R.string.source_update_title
@@ -128,9 +128,9 @@ fun NavGraphBuilder.sourceEditDestination(
 fun NavController.navigateToEditDestination(destination: Destination?) {
     navigate(
         DestEdit(
-            id = destination?.destId,
-            dest = destination?.destName,
-            source = destination?.sourceName
+            destId = destination?.destId,
+            destName = destination?.destName,
+            sourceName = destination?.sourceName
         )
     )
 }
@@ -146,11 +146,11 @@ fun NavController.popUpToListDestination() {
     }
 }
 
-fun NavController.navigateToSourceEditDestination(transSource: TransSource?) {
+fun NavController.navigateToSourceEditDestination(source: Source?) {
     navigate(
         SourceEdit(
-            id = transSource?.id,
-            source = transSource?.source
+            sourceId = source?.sourceId,
+            sourceName = source?.source
         )
     )
 }
