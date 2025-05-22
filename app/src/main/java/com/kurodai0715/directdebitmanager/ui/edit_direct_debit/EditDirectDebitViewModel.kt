@@ -114,9 +114,9 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateDirectDebit(destination: Destination) {
         _uiState.update {
             it.copy(
-                id = destination.id,
-                transferDest = destination.destination,
-                transferSource = destination.source,
+                id = destination.destId,
+                transferDest = destination.destName,
+                transferSource = destination.sourceName,
             )
         }
     }

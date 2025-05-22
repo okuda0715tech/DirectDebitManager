@@ -4,17 +4,17 @@ import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransSource
 
 fun LocalDestination.toExternal() = Destination(
-    id = id,
-    destination = destination,
-    source = source,
+    destId = destId,
+    destName = destName,
+    sourceName = sourceName,
 //    date = date,
 //    amount = amount.toString(),
 )
 
 fun Destination.toLocal() = LocalDestination(
-    id = id,
-    destination = destination,
-    source = source,
+    destId = destId,
+    destName = destName,
+    sourceName = sourceName,
 //    date = date,
 //    amount = amount.toString(),
 )

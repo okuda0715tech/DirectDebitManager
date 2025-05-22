@@ -62,7 +62,7 @@ fun NavGraphBuilder.editDestination(
             destination = if (destEdit.id == null) {
                 null
             } else {
-                Destination(id = destEdit.id, destination = destEdit.dest!!, source = destEdit.source!!)
+                Destination(destId = destEdit.id, destName = destEdit.dest!!, sourceName = destEdit.source!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
@@ -128,9 +128,9 @@ fun NavGraphBuilder.sourceEditDestination(
 fun NavController.navigateToEditDestination(destination: Destination?) {
     navigate(
         DestEdit(
-            id = destination?.id,
-            dest = destination?.destination,
-            source = destination?.source
+            id = destination?.destId,
+            dest = destination?.destName,
+            source = destination?.sourceName
         )
     )
 }

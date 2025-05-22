@@ -6,11 +6,11 @@ data class Destination(
      *
      * ID を自動採番したい場合は 0 を設定してください。
      */
-    val id: Int = 0,
+    val destId: Int = 0,
 
-    val destination: String,
+    val destName: String,
 
-    val source: String,
+    val sourceName: String,
 //    val date: String,
 //    val amount: String,
 )
