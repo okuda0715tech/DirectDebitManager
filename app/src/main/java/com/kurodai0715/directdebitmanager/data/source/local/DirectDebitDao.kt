@@ -10,13 +10,13 @@ import kotlinx.coroutines.flow.Flow
 interface DirectDebitDao {
 
     @Query("SELECT * FROM direct_debit")
-    fun observeDirectDebit(): Flow<List<LocalDirectDebit>>
+    fun observeDirectDebit(): Flow<List<LocalDestination>>
 
     /**
      * 口座振替情報テーブルのレコードに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsert(directDebit: LocalDirectDebit)
+    suspend fun upsert(directDebit: LocalDestination)
 
     /**
      * 口座振替情報テーブルのレコードの削除.
@@ -24,7 +24,7 @@ interface DirectDebitDao {
      * @return 削除したレコードの件数
      */
     @Delete
-    suspend fun delete(directDebit: LocalDirectDebit): Int
+    suspend fun delete(directDebit: LocalDestination): Int
 
     @Query("SELECT * FROM transfer_source")
     fun observeTransSource(): Flow<List<LocalTransSource>>

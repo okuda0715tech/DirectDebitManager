@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.ui.component.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -42,7 +42,7 @@ private const val TAG = "DirectDebitListScreen.kt"
 @Composable
 fun DirectDebitListScreen(
     viewModel: DirectDebitListViewModel = hiltViewModel(),
-    onNavigateToEdit: (DirectDebit?) -> Unit,
+    onNavigateToEdit: (Destination?) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -85,8 +85,8 @@ fun DirectDebitListScreen(
 @Composable
 fun ListScreenContents(
     modifier: Modifier = Modifier,
-    items: List<DirectDebit>,
-    onNavigateToEdit: (DirectDebit?) -> Unit
+    items: List<Destination>,
+    onNavigateToEdit: (Destination?) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -116,7 +116,7 @@ fun ListScreenContents(
 
 @Composable
 fun DirectDebitItem(
-    directDebit: DirectDebit,
+    destination: Destination,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit
 ) {
@@ -135,14 +135,14 @@ fun DirectDebitItem(
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(directDebit.destination)
+        Text(destination.destination)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             stringResource(R.string.transfer_source),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(directDebit.source)
+        Text(destination.source)
     }
 }
 
@@ -154,8 +154,8 @@ private fun Preview() {
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
-            DirectDebit(1, "横浜銀行クレジットカード", "横浜銀行"),
-            DirectDebit(2, "Oliveクレジットカード", "三井住友銀行")
+            Destination(1, "横浜銀行クレジットカード", "横浜銀行"),
+            Destination(2, "Oliveクレジットカード", "三井住友銀行")
         ),
         onNavigateToEdit = { })
 }

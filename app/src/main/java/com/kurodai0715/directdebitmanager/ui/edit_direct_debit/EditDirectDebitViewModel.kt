@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -111,12 +111,12 @@ class EditDirectDebitViewModel @Inject constructor(
         }
     }
 
-    fun updateDirectDebit(directDebit: DirectDebit) {
+    fun updateDirectDebit(destination: Destination) {
         _uiState.update {
             it.copy(
-                id = directDebit.id,
-                transferDest = directDebit.destination,
-                transferSource = directDebit.source,
+                id = destination.id,
+                transferDest = destination.destination,
+                transferSource = destination.source,
             )
         }
     }

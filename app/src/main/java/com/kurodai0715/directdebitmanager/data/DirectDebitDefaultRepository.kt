@@ -1,7 +1,7 @@
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
-import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.toExternal
@@ -28,9 +28,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun upsert(id: Int, dest: String, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val directDebit = DirectDebit(id = id, destination = dest, source = source)
+            val destination = Destination(id = id, destination = dest, source = source)
             resultSuccess = try {
-                localDataSource.upsert(directDebit.toLocal())
+                localDataSource.upsert(destination.toLocal())
                 true
             } catch (e: Exception) {
                 false
@@ -51,9 +51,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun delete(id: Int, dest: String, source: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val directDebit = DirectDebit(id = id, destination = dest, source = source)
+            val destination = Destination(id = id, destination = dest, source = source)
             numOfDeleted = try {
-                localDataSource.delete(directDebit.toLocal())
+                localDataSource.delete(destination.toLocal())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
@@ -66,7 +66,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 口座振替情報を取得するストリーム.
      */
-    fun fetchDirectDebitStream(): Flow<List<DirectDebit>> {
+    fun fetchDirectDebitStream(): Flow<List<Destination>> {
         return localDataSource.observeDirectDebit().map { localDirectDebits ->
             localDirectDebits.map { it.toExternal() }
         }

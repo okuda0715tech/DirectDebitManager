@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "direct_debit")
-data class LocalDirectDebit(
+data class LocalDestination(
 
     /**
      * ID.

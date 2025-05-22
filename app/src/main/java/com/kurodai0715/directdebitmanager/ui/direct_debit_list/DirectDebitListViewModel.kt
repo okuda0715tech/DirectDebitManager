@@ -1,11 +1,10 @@
 package com.kurodai0715.directdebitmanager.ui.direct_debit_list
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +19,7 @@ import javax.inject.Inject
 private const val TAG = "DirectDebitListViewModel.kt"
 
 data class DirectDebitsUiState(
-    val items: List<DirectDebit> = emptyList(),
+    val items: List<Destination> = emptyList(),
     val isLoading: Boolean = false,
     val userMessage: Int? = null
 )
@@ -32,12 +31,12 @@ class DirectDebitListViewModel @Inject constructor(
 
     private val _userMessage: MutableStateFlow<Int?> = MutableStateFlow(null)
 
-    private val _directDebitAsync = directDebitDefRepo.fetchDirectDebitStream()
+    private val _destinationAsync = directDebitDefRepo.fetchDirectDebitStream()
         .map { Async.Success(it) }
-        .catch<Async<List<DirectDebit>>> { emit(Async.Error(R.string.fetch_error)) }
+        .catch<Async<List<Destination>>> { emit(Async.Error(R.string.fetch_error)) }
 
     val uiState: StateFlow<DirectDebitsUiState> =
-        combine(_directDebitAsync, _userMessage) { directDebitAsync, userMessage ->
+        combine(_destinationAsync, _userMessage) { directDebitAsync, userMessage ->
 
             when (directDebitAsync) {
                 is Async.Loading -> {

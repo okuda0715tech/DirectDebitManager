@@ -1,9 +1,9 @@
 package com.kurodai0715.directdebitmanager.data.source
 
-import com.kurodai0715.directdebitmanager.data.source.local.LocalDirectDebit
+import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransSource
 
-fun LocalDirectDebit.toExternal() = DirectDebit(
+fun LocalDestination.toExternal() = Destination(
     id = id,
     destination = destination,
     source = source,
@@ -11,7 +11,7 @@ fun LocalDirectDebit.toExternal() = DirectDebit(
 //    amount = amount.toString(),
 )
 
-fun DirectDebit.toLocal() = LocalDirectDebit(
+fun Destination.toLocal() = LocalDestination(
     id = id,
     destination = destination,
     source = source,

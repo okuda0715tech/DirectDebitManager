@@ -46,7 +46,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.ui.component.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
@@ -56,7 +56,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun EditDirectDebitScreen(
     viewModel: EditDirectDebitViewModel = hiltViewModel(),
-    directDebit: DirectDebit?,
+    destination: Destination?,
     onNavigateUp: () -> Unit,
     onNavigateToDelComp: () -> Unit,
     onNavigateToSourceList: () -> Unit,
@@ -74,9 +74,9 @@ fun EditDirectDebitScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
-        LaunchedEffect(directDebit) {
-            if (directDebit != null) {
-                viewModel.updateDirectDebit(directDebit)
+        LaunchedEffect(destination) {
+            if (destination != null) {
+                viewModel.updateDirectDebit(destination)
             }
         }
 

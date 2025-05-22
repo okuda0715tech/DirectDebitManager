@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.DirectDebit
+import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.TransSource
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.delete_completion.DeleteCompletionDialog
@@ -32,7 +32,7 @@ data class DestEdit(
 data object DelComp
 
 fun NavGraphBuilder.listDestination(
-    onNavigateToEdit: (DirectDebit?) -> Unit,
+    onNavigateToEdit: (Destination?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<DestList> {
@@ -59,10 +59,10 @@ fun NavGraphBuilder.editDestination(
     composable<DestEdit> { backStackEntry ->
         val destEdit: DestEdit = backStackEntry.toRoute()
         EditDirectDebitScreen(
-            directDebit = if (destEdit.id == null) {
+            destination = if (destEdit.id == null) {
                 null
             } else {
-                DirectDebit(id = destEdit.id, destination = destEdit.dest!!, source = destEdit.source!!)
+                Destination(id = destEdit.id, destination = destEdit.dest!!, source = destEdit.source!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
@@ -125,12 +125,12 @@ fun NavGraphBuilder.sourceEditDestination(
     }
 }
 
-fun NavController.navigateToEditDestination(directDebit: DirectDebit?) {
+fun NavController.navigateToEditDestination(destination: Destination?) {
     navigate(
         DestEdit(
-            id = directDebit?.id,
-            dest = directDebit?.destination,
-            source = directDebit?.source
+            id = destination?.id,
+            dest = destination?.destination,
+            source = destination?.source
         )
     )
 }
