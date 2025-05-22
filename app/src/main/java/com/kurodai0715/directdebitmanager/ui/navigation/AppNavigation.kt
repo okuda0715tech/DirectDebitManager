@@ -11,8 +11,8 @@ import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.delete_completion.DeleteCompletionDialog
-import com.kurodai0715.directdebitmanager.ui.direct_debit_list.DirectDebitListScreen
-import com.kurodai0715.directdebitmanager.ui.edit_direct_debit.EditDirectDebitScreen
+import com.kurodai0715.directdebitmanager.ui.destination_list.DirectDebitListScreen
+import com.kurodai0715.directdebitmanager.ui.destination_edit.EditDirectDebitScreen
 import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
 import kotlinx.serialization.Serializable
 
