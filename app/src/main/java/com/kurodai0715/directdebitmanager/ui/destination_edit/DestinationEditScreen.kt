@@ -94,10 +94,10 @@ fun DestinationEditScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            transferDest = uiState.transferDest,
+            transferDest = uiState.destName,
             onDestChanged = { viewModel.updateDest(it) },
-            transferSource = uiState.transferSource,
-            itemId = uiState.id,
+            transferSource = uiState.sourceName,
+            itemId = uiState.destId,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },

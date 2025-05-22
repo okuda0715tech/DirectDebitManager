@@ -23,10 +23,10 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val id: Int = 0,
-    val transferDest: String = "",
+    val destId: Int = 0,
+    val destName: String = "",
     val sourceId: Int = 0,
-    val transferSource: String = "",
+    val sourceName: String = "",
     val sources: List<Source> = emptyList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
@@ -72,7 +72,7 @@ class DestinationEditViewModel @Inject constructor(
 
                 is Async.Success -> {
                     uiState.copy(
-                        transferSource = updateSourceString(
+                        sourceName = updateSourceString(
                             sourceId = uiState.sourceId,
                             sources = transSourcesAsync.data
                         ),
@@ -98,7 +98,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDest(dest: String) {
         _uiState.update {
-            it.copy(transferDest = dest)
+            it.copy(destName = dest)
         }
     }
 
@@ -106,7 +106,7 @@ class DestinationEditViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 sourceId = sourceId,
-                transferSource = source,
+                sourceName = source,
             )
         }
     }
@@ -114,9 +114,9 @@ class DestinationEditViewModel @Inject constructor(
     fun updateDirectDebit(destination: Destination) {
         _uiState.update {
             it.copy(
-                id = destination.id,
-                transferDest = destination.name,
-                transferSource = destination.sourceName,
+                destId = destination.id,
+                destName = destination.name,
+                sourceName = destination.sourceName,
             )
         }
     }
@@ -154,20 +154,20 @@ class DestinationEditViewModel @Inject constructor(
     fun saveData() {
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsert(
-                id = uiState.value.id,
-                dest = uiState.value.transferDest,
+                id = uiState.value.destId,
+                dest = uiState.value.destName,
                 sourceId = uiState.value.sourceId,
-                source = uiState.value.transferSource
+                source = uiState.value.sourceName
             )
 
             _uiState.update {
                 if (resultSuccess) {
                     // 新規作成 or 更新が成功した場合
-                    if (uiState.value.id == 0) {
+                    if (uiState.value.destId == 0) {
                         // 新規作成の場合
                         it.copy(
-                            transferDest = "",
-                            transferSource = "",
+                            destName = "",
+                            sourceName = "",
                             userMessage = R.string.common_save_successfully
                         )
                     } else {
@@ -189,10 +189,10 @@ class DestinationEditViewModel @Inject constructor(
     fun deleteData() {
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.delete(
-                id = uiState.value.id,
-                dest = uiState.value.transferDest,
+                id = uiState.value.destId,
+                dest = uiState.value.destName,
                 sourceId = uiState.value.sourceId,
-                source = uiState.value.transferSource
+                source = uiState.value.sourceName
             )
 
             _uiState.update {
