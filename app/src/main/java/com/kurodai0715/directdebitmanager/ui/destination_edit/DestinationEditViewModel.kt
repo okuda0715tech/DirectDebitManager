@@ -49,7 +49,7 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(DestinationEditUiState())
 
-    private val _SourcesAsync = directDebitDefRepo.fetchTransSourceStream()
+    private val _sourcesAsync = directDebitDefRepo.fetchTransSourceStream()
         .map { Async.Success(it) }
         .catch<Async<List<Source>>> {
             Log.e(TAG, "Failed to read trans sources.", it)
@@ -60,7 +60,7 @@ class DestinationEditViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<DestinationEditUiState> =
-        combine(_SourcesAsync, _uiState) { transSourcesAsync, uiState ->
+        combine(_sourcesAsync, _uiState) { transSourcesAsync, uiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
                     uiState.copy(isLoading = true)
