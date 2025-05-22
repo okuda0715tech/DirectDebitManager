@@ -30,7 +30,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId, sourceName = source)
             resultSuccess = try {
-                localDataSource.upsert(destination.toLocal())
+                localDataSource.upsertDestination(destination.toLocal())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
@@ -54,7 +54,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId, sourceName = source)
             numOfDeleted = try {
-                localDataSource.delete(destination.toLocal())
+                localDataSource.deleteDestination(destination.toLocal())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
@@ -68,7 +68,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      * 口座振替情報を取得するストリーム.
      */
     fun fetchDestinationsStream(): Flow<List<Destination>> {
-        return localDataSource.observeDirectDebit().map { localDirectDebits ->
+        return localDataSource.observeDestinations().map { localDirectDebits ->
             localDirectDebits.map { it.toExternal() }
         }
     }
@@ -81,7 +81,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val source = Source(id = id, name = source)
             resultSuccess = try {
-                localDataSource.upsert(source.toLocal())
+                localDataSource.upsertSource(source.toLocal())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
@@ -104,7 +104,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val source = Source(id = id, name = source)
             numOfDeleted = try {
-                localDataSource.delete(source.toLocal())
+                localDataSource.deleteSource(source.toLocal())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
@@ -118,7 +118,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      * 振替元情報を取得するストリーム.
      */
     fun fetchSourcesStream(): Flow<List<Source>> {
-        return localDataSource.observeTransSource().map { localTransSources ->
+        return localDataSource.observeSources().map { localTransSources ->
             localTransSources.map { it.toExternal() }
         }
     }
