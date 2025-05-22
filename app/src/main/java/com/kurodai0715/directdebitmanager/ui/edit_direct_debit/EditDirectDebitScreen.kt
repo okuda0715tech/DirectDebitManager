@@ -135,8 +135,8 @@ fun EditDirectDebitScreen(
                     onClickItem = { index ->
                         val transSource = uiState.sources[index]
                         viewModel.updateSource(
-                            sourceId = transSource.sourceId,
-                            source = transSource.source
+                            sourceId = transSource.id,
+                            source = transSource.name
                         )
                     },
                     onClickEdit = {
@@ -349,7 +349,7 @@ fun SourceListDialog(
                             modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
                         ) {
                             Text(
-                                text = item.source,
+                                text = item.name,
                                 modifier = modifier
                                     .fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.surfaceContainerHighest)
@@ -453,9 +453,9 @@ private fun PreviewDelConfDialog() {
 private fun PreviewSourceListDialog() {
     SourceListDialog(
         items = listOf(
-            Source(sourceId = 1, source = "横浜銀行"),
-            Source(sourceId = 2, source = "三井住友銀行"),
-            Source(sourceId = 3, source = "PayPay銀行"),
+            Source(id = 1, name = "横浜銀行"),
+            Source(id = 2, name = "三井住友銀行"),
+            Source(id = 3, name = "PayPay銀行"),
         ),
         onDismissRequest = {},
         onClickItem = {},

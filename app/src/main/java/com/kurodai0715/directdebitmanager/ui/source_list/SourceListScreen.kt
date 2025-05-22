@@ -123,7 +123,7 @@ fun TransSourceItem(
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(source.source)
+        Text(source.name)
     }
 }
 

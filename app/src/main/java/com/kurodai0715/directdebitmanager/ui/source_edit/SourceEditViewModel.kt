@@ -45,8 +45,8 @@ class SourceEditViewModel @Inject constructor(
     fun updateTransSource(source: Source) {
         _uiState.update {
             it.copy(
-                id = source.sourceId,
-                source = source.source,
+                id = source.id,
+                source = source.name,
             )
         }
     }

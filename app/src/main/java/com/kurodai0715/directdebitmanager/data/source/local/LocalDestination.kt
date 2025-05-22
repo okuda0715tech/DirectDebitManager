@@ -13,9 +13,9 @@ data class LocalDestination(
      * ID は自動採番されます。
      */
     @PrimaryKey(autoGenerate = true)
-    val destId: Int = 0,
+    val id: Int = 0,
 
-    val destName: String,
+    val name: String,
 
     val sourceName: String,
 //    val date: String,

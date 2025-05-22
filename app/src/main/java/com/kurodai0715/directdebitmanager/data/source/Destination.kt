@@ -6,9 +6,9 @@ data class Destination(
      *
      * ID を自動採番したい場合は 0 を設定してください。
      */
-    val destId: Int = 0,
+    val id: Int = 0,
 
-    val destName: String,
+    val name: String,
 
     val sourceName: String,
 //    val date: String,

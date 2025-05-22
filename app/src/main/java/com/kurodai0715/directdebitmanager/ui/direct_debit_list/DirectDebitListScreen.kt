@@ -135,7 +135,7 @@ fun DirectDebitItem(
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(destination.destName)
+        Text(destination.name)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             stringResource(R.string.transfer_source),

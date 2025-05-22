@@ -6,7 +6,7 @@ data class Source(
      *
      * ID を自動採番したい場合は 0 を設定してください。
      */
-    val sourceId: Int = 0,
+    val id: Int = 0,
 
-    val source: String
+    val name: String
 )

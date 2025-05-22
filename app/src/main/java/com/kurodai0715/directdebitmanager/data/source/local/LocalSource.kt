@@ -12,8 +12,8 @@ data class LocalSource(
      * ID は自動採番されます。
      */
     @PrimaryKey(autoGenerate = true)
-    val sourceId: Int = 0,
+    val id: Int = 0,
 
-    val sourceName: String
+    val name: String
 
 )

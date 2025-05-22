@@ -62,7 +62,7 @@ fun NavGraphBuilder.editDestination(
             destination = if (destEdit.destId == null) {
                 null
             } else {
-                Destination(destId = destEdit.destId, destName = destEdit.destName!!, sourceName = destEdit.sourceName!!)
+                Destination(id = destEdit.destId, name = destEdit.destName!!, sourceName = destEdit.sourceName!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
@@ -107,7 +107,7 @@ fun NavGraphBuilder.sourceEditDestination(
             source = if (sourceEdit.sourceId == null) {
                 null
             } else {
-                Source(sourceId = sourceEdit.sourceId, source = sourceEdit.sourceName!!)
+                Source(id = sourceEdit.sourceId, name = sourceEdit.sourceName!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
@@ -128,8 +128,8 @@ fun NavGraphBuilder.sourceEditDestination(
 fun NavController.navigateToEditDestination(destination: Destination?) {
     navigate(
         DestEdit(
-            destId = destination?.destId,
-            destName = destination?.destName,
+            destId = destination?.id,
+            destName = destination?.name,
             sourceName = destination?.sourceName
         )
     )
@@ -149,8 +149,8 @@ fun NavController.popUpToListDestination() {
 fun NavController.navigateToSourceEditDestination(source: Source?) {
     navigate(
         SourceEdit(
-            sourceId = source?.sourceId,
-            sourceName = source?.source
+            sourceId = source?.id,
+            sourceName = source?.name
         )
     )
 }

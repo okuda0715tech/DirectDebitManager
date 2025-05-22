@@ -28,7 +28,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun upsert(id: Int, dest: String, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val destination = Destination(destId = id, destName = dest, sourceName = source)
+            val destination = Destination(id = id, name = dest, sourceName = source)
             resultSuccess = try {
                 localDataSource.upsert(destination.toLocal())
                 true
@@ -52,7 +52,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun delete(id: Int, dest: String, source: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val destination = Destination(destId = id, destName = dest, sourceName = source)
+            val destination = Destination(id = id, name = dest, sourceName = source)
             numOfDeleted = try {
                 localDataSource.delete(destination.toLocal())
             } catch (e: Exception) {
@@ -79,7 +79,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun upsert(id: Int, source: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val source = Source(sourceId = id, source = source)
+            val source = Source(id = id, name = source)
             resultSuccess = try {
                 localDataSource.upsert(source.toLocal())
                 true
@@ -102,7 +102,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun delete(id: Int, source: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val source = Source(sourceId = id, source = source)
+            val source = Source(id = id, name = source)
             numOfDeleted = try {
                 localDataSource.delete(source.toLocal())
             } catch (e: Exception) {

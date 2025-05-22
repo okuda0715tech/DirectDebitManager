@@ -89,8 +89,8 @@ class EditDirectDebitViewModel @Inject constructor(
 
     private fun updateSourceString(sourceId: Int, sources: List<Source>): String {
         for (source in sources) {
-            if (source.sourceId == sourceId) {
-                return source.source
+            if (source.id == sourceId) {
+                return source.name
             }
         }
         return ""
@@ -114,8 +114,8 @@ class EditDirectDebitViewModel @Inject constructor(
     fun updateDirectDebit(destination: Destination) {
         _uiState.update {
             it.copy(
-                id = destination.destId,
-                transferDest = destination.destName,
+                id = destination.id,
+                transferDest = destination.name,
                 transferSource = destination.sourceName,
             )
         }
