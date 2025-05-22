@@ -29,9 +29,6 @@ interface DirectDebitDao {
     @Query("SELECT * FROM source")
     fun observeTransSource(): Flow<List<LocalSource>>
 
-    @Query("SELECT * FROM source")
-    fun fetchTransSource(): List<LocalSource>
-
     /**
      * 振替元情報テーブルのレコードに対する Insert or Update.
      */
