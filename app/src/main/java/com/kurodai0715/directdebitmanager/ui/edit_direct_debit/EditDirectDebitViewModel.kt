@@ -51,11 +51,6 @@ class EditDirectDebitViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(EditDirectDebitUiState())
 
-    /**
-     * 読み取り専用.
-     */
-//    val uiState: StateFlow<EditDirectDebitUiState> = _uiState.asStateFlow()
-
     init {
         startCollectingSourceList()
     }
@@ -86,6 +81,9 @@ class EditDirectDebitViewModel @Inject constructor(
         .map { Async.Success(it) }
         .catch<Async<List<TransSource>>> { emit(Async.Error(R.string.fetch_error)) }
 
+    /**
+     * 読み取り専用.
+     */
     val uiState: StateFlow<EditDirectDebitUiState> =
         combine(_transSourcesAsync, _uiState) { transSourcesAsync, uiState ->
             when (transSourcesAsync) {
