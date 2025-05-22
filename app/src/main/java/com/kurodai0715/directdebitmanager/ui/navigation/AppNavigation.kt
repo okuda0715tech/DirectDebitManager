@@ -25,6 +25,7 @@ data object DestList
 data class DestEdit(
     val destId: Int? = null,
     val destName: String? = null,
+    val sourceId: Int? = null,
     val sourceName: String? = null
 )
 
@@ -62,7 +63,7 @@ fun NavGraphBuilder.editDestination(
             destination = if (destEdit.destId == null) {
                 null
             } else {
-                Destination(id = destEdit.destId, name = destEdit.destName!!, sourceName = destEdit.sourceName!!)
+                Destination(id = destEdit.destId, name = destEdit.destName!!, sourceId = destEdit.sourceId!!,sourceName = destEdit.sourceName!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
@@ -130,6 +131,7 @@ fun NavController.navigateToEditDestination(destination: Destination?) {
         DestEdit(
             destId = destination?.id,
             destName = destination?.name,
+            sourceId = destination?.sourceId,
             sourceName = destination?.sourceName
         )
     )

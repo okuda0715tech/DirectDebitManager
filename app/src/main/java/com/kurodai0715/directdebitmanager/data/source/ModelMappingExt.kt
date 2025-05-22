@@ -6,6 +6,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 fun LocalDestination.toExternal() = Destination(
     id = id,
     name = name,
+    sourceId = sourceId,
     sourceName = sourceName,
 //    date = date,
 //    amount = amount.toString(),
@@ -14,6 +15,7 @@ fun LocalDestination.toExternal() = Destination(
 fun Destination.toLocal() = LocalDestination(
     id = id,
     name = name,
+    sourceId = sourceId,
     sourceName = sourceName,
 //    date = date,
 //    amount = amount.toString(),

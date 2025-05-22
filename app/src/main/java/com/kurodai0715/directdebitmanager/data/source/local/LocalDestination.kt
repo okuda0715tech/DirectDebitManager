@@ -17,6 +17,8 @@ data class LocalDestination(
 
     val name: String,
 
+    val sourceId: Int,
+
     val sourceName: String,
 //    val date: String,
 //    val amount: Int,

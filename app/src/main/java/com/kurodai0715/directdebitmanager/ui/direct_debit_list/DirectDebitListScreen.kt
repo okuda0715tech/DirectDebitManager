@@ -154,8 +154,8 @@ private fun Preview() {
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
-            Destination(1, "横浜銀行クレジットカード", "横浜銀行"),
-            Destination(2, "Oliveクレジットカード", "三井住友銀行")
+            Destination(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
+            Destination(2, "Oliveクレジットカード", 2, "三井住友銀行")
         ),
         onNavigateToEdit = { })
 }

@@ -156,6 +156,7 @@ class EditDirectDebitViewModel @Inject constructor(
             val resultSuccess = directDebitDefRepo.upsert(
                 id = uiState.value.id,
                 dest = uiState.value.transferDest,
+                sourceId = uiState.value.sourceId,
                 source = uiState.value.transferSource
             )
 
@@ -190,6 +191,7 @@ class EditDirectDebitViewModel @Inject constructor(
             val numOfDeleted = directDebitDefRepo.delete(
                 id = uiState.value.id,
                 dest = uiState.value.transferDest,
+                sourceId = uiState.value.sourceId,
                 source = uiState.value.transferSource
             )
 
