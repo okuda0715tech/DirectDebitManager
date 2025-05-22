@@ -53,7 +53,8 @@ class EditDirectDebitViewModel @Inject constructor(
         .map { Async.Success(it) }
         .catch<Async<List<TransSource>>> {
             Log.e(TAG, "Failed to read trans sources.", it)
-            emit(Async.Error(R.string.fetch_error)) }
+            emit(Async.Error(R.string.fetch_error))
+        }
 
     /**
      * 読み取り専用.
@@ -71,6 +72,10 @@ class EditDirectDebitViewModel @Inject constructor(
 
                 is Async.Success -> {
                     uiState.copy(
+                        transferSource = updateSourceString(
+                            sourceId = uiState.sourceId,
+                            sources = transSourcesAsync.data
+                        ),
                         sources = transSourcesAsync.data,
                         isLoading = false,
                     )
@@ -81,6 +86,15 @@ class EditDirectDebitViewModel @Inject constructor(
             started = WhileUiSubscribed,
             initialValue = EditDirectDebitUiState(isLoading = true)
         )
+
+    private fun updateSourceString(sourceId: Int, sources: List<TransSource>): String {
+        for (source in sources) {
+            if (source.id == sourceId) {
+                return source.source
+            }
+        }
+        return ""
+    }
 
     fun updateDest(dest: String) {
         _uiState.update {
