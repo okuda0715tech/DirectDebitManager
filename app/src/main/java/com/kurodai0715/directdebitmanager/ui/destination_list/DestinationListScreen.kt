@@ -37,11 +37,11 @@ import com.kurodai0715.directdebitmanager.ui.component.AppUncertainCircularIndic
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
-private const val TAG = "DirectDebitListScreen.kt"
+private const val TAG = "DestinationListScreen.kt"
 
 @Composable
-fun DirectDebitListScreen(
-    viewModel: DirectDebitListViewModel = hiltViewModel(),
+fun DestinationListScreen(
+    viewModel: DestinationListViewModel = hiltViewModel(),
     onNavigateToEdit: (Destination?) -> Unit,
 ) {
 

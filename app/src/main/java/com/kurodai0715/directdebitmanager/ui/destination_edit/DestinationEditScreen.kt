@@ -54,8 +54,8 @@ import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun EditDirectDebitScreen(
-    viewModel: EditDirectDebitViewModel = hiltViewModel(),
+fun DestinationEditScreen(
+    viewModel: DestinationEditViewModel = hiltViewModel(),
     destination: Destination?,
     onNavigateUp: () -> Unit,
     onNavigateToDelComp: () -> Unit,

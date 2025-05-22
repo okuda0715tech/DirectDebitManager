@@ -20,9 +20,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val TAG = "EditDirectDebitViewModel.kt"
+const val TAG = "DestinationEditViewModel.kt"
 
-data class EditDirectDebitUiState(
+data class DestinationEditUiState(
     val id: Int = 0,
     val transferDest: String = "",
     val sourceId: Int = 0,
@@ -40,14 +40,14 @@ data class EditDirectDebitUiState(
 
 
 @HiltViewModel
-class EditDirectDebitViewModel @Inject constructor(
+class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(EditDirectDebitUiState())
+    private val _uiState = MutableStateFlow(DestinationEditUiState())
 
     private val _SourcesAsync = directDebitDefRepo.fetchTransSourceStream()
         .map { Async.Success(it) }
@@ -59,7 +59,7 @@ class EditDirectDebitViewModel @Inject constructor(
     /**
      * 読み取り専用.
      */
-    val uiState: StateFlow<EditDirectDebitUiState> =
+    val uiState: StateFlow<DestinationEditUiState> =
         combine(_SourcesAsync, _uiState) { transSourcesAsync, uiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
@@ -84,7 +84,7 @@ class EditDirectDebitViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = WhileUiSubscribed,
-            initialValue = EditDirectDebitUiState(isLoading = true)
+            initialValue = DestinationEditUiState(isLoading = true)
         )
 
     private fun updateSourceString(sourceId: Int, sources: List<Source>): String {

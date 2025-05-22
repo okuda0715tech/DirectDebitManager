@@ -17,16 +17,16 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-private const val TAG = "DirectDebitListViewModel.kt"
+private const val TAG = "DestinationListViewModel.kt"
 
-data class DirectDebitsUiState(
+data class DestinationListUiState(
     val items: List<Destination> = emptyList(),
     val isLoading: Boolean = false,
     val userMessage: Int? = null
 )
 
 @HiltViewModel
-class DirectDebitListViewModel @Inject constructor(
+class DestinationListViewModel @Inject constructor(
     directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
@@ -38,20 +38,20 @@ class DirectDebitListViewModel @Inject constructor(
             Log.e(TAG, "fetchDirectDebitStream failed.", e)
             emit(Async.Error(R.string.fetch_error)) }
 
-    val uiState: StateFlow<DirectDebitsUiState> =
+    val uiState: StateFlow<DestinationListUiState> =
         combine(_destinationAsync, _userMessage) { directDebitAsync, userMessage ->
 
             when (directDebitAsync) {
                 is Async.Loading -> {
-                    DirectDebitsUiState(isLoading = true)
+                    DestinationListUiState(isLoading = true)
                 }
 
                 is Async.Error -> {
-                    DirectDebitsUiState(userMessage = directDebitAsync.errorMessage)
+                    DestinationListUiState(userMessage = directDebitAsync.errorMessage)
                 }
 
                 is Async.Success -> {
-                    DirectDebitsUiState(
+                    DestinationListUiState(
                         items = directDebitAsync.data,
                         isLoading = false,
                         userMessage = userMessage,
@@ -61,7 +61,7 @@ class DirectDebitListViewModel @Inject constructor(
         }.stateIn(
             scope = viewModelScope,
             started = WhileUiSubscribed,
-            initialValue = DirectDebitsUiState(isLoading = true)
+            initialValue = DestinationListUiState(isLoading = true)
         )
 
     fun snackbarMessageShown() {
