@@ -3,7 +3,7 @@ package com.kurodai0715.directdebitmanager.data.source.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "direct_debit")
+@Entity(tableName = "destination")
 data class LocalDestination(
 
     /**

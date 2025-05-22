@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DirectDebitDao {
 
-    @Query("SELECT * FROM direct_debit")
+    @Query("SELECT * FROM destination")
     fun observeDirectDebit(): Flow<List<LocalDestination>>
 
     /**
