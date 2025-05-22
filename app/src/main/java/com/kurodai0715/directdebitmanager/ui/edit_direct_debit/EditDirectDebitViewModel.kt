@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.edit_direct_debit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
@@ -50,7 +51,9 @@ class EditDirectDebitViewModel @Inject constructor(
 
     private val _transSourcesAsync = directDebitDefRepo.fetchTransSourceStream()
         .map { Async.Success(it) }
-        .catch<Async<List<TransSource>>> { emit(Async.Error(R.string.fetch_error)) }
+        .catch<Async<List<TransSource>>> {
+            Log.e(TAG, "Failed to read trans sources.", it)
+            emit(Async.Error(R.string.fetch_error)) }
 
     /**
      * 読み取り専用.
