@@ -51,32 +51,6 @@ class EditDirectDebitViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(EditDirectDebitUiState())
 
-    init {
-        startCollectingSourceList()
-    }
-
-    private fun startCollectingSourceList() {
-        viewModelScope.launch {
-            directDebitDefRepo.fetchTransSourceStream()
-                .catch {
-                    Log.e(TAG, "$it")
-
-                    _uiState.update {
-                        it.copy(
-                            userMessage = R.string.fetch_error
-                        )
-                    }
-                }
-                .collect { sources ->
-                    _uiState.update {
-                        it.copy(
-                            sources = sources
-                        )
-                    }
-                }
-        }
-    }
-
     private val _transSourcesAsync = directDebitDefRepo.fetchTransSourceStream()
         .map { Async.Success(it) }
         .catch<Async<List<TransSource>>> { emit(Async.Error(R.string.fetch_error)) }
