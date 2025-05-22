@@ -16,8 +16,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-private const val TAG = "DirectDebitListViewModel.kt"
-
 data class DirectDebitsUiState(
     val items: List<Destination> = emptyList(),
     val isLoading: Boolean = false,

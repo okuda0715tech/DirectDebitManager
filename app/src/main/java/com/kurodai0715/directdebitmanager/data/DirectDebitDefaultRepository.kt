@@ -33,6 +33,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                 localDataSource.upsert(destination.toLocal())
                 true
             } catch (e: Exception) {
+                Log.e(TAG, "$e")
                 false
             }
             Log.d(TAG, "resultSuccess = $resultSuccess")
@@ -120,19 +121,6 @@ class DirectDebitDefaultRepository @Inject constructor(
         return localDataSource.observeTransSource().map { localTransSources ->
             localTransSources.map { it.toExternal() }
         }
-    }
-
-    /**
-     * 振替元情報を取得するワンショット処理.
-     */
-    suspend fun fetchTransSource(): List<TransSource> {
-        val result: List<TransSource>
-        withContext(ioDispatcher) {
-            result = localDataSource.fetchTransSource().map { localTransSource ->
-                localTransSource.toExternal()
-            }
-        }
-        return result
     }
 
 }
