@@ -32,7 +32,7 @@ data class DestEdit(
 @Serializable
 data object DelComp
 
-fun NavGraphBuilder.listDestination(
+fun NavGraphBuilder.destListDestination(
     onNavigateToEdit: (Destination?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
@@ -51,7 +51,7 @@ data class SourceEdit(
     val sourceName: String? = null,
 )
 
-fun NavGraphBuilder.editDestination(
+fun NavGraphBuilder.destEditDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
     onNavigateToDelComp: () -> Unit,
