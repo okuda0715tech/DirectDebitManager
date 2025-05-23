@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
-import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
@@ -91,7 +89,6 @@ fun NavGraphBuilder.sourceListDestination(
 fun NavGraphBuilder.sourceEditDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
-    onNavigateToDelComp: () -> Unit,
 ) {
     composable<SourceEdit> { backStackEntry ->
         val sourceEdit: SourceEdit = backStackEntry.toRoute()
@@ -103,7 +100,6 @@ fun NavGraphBuilder.sourceEditDestination(
                 Source(id = sourceEdit.sourceId, name = sourceEdit.sourceName!!)
             },
             onNavigateUp = onNavigateUp,
-            onNavigateToDelComp = onNavigateToDelComp,
         )
 
         Log.d(TAG, "sourceEdit.id = ${sourceEdit.sourceId}")
@@ -146,13 +142,6 @@ fun NavController.navigateToSourceEditDestination(source: Source?) {
             sourceName = source?.name
         )
     )
-}
-
-fun NavController.popUpToSourceListDestination() {
-    navigate(SourceList) {
-        popUpTo(SourceList)
-        launchSingleTop = true
-    }
 }
 
 fun NavController.navigateToSourceListDestination() {

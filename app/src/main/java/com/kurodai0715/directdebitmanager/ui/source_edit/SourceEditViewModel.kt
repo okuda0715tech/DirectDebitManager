@@ -18,13 +18,14 @@ data class SourceEditUiState(
     val sourceName: String = "",
     val userMessage: Int? = null,
     val showDelConfDialog: Boolean = false,
-    val showDelCompDialog: Boolean = false
+    val showDelCompDialog: Boolean = false,
+    val navigationUpEventConsumed: Boolean = true,
 )
 
 @HiltViewModel
 class SourceEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
-): ViewModel() {
+) : ViewModel() {
 
     /**
      * 更新用.
@@ -54,6 +55,18 @@ class SourceEditViewModel @Inject constructor(
     fun updateDelConfDialogVisibility(show: Boolean) {
         _uiState.update {
             it.copy(showDelConfDialog = show)
+        }
+    }
+
+    fun updateDelCompDialogVisibility(show: Boolean) {
+        _uiState.update {
+            it.copy(showDelCompDialog = show)
+        }
+    }
+
+    fun updateNavigateUpEventConsumed(value: Boolean) {
+        _uiState.update {
+            it.copy(navigationUpEventConsumed = value)
         }
     }
 
