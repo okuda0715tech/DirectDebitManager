@@ -129,7 +129,7 @@ fun SourceEditContents(
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_delete),
                 centerText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_save)
+                rightText = stringResource(R.string.common_update)
             )
         } else {
             HorizontalTwoButton(
@@ -144,11 +144,11 @@ fun SourceEditContents(
 
 @Preview
 @Composable
-private fun PreviewRegisterContents() {
+private fun PreviewUpdateContents() {
     SourceEditContents(
         source = "横浜銀行",
         onSourceChanged = {},
-        itemId = 0,
+        itemId = 1,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
@@ -157,11 +157,11 @@ private fun PreviewRegisterContents() {
 
 @Preview
 @Composable
-private fun PreviewUpdateContents() {
+private fun PreviewRegisterContents() {
     SourceEditContents(
         source = "横浜銀行",
         onSourceChanged = {},
-        itemId = 1,
+        itemId = 0,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},

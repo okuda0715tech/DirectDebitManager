@@ -258,7 +258,7 @@ fun EditDirectDebitContents(
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_delete),
                 centerText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_save)
+                rightText = stringResource(R.string.common_update)
             )
         } else {
             HorizontalTwoButton(
@@ -273,12 +273,12 @@ fun EditDirectDebitContents(
 
 @Preview
 @Composable
-private fun PreviewRegisterContents() {
+private fun PreviewUpdateContents() {
     EditDirectDebitContents(
         transferDest = "横浜銀行クレジットカード",
         onDestChanged = {},
         transferSource = "横浜銀行",
-        itemId = 0,
+        itemId = 1,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
@@ -289,12 +289,12 @@ private fun PreviewRegisterContents() {
 
 @Preview
 @Composable
-private fun PreviewUpdateContents() {
+private fun PreviewRegisterContents() {
     EditDirectDebitContents(
         transferDest = "横浜銀行クレジットカード",
         onDestChanged = {},
         transferSource = "横浜銀行",
-        itemId = 1,
+        itemId = 0,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},

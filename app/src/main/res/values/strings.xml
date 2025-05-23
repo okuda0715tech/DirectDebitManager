@@ -48,7 +48,10 @@
     <string name="common_back">戻る</string>
     <string name="common_save">保存</string>
     <string name="common_add">追加</string>
+    <!-- 「変更」は変更画面に遷移する際に使用 -->
     <string name="common_edit">変更</string>
+    <!-- 「更新」はデータを実際に保存する際に使用 -->
+    <string name="common_update">更新</string>
     <string name="common_save_successfully">新規に作成しました。</string>
     <string name="common_update_successfully">更新しました。</string>
     <string name="common_save_failed">保存に失敗しました。</string>
