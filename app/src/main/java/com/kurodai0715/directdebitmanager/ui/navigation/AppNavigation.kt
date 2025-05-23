@@ -11,7 +11,7 @@ import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
-import com.kurodai0715.directdebitmanager.ui.delete_completion.DeleteCompletionDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
