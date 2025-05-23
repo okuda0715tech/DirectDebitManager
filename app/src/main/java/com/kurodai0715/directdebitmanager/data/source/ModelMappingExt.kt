@@ -38,10 +38,3 @@ fun LocalDestWithSource.toExternal() = DestWithSource(
     sourceId = sourceId,
     sourceName = sourceName,
 )
-
-fun DestWithSource.toLocal() = LocalDestWithSource(
-    destId = destId,
-    destName = destName,
-    sourceId = sourceId,
-    sourceName = sourceName,
-)
