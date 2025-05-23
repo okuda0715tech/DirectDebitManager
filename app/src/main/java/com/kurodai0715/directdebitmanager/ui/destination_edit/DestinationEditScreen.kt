@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -43,7 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Destination
-import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
@@ -278,81 +277,6 @@ fun EditDirectDebitContents(
     }
 }
 
-@Composable
-fun DeleteConfirmDialog(
-    onDismissRequest: () -> Unit,
-    onClickNo: () -> Unit,
-    onClickYes: () -> Unit,
-) {
-    AlertDialog(
-        icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_delete_outline_24),
-                contentDescription = stringResource(id = R.string.del_conf_icon_description),
-                modifier = Modifier.size(ICON_EX_LARGE_SIZE),
-            )
-        },
-        title = {
-            Text(text = stringResource(R.string.del_conf_title))
-        },
-        text = {
-            Text(text = stringResource(R.string.del_conf_text))
-        },
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(onClick = {
-                debouncedClick {
-                    onClickYes()
-                    onDismissRequest()
-                }
-            }) {
-                Text(stringResource(R.string.common_yes))
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = {
-                debouncedClick {
-                    onClickNo()
-                    onDismissRequest()
-                }
-            }) {
-                Text(stringResource(R.string.common_no))
-            }
-        })
-}
-
-@Composable
-fun NoSourceDataDialog(
-    onDismissRequest: () -> Unit,
-) {
-
-    AlertDialog(
-        icon = {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_info_outline_24),
-                contentDescription = stringResource(id = R.string.usage_rules_icon_description),
-                modifier = Modifier.size(ICON_EX_LARGE_SIZE),
-            )
-        },
-        title = {
-            Text(text = stringResource(R.string.no_source_data_title))
-        },
-        text = {
-            Text(text = stringResource(R.string.no_source_data_text))
-        },
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(onClick = {
-                debouncedClick {
-                    onDismissRequest()
-                }
-            }) {
-                Text(stringResource(R.string.common_close))
-            }
-        },
-    )
-}
-
 @Preview
 @Composable
 private fun PreviewRegisterContents() {
@@ -382,23 +306,5 @@ private fun PreviewUpdateContents() {
         onClickSave = {},
         onClickSource = {},
         onClickEditSource = {},
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewDelConfDialog() {
-    DeleteConfirmDialog(
-        onDismissRequest = {},
-        onClickNo = {},
-        onClickYes = {}
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewNoSourceDataDialog() {
-    NoSourceDataDialog(
-        onDismissRequest = {},
     )
 }

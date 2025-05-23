@@ -31,7 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.destination_edit.DeleteConfirmDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.destination_edit.TAG
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
