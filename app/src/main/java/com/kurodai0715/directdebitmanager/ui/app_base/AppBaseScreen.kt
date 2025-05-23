@@ -152,12 +152,6 @@ fun AppDrawerContent(
         )
 
         NavigationDrawerItem(
-            label = { Text(text = stringResource(R.string.source_info)) },
-            selected = selectedItem is SourceList,
-            onClick = { debouncedClick { onClickItem(SourceList) } }
-        )
-
-        NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.privacy_policy)) },
             selected = false,
             onClick = {
