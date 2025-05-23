@@ -302,3 +302,19 @@ private fun PreviewRegisterContents() {
         onClickEditSource = {},
     )
 }
+
+@Preview
+@Composable
+private fun PreviewEmptyTextContents() {
+    EditDirectDebitContents(
+        transferDest = "",
+        onDestChanged = {},
+        transferSource = "",
+        itemId = 0,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+        onClickSource = {},
+        onClickEditSource = {},
+    )
+}
