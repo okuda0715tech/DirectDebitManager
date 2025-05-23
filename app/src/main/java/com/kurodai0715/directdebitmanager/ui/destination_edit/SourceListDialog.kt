@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.ui.common_ui.OneOutlinedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -65,9 +65,10 @@ fun SourceListDialog(
 
                 HorizontalDivider()
 
-                OutlinedButton(onClick = { debouncedClick(onClickEdit) }) {
-                    Text(text = stringResource(R.string.common_edit))
-                }
+                OneOutlinedButton(
+                    onClick = {debouncedClick(onClickEdit)},
+                    text = stringResource(R.string.common_edit)
+                )
             }
         }
     }
