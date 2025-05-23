@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.component
+package com.kurodai0715.directdebitmanager.ui.common_ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
