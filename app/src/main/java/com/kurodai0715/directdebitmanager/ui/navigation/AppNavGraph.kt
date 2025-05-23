@@ -45,11 +45,11 @@ fun AppNavGraph(
 
         delCompDestination(
             onNavigateToList = {
-                val hasList = navController.graph.findStartDestination().hasRoute<DestList>()
+                val hasDestList = navController.graph.findStartDestination().hasRoute<DestList>()
                 val hasSourceList =
                     navController.graph.findStartDestination().hasRoute<SourceList>()
 
-                if (hasList) {
+                if (hasDestList) {
                     navController.popUpToListDestination()
                 } else if (hasSourceList) {
                     navController.popUpToSourceListDestination()
