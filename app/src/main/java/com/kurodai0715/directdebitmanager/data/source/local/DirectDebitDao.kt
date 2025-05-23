@@ -43,4 +43,9 @@ interface DirectDebitDao {
     @Delete
     suspend fun deleteSource(source: LocalSource): Int
 
+    @Query("SELECT d.id destId, d.name destName, s.id sourceId, s.name sourceName " +
+            "FROM destination d " +
+            "INNER JOIN source s " +
+            "ON d.sourceId = s.id")
+    fun observeDestWithSource(): Flow<List<LocalDestWithSource>>
 }

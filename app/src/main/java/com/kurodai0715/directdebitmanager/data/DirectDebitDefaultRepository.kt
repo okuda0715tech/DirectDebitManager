@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
+import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
@@ -23,7 +24,7 @@ class DirectDebitDefaultRepository @Inject constructor(
 ) {
 
     /**
-     * 口座振替情報を DB へ登録する.
+     * 振替先情報を DB へ登録する.
      */
     suspend fun upsertDestination(id: Int, dest: String, sourceId: Int, source: String): Boolean {
         var resultSuccess: Boolean
@@ -42,7 +43,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 口座振替情報を DB から削除する.
+     * 振替先情報を DB から削除する.
      *
      * @param id 削除するレコードの id
      * @param dest 削除するレコードの destination
@@ -65,7 +66,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 口座振替情報を取得するストリーム.
+     * 振替先情報を取得するストリーム.
      */
     fun fetchDestinationsStream(): Flow<List<Destination>> {
         return localDataSource.observeDestinations().map { localDirectDebits ->
@@ -123,5 +124,13 @@ class DirectDebitDefaultRepository @Inject constructor(
         }
     }
 
+    /**
+     * 振替先と振替元を取得するストリーム.
+     */
+    fun fetchDestWithSourcesStream(): Flow<List<DestWithSource>> {
+        return localDataSource.observeDestWithSource().map { localDestWithSource ->
+            localDestWithSource.map { it.toExternal() }
+        }
+    }
 }
 

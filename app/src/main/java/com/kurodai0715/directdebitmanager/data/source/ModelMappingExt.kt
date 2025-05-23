@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.data.source
 
+import com.kurodai0715.directdebitmanager.data.source.local.LocalDestWithSource
 import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 
@@ -29,4 +30,18 @@ fun LocalSource.toExternal() = Source(
 fun Source.toLocal() = LocalSource(
     id = id,
     name = name,
+)
+
+fun LocalDestWithSource.toExternal() = DestWithSource(
+    destId = destId,
+    destName = destName,
+    sourceId = sourceId,
+    sourceName = sourceName,
+)
+
+fun DestWithSource.toLocal() = LocalDestWithSource(
+    destId = destId,
+    destName = destName,
+    sourceId = sourceId,
+    sourceName = sourceName,
 )
