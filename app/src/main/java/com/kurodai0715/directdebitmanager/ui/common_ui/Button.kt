@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun SurfaceButton(
@@ -68,16 +67,16 @@ fun HorizontalThreeButton(
         modifier = Modifier.padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        TextButton(onClick = { debouncedClick(onClickLeft) }) {
+        TextButton(onClick = { onClickLeft() }) {
             Text(
                 text = leftText,
                 color = MaterialTheme.colorScheme.error,
             )
         }
-        OutlinedButton(onClick = { debouncedClick(onClickCenter) }) {
+        OutlinedButton(onClick = { onClickCenter() }) {
             Text(centerText)
         }
-        Button(onClick = { debouncedClick(onClickRight) }) {
+        Button(onClick = { onClickRight() }) {
             Text(rightText)
         }
     }
@@ -108,10 +107,10 @@ fun HorizontalTwoButton(
         modifier = Modifier.padding(16.dp),
         horizontalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        OutlinedButton(onClick = { debouncedClick(onClickLeft) }) {
+        OutlinedButton(onClick = { onClickLeft() }) {
             Text(leftText)
         }
-        Button(onClick = { debouncedClick(onClickRight) }) {
+        Button(onClick = { onClickRight() }) {
             Text(rightText)
         }
     }
@@ -125,5 +124,30 @@ private fun PreviewHorizontalTwoButton() {
         onClickRight = {},
         leftText = stringResource(R.string.common_back),
         rightText = stringResource(R.string.common_save)
+    )
+}
+
+@Composable
+fun OneButton(
+    onClick: () -> Unit,
+    text: String,
+) {
+
+    Row(
+        modifier = Modifier.padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        Button(onClick = { onClick() }) {
+            Text(text)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewOneButton() {
+    OneButton(
+        onClick = {},
+        text = stringResource(R.string.common_save)
     )
 }

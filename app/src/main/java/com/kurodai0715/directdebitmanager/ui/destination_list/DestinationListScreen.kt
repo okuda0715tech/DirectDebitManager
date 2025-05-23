@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,6 +33,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppUncertainCircularIndicator
+import com.kurodai0715.directdebitmanager.ui.common_ui.OneButton
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -108,9 +108,10 @@ fun ListScreenContents(
 
         HorizontalDivider()
 
-        Button(onClick = { debouncedClick { onNavigateToEdit(null) } }) {
-            Text(stringResource(R.string.common_add))
-        }
+        OneButton(
+            onClick = { debouncedClick { onNavigateToEdit(null) } },
+            text = stringResource(R.string.common_add)
+        )
     }
 }
 

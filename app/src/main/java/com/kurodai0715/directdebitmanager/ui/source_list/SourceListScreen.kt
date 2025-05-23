@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -31,6 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppUncertainCircularIndicator
+import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -40,6 +40,7 @@ private const val TAG = "SourceListScreen.kt"
 fun SourceListScreen(
     viewModel: SourceListViewModel = hiltViewModel(),
     onNavigateToEdit: (Source?) -> Unit,
+    onNavigateUp: () -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -61,7 +62,8 @@ fun SourceListScreen(
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
             items = uiState.items,
-            onNavigateToEdit = onNavigateToEdit
+            onNavigateToEdit = onNavigateToEdit,
+            onNavigateUp = onNavigateUp,
         )
 
         if (uiState.isLoading) {
@@ -75,6 +77,7 @@ fun SourceListContents(
     modifier: Modifier = Modifier,
     items: List<Source>,
     onNavigateToEdit: (Source?) -> Unit,
+    onNavigateUp: () -> Unit,
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -96,9 +99,12 @@ fun SourceListContents(
 
         HorizontalDivider()
 
-        Button(onClick = { debouncedClick { onNavigateToEdit(null) } }) {
-            Text(stringResource(R.string.common_add))
-        }
+        HorizontalTwoButton(
+            onClickLeft = { debouncedClick(onNavigateUp) },
+            onClickRight = { debouncedClick { onNavigateToEdit(null) } },
+            leftText = stringResource(R.string.common_back),
+            rightText = stringResource(R.string.common_add)
+        )
     }
 }
 
@@ -138,5 +144,7 @@ private fun Preview() {
             Source(1, "横浜銀行クレジットカード"),
             Source(2, "横浜銀行")
         ),
-        onNavigateToEdit = { })
+        onNavigateUp = { },
+        onNavigateToEdit = { },
+    )
 }

@@ -38,6 +38,9 @@ fun AppNavGraph(
         }
 
         sourceListDestination(
+            onNavigateUp = {
+                navController.navigateUp()
+            },
             onNavigateToEdit = { selectedItem ->
                 navController.navigateToSourceEditDestination(selectedItem)
             },

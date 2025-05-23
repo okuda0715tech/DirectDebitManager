@@ -9,10 +9,10 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
-import com.kurodai0715.directdebitmanager.ui.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.destination_edit.DestinationEditScreen
+import com.kurodai0715.directdebitmanager.ui.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
+import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
 import kotlinx.serialization.Serializable
 
 private const val TAG = "AppNavigation.kt"
@@ -57,7 +57,11 @@ fun NavGraphBuilder.destEditDestination(
             destination = if (destEdit.destId == null) {
                 null
             } else {
-                Destination(id = destEdit.destId, name = destEdit.destName!!, sourceId = destEdit.sourceId!!)
+                Destination(
+                    id = destEdit.destId,
+                    name = destEdit.destName!!,
+                    sourceId = destEdit.sourceId!!
+                )
             },
             onNavigateUp = onNavigateUp,
             onNavigateToSourceList = onNavigateToSourceList,
@@ -74,11 +78,15 @@ fun NavGraphBuilder.destEditDestination(
 }
 
 fun NavGraphBuilder.sourceListDestination(
+    onNavigateUp: () -> Unit,
     onNavigateToEdit: (Source?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<SourceList> {
-        SourceListScreen(onNavigateToEdit = onNavigateToEdit)
+        SourceListScreen(
+            onNavigateUp = onNavigateUp,
+            onNavigateToEdit = onNavigateToEdit
+        )
         onChangeTitle(R.string.source_list_title)
     }
 }
