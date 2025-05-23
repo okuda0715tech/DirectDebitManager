@@ -87,9 +87,9 @@ fun DestinationEditScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            transferDest = uiState.destName,
+            destName = uiState.destName,
             onDestChanged = { viewModel.updateDest(it) },
-            transferSource = uiState.sourceName,
+            sourceName = uiState.sourceName,
             itemId = uiState.destId,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
@@ -126,10 +126,10 @@ fun DestinationEditScreen(
                     items = uiState.sources,
                     onDismissRequest = { viewModel.updateSourceListDialogVisibility(false) },
                     onClickItem = { index ->
-                        val transSource = uiState.sources[index]
+                        val source = uiState.sources[index]
                         viewModel.updateSource(
-                            sourceId = transSource.id,
-                            source = transSource.name
+                            sourceId = source.id,
+                            source = source.name
                         )
                     },
                     onClickEdit = {
@@ -156,9 +156,9 @@ fun DestinationEditScreen(
 @Composable
 fun EditDirectDebitContents(
     modifier: Modifier = Modifier,
-    transferDest: String,
+    destName: String,
     onDestChanged: (String) -> Unit,
-    transferSource: String,
+    sourceName: String,
     itemId: Int,
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
@@ -171,9 +171,9 @@ fun EditDirectDebitContents(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         TextField(
-            value = transferDest,
+            value = destName,
             onValueChange = onDestChanged,
-            label = { Text(stringResource(R.string.transfer_dest)) },
+            label = { Text(stringResource(R.string.destination_text_label)) },
             modifier = Modifier.fillMaxWidth(),
         )
         SurfaceButton(
@@ -196,9 +196,9 @@ fun EditDirectDebitContents(
                     modifier = Modifier.weight(1f),
                     verticalArrangement = Arrangement.Center
                 ) {
-                    if (transferSource.isEmpty()) {
+                    if (sourceName.isEmpty()) {
                         Text(
-                            text = stringResource(R.string.transfer_source),
+                            text = stringResource(R.string.source_text_label),
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 lineHeight = 24.sp,
@@ -207,7 +207,7 @@ fun EditDirectDebitContents(
                         )
                     } else {
                         Text(
-                            text = stringResource(R.string.transfer_source),
+                            text = stringResource(R.string.source_text_label),
                             style = TextStyle(
                                 fontSize = 12.sp,
                                 lineHeight = 16.sp,
@@ -216,7 +216,7 @@ fun EditDirectDebitContents(
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
-                            text = transferSource,
+                            text = sourceName,
                             style = TextStyle(
                                 fontSize = 16.sp,
                                 lineHeight = 22.sp,
@@ -275,9 +275,9 @@ fun EditDirectDebitContents(
 @Composable
 private fun PreviewUpdateContents() {
     EditDirectDebitContents(
-        transferDest = "横浜銀行クレジットカード",
+        destName = "横浜銀行クレジットカード",
         onDestChanged = {},
-        transferSource = "横浜銀行",
+        sourceName = "横浜銀行",
         itemId = 1,
         onClickDelete = {},
         onNavigateUp = {},
@@ -291,9 +291,9 @@ private fun PreviewUpdateContents() {
 @Composable
 private fun PreviewRegisterContents() {
     EditDirectDebitContents(
-        transferDest = "横浜銀行クレジットカード",
+        destName = "横浜銀行クレジットカード",
         onDestChanged = {},
-        transferSource = "横浜銀行",
+        sourceName = "横浜銀行",
         itemId = 0,
         onClickDelete = {},
         onNavigateUp = {},
@@ -307,9 +307,9 @@ private fun PreviewRegisterContents() {
 @Composable
 private fun PreviewEmptyTextContents() {
     EditDirectDebitContents(
-        transferDest = "",
+        destName = "",
         onDestChanged = {},
-        transferSource = "",
+        sourceName = "",
         itemId = 0,
         onClickDelete = {},
         onNavigateUp = {},

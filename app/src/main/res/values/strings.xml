@@ -21,8 +21,8 @@
     <string name="fetch_error">データの取得に失敗しました。</string>
 
     <!-- 口座振替 編集 画面 -->
-    <string name="transfer_dest">振替先（支払対象）</string>
-    <string name="transfer_source">振替元（銀行・クレカ等）</string>
+    <string name="destination_text_label">振替先（支払対象）</string>
+    <string name="source_text_label">振替元（銀行・クレカ等）</string>
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
     <string name="edit_source_icon_description">振替元編集アイコン</string>

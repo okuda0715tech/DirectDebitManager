@@ -125,7 +125,7 @@ fun TransSourceItem(
             .padding(8.dp)
     ) {
         Text(
-            stringResource(R.string.transfer_source),
+            stringResource(R.string.source_text_label),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

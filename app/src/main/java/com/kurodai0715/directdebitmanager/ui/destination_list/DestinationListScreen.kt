@@ -132,14 +132,14 @@ fun DirectDebitItem(
             .padding(8.dp)
     ) {
         Text(
-            stringResource(R.string.transfer_dest),
+            stringResource(R.string.destination_text_label),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
         Text(destWithSource.destName)
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            stringResource(R.string.transfer_source),
+            stringResource(R.string.source_text_label),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )

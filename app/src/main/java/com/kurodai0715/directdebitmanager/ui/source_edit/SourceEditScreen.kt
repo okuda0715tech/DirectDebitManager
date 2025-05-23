@@ -118,7 +118,7 @@ fun SourceEditContents(
         TextField(
             value = source,
             onValueChange = onSourceChanged,
-            label = { Text(stringResource(R.string.transfer_source)) },
+            label = { Text(stringResource(R.string.source_text_label)) },
             modifier = Modifier.fillMaxWidth(),
         )
 
