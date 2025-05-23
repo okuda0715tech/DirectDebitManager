@@ -27,9 +27,6 @@ data class DestEdit(
     val sourceId: Int? = null,
 )
 
-@Serializable
-data object DelComp
-
 fun NavGraphBuilder.destListDestination(
     onNavigateToEdit: (DestWithSource?) -> Unit,
     onChangeTitle: (Int) -> Unit,
@@ -122,17 +119,6 @@ fun NavController.navigateToEditDestination(destWithSource: DestWithSource?) {
             sourceId = destWithSource?.sourceId,
         )
     )
-}
-
-fun NavController.navigateToDelCompDestination() {
-    navigate(DelComp)
-}
-
-fun NavController.popUpToListDestination() {
-    navigate(DestList) {
-        popUpTo(DestList)
-        launchSingleTop = true
-    }
 }
 
 fun NavController.navigateToSourceEditDestination(source: Source?) {
