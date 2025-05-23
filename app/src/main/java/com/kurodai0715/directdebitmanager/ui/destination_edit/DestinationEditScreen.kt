@@ -212,7 +212,7 @@ fun EditDirectDebitContents(
                                 fontSize = 12.sp,
                                 lineHeight = 16.sp,
                             ),
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         Spacer(modifier = Modifier.height(2.dp))
                         Text(
