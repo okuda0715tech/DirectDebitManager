@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.destination_list
+package com.kurodai0715.directdebitmanager.ui.screen.destination_list
 
 import android.util.Log
 import androidx.compose.foundation.background

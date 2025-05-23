@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.source_edit
+package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

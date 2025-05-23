@@ -9,10 +9,10 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.destination_edit.DestinationEditScreen
-import com.kurodai0715.directdebitmanager.ui.destination_list.DestinationListScreen
-import com.kurodai0715.directdebitmanager.ui.source_edit.SourceEditScreen
-import com.kurodai0715.directdebitmanager.ui.source_list.SourceListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 import kotlinx.serialization.Serializable
 
 private const val TAG = "AppNavigation.kt"

@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.destination_edit
+package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
