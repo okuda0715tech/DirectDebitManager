@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class SourceEditUiState(
-    val id: Int = 0,
-    val source: String = "",
+    val sourceId: Int = 0,
+    val sourceName: String = "",
     val userMessage: Int? = null,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false
@@ -38,15 +38,15 @@ class SourceEditViewModel @Inject constructor(
 
     fun updateSource(source: String) {
         _uiState.update {
-            it.copy(source = source)
+            it.copy(sourceName = source)
         }
     }
 
     fun updateTransSource(source: Source) {
         _uiState.update {
             it.copy(
-                id = source.id,
-                source = source.name,
+                sourceId = source.id,
+                sourceName = source.name,
             )
         }
     }
@@ -60,17 +60,17 @@ class SourceEditViewModel @Inject constructor(
     fun saveData() {
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertSource(
-                id = uiState.value.id,
-                source = uiState.value.source
+                id = uiState.value.sourceId,
+                source = uiState.value.sourceName
             )
 
             _uiState.update {
                 if (resultSuccess) {
                     // 新規作成 or 更新が成功した場合
-                    if (uiState.value.id == 0) {
+                    if (uiState.value.sourceId == 0) {
                         // 新規作成の場合
                         it.copy(
-                            source = "",
+                            sourceName = "",
                             userMessage = R.string.common_save_successfully
                         )
                     } else {
@@ -92,8 +92,8 @@ class SourceEditViewModel @Inject constructor(
     fun deleteData() {
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteSource(
-                id = uiState.value.id,
-                source = uiState.value.source
+                id = uiState.value.sourceId,
+                name = uiState.value.sourceName
             )
 
             _uiState.update {

@@ -47,7 +47,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      *
      * @param id 削除するレコードの id
      * @param dest 削除するレコードの destination
-     * @param source 削除するレコードの source
+     * @param sourceId 削除するレコードの sourceId
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
     suspend fun deleteDestination(id: Int, dest: String, sourceId: Int): Int {
@@ -88,13 +88,13 @@ class DirectDebitDefaultRepository @Inject constructor(
      * 振替元情報を DB から削除する.
      *
      * @param id 削除するレコードの id
-     * @param source 削除するレコードの source
+     * @param name 削除するレコードの source
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun deleteSource(id: Int, source: String): Int {
+    suspend fun deleteSource(id: Int, name: String): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val source = Source(id = id, name = source)
+            val source = Source(id = id, name = name)
             numOfDeleted = try {
                 localDataSource.deleteSource(source.toLocal())
             } catch (e: Exception) {

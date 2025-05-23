@@ -76,9 +76,9 @@ fun SourceEditScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            source = uiState.source,
+            source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
-            itemId = uiState.id,
+            itemId = uiState.sourceId,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.saveData() },
