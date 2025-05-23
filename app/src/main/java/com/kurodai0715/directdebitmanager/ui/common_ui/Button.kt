@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.common_ui
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.destination_edit.TAG
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
@@ -58,7 +56,6 @@ fun SurfaceButton(
 
 @Composable
 fun HorizontalThreeButton(
-    modifier: Modifier = Modifier,
     onClickLeft: () -> Unit,
     onClickCenter: () -> Unit,
     onClickRight: () -> Unit,
@@ -101,7 +98,6 @@ private fun PreviewHorizontalThreeButton() {
 
 @Composable
 fun HorizontalTwoButton(
-    modifier: Modifier = Modifier,
     onClickLeft: () -> Unit,
     onClickRight: () -> Unit,
     leftText: String,
