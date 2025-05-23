@@ -66,15 +66,6 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 振替先情報を取得するストリーム.
-     */
-    fun fetchDestinationsStream(): Flow<List<Destination>> {
-        return localDataSource.observeDestinations().map { localDirectDebits ->
-            localDirectDebits.map { it.toExternal() }
-        }
-    }
-
-    /**
      * 振替元情報を DB へ登録する.
      */
     suspend fun upsertSource(id: Int, source: String): Boolean {

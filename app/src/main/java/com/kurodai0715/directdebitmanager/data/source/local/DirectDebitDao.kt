@@ -9,9 +9,6 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DirectDebitDao {
 
-    @Query("SELECT * FROM destination")
-    fun observeDestinations(): Flow<List<LocalDestination>>
-
     /**
      * 口座振替情報テーブルのレコードに対する Insert or Update.
      */
