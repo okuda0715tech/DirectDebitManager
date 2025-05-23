@@ -15,11 +15,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +39,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
@@ -326,55 +322,6 @@ fun DeleteConfirmDialog(
 }
 
 @Composable
-fun SourceListDialog(
-    modifier: Modifier = Modifier,
-    items: List<Source>,
-    onDismissRequest: () -> Unit,
-    onClickItem: (Int) -> Unit,
-    onClickEdit: () -> Unit,
-) {
-    Dialog(onDismissRequest = onDismissRequest) {
-        Card {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                LazyColumn(modifier = Modifier.padding(SCREEN_EDGE_PADDING_DEF)) {
-                    itemsIndexed(items) { index, item ->
-
-                        SurfaceButton(
-                            onClick = {
-                                debouncedClick {
-                                    onClickItem(index)
-                                    onDismissRequest()
-                                }
-                            },
-                            modifier = Modifier.background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                        ) {
-                            Text(
-                                text = item.name,
-                                modifier = modifier
-                                    .fillMaxWidth()
-                                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                                    .padding(12.dp)
-                            )
-                        }
-
-                        // 最後のアイテム以外なら分割線を引く
-                        if (index != items.size - 1) {
-                            HorizontalDivider()
-                        }
-                    }
-                }
-
-                HorizontalDivider()
-
-                OutlinedButton(onClick = { debouncedClick(onClickEdit) }) {
-                    Text(text = stringResource(R.string.common_edit))
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun NoSourceDataDialog(
     onDismissRequest: () -> Unit,
 ) {
@@ -445,21 +392,6 @@ private fun PreviewDelConfDialog() {
         onDismissRequest = {},
         onClickNo = {},
         onClickYes = {}
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewSourceListDialog() {
-    SourceListDialog(
-        items = listOf(
-            Source(id = 1, name = "横浜銀行"),
-            Source(id = 2, name = "三井住友銀行"),
-            Source(id = 3, name = "PayPay銀行"),
-        ),
-        onDismissRequest = {},
-        onClickItem = {},
-        onClickEdit = {},
     )
 }
 
