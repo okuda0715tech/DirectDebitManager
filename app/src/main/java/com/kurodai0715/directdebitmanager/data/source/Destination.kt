@@ -12,7 +12,6 @@ data class Destination(
 
     val sourceId: Int,
 
-    val sourceName: String,
 //    val date: String,
 //    val amount: String,
 )

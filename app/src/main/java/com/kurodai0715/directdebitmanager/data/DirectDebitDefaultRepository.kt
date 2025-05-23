@@ -26,10 +26,10 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替先情報を DB へ登録する.
      */
-    suspend fun upsertDestination(id: Int, dest: String, sourceId: Int, source: String): Boolean {
+    suspend fun upsertDestination(id: Int, dest: String, sourceId: Int): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val destination = Destination(id = id, name = dest, sourceId = sourceId, sourceName = source)
+            val destination = Destination(id = id, name = dest, sourceId = sourceId)
             resultSuccess = try {
                 localDataSource.upsertDestination(destination.toLocal())
                 true
@@ -50,10 +50,10 @@ class DirectDebitDefaultRepository @Inject constructor(
      * @param source 削除するレコードの source
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun deleteDestination(id: Int, dest: String, sourceId: Int, source: String): Int {
+    suspend fun deleteDestination(id: Int, dest: String, sourceId: Int): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val destination = Destination(id = id, name = dest, sourceId = sourceId, sourceName = source)
+            val destination = Destination(id = id, name = dest, sourceId = sourceId)
             numOfDeleted = try {
                 localDataSource.deleteDestination(destination.toLocal())
             } catch (e: Exception) {

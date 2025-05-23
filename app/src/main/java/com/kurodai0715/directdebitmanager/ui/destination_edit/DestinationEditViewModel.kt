@@ -116,7 +116,7 @@ class DestinationEditViewModel @Inject constructor(
             it.copy(
                 destId = destination.id,
                 destName = destination.name,
-                sourceName = destination.sourceName,
+                sourceId = destination.sourceId,
             )
         }
     }
@@ -157,7 +157,6 @@ class DestinationEditViewModel @Inject constructor(
                 id = uiState.value.destId,
                 dest = uiState.value.destName,
                 sourceId = uiState.value.sourceId,
-                source = uiState.value.sourceName
             )
 
             _uiState.update {
@@ -192,7 +191,6 @@ class DestinationEditViewModel @Inject constructor(
                 id = uiState.value.destId,
                 dest = uiState.value.destName,
                 sourceId = uiState.value.sourceId,
-                source = uiState.value.sourceName
             )
 
             _uiState.update {

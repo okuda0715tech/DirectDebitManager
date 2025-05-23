@@ -8,7 +8,6 @@ fun LocalDestination.toExternal() = Destination(
     id = id,
     name = name,
     sourceId = sourceId,
-    sourceName = sourceName,
 //    date = date,
 //    amount = amount.toString(),
 )
@@ -17,7 +16,6 @@ fun Destination.toLocal() = LocalDestination(
     id = id,
     name = name,
     sourceId = sourceId,
-    sourceName = sourceName,
 //    date = date,
 //    amount = amount.toString(),
 )

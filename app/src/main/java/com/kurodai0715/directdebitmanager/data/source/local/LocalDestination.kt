@@ -19,8 +19,6 @@ data class LocalDestination(
 
     val sourceId: Int,
 
-    // TODO sourceName フィールドを削除する
-    val sourceName: String,
 //    val date: String,
 //    val amount: Int,
 )

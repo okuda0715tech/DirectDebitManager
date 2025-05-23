@@ -27,7 +27,6 @@ data class DestEdit(
     val destId: Int? = null,
     val destName: String? = null,
     val sourceId: Int? = null,
-    val sourceName: String? = null
 )
 
 @Serializable
@@ -64,7 +63,7 @@ fun NavGraphBuilder.destEditDestination(
             destination = if (destEdit.destId == null) {
                 null
             } else {
-                Destination(id = destEdit.destId, name = destEdit.destName!!, sourceId = destEdit.sourceId!!,sourceName = destEdit.sourceName!!)
+                Destination(id = destEdit.destId, name = destEdit.destName!!, sourceId = destEdit.sourceId!!)
             },
             onNavigateUp = onNavigateUp,
             onNavigateToDelComp = onNavigateToDelComp,
@@ -133,7 +132,6 @@ fun NavController.navigateToEditDestination(destWithSource: DestWithSource?) {
             destId = destWithSource?.destId,
             destName = destWithSource?.destName,
             sourceId = destWithSource?.sourceId,
-            sourceName = destWithSource?.sourceName
         )
     )
 }
