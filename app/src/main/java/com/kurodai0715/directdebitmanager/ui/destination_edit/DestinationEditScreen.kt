@@ -44,6 +44,8 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
@@ -252,27 +254,23 @@ fun EditDirectDebitContents(
 //            label = { Text(stringResource(R.string.transfer_amount)) },
 //            modifier = Modifier.fillMaxWidth(),
 //        )
-        Row(
-            modifier = Modifier.padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            if (itemId != 0) {
-                TextButton(onClick = { debouncedClick(onClickDelete) }) {
-                    Text(
-                        text = stringResource(R.string.common_delete),
-                        color = MaterialTheme.colorScheme.error,
-                    )
-                }
-            }
-            OutlinedButton(onClick = {
-                Log.v(TAG, "back is clicked.")
-                debouncedClick(onNavigateUp)
-            }) {
-                Text(stringResource(R.string.common_back))
-            }
-            Button(onClick = { debouncedClick(onClickSave) }) {
-                Text(stringResource(R.string.common_save))
-            }
+
+        if (itemId != 0) {
+            HorizontalThreeButton(
+                onClickLeft = { debouncedClick(onClickDelete) },
+                onClickCenter = { debouncedClick(onNavigateUp) },
+                onClickRight = { debouncedClick(onClickSave) },
+                leftText = stringResource(R.string.common_delete),
+                centerText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_save)
+            )
+        } else {
+            HorizontalTwoButton(
+                onClickLeft = { debouncedClick(onNavigateUp) },
+                onClickRight = { debouncedClick(onClickSave) },
+                leftText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_save)
+            )
         }
     }
 }

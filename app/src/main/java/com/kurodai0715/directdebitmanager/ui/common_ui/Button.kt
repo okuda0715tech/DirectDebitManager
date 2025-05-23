@@ -1,9 +1,17 @@
 package com.kurodai0715.directdebitmanager.ui.common_ui
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -11,8 +19,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.destination_edit.TAG
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun SurfaceButton(
@@ -40,5 +53,81 @@ fun SurfaceButton(
         border = border,
         interactionSource = interactionSource,
         content = content
+    )
+}
+
+@Composable
+fun HorizontalThreeButton(
+    modifier: Modifier = Modifier,
+    onClickLeft: () -> Unit,
+    onClickCenter: () -> Unit,
+    onClickRight: () -> Unit,
+    leftText: String,
+    centerText: String,
+    rightText: String,
+) {
+
+    Row(
+        modifier = Modifier.padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        TextButton(onClick = { debouncedClick(onClickLeft) }) {
+            Text(
+                text = leftText,
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
+        OutlinedButton(onClick = { debouncedClick(onClickCenter) }) {
+            Text(centerText)
+        }
+        Button(onClick = { debouncedClick(onClickRight) }) {
+            Text(rightText)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewHorizontalThreeButton() {
+    HorizontalThreeButton(
+        onClickLeft = {},
+        onClickCenter = {},
+        onClickRight = {},
+        leftText = stringResource(R.string.common_delete),
+        centerText = stringResource(R.string.common_back),
+        rightText = stringResource(R.string.common_save)
+    )
+}
+
+@Composable
+fun HorizontalTwoButton(
+    modifier: Modifier = Modifier,
+    onClickLeft: () -> Unit,
+    onClickRight: () -> Unit,
+    leftText: String,
+    rightText: String,
+) {
+
+    Row(
+        modifier = Modifier.padding(16.dp),
+        horizontalArrangement = Arrangement.spacedBy(24.dp)
+    ) {
+        OutlinedButton(onClick = { debouncedClick(onClickLeft) }) {
+            Text(leftText)
+        }
+        Button(onClick = { debouncedClick(onClickRight) }) {
+            Text(rightText)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewHorizontalTwoButton() {
+    HorizontalTwoButton(
+        onClickLeft = {},
+        onClickRight = {},
+        leftText = stringResource(R.string.common_back),
+        rightText = stringResource(R.string.common_save)
     )
 }
