@@ -54,7 +54,6 @@ data class SourceEdit(
 fun NavGraphBuilder.destEditDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
-    onNavigateToDelComp: () -> Unit,
     onNavigateToSourceList: () -> Unit,
 ) {
     composable<DestEdit> { backStackEntry ->
@@ -66,7 +65,6 @@ fun NavGraphBuilder.destEditDestination(
                 Destination(id = destEdit.destId, name = destEdit.destName!!, sourceId = destEdit.sourceId!!)
             },
             onNavigateUp = onNavigateUp,
-            onNavigateToDelComp = onNavigateToDelComp,
             onNavigateToSourceList = onNavigateToSourceList,
         )
 
@@ -77,12 +75,6 @@ fun NavGraphBuilder.destEditDestination(
             R.string.edit_screen_title
         }
         onChangeTitle(titleResId)
-    }
-}
-
-fun NavGraphBuilder.delCompDestination(onNavigateToList: () -> Unit) {
-    dialog<DelComp> {
-        DeleteCompletionDialog(onNavigateToList = onNavigateToList)
     }
 }
 

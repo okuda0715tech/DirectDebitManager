@@ -35,27 +35,9 @@ fun AppNavGraph(
                 navController.navigateUp()
             },
             onChangeTitle = onChangeTitle,
-            onNavigateToDelComp = {
-                navController.navigateToDelCompDestination()
-            },
-            onNavigateToSourceList = {
-                navController.navigateToSourceListDestination()
-            },
-        )
-
-        delCompDestination(
-            onNavigateToList = {
-                val hasDestList = navController.graph.findStartDestination().hasRoute<DestList>()
-                val hasSourceList =
-                    navController.graph.findStartDestination().hasRoute<SourceList>()
-
-                if (hasDestList) {
-                    navController.popUpToListDestination()
-                } else if (hasSourceList) {
-                    navController.popUpToSourceListDestination()
-                }
-            }
-        )
+        ) {
+            navController.navigateToSourceListDestination()
+        }
 
         sourceListDestination(
             onNavigateToEdit = { selectedItem ->

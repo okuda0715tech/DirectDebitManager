@@ -16,7 +16,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun DeleteCompletionDialog(
-    onNavigateToList: () -> Unit,
+    onClickClose: () -> Unit,
 ) {
     AlertDialog(
         icon = {
@@ -34,7 +34,7 @@ fun DeleteCompletionDialog(
         },
         onDismissRequest = {},
         confirmButton = {
-            TextButton(onClick = { debouncedClick(onNavigateToList) }) {
+            TextButton(onClick = { debouncedClick(onClickClose) }) {
                 Text(stringResource(R.string.common_close))
             }
         })
@@ -44,6 +44,6 @@ fun DeleteCompletionDialog(
 @Composable
 private fun PreviewContents() {
     DeleteCompletionDialog(
-        onNavigateToList = {},
+        onClickClose = {},
     )
 }
