@@ -61,5 +61,6 @@
     <string name="common_no">いいえ</string>
     <string name="common_close">閉じる</string>
     <string name="common_required_field">必須項目です。</string>
+    <string name="common_length_needs_to_be_within_30">30文字以内で入力してください。</string>
 
 </resources>

@@ -7,8 +7,8 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.domain.EmptyValidationResult
-import com.kurodai0715.directdebitmanager.ui.domain.ValidationUtil
+import com.kurodai0715.directdebitmanager.ui.domain.BasicTextValidator
+import com.kurodai0715.directdebitmanager.ui.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -159,23 +159,25 @@ class DestinationEditViewModel @Inject constructor(
     fun validate() {
         val destValidationSuccess = destValidation()
 
-        if(!destValidationSuccess) return
+        if (!destValidationSuccess) return
 
         saveData()
     }
 
     private fun destValidation(): Boolean {
-        val validationResult = ValidationUtil.validateEmpty(uiState.value.destName)
+        val validationResult = BasicTextValidator.validate(uiState.value.destName)
         val message = when (validationResult) {
-            EmptyValidationResult.Empty -> R.string.common_required_field
-            EmptyValidationResult.Valid -> null
+            ValidationResult.EMPTY_ERROR -> R.string.common_required_field
+            ValidationResult.LENGTH_WITHIN_30_ERROR -> R.string.common_length_needs_to_be_within_30
+            ValidationResult.VALID -> null
         }
+
         _uiState.update {
             it.copy(
                 destErrorMessage = message
             )
         }
-        return validationResult == EmptyValidationResult.Valid
+        return validationResult == ValidationResult.VALID
     }
 
 //    fun updateDate(date: String) {
