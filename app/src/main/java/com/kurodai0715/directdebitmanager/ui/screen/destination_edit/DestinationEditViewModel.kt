@@ -8,9 +8,7 @@ import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.domain.BasicTextValidator
-import com.kurodai0715.directdebitmanager.ui.domain.EmptyError
-import com.kurodai0715.directdebitmanager.ui.domain.LengthWithin30Error
-import com.kurodai0715.directdebitmanager.ui.domain.Valid
+import com.kurodai0715.directdebitmanager.ui.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -169,9 +167,8 @@ class DestinationEditViewModel @Inject constructor(
     private fun destValidation(): Boolean {
         val validationResult = BasicTextValidator.validate(uiState.value.destName)
         val message = when (validationResult) {
-            EmptyError -> R.string.common_required_field
-            LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
-            Valid -> null
+            ValidationResult.EmptyError -> R.string.common_required_field
+            ValidationResult.LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
             else -> null
         }
 
@@ -180,7 +177,8 @@ class DestinationEditViewModel @Inject constructor(
                 destErrorMessage = message
             )
         }
-        return validationResult == Valid
+
+        return validationResult == ValidationResult.Valid
     }
 
 //    fun updateDate(date: String) {
