@@ -7,6 +7,8 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.ui.domain.EmptyValidationResult
+import com.kurodai0715.directdebitmanager.ui.domain.ValidationUtil
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +39,8 @@ data class DestinationEditUiState(
     val editSourceListEventConsumed: Boolean = true,
     val navigationUpEventConsumed: Boolean = true,
     val isLoading: Boolean = false,
+    val destErrorMessage: Int? = null,
+    val sourceErrorMessage: Int? = null,
 )
 
 
@@ -150,6 +154,28 @@ class DestinationEditViewModel @Inject constructor(
         _uiState.update {
             it.copy(navigationUpEventConsumed = value)
         }
+    }
+
+    fun validate() {
+        val destValidationSuccess = destValidation()
+
+        if(!destValidationSuccess) return
+
+        saveData()
+    }
+
+    private fun destValidation(): Boolean {
+        val validationResult = ValidationUtil.validateEmpty(uiState.value.destName)
+        val message = when (validationResult) {
+            EmptyValidationResult.Empty -> R.string.common_required_field
+            EmptyValidationResult.Valid -> null
+        }
+        _uiState.update {
+            it.copy(
+                destErrorMessage = message
+            )
+        }
+        return validationResult == EmptyValidationResult.Valid
     }
 
 //    fun updateDate(date: String) {

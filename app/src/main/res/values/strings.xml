@@ -60,4 +60,6 @@
     <string name="common_yes">はい</string>
     <string name="common_no">いいえ</string>
     <string name="common_close">閉じる</string>
+    <string name="common_required_field">必須項目です。</string>
+
 </resources>

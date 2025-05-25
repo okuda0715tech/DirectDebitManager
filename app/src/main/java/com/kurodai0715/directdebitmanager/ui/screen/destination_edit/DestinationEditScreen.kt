@@ -91,9 +91,10 @@ fun DestinationEditScreen(
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = uiState.sourceName,
             itemId = uiState.destId,
+            destErrorMessage = uiState.destErrorMessage,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
-            onClickSave = { viewModel.saveData() },
+            onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
             onClickEditSource = onNavigateToSourceList,
         )
@@ -160,6 +161,7 @@ fun EditDirectDebitContents(
     onDestChanged: (String) -> Unit,
     sourceName: String,
     itemId: Int,
+    destErrorMessage: Int?,
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
@@ -175,6 +177,10 @@ fun EditDirectDebitContents(
             onValueChange = onDestChanged,
             label = { Text(stringResource(R.string.destination_text_label)) },
             modifier = Modifier.fillMaxWidth(),
+            supportingText = {
+                if (destErrorMessage != null) Text(stringResource(destErrorMessage))
+            },
+            isError = destErrorMessage != null
         )
         SurfaceButton(
             onClick = {
@@ -193,7 +199,9 @@ fun EditDirectDebitContents(
                     .padding(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 Column(
-                    modifier = Modifier.fillMaxHeight().weight(1f),
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
                     verticalArrangement = Arrangement.Center
                 ) {
                     if (sourceName.isEmpty()) {
@@ -279,6 +287,7 @@ private fun PreviewUpdateContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 1,
+        destErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
@@ -295,6 +304,7 @@ private fun PreviewRegisterContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 0,
+        destErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
@@ -311,6 +321,7 @@ private fun PreviewEmptyTextContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
+        destErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
