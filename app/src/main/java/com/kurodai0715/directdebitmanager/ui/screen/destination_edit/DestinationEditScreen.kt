@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -185,8 +186,9 @@ fun DestinationEditContents(
 
         SelectableText(
             sourceName = sourceName,
-            onClickSource = { debouncedClick(onClickSource) },
-            onClickEditSource = { debouncedClick(onClickEditSource) })
+            onClickSource = onClickSource,
+            onClickEditSource = onClickEditSource
+        )
 
         HorizontalDivider(
             thickness = 1.dp,
@@ -276,7 +278,9 @@ fun SelectableText(
                         text = sourceName,
                         style = TextStyle(
                             fontSize = 16.sp,
-                            lineHeight = 22.sp,
+                            lineHeight = 24.sp,
+                            fontWeight = FontWeight.W400,
+                            letterSpacing = 0.5.sp,
                         ),
                         color = MaterialTheme.colorScheme.onSurface,
                     )
