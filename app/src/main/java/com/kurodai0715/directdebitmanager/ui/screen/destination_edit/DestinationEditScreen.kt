@@ -182,68 +182,12 @@ fun DestinationEditContents(
             },
             isError = destErrorMessage != null
         )
-        SurfaceButton(
-            onClick = {
-                debouncedClick {
-                    onClickSource()
-                }
-            },
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                    .height(56.dp)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    if (sourceName.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.source_text_label),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                lineHeight = 24.sp,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(R.string.source_text_label),
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = sourceName,
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                lineHeight = 22.sp,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                }
-                Icon(
-                    painter = painterResource(id = R.drawable.outline_edit_note_24),
-                    contentDescription = stringResource(id = R.string.edit_source_icon_description),
-                    modifier = Modifier
-                        .size(ICON_EX_LARGE_SIZE)
-                        .align(alignment = Alignment.CenterVertically)
-                        .clickable(onClick = { debouncedClick(onClickEditSource) }),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
+
+        SelectableText(
+            sourceName = sourceName,
+            onClickSource = { debouncedClick(onClickSource) },
+            onClickEditSource = { debouncedClick(onClickEditSource) })
+
         HorizontalDivider(
             thickness = 1.dp,
             color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -274,6 +218,76 @@ fun DestinationEditContents(
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)
+            )
+        }
+    }
+}
+
+@Composable
+fun SelectableText(
+    sourceName: String,
+    onClickSource: () -> Unit,
+    onClickEditSource: () -> Unit,
+) {
+    SurfaceButton(
+        onClick = {
+            debouncedClick {
+                onClickSource()
+            }
+        },
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                .height(56.dp)
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                if (sourceName.isEmpty()) {
+                    Text(
+                        text = stringResource(R.string.source_text_label),
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            lineHeight = 24.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.source_text_label),
+                        style = TextStyle(
+                            fontSize = 12.sp,
+                            lineHeight = 16.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = sourceName,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            lineHeight = 22.sp,
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
+            }
+            Icon(
+                painter = painterResource(id = R.drawable.outline_edit_note_24),
+                contentDescription = stringResource(id = R.string.edit_source_icon_description),
+                modifier = Modifier
+                    .size(ICON_EX_LARGE_SIZE)
+                    .align(alignment = Alignment.CenterVertically)
+                    .clickable(onClick = { debouncedClick(onClickEditSource) }),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
     }
