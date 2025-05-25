@@ -369,6 +369,12 @@ private fun PreviewValidationErrorContents() {
 
 @Preview
 @Composable
-private fun PreviewSelectableText() {
+private fun PreviewSelectableTextFilled() {
     SelectableText(sourceName = "横浜銀行", onClickSource = { }, onClickEditSource = { })
+}
+
+@Preview
+@Composable
+private fun PreviewSelectableTextEmpty() {
+    SelectableText(sourceName = "", onClickSource = { }, onClickEditSource = { })
 }
