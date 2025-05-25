@@ -72,9 +72,10 @@ fun SourceEditScreen(
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,
+            sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
-            onClickSave = { viewModel.saveData() },
+            onClickSave = { viewModel.validate() },
         )
 
         if (uiState.showDelConfDialog) {
@@ -107,6 +108,7 @@ fun SourceEditContents(
     source: String,
     onSourceChanged: (String) -> Unit,
     itemId: Int,
+    sourceErrorMessage: Int?,
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
@@ -120,6 +122,10 @@ fun SourceEditContents(
             onValueChange = onSourceChanged,
             label = { Text(stringResource(R.string.source_text_label)) },
             modifier = Modifier.fillMaxWidth(),
+            supportingText = {
+                if (sourceErrorMessage != null) Text(stringResource(sourceErrorMessage))
+            },
+            isError = sourceErrorMessage != null
         )
 
         if (itemId != 0) {
@@ -149,6 +155,7 @@ private fun PreviewUpdateContents() {
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 1,
+        sourceErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
@@ -162,6 +169,21 @@ private fun PreviewRegisterContents() {
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 0,
+        sourceErrorMessage = null,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewValidationErrorContents() {
+    SourceEditContents(
+        source = "横浜銀行",
+        onSourceChanged = {},
+        itemId = 0,
+        sourceErrorMessage = R.string.common_required_field,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},

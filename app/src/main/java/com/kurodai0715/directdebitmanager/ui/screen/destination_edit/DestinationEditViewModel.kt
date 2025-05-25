@@ -193,7 +193,7 @@ class DestinationEditViewModel @Inject constructor(
 //        }
 //    }
 
-    fun saveData() {
+    private fun saveData() {
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = uiState.value.destId,
