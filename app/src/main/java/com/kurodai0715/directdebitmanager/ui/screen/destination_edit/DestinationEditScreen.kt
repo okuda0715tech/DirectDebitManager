@@ -226,6 +226,8 @@ fun DestinationEditContents(
 @Composable
 fun SelectableText(
     sourceName: String,
+    supportingText: String = "",
+    isError: Boolean = false,
     onClickSource: () -> Unit,
     onClickEditSource: () -> Unit,
 ) {
@@ -359,4 +361,10 @@ private fun PreviewValidationErrorContents() {
         onClickSource = {},
         onClickEditSource = {},
     )
+}
+
+@Preview
+@Composable
+private fun PreviewSelectableText() {
+    SelectableText(sourceName = "横浜銀行", onClickSource = { }, onClickEditSource = { })
 }
