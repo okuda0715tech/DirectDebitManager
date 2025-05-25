@@ -329,3 +329,20 @@ private fun PreviewEmptyTextContents() {
         onClickEditSource = {},
     )
 }
+
+@Preview
+@Composable
+private fun PreviewValidationErrorContents() {
+    EditDirectDebitContents(
+        destName = "",
+        onDestChanged = {},
+        sourceName = "",
+        itemId = 0,
+        destErrorMessage = R.string.common_required_field,
+        onClickDelete = {},
+        onNavigateUp = {},
+        onClickSave = {},
+        onClickSource = {},
+        onClickEditSource = {},
+    )
+}
