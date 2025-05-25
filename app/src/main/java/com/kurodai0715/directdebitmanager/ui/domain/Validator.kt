@@ -1,12 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.domain
 
-sealed class ValidationState{
-    object Pending: ValidationState()
-    object InProgress: ValidationState()
-    object Success: ValidationState()
-    object Failure: ValidationState()
-}
-
 interface Validator {
     fun validate(input: String): Boolean
 }
@@ -34,22 +27,16 @@ object PasswordValidator : Validator {
     }
 }
 
+// TODO 複数のバリデーターを組み合わせた場合に、成功か失敗しか返せず、失敗した原因が返せないため、返せるように要修正。
+/**
+ * 複数のバリデーターを組み合わせた例.
+ */
 object IdValidator : Validator {
 
-    val validators = listOf(EmptyValidator, EmailValidator)
+    val validators = listOf(EmailValidator, PasswordValidator)
 
     override fun validate(input: String): Boolean {
         return validators.all { it.validate(input) }
     }
 }
 
-object ValidationUtil {
-
-    fun validateEmpty(input: String): EmptyValidationResult {
-        if (!EmptyValidator.validate(input)) {
-            return EmptyValidationResult.Empty
-        }
-        return EmptyValidationResult.Valid
-    }
-
-}
