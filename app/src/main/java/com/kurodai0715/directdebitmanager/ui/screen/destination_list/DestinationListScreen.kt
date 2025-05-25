@@ -65,7 +65,7 @@ fun DestinationListScreen(
             }
         }
 
-        ListScreenContents(
+        DestinationListContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -83,7 +83,7 @@ fun DestinationListScreen(
 }
 
 @Composable
-fun ListScreenContents(
+fun DestinationListContents(
     modifier: Modifier = Modifier,
     items: List<DestWithSource>,
     onNavigateToEdit: (DestWithSource?) -> Unit
@@ -102,7 +102,7 @@ fun ListScreenContents(
                     // それ以外のアイテムは Top と Bottom にパディング
                     else -> Modifier.padding(vertical = 8.dp)
                 }
-                DirectDebitItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
+                DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
             }
         }
 
@@ -116,7 +116,7 @@ fun ListScreenContents(
 }
 
 @Composable
-fun DirectDebitItem(
+fun DestinationItem(
     destWithSource: DestWithSource,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit
@@ -150,7 +150,7 @@ fun DirectDebitItem(
 @Preview
 @Composable
 private fun Preview() {
-    ListScreenContents(
+    DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),

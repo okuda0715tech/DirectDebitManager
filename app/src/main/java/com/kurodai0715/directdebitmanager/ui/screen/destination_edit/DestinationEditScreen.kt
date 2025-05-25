@@ -81,7 +81,7 @@ fun DestinationEditScreen(
             }
         }
 
-        EditDirectDebitContents(
+        DestinationEditContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -155,7 +155,7 @@ fun DestinationEditScreen(
 }
 
 @Composable
-fun EditDirectDebitContents(
+fun DestinationEditContents(
     modifier: Modifier = Modifier,
     destName: String,
     onDestChanged: (String) -> Unit,
@@ -282,7 +282,7 @@ fun EditDirectDebitContents(
 @Preview
 @Composable
 private fun PreviewUpdateContents() {
-    EditDirectDebitContents(
+    DestinationEditContents(
         destName = "横浜銀行クレジットカード",
         onDestChanged = {},
         sourceName = "横浜銀行",
@@ -299,7 +299,7 @@ private fun PreviewUpdateContents() {
 @Preview
 @Composable
 private fun PreviewRegisterContents() {
-    EditDirectDebitContents(
+    DestinationEditContents(
         destName = "横浜銀行クレジットカード",
         onDestChanged = {},
         sourceName = "横浜銀行",
@@ -316,7 +316,7 @@ private fun PreviewRegisterContents() {
 @Preview
 @Composable
 private fun PreviewEmptyTextContents() {
-    EditDirectDebitContents(
+    DestinationEditContents(
         destName = "",
         onDestChanged = {},
         sourceName = "",
@@ -333,7 +333,7 @@ private fun PreviewEmptyTextContents() {
 @Preview
 @Composable
 private fun PreviewValidationErrorContents() {
-    EditDirectDebitContents(
+    DestinationEditContents(
         destName = "",
         onDestChanged = {},
         sourceName = "",
