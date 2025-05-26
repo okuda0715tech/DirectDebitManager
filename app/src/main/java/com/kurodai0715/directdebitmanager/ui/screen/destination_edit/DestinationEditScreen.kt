@@ -45,6 +45,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -178,11 +179,17 @@ fun DestinationEditContents(
             onValueChange = onDestChanged,
             label = { Text(stringResource(R.string.destination_text_label)) },
             modifier = Modifier.fillMaxWidth(),
-            supportingText = {
-                if (destErrorMessage != null) Text(stringResource(destErrorMessage))
+            supportingText = if (destErrorMessage != null) {
+                {
+                    Text(stringResource(destErrorMessage))
+                }
+            } else {
+                null
             },
             isError = destErrorMessage != null
         )
+
+        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
         SelectableText(
             sourceName = sourceName,
