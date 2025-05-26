@@ -11,17 +11,19 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,9 +46,10 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
-import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
@@ -174,19 +177,12 @@ fun DestinationEditContents(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TextField(
-            value = destName,
-            onValueChange = onDestChanged,
-            label = { Text(stringResource(R.string.destination_text_label)) },
-            modifier = Modifier.fillMaxWidth(),
-            supportingText = if (destErrorMessage != null) {
-                {
-                    Text(stringResource(destErrorMessage))
-                }
-            } else {
-                null
-            },
-            isError = destErrorMessage != null
+        AppTextField(
+            labelText = stringResource(R.string.destination_text_label),
+            text = destName,
+            onTextChanged = onDestChanged,
+            supportingText = destErrorMessage,
+            onClickClear = { onDestChanged("") }
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
@@ -197,10 +193,8 @@ fun DestinationEditContents(
             onClickEditSource = onClickEditSource
         )
 
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
+
 //        DatePickerText(onTextChanged = {
 //            viewModel.updateDate(it)
 //        })
@@ -233,6 +227,70 @@ fun DestinationEditContents(
 }
 
 @Composable
+fun AppTextField(
+    labelText: String,
+    text: String,
+    onTextChanged: (String) -> Unit,
+    supportingText: Int?,
+    onClickClear: () -> Unit = {}
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = labelText,
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .heightIn(min = TEXT_FIELD_MIN_HEIGHT)
+                .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
+                .padding(start = 16.dp, end = 12.dp)
+        ) {
+            BasicTextField(
+                value = text,
+                onValueChange = onTextChanged,
+                textStyle = LocalTextStyle.current.copy(
+                    color = MaterialTheme.colorScheme.onSurface,
+                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            if (!text.isEmpty()) {
+                Icon(
+                    painter = painterResource(id = R.drawable.cancel_24px),
+                    contentDescription = stringResource(id = R.string.edit_source_icon_description),
+                    modifier = Modifier
+                        .size(ICON_LARGE_SIZE)
+                        .clickable(onClick = { debouncedClick(onClickClear) }),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+        var dividerColor = MaterialTheme.colorScheme.onSurfaceVariant
+        if (supportingText != null) {
+            dividerColor = MaterialTheme.colorScheme.error
+        }
+        HorizontalDivider(
+            color = if (supportingText == null)
+                MaterialTheme.colorScheme.onSurfaceVariant
+            else
+                MaterialTheme.colorScheme.error
+        )
+        if (supportingText != null) {
+            Text(
+                text = stringResource(supportingText),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+            )
+        }
+    }
+}
+
+@Composable
 fun SelectableText(
     sourceName: String,
     supportingText: String = "",
@@ -240,69 +298,75 @@ fun SelectableText(
     onClickSource: () -> Unit,
     onClickEditSource: () -> Unit,
 ) {
-    SurfaceButton(
-        onClick = {
-            debouncedClick {
-                onClickSource()
-            }
-        },
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                .height(56.dp)
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .weight(1f),
-                verticalArrangement = Arrangement.Center
-            ) {
-                if (sourceName.isEmpty()) {
-                    Text(
-                        text = stringResource(R.string.source_text_label),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                } else {
-                    Text(
-                        text = stringResource(R.string.source_text_label),
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                            lineHeight = 16.sp,
-                        ),
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = sourceName,
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            lineHeight = 24.sp,
-                            fontWeight = FontWeight.W400,
-                            letterSpacing = 0.5.sp,
-                        ),
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
+    Column {
+        SurfaceButton(
+            onClick = {
+                debouncedClick {
+                    onClickSource()
                 }
-            }
-            Icon(
-                painter = painterResource(id = R.drawable.outline_edit_note_24),
-                contentDescription = stringResource(id = R.string.edit_source_icon_description),
+            },
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+        ) {
+            Row(
                 modifier = Modifier
-                    .size(ICON_EX_LARGE_SIZE)
-                    .align(alignment = Alignment.CenterVertically)
-                    .clickable(onClick = { debouncedClick(onClickEditSource) }),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
+                    .height(56.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    if (sourceName.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.source_text_label),
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                lineHeight = 24.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    } else {
+                        Text(
+                            text = stringResource(R.string.source_text_label),
+                            style = TextStyle(
+                                fontSize = 12.sp,
+                                lineHeight = 16.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = sourceName,
+                            style = TextStyle(
+                                fontSize = 16.sp,
+                                lineHeight = 24.sp,
+                                fontWeight = FontWeight.W400,
+                                letterSpacing = 0.5.sp,
+                            ),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                }
+                Icon(
+                    painter = painterResource(id = R.drawable.outline_edit_note_24),
+                    contentDescription = stringResource(id = R.string.edit_source_icon_description),
+                    modifier = Modifier
+                        .size(ICON_LARGE_SIZE)
+                        .align(alignment = Alignment.CenterVertically)
+                        .clickable(onClick = { debouncedClick(onClickEditSource) }),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
+        HorizontalDivider(
+            thickness = 1.dp,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -372,6 +436,28 @@ private fun PreviewValidationErrorContents() {
         onClickSource = {},
         onClickEditSource = {},
     )
+}
+
+@Preview
+@Composable
+private fun PreviewAppTextFieldFilled() {
+    AppTextField(
+        labelText = stringResource(R.string.destination_text_label),
+        text = "横浜銀行",
+        onTextChanged = { },
+        supportingText = null,
+        onClickClear = { })
+}
+
+@Preview
+@Composable
+private fun PreviewAppTextFieldEmpty() {
+    AppTextField(
+        labelText = stringResource(R.string.destination_text_label),
+        text = "",
+        onTextChanged = { },
+        supportingText = R.string.common_required_field,
+        onClickClear = { })
 }
 
 @Preview
