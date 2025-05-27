@@ -3,14 +3,11 @@ package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.ui.common_ui.AppTextField
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
@@ -117,15 +115,13 @@ fun SourceEditContents(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TextField(
-            value = source,
-            onValueChange = onSourceChanged,
-            label = { Text(stringResource(R.string.source_text_label)) },
-            modifier = Modifier.fillMaxWidth(),
-            supportingText = {
-                if (sourceErrorMessage != null) Text(stringResource(sourceErrorMessage))
-            },
-            isError = sourceErrorMessage != null
+
+        AppTextField(
+            labelText = stringResource(R.string.source_text_label),
+            text = source,
+            onTextChanged = onSourceChanged,
+            supportingText = sourceErrorMessage,
+            onClickClear = { onSourceChanged("") }
         )
 
         if (itemId != 0) {
