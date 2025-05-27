@@ -22,6 +22,7 @@ val LIST_ITEM_SPACE_DEF = 12.dp
 val DIALOG_EDGE_PADDING_DEF = 24.dp
 val DIALOG_CONTENT_PADDING_SMALL = 16.dp
 val DIALOG_CONTENT_PADDING_DEF = 24.dp
+val DIALOG_CONTETN_MAX_HEIGHT = 300.dp
 
 //*****************************************
 // Screen

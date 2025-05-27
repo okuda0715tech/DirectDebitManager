@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -24,6 +25,7 @@ import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.OneOutlinedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.DIALOG_CONTENT_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.DIALOG_CONTETN_MAX_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.theme.DIALOG_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -55,7 +57,7 @@ fun SourceListDialog(
 
                 HorizontalDivider()
 
-                LazyColumn {
+                LazyColumn(modifier = Modifier.heightIn(max = DIALOG_CONTETN_MAX_HEIGHT)) {
                     itemsIndexed(items) { index, item ->
 
                         SurfaceButton(
