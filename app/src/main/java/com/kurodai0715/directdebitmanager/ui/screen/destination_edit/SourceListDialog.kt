@@ -31,7 +31,6 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun SourceListDialog(
-    modifier: Modifier = Modifier,
     items: List<Source>,
     onDismissRequest: () -> Unit,
     onClickItem: (Int) -> Unit,
