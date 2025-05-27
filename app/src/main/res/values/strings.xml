@@ -28,6 +28,13 @@
     <string name="clear_text_icon_description">入力文字を削除</string>
     <string name="edit_source_icon_description">振替元編集アイコン</string>
 
+    <!-- 振替元 編集 画面 -->
+    <string name="source_type">区分</string>
+    <string name="bank">銀行</string>
+    <string name="credit_card">クレジットカード</string>
+    <string name="debit_card">デビットカード</string>
+    <string name="others">その他</string>
+
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>
     <string name="del_conf_text">表示中のデータを削除しますか？</string>

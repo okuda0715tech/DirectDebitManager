@@ -25,6 +25,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.SelectableText
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -70,6 +71,7 @@ fun SourceEditScreen(
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,
+            sourceTypeStringRes = viewModel.getSourceTypeStringRes(uiState.sourceType),
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
@@ -106,6 +108,7 @@ fun SourceEditContents(
     source: String,
     onSourceChanged: (String) -> Unit,
     itemId: Int,
+    sourceTypeStringRes: Int,
     sourceErrorMessage: Int?,
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
@@ -122,6 +125,16 @@ fun SourceEditContents(
             onTextChanged = onSourceChanged,
             supportingText = sourceErrorMessage,
             onClickClear = { onSourceChanged("") }
+        )
+
+        SelectableText(
+            labelText = stringResource(R.string.source_type),
+            text = stringResource(sourceTypeStringRes),
+            onClickText = {},
+            supportingText = null,
+            icon = null,
+            iconDescription = null,
+            onClickIcon = {},
         )
 
         if (itemId != 0) {
@@ -151,6 +164,7 @@ private fun PreviewUpdateContents() {
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 1,
+        sourceTypeStringRes = R.string.bank,
         sourceErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
@@ -165,6 +179,7 @@ private fun PreviewRegisterContents() {
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 0,
+        sourceTypeStringRes = R.string.bank,
         sourceErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
@@ -179,6 +194,7 @@ private fun PreviewValidationErrorContents() {
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 0,
+        sourceTypeStringRes = R.string.bank,
         sourceErrorMessage = R.string.common_required_field,
         onClickDelete = {},
         onNavigateUp = {},

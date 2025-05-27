@@ -94,9 +94,9 @@ fun SourceListDialog(
 private fun PreviewSourceListDialog() {
     SourceListDialog(
         items = listOf(
-            Source(id = 1, name = "横浜銀行"),
-            Source(id = 2, name = "三井住友銀行"),
-            Source(id = 3, name = "PayPay銀行"),
+            Source(id = 1, name = "横浜銀行", type = 0),
+            Source(id = 2, name = "三井住友銀行", type = 0),
+            Source(id = 3, name = "PayPay銀行", type = 0),
         ),
         onDismissRequest = {},
         onClickItem = {},

@@ -14,6 +14,7 @@ data class LocalSource(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
-    val name: String
+    val name: String,
 
+    val type: Int,
 )

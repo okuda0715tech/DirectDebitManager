@@ -23,11 +23,13 @@ fun Destination.toLocal() = LocalDestination(
 fun LocalSource.toExternal() = Source(
     id = id,
     name = name,
+    type = type,
 )
 
 fun Source.toLocal() = LocalSource(
     id = id,
     name = name,
+    type = type,
 )
 
 fun LocalDestWithSource.toExternal() = DestWithSource(

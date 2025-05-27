@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.data.source.SourceType
 import com.kurodai0715.directdebitmanager.ui.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.ui.domain.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,6 +24,7 @@ data class SourceEditUiState(
     val showDelCompDialog: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
     val sourceErrorMessage: Int? = null,
+    val sourceType: SourceType = SourceType.Bank,
 )
 
 @HiltViewModel
@@ -51,6 +53,7 @@ class SourceEditViewModel @Inject constructor(
             it.copy(
                 sourceId = source.id,
                 sourceName = source.name,
+                sourceType = SourceType.fromInt(source.type),
             )
         }
     }
@@ -72,6 +75,20 @@ class SourceEditViewModel @Inject constructor(
             it.copy(navigationUpEventConsumed = value)
         }
     }
+
+    fun updateSourceType(type: SourceType) {
+        _uiState.update {
+            it.copy(sourceType = type)
+        }
+    }
+
+    fun getSourceTypeStringRes(type: SourceType): Int =
+        when (type) {
+            SourceType.Bank -> R.string.bank
+            SourceType.CreditCard -> R.string.credit_card
+            SourceType.DebitCard -> R.string.debit_card
+            SourceType.Others -> R.string.others
+        }
 
     fun validate() {
         val sourceValidationSuccess = sourceValidation()
@@ -102,7 +119,8 @@ class SourceEditViewModel @Inject constructor(
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertSource(
                 id = uiState.value.sourceId,
-                source = uiState.value.sourceName
+                source = uiState.value.sourceName,
+                type = SourceType.toInt(uiState.value.sourceType),
             )
 
             _uiState.update {
@@ -134,7 +152,8 @@ class SourceEditViewModel @Inject constructor(
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteSource(
                 id = uiState.value.sourceId,
-                name = uiState.value.sourceName
+                name = uiState.value.sourceName,
+                type = SourceType.toInt(uiState.value.sourceType),
             )
 
             _uiState.update {

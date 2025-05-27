@@ -44,6 +44,7 @@ data object SourceList
 data class SourceEdit(
     val sourceId: Int? = null,
     val sourceName: String? = null,
+    val sourceType: Int? = null,
 )
 
 fun NavGraphBuilder.destEditDestination(
@@ -102,7 +103,7 @@ fun NavGraphBuilder.sourceEditDestination(
             source = if (sourceEdit.sourceId == null) {
                 null
             } else {
-                Source(id = sourceEdit.sourceId, name = sourceEdit.sourceName!!)
+                Source(id = sourceEdit.sourceId, name = sourceEdit.sourceName!!, type = sourceEdit.sourceType!!)
             },
             onNavigateUp = onNavigateUp,
         )
@@ -133,7 +134,8 @@ fun NavController.navigateToSourceEditDestination(source: Source?) {
     navigate(
         SourceEdit(
             sourceId = source?.id,
-            sourceName = source?.name
+            sourceName = source?.name,
+            sourceType = source?.type,
         )
     )
 }
