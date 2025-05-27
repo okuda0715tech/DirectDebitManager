@@ -36,8 +36,8 @@ fun AppBaseText(
     supportingText: Int?,
     onClickIcon: () -> Unit = {},
     iconVisible: Boolean,
-    icon: Painter,
-    iconDescription: String,
+    icon: Painter?,
+    iconDescription: String?,
     textComposable: @Composable (Modifier) -> Unit,
 ) {
     Column(
@@ -57,7 +57,7 @@ fun AppBaseText(
         ) {
             textComposable(Modifier.weight(1f))
 
-            if (iconVisible) {
+            if (iconVisible && icon != null) {
                 Icon(
                     painter = icon,
                     contentDescription = iconDescription,
@@ -166,15 +166,17 @@ fun SelectableText(
     text: String,
     onClickText: () -> Unit,
     supportingText: Int?,
-    onClickIcon: () -> Unit = {},
+    icon: Painter? = null,
+    iconDescription: String? = null,
+    onClickIcon: (() -> Unit) = {},
 ) {
     AppBaseText(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickIcon,
         iconVisible = true,
-        icon = painterResource(id = R.drawable.outline_edit_note_24),
-        iconDescription = stringResource(id = R.string.edit_source_icon_description),
+        icon = icon,
+        iconDescription = iconDescription,
         textComposable = { modifier ->
             AppDefaultText(
                 modifier = modifier,
