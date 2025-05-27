@@ -156,10 +156,28 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    fun updateDestErrorMessage(message: Int?) {
+        _uiState.update {
+            it.copy(
+                destErrorMessage = message
+            )
+        }
+    }
+
+    fun updateSourceErrorMessage(message: Int?) {
+        _uiState.update {
+            it.copy(
+                sourceErrorMessage = message
+            )
+        }
+    }
+
     fun validate() {
         val destValidationSuccess = destValidation()
+        val sourceValidationSuccess = sourceValidation()
 
         if (!destValidationSuccess) return
+        if (!sourceValidationSuccess) return
 
         saveData()
     }
@@ -172,11 +190,19 @@ class DestinationEditViewModel @Inject constructor(
             else -> null
         }
 
-        _uiState.update {
-            it.copy(
-                destErrorMessage = message
-            )
+        updateDestErrorMessage(message)
+
+        return validationResult == ValidationResult.Valid
+    }
+
+    private fun sourceValidation(): Boolean {
+        val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
+        val message = when (validationResult) {
+            ValidationResult.EmptyError -> R.string.common_required_field
+            ValidationResult.LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
+            else -> null
         }
+        updateSourceErrorMessage(message)
 
         return validationResult == ValidationResult.Valid
     }

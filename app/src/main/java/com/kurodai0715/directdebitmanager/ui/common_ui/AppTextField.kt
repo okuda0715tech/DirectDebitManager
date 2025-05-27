@@ -78,14 +78,12 @@ fun AppBaseText(
             else
                 MaterialTheme.colorScheme.error
         )
-        if (supportingText != null) {
-            Text(
-                text = stringResource(supportingText),
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
-            )
-        }
+        Text(
+            text = if (supportingText != null) stringResource(supportingText) else "",
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.labelMedium,
+            modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
+        )
     }
 }
 
@@ -216,7 +214,7 @@ private fun PreviewSelectableTextFilled() {
         text = "横浜銀行",
         onClickText = { },
         onClickIcon = { },
-        supportingText = null
+        supportingText = null,
     )
 }
 
@@ -228,6 +226,6 @@ private fun PreviewSelectableTextEmpty() {
         text = "",
         onClickText = { },
         onClickIcon = { },
-        supportingText = null
+        supportingText = R.string.common_required_field,
     )
 }
