@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.ui.common_ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +18,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
@@ -26,13 +29,16 @@ import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
+
 @Composable
-fun AppTextField(
+fun AppBaseText(
     labelText: String,
-    text: String,
-    onTextChanged: (String) -> Unit,
     supportingText: Int?,
-    onClickClear: () -> Unit = {}
+    onClickIcon: () -> Unit = {},
+    iconVisible: Boolean,
+    icon: Painter,
+    iconDescription: String,
+    textComposable: @Composable (Modifier) -> Unit,
 ) {
     Column(
         modifier = Modifier.Companion.fillMaxWidth()
@@ -49,22 +55,15 @@ fun AppTextField(
                 .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 .padding(start = 16.dp, end = 12.dp)
         ) {
-            BasicTextField(
-                value = text,
-                onValueChange = onTextChanged,
-                textStyle = LocalTextStyle.current.copy(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontSize = MaterialTheme.typography.bodyLarge.fontSize
-                ),
-                modifier = Modifier.Companion.weight(1f)
-            )
-            if (!text.isEmpty()) {
+            textComposable(Modifier.weight(1f))
+
+            if (iconVisible) {
                 Icon(
-                    painter = painterResource(id = R.drawable.cancel_24px),
-                    contentDescription = stringResource(id = R.string.edit_source_icon_description),
+                    painter = icon,
+                    contentDescription = iconDescription,
                     modifier = Modifier.Companion
                         .size(ICON_LARGE_SIZE)
-                        .clickable(onClick = { debouncedClick(onClickClear) }),
+                        .clickable(onClick = { debouncedClick(onClickIcon) }),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
@@ -90,6 +89,57 @@ fun AppTextField(
     }
 }
 
+@Composable
+fun AppTextField(
+    labelText: String,
+    text: String,
+    onTextChanged: (String) -> Unit,
+    supportingText: Int?,
+    onClickClear: () -> Unit = {},
+) {
+    AppBaseText(
+        labelText = labelText,
+        supportingText = supportingText,
+        onClickIcon = onClickClear,
+        iconVisible = !text.isEmpty(),
+        icon = painterResource(id = R.drawable.cancel_24px),
+        iconDescription = stringResource(id = R.string.clear_text_icon_description),
+        textComposable = { modifier ->
+            AppDefaultBasicTextField(
+                modifier = modifier,
+                text = text,
+                onTextChanged = onTextChanged,
+            )
+        }
+    )
+}
+
+@Composable
+fun AppDefaultBasicTextField(
+    modifier: Modifier,
+    text: String,
+    onTextChanged: (String) -> Unit,
+) {
+    BasicTextField(
+        value = text,
+        onValueChange = onTextChanged,
+        textStyle = LocalTextStyle.current.copy(
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = MaterialTheme.typography.bodyLarge.fontSize
+        ),
+        modifier = modifier.heightIn(min = TEXT_FIELD_MIN_HEIGHT),
+        decorationBox = { innerTextField ->
+            // 中央に配置するために Box でラップ
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterStart // 左寄せ & 垂直中央
+            ) {
+                innerTextField()
+            }
+        }
+    )
+}
+
 @Preview
 @Composable
 private fun PreviewAppTextFieldFilled() {
@@ -110,4 +160,74 @@ private fun PreviewAppTextFieldEmpty() {
         onTextChanged = { },
         supportingText = R.string.common_required_field,
         onClickClear = { })
+}
+
+@Composable
+fun SelectableText(
+    labelText: String,
+    text: String,
+    onClickText: () -> Unit,
+    supportingText: Int?,
+    onClickIcon: () -> Unit = {},
+) {
+    AppBaseText(
+        labelText = labelText,
+        supportingText = supportingText,
+        onClickIcon = onClickIcon,
+        iconVisible = true,
+        icon = painterResource(id = R.drawable.outline_edit_note_24),
+        iconDescription = stringResource(id = R.string.edit_source_icon_description),
+        textComposable = { modifier ->
+            AppDefaultText(
+                modifier = modifier,
+                text = text,
+                onClickText = onClickText,
+            )
+        }
+    )
+}
+
+@Composable
+fun AppDefaultText(
+    modifier: Modifier,
+    text: String,
+    onClickText: () -> Unit,
+) {
+    Box(
+        modifier = modifier
+            .heightIn(min = TEXT_FIELD_MIN_HEIGHT)
+            .clickable(onClick = { debouncedClick(onClickText) })
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.align(Alignment.CenterStart),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = MaterialTheme.typography.bodyLarge.fontSize,
+            textAlign = TextAlign.Start
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewSelectableTextFilled() {
+    SelectableText(
+        labelText = stringResource(R.string.source_text_label),
+        text = "横浜銀行",
+        onClickText = { },
+        onClickIcon = { },
+        supportingText = null
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewSelectableTextEmpty() {
+    SelectableText(
+        labelText = stringResource(R.string.source_text_label),
+        text = "",
+        onClickText = { },
+        onClickIcon = { },
+        supportingText = null
+    )
 }

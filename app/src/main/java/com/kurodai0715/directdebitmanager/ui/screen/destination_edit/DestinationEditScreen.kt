@@ -1,39 +1,23 @@
 package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
@@ -43,8 +27,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
-import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.common_ui.SelectableText
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -174,6 +157,7 @@ fun DestinationEditContents(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+
         AppTextField(
             labelText = stringResource(R.string.destination_text_label),
             text = destName,
@@ -185,9 +169,11 @@ fun DestinationEditContents(
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
         SelectableText(
-            sourceName = sourceName,
-            onClickSource = onClickSource,
-            onClickEditSource = onClickEditSource
+            labelText = stringResource(R.string.source_text_label),
+            text = sourceName,
+            onClickText = onClickSource,
+            supportingText = null,
+            onClickIcon = onClickEditSource,
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
@@ -220,86 +206,6 @@ fun DestinationEditContents(
                 rightText = stringResource(R.string.common_save)
             )
         }
-    }
-}
-
-@Composable
-fun SelectableText(
-    sourceName: String,
-    supportingText: String = "",
-    isError: Boolean = false,
-    onClickSource: () -> Unit,
-    onClickEditSource: () -> Unit,
-) {
-    Column {
-        SurfaceButton(
-            onClick = {
-                debouncedClick {
-                    onClickSource()
-                }
-            },
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-                    .height(56.dp)
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f),
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    if (sourceName.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.source_text_label),
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                lineHeight = 24.sp,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                    } else {
-                        Text(
-                            text = stringResource(R.string.source_text_label),
-                            style = TextStyle(
-                                fontSize = 12.sp,
-                                lineHeight = 16.sp,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        Spacer(modifier = Modifier.height(2.dp))
-                        Text(
-                            text = sourceName,
-                            style = TextStyle(
-                                fontSize = 16.sp,
-                                lineHeight = 24.sp,
-                                fontWeight = FontWeight.W400,
-                                letterSpacing = 0.5.sp,
-                            ),
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-                    }
-                }
-                Icon(
-                    painter = painterResource(id = R.drawable.outline_edit_note_24),
-                    contentDescription = stringResource(id = R.string.edit_source_icon_description),
-                    modifier = Modifier
-                        .size(ICON_LARGE_SIZE)
-                        .align(alignment = Alignment.CenterVertically)
-                        .clickable(onClick = { debouncedClick(onClickEditSource) }),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-        }
-        HorizontalDivider(
-            thickness = 1.dp,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }
 
@@ -369,16 +275,4 @@ private fun PreviewValidationErrorContents() {
         onClickSource = {},
         onClickEditSource = {},
     )
-}
-
-@Preview
-@Composable
-private fun PreviewSelectableTextFilled() {
-    SelectableText(sourceName = "横浜銀行", onClickSource = { }, onClickEditSource = { })
-}
-
-@Preview
-@Composable
-private fun PreviewSelectableTextEmpty() {
-    SelectableText(sourceName = "", onClickSource = { }, onClickEditSource = { })
 }
