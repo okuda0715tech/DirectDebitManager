@@ -2,7 +2,9 @@ package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -21,7 +23,8 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.OneOutlinedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SurfaceButton
-import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.DIALOG_CONTENT_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.DIALOG_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
@@ -34,8 +37,25 @@ fun SourceListDialog(
 ) {
     Dialog(onDismissRequest = onDismissRequest) {
         Card {
-            Column(horizontalAlignment = Alignment.Companion.CenterHorizontally) {
-                LazyColumn(modifier = Modifier.Companion.padding(SCREEN_EDGE_PADDING_DEF)) {
+            Column(
+                modifier = Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceContainerHighest
+                    )
+                    .padding(DIALOG_EDGE_PADDING_DEF),
+                horizontalAlignment = Alignment.Companion.CenterHorizontally
+            ) {
+
+                Text(
+                    text = stringResource(R.string.source_select_dialog_title),
+                    style = MaterialTheme.typography.titleLarge,
+                )
+
+                Spacer(modifier = Modifier.height(DIALOG_CONTENT_PADDING_DEF))
+
+                HorizontalDivider()
+
+                LazyColumn {
                     itemsIndexed(items) { index, item ->
 
                         SurfaceButton(
@@ -45,20 +65,14 @@ fun SourceListDialog(
                                     onDismissRequest()
                                 }
                             },
-                            modifier = Modifier.Companion.background(MaterialTheme.colorScheme.surfaceContainerHighest)
                         ) {
                             Text(
                                 text = item.name,
-                                modifier = modifier
+                                modifier = Modifier
                                     .fillMaxWidth()
                                     .background(MaterialTheme.colorScheme.surfaceContainerHighest)
                                     .padding(12.dp)
                             )
-                        }
-
-                        // 最後のアイテム以外なら分割線を引く
-                        if (index != items.size - 1) {
-                            HorizontalDivider()
                         }
                     }
                 }
@@ -66,7 +80,7 @@ fun SourceListDialog(
                 HorizontalDivider()
 
                 OneOutlinedButton(
-                    onClick = {debouncedClick(onClickEdit)},
+                    onClick = { debouncedClick(onClickEdit) },
                     text = stringResource(R.string.common_edit)
                 )
             }

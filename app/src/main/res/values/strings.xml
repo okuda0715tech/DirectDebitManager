@@ -43,6 +43,10 @@
     <string name="no_source_data_text">「振替元情報」画面から、データを登録してみましょう。</string>
     <string name="usage_rules_icon_description">ご使用方法</string>
 
+    <!-- 振替元選択ダイアログ -->
+    <string name="source_select_dialog_title">振替元の選択</string>
+    <string name="source_select_dialog_supporting_text">振替元を選択してくだい。データを追加するには「変更」ボタンをタップしてください。</string>
+
     <!-- 共通 -->
     <string name="menu">メニュー</string>
     <string name="common_delete">削除</string>

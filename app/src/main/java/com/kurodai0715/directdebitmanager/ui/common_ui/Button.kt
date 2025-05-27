@@ -53,6 +53,20 @@ fun SurfaceButton(
     )
 }
 
+@Preview
+@Composable
+private fun PreviewSurfaceButton() {
+    SurfaceButton(
+        onClick = {},
+        content = {
+            Text(
+                text = "ボタン",
+                modifier = Modifier.padding(12.dp)
+            )
+        }
+    )
+}
+
 @Composable
 fun HorizontalThreeButton(
     onClickLeft: () -> Unit,
