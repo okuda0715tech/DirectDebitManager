@@ -53,6 +53,20 @@ fun SurfaceButton(
     )
 }
 
+@Composable
+fun DialogSurfaceButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    SurfaceButton(
+        onClick = onClick,
+        modifier = modifier,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        content = content,
+    )
+}
+
 @Preview
 @Composable
 private fun PreviewSurfaceButton() {
