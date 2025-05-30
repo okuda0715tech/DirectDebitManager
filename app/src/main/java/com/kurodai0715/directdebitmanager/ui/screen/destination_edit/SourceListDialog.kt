@@ -34,7 +34,6 @@ fun SourceListDialog(
         text = {
             LazyColumn {
                 itemsIndexed(items) { index, item ->
-
                     DialogSurfaceButton (
                         onClick = {
                             debouncedClick {
