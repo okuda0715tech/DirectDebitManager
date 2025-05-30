@@ -52,7 +52,6 @@
 
     <!-- 振替元選択ダイアログ -->
     <string name="source_select_dialog_title">振替元の選択</string>
-    <string name="source_select_dialog_supporting_text">振替元を選択してくだい。データを追加するには「変更」ボタンをタップしてください。</string>
 
     <!-- 共通 -->
     <string name="menu">メニュー</string>
