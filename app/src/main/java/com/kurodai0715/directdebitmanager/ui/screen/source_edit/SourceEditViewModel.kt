@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.data.source.SourceType
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
+import com.kurodai0715.directdebitmanager.domain.SourceType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
