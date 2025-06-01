@@ -6,8 +6,8 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.SourceType
-import com.kurodai0715.directdebitmanager.ui.domain.BasicTextValidator
-import com.kurodai0715.directdebitmanager.ui.domain.ValidationResult
+import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
+import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +22,7 @@ data class SourceEditUiState(
     val userMessage: Int? = null,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
+    val showSourceTypeListDialog: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
     val sourceErrorMessage: Int? = null,
     val sourceType: SourceType = SourceType.Bank,
@@ -67,6 +68,12 @@ class SourceEditViewModel @Inject constructor(
     fun updateDelCompDialogVisibility(show: Boolean) {
         _uiState.update {
             it.copy(showDelCompDialog = show)
+        }
+    }
+
+    fun updateSourceTypeListDialogVisibility(show: Boolean) {
+        _uiState.update {
+            it.copy(showSourceTypeListDialog = show)
         }
     }
 

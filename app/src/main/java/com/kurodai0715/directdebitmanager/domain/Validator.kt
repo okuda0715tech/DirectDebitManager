@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.domain
+package com.kurodai0715.directdebitmanager.domain
 
 
 /**
