@@ -1,24 +1,30 @@
 package com.kurodai0715.directdebitmanager.domain
 
-sealed class SourceType {
-    object Bank : SourceType()
-    object CreditCard : SourceType()
-    object DebitCard : SourceType()
-    object Others : SourceType()
+
+enum class SourceType(val value: Int) {
+    Bank(0),
+    CreditCard(1),
+    DebitCard(2),
+    Others(3);
 
     companion object {
-        fun fromInt(value: Int): SourceType = when (value) {
-            0 -> Bank
-            1 -> CreditCard
-            2 -> DebitCard
-            else -> Others
+        fun fromInt(value: Int): SourceType {
+            for (type in entries) {
+                if (type.value == value) {
+                    return type
+                }
+            }
+            return Others
         }
 
-        fun toInt(sourceType: SourceType): Int = when (sourceType) {
-            Bank -> 0
-            CreditCard -> 1
-            DebitCard -> 2
-            Others -> 3
+        fun toInt(sourceType: SourceType): Int {
+            for (type in entries) {
+                if (type == sourceType) {
+                    return type.value
+                }
+            }
+            return Others.value
         }
     }
+
 }
