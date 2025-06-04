@@ -142,7 +142,10 @@ private fun Preview() {
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
             Source(1, "横浜銀行クレジットカード", 1),
-            Source(2, "横浜銀行", 0)
+            Source(2, "横浜銀行", 0),
+            Source(3, "三菱UFJ銀行", 0),
+            Source(4, "横浜銀行デビットカード", 2),
+            Source(5, "PayPay", 3),
         ),
         onNavigateUp = { },
         onNavigateToEdit = { },

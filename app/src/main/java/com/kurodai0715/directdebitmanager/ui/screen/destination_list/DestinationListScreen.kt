@@ -156,7 +156,10 @@ private fun Preview() {
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
             DestWithSource(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
-            DestWithSource(2, "Oliveクレジットカード", 2, "三井住友銀行")
+            DestWithSource(2, "Oliveクレジットカード", 2, "三井住友銀行"),
+            DestWithSource(3, "電気料金", 2, "三井住友銀行"),
+            DestWithSource(4, "水道料金", 3, "PayPay銀行"),
+            DestWithSource(5, "PayPayカード", 3, "PayPay銀行"),
         ),
         onNavigateToEdit = { })
 }
