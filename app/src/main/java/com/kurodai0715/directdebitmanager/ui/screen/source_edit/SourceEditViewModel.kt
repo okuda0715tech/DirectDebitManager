@@ -89,14 +89,6 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun getSourceTypeStringRes(type: SourceType): Int =
-        when (type) {
-            SourceType.Bank -> R.string.bank
-            SourceType.CreditCard -> R.string.credit_card
-            SourceType.DebitCard -> R.string.debit_card
-            SourceType.Others -> R.string.others
-        }
-
     fun validate() {
         val sourceValidationSuccess = sourceValidation()
 

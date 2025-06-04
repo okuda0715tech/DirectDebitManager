@@ -71,11 +71,12 @@ fun SourceEditScreen(
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,
-            sourceTypeStringRes = viewModel.getSourceTypeStringRes(uiState.sourceType),
+            sourceTypeStringRes = getSourceTypeStringRes(uiState.sourceType),
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
+            onClickType = { viewModel.updateSourceTypeListDialogVisibility(true) }
         )
 
         if (uiState.showDelConfDialog) {
@@ -99,6 +100,13 @@ fun SourceEditScreen(
                 viewModel.updateNavigateUpEventConsumed(true)
             }
         }
+
+        if (uiState.showSourceTypeListDialog) {
+            SourceTypeListDialog(
+                onDismissRequest = { viewModel.updateSourceTypeListDialogVisibility(false) },
+                onClickItem = { viewModel.updateSourceType(it) },
+            )
+        }
     }
 }
 
@@ -113,6 +121,7 @@ fun SourceEditContents(
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
+    onClickType: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -130,7 +139,7 @@ fun SourceEditContents(
         SelectableText(
             labelText = stringResource(R.string.source_type),
             text = stringResource(sourceTypeStringRes),
-            onClickText = {},
+            onClickText = onClickType,
             supportingText = null,
             icon = null,
             iconDescription = null,
@@ -169,6 +178,7 @@ private fun PreviewUpdateContents() {
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
+        onClickType = {},
     )
 }
 
@@ -184,6 +194,7 @@ private fun PreviewRegisterContents() {
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
+        onClickType = {},
     )
 }
 
@@ -199,5 +210,6 @@ private fun PreviewValidationErrorContents() {
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
+        onClickType = {},
     )
 }

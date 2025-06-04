@@ -35,6 +35,9 @@
     <string name="debit_card">デビットカード</string>
     <string name="others">その他</string>
 
+    <!-- 振替元区分選択 ダイアログ -->
+    <string name="source_type_list_dialog_title">振替元区分の選択</string>
+
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>
     <string name="del_conf_text">表示中のデータを削除しますか？</string>
@@ -45,12 +48,12 @@
     <string name="del_comp_text">削除が完了しました。</string>
     <string name="del_comp_icon_description">削除完了アイコン</string>
 
-    <!-- 振替元情報データ未登録のダイアログ -->
+    <!-- 振替元情報データ未登録 ダイアログ -->
     <string name="no_source_data_title">データ未登録</string>
     <string name="no_source_data_text">「振替元情報」画面から、データを登録してみましょう。</string>
     <string name="usage_rules_icon_description">ご使用方法</string>
 
-    <!-- 振替元選択ダイアログ -->
+    <!-- 振替元選択 ダイアログ -->
     <string name="source_select_dialog_title">振替元の選択</string>
 
     <!-- 共通 -->
