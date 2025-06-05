@@ -31,6 +31,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
+import com.kurodai0715.directdebitmanager.ui.screen.source_edit.getSourceTypeStringRes
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -124,12 +125,12 @@ fun TransSourceItem(
             })
             .padding(8.dp)
     ) {
+        Text(source.name)
         Text(
-            stringResource(R.string.source_text_label),
+            text = stringResource(getSourceTypeStringRes(source.type)),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
-        Text(source.name)
     }
 }
 
