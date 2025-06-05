@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -26,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.theme.SPACE_EXTRA_SMALL
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -48,6 +50,9 @@ fun AppBaseText(
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
         )
+
+        Spacer(modifier = Modifier.size(SPACE_EXTRA_SMALL))
+
         Row(
             verticalAlignment = Alignment.Companion.CenterVertically,
             modifier = Modifier.Companion
@@ -78,6 +83,9 @@ fun AppBaseText(
             else
                 MaterialTheme.colorScheme.error
         )
+
+        Spacer(modifier = Modifier.size(SPACE_EXTRA_SMALL))
+
         Text(
             text = if (supportingText != null) stringResource(supportingText) else "",
             color = MaterialTheme.colorScheme.error,
