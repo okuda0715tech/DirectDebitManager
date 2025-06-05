@@ -5,6 +5,8 @@ import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
+import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
+import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocal
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
@@ -84,24 +86,39 @@ class DirectDebitDefaultRepository @Inject constructor(
         return resultSuccess
     }
 
+    suspend fun fetchNumOfDestination(sourceId: Int): Int {
+        var numOfDestination: Int
+        withContext(ioDispatcher) {
+            numOfDestination = try {
+                localDataSource.fetchNumOfDestination(sourceId)
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                -1
+            }
+            Log.d(TAG, "numOfDestination = $numOfDestination")
+        }
+        return numOfDestination
+    }
+
     /**
      * 振替元情報を DB から削除する.
      *
      * @param id 削除するレコードの id
      * @param name 削除するレコードの source
-     * @return 削除したレコードの件数。エラーが発生した場合は -1。
+     * @return [LocalDestination] テーブルと [LocalSource] テーブルの削除したレコードの件数。
+     * エラーが発生した場合は -1。
      */
-    suspend fun deleteSource(id: Int, name: String, type: Int): Int {
-        var numOfDeleted: Int
+    suspend fun deleteDestAndSource(id: Int, name: String, type: Int): Pair<Int, Int> {
+        var numOfDeleted: Pair<Int, Int>
         withContext(ioDispatcher) {
             val source = Source(id = id, name = name, type = type)
             numOfDeleted = try {
-                localDataSource.deleteSource(source.toLocal())
+                localDataSource.deleteDestAndSourceBy(source.toLocal())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
-                -1
+                (-1 to -1)
             }
-            Log.d(TAG, "NumOfDeleted = $numOfDeleted")
+            Log.d(TAG, "numOfDeleted = $numOfDeleted")
         }
         return numOfDeleted
     }

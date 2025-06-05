@@ -43,6 +43,9 @@
     <string name="del_conf_text">表示中のデータを削除しますか？</string>
     <string name="del_conf_icon_description">削除確認アイコン</string>
 
+    <!-- 振替元 編集 画面用 削除確認 ダイアログ -->
+    <string name="del_conf_text_related_dest_exists">%1$d 件の振替先で、この振替元が使用されています。\n\n振替先データも削除されますが、削除してもよろしいですか？</string>
+
     <!-- 削除完了 ダイアログ -->
     <string name="del_comp_title">削除完了</string>
     <string name="del_comp_text">削除が完了しました。</string>
@@ -76,5 +79,6 @@
     <string name="common_close">閉じる</string>
     <string name="common_required_field">必須項目です。</string>
     <string name="common_length_needs_to_be_within_30">30文字以内で入力してください。</string>
+    <string name="common_unexpected_error">予期せぬエラーが発生しました。</string>"
 
 </resources>

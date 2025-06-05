@@ -26,6 +26,7 @@ data class SourceEditUiState(
     val navigationUpEventConsumed: Boolean = true,
     val sourceErrorMessage: Int? = null,
     val sourceType: SourceType = SourceType.Bank,
+    val sourceRelatedDestCount: Int = 0,
 )
 
 @HiltViewModel
@@ -147,16 +148,43 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
+    fun checkRelatedDataExists(sourceId: Int) {
+        viewModelScope.launch {
+            val relatedDestCount = directDebitDefRepo.fetchNumOfDestination(sourceId)
+
+            if (relatedDestCount == 0) {
+                _uiState.update {
+                    it.copy(
+                        showDelConfDialog = true
+                    )
+                }
+            } else if (relatedDestCount > 0) {
+                _uiState.update {
+                    it.copy(
+                        showDelConfDialog = true,
+                        sourceRelatedDestCount = relatedDestCount
+                    )
+                }
+            } else if (relatedDestCount == -1) {
+                _uiState.update {
+                    it.copy(
+                        userMessage = R.string.common_unexpected_error
+                    )
+                }
+            }
+        }
+    }
+
     fun deleteData() {
         viewModelScope.launch {
-            val numOfDeleted = directDebitDefRepo.deleteSource(
+            val (deletedDestCount, deletedSourceCount) = directDebitDefRepo.deleteDestAndSource(
                 id = uiState.value.sourceId,
                 name = uiState.value.sourceName,
                 type = SourceType.toInt(uiState.value.sourceType),
             )
 
             _uiState.update {
-                if (numOfDeleted > 0) {
+                if (deletedDestCount != -1 && deletedSourceCount != -1) {
                     // 削除に成功した場合
 
                     it.copy(
