@@ -26,7 +26,7 @@ fun SourceTypeListDialog(
 
     AlertDialog(
         title = {
-            Text(text = stringResource(R.string.source_select_dialog_title))
+            Text(text = stringResource(R.string.source_type_list_dialog_title))
         },
         text = {
             LazyColumn {
