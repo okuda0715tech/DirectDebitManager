@@ -165,7 +165,7 @@ fun DestinationEditContents(
             onClickText = onClickSource,
             supportingText = sourceErrorMessage,
             icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
-            iconDescription = stringResource(id = R.string.edit_source_icon_description),
+            iconDescription = stringResource(id = R.string.open_source_list_dialog_icon_description),
             onClickIcon = onClickSource,
         )
 

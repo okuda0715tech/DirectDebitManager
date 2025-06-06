@@ -27,7 +27,7 @@
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
     <string name="clear_text_icon_description">入力文字を削除</string>
-    <string name="edit_source_icon_description">振替元編集アイコン</string>
+    <string name="open_source_list_dialog_icon_description">振替元選択ダイアログを開くアイコン</string>
 
     <!-- 振替元 編集 画面 -->
     <string name="source_type">区分</string>
@@ -35,9 +35,10 @@
     <string name="credit_card">クレジットカード</string>
     <string name="debit_card">デビットカード</string>
     <string name="others">その他</string>
+    <string name="open_source_type_dialog_icon_description">振替元区分選択ダイアログを開くアイコン</string>
 
     <!-- 振替元区分選択 ダイアログ -->
-    <string name="source_type_list_dialog_title">振替元区分の選択</string>
+    <string name="source_type_list_dialog_title">区分の選択</string>
 
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>

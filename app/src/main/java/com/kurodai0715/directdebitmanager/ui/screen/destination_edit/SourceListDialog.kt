@@ -75,7 +75,7 @@ fun SourceListDialog(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.outline_edit_24),
-                    contentDescription = stringResource(R.string.edit_source_icon_description),
+                    contentDescription = stringResource(R.string.open_source_list_dialog_icon_description),
                     modifier = Modifier.size(ICON_LARGE_SIZE),
                     tint = MaterialTheme.colorScheme.primary,
                 )

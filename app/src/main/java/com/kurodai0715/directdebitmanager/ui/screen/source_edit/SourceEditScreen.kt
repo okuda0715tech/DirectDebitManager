@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -141,9 +142,9 @@ fun SourceEditContents(
             text = stringResource(sourceTypeStringRes),
             onClickText = onClickType,
             supportingText = null,
-            icon = null,
-            iconDescription = null,
-            onClickIcon = {},
+            icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
+            iconDescription = stringResource(id = R.string.open_source_type_dialog_icon_description),
+            onClickIcon = onClickType,
         )
 
         if (itemId != 0) {
