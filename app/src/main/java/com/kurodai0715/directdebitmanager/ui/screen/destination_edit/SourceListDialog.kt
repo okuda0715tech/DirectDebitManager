@@ -1,21 +1,34 @@
 package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.DialogSurfaceButton
+import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.theme.SPACE_SMALL
+import com.kurodai0715.directdebitmanager.ui.theme.TAP_AREA_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
@@ -34,7 +47,7 @@ fun SourceListDialog(
         text = {
             LazyColumn {
                 itemsIndexed(items) { index, item ->
-                    DialogSurfaceButton (
+                    DialogSurfaceButton(
                         onClick = {
                             debouncedClick {
                                 onClickItem(index)
@@ -54,10 +67,28 @@ fun SourceListDialog(
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
-            Text(
-                text = stringResource(R.string.common_edit),
-                modifier = Modifier.clickable(onClick = { debouncedClick(onClickEdit) }),
-            )
+            Row(
+                modifier = Modifier
+                    .height(TAP_AREA_DEF)
+                    .clickable(onClick = { debouncedClick(onClickEdit) }),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.outline_edit_24),
+                    contentDescription = stringResource(R.string.edit_source_icon_description),
+                    modifier = Modifier.size(ICON_LARGE_SIZE),
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(modifier = Modifier.size(SPACE_SMALL))
+                Box(
+                    modifier = Modifier.fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.add_edit),
+                    )
+                }
+            }
         }
     )
 }

@@ -46,3 +46,8 @@ val ICON_EX_SMALL_SIZE = 8.dp
 
 val TEXT_FIELD_MIN_HEIGHT = 56.dp
 
+//*****************************************
+// TextField
+//*****************************************
+
+val TAP_AREA_DEF = 48.dp
