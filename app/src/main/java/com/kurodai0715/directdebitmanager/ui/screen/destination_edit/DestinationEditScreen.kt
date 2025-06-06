@@ -83,7 +83,6 @@ fun DestinationEditScreen(
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
-            onClickEditSource = onNavigateToSourceList,
         )
 
         if (uiState.showDelConfDialog) {
@@ -154,7 +153,6 @@ fun DestinationEditContents(
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
     onClickSource: () -> Unit,
-    onClickEditSource: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -166,9 +164,9 @@ fun DestinationEditContents(
             text = sourceName,
             onClickText = onClickSource,
             supportingText = sourceErrorMessage,
-            icon = painterResource(id = R.drawable.outline_edit_note_24),
+            icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
             iconDescription = stringResource(id = R.string.edit_source_icon_description),
-            onClickIcon = onClickEditSource,
+            onClickIcon = onClickSource,
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
@@ -228,7 +226,6 @@ private fun PreviewUpdateContents() {
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
-        onClickEditSource = {},
     )
 }
 
@@ -246,7 +243,6 @@ private fun PreviewRegisterContents() {
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
-        onClickEditSource = {},
     )
 }
 
@@ -264,7 +260,6 @@ private fun PreviewEmptyTextContents() {
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
-        onClickEditSource = {},
     )
 }
 
@@ -282,6 +277,5 @@ private fun PreviewValidationErrorContents() {
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
-        onClickEditSource = {},
     )
 }
