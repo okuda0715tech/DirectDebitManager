@@ -161,16 +161,6 @@ fun DestinationEditContents(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        AppTextField(
-            labelText = stringResource(R.string.destination_text_label),
-            text = destName,
-            onTextChanged = onDestChanged,
-            supportingText = destErrorMessage,
-            onClickClear = { onDestChanged("") }
-        )
-
-        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
-
         SelectableText(
             labelText = stringResource(R.string.source_text_label),
             text = sourceName,
@@ -179,6 +169,16 @@ fun DestinationEditContents(
             icon = painterResource(id = R.drawable.outline_edit_note_24),
             iconDescription = stringResource(id = R.string.edit_source_icon_description),
             onClickIcon = onClickEditSource,
+        )
+
+        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
+
+        AppTextField(
+            labelText = stringResource(R.string.destination_text_label),
+            text = destName,
+            onTextChanged = onDestChanged,
+            supportingText = destErrorMessage,
+            onClickClear = { onDestChanged("") }
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
