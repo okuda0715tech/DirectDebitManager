@@ -55,7 +55,7 @@
 
     <!-- 振替元情報データ未登録 ダイアログ -->
     <string name="no_source_data_title">データ未登録</string>
-    <string name="no_source_data_text">「振替元情報」画面から、データを登録してみましょう。</string>
+    <string name="no_source_data_text">振替元が 1 件も登録されておりません。\n\nまずは、以下の「登録」ボタンより、ご登録ください。</string>
     <string name="usage_rules_icon_description">ご使用方法</string>
 
     <!-- 振替元選択 ダイアログ -->
@@ -68,6 +68,7 @@
     <string name="common_back">戻る</string>
     <string name="common_save">保存</string>
     <string name="common_add">追加</string>
+    <string name="common_register">登録</string>
     <!-- 「変更」は変更画面に遷移する際に使用 -->
     <string name="common_edit">変更</string>
     <!-- 「更新」はデータを実際に保存する際に使用 -->

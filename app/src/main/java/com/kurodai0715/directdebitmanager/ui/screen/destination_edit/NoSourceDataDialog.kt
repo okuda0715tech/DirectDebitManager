@@ -17,6 +17,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun NoSourceDataDialog(
     onDismissRequest: () -> Unit,
+    onClickRegister: () -> Unit,
 ) {
 
     AlertDialog(
@@ -37,10 +38,10 @@ fun NoSourceDataDialog(
         confirmButton = {
             TextButton(onClick = {
                 debouncedClick {
-                    onDismissRequest()
+                    onClickRegister()
                 }
             }) {
-                Text(stringResource(R.string.common_close))
+                Text(stringResource(R.string.common_register))
             }
         },
     )
@@ -51,5 +52,6 @@ fun NoSourceDataDialog(
 private fun PreviewNoSourceDataDialog() {
     NoSourceDataDialog(
         onDismissRequest = {},
+        onClickRegister = {}
     )
 }

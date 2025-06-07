@@ -122,11 +122,15 @@ fun DestinationEditScreen(
                     }
                 )
             } else {
-                NoSourceDataDialog(onDismissRequest = {
-                    viewModel.updateSourceListDialogVisibility(
-                        false
-                    )
-                })
+                NoSourceDataDialog(
+                    onDismissRequest = {
+                        viewModel.updateSourceListDialogVisibility(false)
+                    },
+                    onClickRegister = {
+                        viewModel.updateSourceListDialogVisibility(false)
+                        viewModel.updateEditSourceListEventConsumed(false)
+                    },
+                )
             }
         } else {
             if (!uiState.editSourceListEventConsumed) {
