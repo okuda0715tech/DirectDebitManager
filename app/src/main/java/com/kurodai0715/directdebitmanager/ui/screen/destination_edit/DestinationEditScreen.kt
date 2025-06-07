@@ -114,10 +114,7 @@ fun DestinationEditScreen(
                     onDismissRequest = { viewModel.updateSourceListDialogVisibility(false) },
                     onClickItem = { index ->
                         val source = uiState.sources[index]
-                        viewModel.updateSource(
-                            sourceId = source.id,
-                            source = source.name
-                        )
+                        viewModel.updateSource(sourceId = source.id)
                     },
                     onClickEdit = {
                         viewModel.updateSourceListDialogVisibility(false)

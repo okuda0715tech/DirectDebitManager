@@ -107,11 +107,10 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateSource(sourceId: Int, source: String) {
+    fun updateSource(sourceId: Int) {
         _uiState.update {
             it.copy(
                 sourceId = sourceId,
-                sourceName = source,
             )
         }
     }
@@ -234,7 +233,7 @@ class DestinationEditViewModel @Inject constructor(
                         // 新規作成の場合
                         it.copy(
                             destName = "",
-                            sourceName = "",
+                            sourceId = 0,
                             userMessage = R.string.common_save_successfully
                         )
                     } else {
