@@ -38,7 +38,7 @@ fun SourceListDialog(
     items: List<Source>,
     onDismissRequest: () -> Unit,
     onClickItem: (Int) -> Unit,
-    onClickEdit: () -> Unit,
+    onClickAddEdit: () -> Unit,
 ) {
     AlertDialog(
         title = {
@@ -70,7 +70,7 @@ fun SourceListDialog(
             Row(
                 modifier = Modifier
                     .height(TAP_AREA_DEF)
-                    .clickable(onClick = { debouncedClick(onClickEdit) }),
+                    .clickable(onClick = { debouncedClick(onClickAddEdit) }),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
@@ -104,6 +104,6 @@ private fun PreviewSourceListDialog() {
         ),
         onDismissRequest = {},
         onClickItem = {},
-        onClickEdit = {},
+        onClickAddEdit = {},
     )
 }

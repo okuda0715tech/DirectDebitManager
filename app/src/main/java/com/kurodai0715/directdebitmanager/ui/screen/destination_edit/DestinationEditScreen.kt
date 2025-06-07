@@ -116,7 +116,7 @@ fun DestinationEditScreen(
                         val source = uiState.sources[index]
                         viewModel.updateSource(sourceId = source.id)
                     },
-                    onClickEdit = {
+                    onClickAddEdit = {
                         viewModel.updateSourceListDialogVisibility(false)
                         viewModel.updateEditSourceListEventConsumed(false)
                     }
