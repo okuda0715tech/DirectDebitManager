@@ -69,7 +69,7 @@ fun AppBaseText(
                     modifier = Modifier.Companion
                         .size(ICON_LARGE_SIZE)
                         .clickable(onClick = { debouncedClick(onClickIcon) }),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
