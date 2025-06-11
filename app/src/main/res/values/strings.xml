@@ -20,6 +20,7 @@
     <!-- 口座振替 一覧 画面 -->
     <string name="fetch_error">データの取得に失敗しました。</string>
     <string name="down_arrow">↓</string>
+    <string name="welcome_animation_description">ユーザーを歓迎するアニメーション</string>
 
     <!-- 口座振替 編集 画面 -->
     <string name="destination_text_label">振替先（支払対象）</string>

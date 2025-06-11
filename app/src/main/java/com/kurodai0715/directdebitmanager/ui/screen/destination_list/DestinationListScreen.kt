@@ -3,12 +3,14 @@ package com.kurodai0715.directdebitmanager.ui.screen.destination_list
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
@@ -23,11 +25,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import coil.ImageLoader
+import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.request.ImageRequest
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppUncertainCircularIndicator
@@ -90,17 +97,21 @@ fun DestinationListContents(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            itemsIndexed(items) { index, item ->
-                val itemModifier = when (index) {
-                    // 最初のアイテムは Bottom にのみパディング
-                    0 -> Modifier.padding(bottom = 8.dp)
-                    // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
-                    items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
-                    // それ以外のアイテムは Top と Bottom にパディング
-                    else -> Modifier.padding(vertical = 8.dp)
+        if (items.isEmpty()) {
+            WelcomeAnimation(modifier = Modifier.weight(1f))
+        } else {
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                itemsIndexed(items) { index, item ->
+                    val itemModifier = when (index) {
+                        // 最初のアイテムは Bottom にのみパディング
+                        0 -> Modifier.padding(bottom = 8.dp)
+                        // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
+                        items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
+                        // それ以外のアイテムは Top と Bottom にパディング
+                        else -> Modifier.padding(vertical = 8.dp)
+                    }
+                    DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
                 }
-                DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
             }
         }
 
@@ -109,6 +120,36 @@ fun DestinationListContents(
         OneButton(
             onClick = { debouncedClick { onNavigateToEdit(null) } },
             text = stringResource(R.string.common_add)
+        )
+    }
+}
+
+@Composable
+fun WelcomeAnimation(modifier: Modifier) {
+    val context = LocalContext.current
+
+    // 画像ローダーに GIF デコーダーを追加
+    val imageLoader = ImageLoader.Builder(context)
+        .components {
+            add(GifDecoder.Factory())
+        }
+        .build()
+
+    // gifRequest の作成：ローカルリソース ID を使う
+    val gifRequest = ImageRequest.Builder(context)
+        .data(R.drawable.welcom_animation)
+        .build()
+
+    // UI に表示
+    Box(
+        modifier = modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
+        AsyncImage(
+            model = gifRequest,
+            contentDescription = stringResource(R.string.welcome_animation_description),
+            imageLoader = imageLoader,
+            modifier = Modifier.size(300.dp)
         )
     }
 }

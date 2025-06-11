@@ -75,6 +75,10 @@ dependencies {
     // Glide
     implementation(libs.glide.compose)
 
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
+
     // Architecture Components
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
