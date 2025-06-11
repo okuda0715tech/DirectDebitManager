@@ -39,6 +39,7 @@ fun DestinationEditScreen(
     destination: Destination?,
     onNavigateUp: () -> Unit,
     onNavigateToSourceList: () -> Unit,
+    onNavigateToSourceEdit: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -128,14 +129,21 @@ fun DestinationEditScreen(
                     },
                     onClickRegister = {
                         viewModel.updateSourceListDialogVisibility(false)
-                        viewModel.updateAddEditSourceListEventConsumed(false)
+                        viewModel.updateAddSourceListEventConsumed(false)
                     },
                 )
             }
         } else {
-            if (!uiState.addEditSourceListEventConsumed) {
-                onNavigateToSourceList()
-                viewModel.updateAddEditSourceListEventConsumed(true)
+            when {
+                !uiState.addEditSourceListEventConsumed -> {
+                    onNavigateToSourceList()
+                    viewModel.updateAddEditSourceListEventConsumed(true)
+                }
+
+                !uiState.addSourceListEventConsumed -> {
+                    onNavigateToSourceEdit()
+                    viewModel.updateAddSourceListEventConsumed(true)
+                }
             }
         }
     }

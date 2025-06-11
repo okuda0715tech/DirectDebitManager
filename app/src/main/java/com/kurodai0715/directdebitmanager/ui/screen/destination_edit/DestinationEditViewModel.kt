@@ -37,6 +37,7 @@ data class DestinationEditUiState(
     val showDelCompDialog: Boolean = false,
     val showSourceListDialog: Boolean = false,
     val addEditSourceListEventConsumed: Boolean = true,
+    val addSourceListEventConsumed: Boolean = true,
     val navigationUpEventConsumed: Boolean = true,
     val isLoading: Boolean = false,
     val destErrorMessage: Int? = null,
@@ -146,6 +147,12 @@ class DestinationEditViewModel @Inject constructor(
     fun updateAddEditSourceListEventConsumed(value: Boolean) {
         _uiState.update {
             it.copy(addEditSourceListEventConsumed = value)
+        }
+    }
+
+    fun updateAddSourceListEventConsumed(value: Boolean) {
+        _uiState.update {
+            it.copy(addSourceListEventConsumed = value)
         }
     }
 

@@ -51,6 +51,7 @@ fun NavGraphBuilder.destEditDestination(
     onNavigateUp: () -> Unit,
     onChangeTitle: (Int) -> Unit,
     onNavigateToSourceList: () -> Unit,
+    onNavigateToSourceEdit: () -> Unit,
 ) {
     composable<DestEdit> { backStackEntry ->
         val destEdit: DestEdit = backStackEntry.toRoute()
@@ -66,6 +67,7 @@ fun NavGraphBuilder.destEditDestination(
             },
             onNavigateUp = onNavigateUp,
             onNavigateToSourceList = onNavigateToSourceList,
+            onNavigateToSourceEdit = onNavigateToSourceEdit,
         )
 
         Log.d(TAG, "edit.id = ${destEdit.destId}")

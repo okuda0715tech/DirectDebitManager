@@ -33,9 +33,13 @@ fun AppNavGraph(
                 navController.navigateUp()
             },
             onChangeTitle = onChangeTitle,
-        ) {
-            navController.navigateToSourceListDestination()
-        }
+            onNavigateToSourceList = {
+                navController.navigateToSourceListDestination()
+            },
+            onNavigateToSourceEdit = {
+                navController.navigateToSourceEditDestination(null)
+            }
+        )
 
         sourceListDestination(
             onNavigateUp = {
