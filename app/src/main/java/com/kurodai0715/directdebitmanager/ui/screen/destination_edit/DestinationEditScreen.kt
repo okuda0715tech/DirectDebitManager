@@ -118,7 +118,7 @@ fun DestinationEditScreen(
                     },
                     onClickAddEdit = {
                         viewModel.updateSourceListDialogVisibility(false)
-                        viewModel.updateEditSourceListEventConsumed(false)
+                        viewModel.updateAddEditSourceListEventConsumed(false)
                     }
                 )
             } else {
@@ -128,14 +128,14 @@ fun DestinationEditScreen(
                     },
                     onClickRegister = {
                         viewModel.updateSourceListDialogVisibility(false)
-                        viewModel.updateEditSourceListEventConsumed(false)
+                        viewModel.updateAddEditSourceListEventConsumed(false)
                     },
                 )
             }
         } else {
-            if (!uiState.editSourceListEventConsumed) {
+            if (!uiState.addEditSourceListEventConsumed) {
                 onNavigateToSourceList()
-                viewModel.updateEditSourceListEventConsumed(true)
+                viewModel.updateAddEditSourceListEventConsumed(true)
             }
         }
     }
