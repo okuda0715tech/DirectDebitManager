@@ -1,8 +1,10 @@
 package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
@@ -26,6 +28,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SelectableText
+import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -136,6 +139,8 @@ fun SourceEditContents(
             supportingText = sourceErrorMessage,
             onClickClear = { onSourceChanged("") }
         )
+
+        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
         SelectableText(
             labelText = stringResource(R.string.source_type),
