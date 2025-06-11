@@ -55,7 +55,7 @@
 
     <!-- 振替元情報データ未登録 ダイアログ -->
     <string name="no_source_data_title">データ未登録</string>
-    <string name="no_source_data_text">振替元が 1 件も登録されておりません。\n\nまずは、以下の「登録」ボタンより、ご登録ください。</string>
+    <string name="no_source_data_text">振替元が 1 件も登録されていません。\n\nまずは、以下の「登録」ボタンより、ご登録ください。</string>
     <string name="usage_rules_icon_description">ご使用方法</string>
 
     <!-- 振替元選択 ダイアログ -->
