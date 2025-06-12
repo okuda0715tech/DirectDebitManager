@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
@@ -149,7 +148,7 @@ fun WelcomeAnimation(modifier: Modifier) {
             model = gifRequest,
             contentDescription = stringResource(R.string.welcome_animation_description),
             imageLoader = imageLoader,
-            modifier = Modifier.size(300.dp)
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
