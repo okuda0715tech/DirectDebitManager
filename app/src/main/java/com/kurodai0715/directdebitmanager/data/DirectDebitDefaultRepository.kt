@@ -71,10 +71,10 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を DB へ登録する.
      */
-    suspend fun upsertSource(id: Int, source: String, type: Int): Boolean {
+    suspend fun upsertSource(id: Int, label: String, type: Int): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val source = TransferItem(id = id, label = source, type = type, sourceId = null)
+            val source = TransferItem(id = id, label = label, type = type, sourceId = null)
             resultSuccess = try {
                 localDataSource.upsertSource(source.toLocal())
                 true
