@@ -5,8 +5,6 @@ import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
-import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
-import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocal
 import com.kurodai0715.directdebitmanager.data.source.toLocalTransferItem
@@ -110,19 +108,18 @@ class DirectDebitDefaultRepository @Inject constructor(
      * 振替元情報を DB から削除する.
      *
      * @param id 削除するレコードの id
-     * @param name 削除するレコードの source
-     * @return [LocalDestination] テーブルと [LocalSource] テーブルの削除したレコードの件数。
-     * エラーが発生した場合は -1。
+     * @param name 削除するレコードの name
+     * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun deleteDestAndSource(id: Int, name: String, type: Int): Pair<Int, Int> {
-        var numOfDeleted: Pair<Int, Int>
+    suspend fun deleteSource(id: Int, name: String, type: Int): Int {
+        var numOfDeleted: Int
         withContext(ioDispatcher) {
             val source = Source(id = id, name = name, type = type)
             numOfDeleted = try {
-                localDataSource.deleteDestAndSourceBy(source.toLocal())
+                localDataSource.deleteSource(source.toLocalTransferItem())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
-                (-1 to -1)
+                -1
             }
             Log.d(TAG, "numOfDeleted = $numOfDeleted")
         }
