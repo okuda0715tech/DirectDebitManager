@@ -10,6 +10,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocal
+import com.kurodai0715.directdebitmanager.data.source.toSource
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -135,7 +136,7 @@ class DirectDebitDefaultRepository @Inject constructor(
      */
     fun fetchSourcesStream(): Flow<List<Source>> {
         return localDataSource.observeSources().map { localTransSources ->
-            localTransSources.map { it.toExternal() }
+            localTransSources.map { it.toSource() }
         }
     }
 

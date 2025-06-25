@@ -33,7 +33,7 @@ data class LocalTransferItem(
      *
      * 具体的な区分の種類は、 [SourceType] を参照。
      */
-    val type: Int?,
+    val type: Int,
 
     /**
      * この [LocalTransferItem] の振替元の [LocalTransferItem] の ID .

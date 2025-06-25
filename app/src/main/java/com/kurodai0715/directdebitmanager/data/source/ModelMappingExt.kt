@@ -48,10 +48,8 @@ fun TransferItem.toLocal() = LocalTransferItem(
     parentId = sourceId,
 )
 
-fun LocalTransferItem.toExternal() = TransferItem(
+fun LocalTransferItem.toSource() = Source(
     id = id,
-    label = label,
-    isSourceItem = isSourceItem,
+    name = label,
     type = type,
-    sourceId = parentId,
 )

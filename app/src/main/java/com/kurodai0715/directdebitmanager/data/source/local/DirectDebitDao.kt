@@ -32,8 +32,8 @@ interface DirectDebitDao {
     @Query("DELETE FROM destination WHERE sourceId = :sourceId")
     suspend fun deleteDestinationsBy(sourceId: Int): Int
 
-    @Query("SELECT * FROM source")
-    fun observeSources(): Flow<List<LocalSource>>
+    @Query("SELECT * FROM transfer_item WHERE isSourceItem = 1")
+    fun observeSources(): Flow<List<LocalTransferItem>>
 
     /**
      * 振替元情報テーブルのレコードに対する Insert or Update.
