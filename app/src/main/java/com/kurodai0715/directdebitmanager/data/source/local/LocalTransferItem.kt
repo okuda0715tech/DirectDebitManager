@@ -22,6 +22,13 @@ data class LocalTransferItem(
     val label: String,
 
     /**
+     * この  [LocalTransferItem] が振替元として登録されたかどうかを判別するためのもの.
+     *
+     * 振替元として登録された場合は true 。そうでなければ false 。
+     */
+    val isSourceItem: Boolean,
+
+    /**
      * この [LocalTransferItem] の区分.
      *
      * 具体的な区分の種類は、 [SourceType] を参照。

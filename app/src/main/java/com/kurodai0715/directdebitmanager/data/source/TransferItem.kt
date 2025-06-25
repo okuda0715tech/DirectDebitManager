@@ -18,6 +18,13 @@ data class TransferItem(
     val label: String,
 
     /**
+     * この  [TransferItem] が振替元として登録されたかどうかを判別するためのもの.
+     *
+     * 振替元として登録された場合は true 。そうでなければ false 。
+     */
+    val isSourceItem: Boolean,
+
+    /**
      * この [TransferItem] の区分.
      *
      * 具体的な区分の種類は、 [SourceType] を参照。

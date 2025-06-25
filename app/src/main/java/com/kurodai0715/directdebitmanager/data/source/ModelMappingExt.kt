@@ -43,6 +43,7 @@ fun LocalDestWithSource.toExternal() = DestWithSource(
 fun TransferItem.toLocal() = LocalTransferItem(
     id = id,
     label = label,
+    isSourceItem = isSourceItem,
     type = type,
     parentId = sourceId,
 )
@@ -50,6 +51,7 @@ fun TransferItem.toLocal() = LocalTransferItem(
 fun LocalTransferItem.toExternal() = TransferItem(
     id = id,
     label = label,
+    isSourceItem = isSourceItem,
     type = type,
     sourceId = parentId,
 )
