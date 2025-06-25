@@ -3,6 +3,7 @@ package com.kurodai0715.directdebitmanager.data.source
 import com.kurodai0715.directdebitmanager.data.source.local.LocalDestWithSource
 import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
+import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 
 fun LocalDestination.toExternal() = Destination(
     id = id,
@@ -37,4 +38,18 @@ fun LocalDestWithSource.toExternal() = DestWithSource(
     destName = destName,
     sourceId = sourceId,
     sourceName = sourceName,
+)
+
+fun TransferItem.toLocal() = LocalTransferItem(
+    id = id,
+    label = label,
+    type = type,
+    parentId = sourceId,
+)
+
+fun LocalTransferItem.toExternal() = TransferItem(
+    id = id,
+    label = label,
+    type = type,
+    sourceId = parentId,
 )
