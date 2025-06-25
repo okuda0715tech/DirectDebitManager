@@ -20,13 +20,13 @@ data class SourceEditUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
     val userMessage: Int? = null,
+    val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val showSourceTypeListDialog: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
     val sourceErrorMessage: Int? = null,
     val sourceType: SourceType = SourceType.Bank,
-    val sourceRelatedDestCount: Int = 0,
 )
 
 @HiltViewModel
@@ -57,6 +57,12 @@ class SourceEditViewModel @Inject constructor(
                 sourceName = source.name,
                 sourceType = SourceType.fromInt(source.type),
             )
+        }
+    }
+
+    fun updateDelNotAllowedDialogVisibility(show: Boolean) {
+        _uiState.update {
+            it.copy(showDelNotAllowedDialog = show)
         }
     }
 
@@ -161,8 +167,7 @@ class SourceEditViewModel @Inject constructor(
             } else if (relatedDestCount > 0) {
                 _uiState.update {
                     it.copy(
-                        showDelConfDialog = true,
-                        sourceRelatedDestCount = relatedDestCount
+                        showDelNotAllowedDialog = true,
                     )
                 }
             } else if (relatedDestCount == -1) {

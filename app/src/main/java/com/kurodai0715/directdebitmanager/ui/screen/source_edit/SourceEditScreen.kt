@@ -25,6 +25,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppTextField
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SelectableText
@@ -82,9 +83,14 @@ fun SourceEditScreen(
             onClickType = { viewModel.updateSourceTypeListDialogVisibility(true) }
         )
 
+        if (uiState.showDelNotAllowedDialog) {
+            DeleteNotAllowedDialog(
+                onDismissRequest = { viewModel.updateDelNotAllowedDialogVisibility(false) },
+            )
+        }
+
         if (uiState.showDelConfDialog) {
-            SourceEditDeleteConfirmDialog(
-                relatedDestCount = uiState.sourceRelatedDestCount,
+            DeleteConfirmDialog(
                 onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
                 onClickNo = { /* 処理不要 */ },
                 onClickYes = { viewModel.deleteData() },
