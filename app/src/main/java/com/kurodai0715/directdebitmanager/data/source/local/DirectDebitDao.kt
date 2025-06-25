@@ -39,7 +39,7 @@ interface DirectDebitDao {
      * 振替元情報テーブルのレコードに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsertSource(source: LocalSource)
+    suspend fun upsertSource(source: LocalTransferItem)
 
     /**
      * 引数で指定した振替先情報テーブルのレコードの件数を取得.

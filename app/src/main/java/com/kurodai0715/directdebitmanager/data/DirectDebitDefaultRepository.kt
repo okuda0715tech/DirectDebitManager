@@ -4,6 +4,7 @@ import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
@@ -73,7 +74,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun upsertSource(id: Int, source: String, type: Int): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val source = Source(id = id, name = source, type = type)
+            val source = TransferItem(id = id, label = source, type = type, sourceId = null)
             resultSuccess = try {
                 localDataSource.upsertSource(source.toLocal())
                 true
