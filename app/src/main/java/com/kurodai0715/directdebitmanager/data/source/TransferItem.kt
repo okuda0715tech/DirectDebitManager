@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.data.source
 
-import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.domain.SourceType
 
 data class TransferItem(
@@ -19,18 +18,18 @@ data class TransferItem(
     val label: String,
 
     /**
-     * 振替元の区分.
+     * この [TransferItem] の区分.
      *
-     * [SourceType] を参照。
+     * 具体的な区分の種類は、 [SourceType] を参照。
      */
-    val sourceType: Int?,
+    val type: Int?,
 
     /**
-     * この [LocalTransferItem] の振替元の [LocalTransferItem] の ID .
+     * この [TransferItem] の振替元の [TransferItem] の ID .
      *
-     * null の場合、この [LocalTransferItem] は、振替元を持たない（つまり、ルートである）ことを意味する。
+     * null の場合、この [TransferItem] は、振替元を持たない（つまり、ルートである）ことを意味する。
      */
-    val parentId: Int?,
+    val sourceId: Int?,
 
 //    val date: String,
 //    val amount: Int,

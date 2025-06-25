@@ -22,11 +22,11 @@ data class LocalTransferItem(
     val label: String,
 
     /**
-     * 振替元の区分.
+     * この [LocalTransferItem] の区分.
      *
-     * [SourceType] を参照。
+     * 具体的な区分の種類は、 [SourceType] を参照。
      */
-    val sourceType: Int?,
+    val type: Int?,
 
     /**
      * この [LocalTransferItem] の振替元の [LocalTransferItem] の ID .
