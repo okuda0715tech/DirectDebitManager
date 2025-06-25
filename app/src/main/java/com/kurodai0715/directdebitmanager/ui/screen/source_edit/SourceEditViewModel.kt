@@ -119,7 +119,7 @@ class SourceEditViewModel @Inject constructor(
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertSource(
                 id = uiState.value.sourceId,
-                label = uiState.value.sourceName,
+                name = uiState.value.sourceName,
                 type = SourceType.toInt(uiState.value.sourceType),
             )
 

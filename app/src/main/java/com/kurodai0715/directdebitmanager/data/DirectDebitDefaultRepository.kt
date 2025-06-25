@@ -4,12 +4,12 @@ import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocal
+import com.kurodai0715.directdebitmanager.data.source.toLocalTransferItem
 import com.kurodai0715.directdebitmanager.data.source.toSource
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -72,18 +72,16 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を DB へ登録する.
      */
-    suspend fun upsertSource(id: Int, label: String, type: Int): Boolean {
+    suspend fun upsertSource(id: Int, name: String, type: Int): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val source = TransferItem(
+            val source = Source(
                 id = id,
-                label = label,
-                isSourceItem = true,
+                name = name,
                 type = type,
-                sourceId = null
             )
             resultSuccess = try {
-                localDataSource.upsertSource(source.toLocal())
+                localDataSource.upsertSource(source.toLocalTransferItem())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")

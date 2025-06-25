@@ -21,12 +21,6 @@ fun Destination.toLocal() = LocalDestination(
 //    amount = amount.toString(),
 )
 
-fun LocalSource.toExternal() = Source(
-    id = id,
-    name = name,
-    type = type,
-)
-
 fun Source.toLocal() = LocalSource(
     id = id,
     name = name,
@@ -40,16 +34,16 @@ fun LocalDestWithSource.toExternal() = DestWithSource(
     sourceName = sourceName,
 )
 
-fun TransferItem.toLocal() = LocalTransferItem(
-    id = id,
-    label = label,
-    isSourceItem = isSourceItem,
-    type = type,
-    parentId = sourceId,
-)
-
 fun LocalTransferItem.toSource() = Source(
     id = id,
     name = label,
     type = type,
+)
+
+fun Source.toLocalTransferItem() = LocalTransferItem(
+    id = id,
+    label = name,
+    isSourceItem = true,
+    type = type,
+    parentId = null,
 )
