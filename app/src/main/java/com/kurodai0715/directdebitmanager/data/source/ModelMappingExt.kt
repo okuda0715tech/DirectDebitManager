@@ -37,7 +37,7 @@ fun LocalDestWithSource.toExternal() = DestWithSource(
 fun LocalTransferItem.toSource() = Source(
     id = id,
     name = label,
-    type = type,
+    type = type!!,
 )
 
 fun Source.toLocalTransferItem() = LocalTransferItem(
@@ -46,4 +46,12 @@ fun Source.toLocalTransferItem() = LocalTransferItem(
     isSourceItem = true,
     type = type,
     parentId = null,
+)
+
+fun Destination.toLocalTransferItem() = LocalTransferItem(
+    id = id,
+    label = name,
+    isSourceItem = false, // TODO [Destination] クラスに isSourceItem 項目を追加して、それを渡すように修正する
+    type = null,
+    parentId = sourceId,
 )

@@ -13,7 +13,7 @@ interface DirectDebitDao {
      * 口座振替情報テーブルのレコードに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsertDestination(destination: LocalDestination)
+    suspend fun upsertDestination(destination: LocalTransferItem)
 
     /**
      * 口座振替情報テーブルのレコードの削除 (主キーで削除) .

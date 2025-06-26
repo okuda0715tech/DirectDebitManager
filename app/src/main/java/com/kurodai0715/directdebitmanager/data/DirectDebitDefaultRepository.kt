@@ -33,7 +33,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId)
             resultSuccess = try {
-                localDataSource.upsertDestination(destination.toLocal())
+                localDataSource.upsertDestination(destination.toLocalTransferItem())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
