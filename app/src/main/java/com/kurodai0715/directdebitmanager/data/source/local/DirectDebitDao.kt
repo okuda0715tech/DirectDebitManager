@@ -23,17 +23,20 @@ interface DirectDebitDao {
     @Delete
     suspend fun deleteDestination(destination: LocalDestination): Int
 
+    /**
+     * 振替元として登録されているデータを全件取得.
+     */
     @Query("SELECT * FROM transfer_item WHERE isSourceItem = 1")
     fun observeSources(): Flow<List<LocalTransferItem>>
 
     /**
-     * 振替元情報テーブルのレコードに対する Insert or Update.
+     * transfer_item テーブルに対する Insert or Update.
      */
     @Upsert
     suspend fun upsertSource(source: LocalTransferItem)
 
     /**
-     * 引数で指定した振替先情報テーブルのレコードの件数を取得.
+     * 引数で指定した parentId を振替元として使用している振替先の件数を取得.
      */
     @Query("SELECT COUNT(*) FROM transfer_item WHERE parentId = :parentId")
     suspend fun fetchNumOfDestination(parentId: Int): Int
@@ -47,16 +50,8 @@ interface DirectDebitDao {
     suspend fun deleteSource(source: LocalTransferItem): Int
 
     /**
-     * 振替先情報テーブルと振替元情報テーブルを結合して、データを取得.
+     * 振替元と振替先のデータを全件取得.
      */
-    @Query(
-        "SELECT d.id destId, d.name destName, s.id sourceId, s.name sourceName " +
-                "FROM destination d " +
-                "INNER JOIN source s " +
-                "ON d.sourceId = s.id"
-    )
-    fun observeDestWithSource(): Flow<List<LocalDestWithSource>>
-
     @Query("SELECT * FROM transfer_item")
     fun observeTransferItems(): Flow<List<LocalTransferItem>>
 
