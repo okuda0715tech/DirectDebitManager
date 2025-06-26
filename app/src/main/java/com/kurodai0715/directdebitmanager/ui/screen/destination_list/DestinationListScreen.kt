@@ -30,14 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.ImageLoader
 import coil.compose.AsyncImage
-import coil.decode.GifDecoder
 import coil.request.ImageRequest
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.OneButton
+import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -128,16 +127,14 @@ fun WelcomeAnimation(modifier: Modifier) {
     val context = LocalContext.current
 
     // 画像ローダーに GIF デコーダーを追加
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            add(GifDecoder.Factory())
-        }
-        .build()
+    val imageLoader = LocalImageLoader.current
 
     // gifRequest の作成：ローカルリソース ID を使う
-    val gifRequest = ImageRequest.Builder(context)
-        .data(R.drawable.welcom_animation)
-        .build()
+    val gifRequest = remember {
+        ImageRequest.Builder(context)
+            .data(R.drawable.welcom_animation)
+            .build()
+    }
 
     // UI に表示
     Box(
