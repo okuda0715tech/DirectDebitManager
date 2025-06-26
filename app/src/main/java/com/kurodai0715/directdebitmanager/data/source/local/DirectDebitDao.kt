@@ -10,10 +10,10 @@ import kotlinx.coroutines.flow.Flow
 interface DirectDebitDao {
 
     /**
-     * 口座振替情報テーブルのレコードに対する Insert or Update.
+     * transfer_item テーブルに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsertDestination(destination: LocalTransferItem)
+    suspend fun upsertTransferItem(destination: LocalTransferItem)
 
     /**
      * 口座振替情報テーブルのレコードの削除 (主キーで削除) .
@@ -28,12 +28,6 @@ interface DirectDebitDao {
      */
     @Query("SELECT * FROM transfer_item WHERE isSourceItem = 1")
     fun observeSources(): Flow<List<LocalTransferItem>>
-
-    /**
-     * transfer_item テーブルに対する Insert or Update.
-     */
-    @Upsert
-    suspend fun upsertSource(source: LocalTransferItem)
 
     /**
      * 引数で指定した parentId を振替元として使用している振替先の件数を取得.

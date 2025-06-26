@@ -33,7 +33,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId)
             resultSuccess = try {
-                localDataSource.upsertDestination(destination.toLocalTransferItem())
+                localDataSource.upsertTransferItem(destination.toLocalTransferItem())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
@@ -79,7 +79,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                 type = type,
             )
             resultSuccess = try {
-                localDataSource.upsertSource(source.toLocalTransferItem())
+                localDataSource.upsertTransferItem(source.toLocalTransferItem())
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
