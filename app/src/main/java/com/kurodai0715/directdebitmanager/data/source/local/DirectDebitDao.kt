@@ -57,4 +57,7 @@ interface DirectDebitDao {
     )
     fun observeDestWithSource(): Flow<List<LocalDestWithSource>>
 
+    @Query("SELECT * FROM transfer_item")
+    fun observeTransferItems(): Flow<List<LocalTransferItem>>
+
 }

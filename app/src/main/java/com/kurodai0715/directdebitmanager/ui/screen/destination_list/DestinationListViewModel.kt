@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
+import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,11 +33,12 @@ class DestinationListViewModel @Inject constructor(
 
     private val _userMessage: MutableStateFlow<Int?> = MutableStateFlow(null)
 
-    private val _destinationAsync = directDebitDefRepo.fetchDestWithSourcesStream()
+    private val _destinationAsync = directDebitDefRepo.fetchTransferItemsStream()
         .map { Async.Success(it) }
-        .catch<Async<List<DestWithSource>>> { e ->
+        .catch<Async<List<TransferItem>>> { e ->
             Log.e(TAG, "fetchDestWithSourcesStream failed.", e)
-            emit(Async.Error(R.string.fetch_error)) }
+            emit(Async.Error(R.string.fetch_error))
+        }
 
     val uiState: StateFlow<DestinationListUiState> =
         combine(_destinationAsync, _userMessage) { directDebitAsync, userMessage ->
@@ -52,7 +54,7 @@ class DestinationListViewModel @Inject constructor(
 
                 is Async.Success -> {
                     DestinationListUiState(
-                        items = directDebitAsync.data,
+                        items = convertModel(directDebitAsync.data),
                         isLoading = false,
                         userMessage = userMessage,
                     )
@@ -66,5 +68,20 @@ class DestinationListViewModel @Inject constructor(
 
     fun snackbarMessageShown() {
         _userMessage.value = null
+    }
+
+    fun convertModel(transferItems: List<TransferItem>): List<DestWithSource> {
+        return transferItems.mapNotNull {
+            if (it.sourceId != null) {
+                DestWithSource(
+                    destId = it.id,
+                    destName = it.label,
+                    sourceId = it.sourceId,
+                    sourceName = transferItems.find { item -> item.id == it.sourceId }?.label ?: "",
+                )
+            } else {
+                null
+            }
+        }
     }
 }

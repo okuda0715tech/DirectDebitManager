@@ -29,7 +29,7 @@ data class TransferItem(
      *
      * 具体的な区分の種類は、 [SourceType] を参照。
      */
-    val type: Int,
+    val type: Int?,
 
     /**
      * この [TransferItem] の振替元の [TransferItem] の ID .
