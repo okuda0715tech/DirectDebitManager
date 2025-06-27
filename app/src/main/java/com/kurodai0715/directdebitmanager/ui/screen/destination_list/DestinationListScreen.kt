@@ -32,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppUncertainCircularIndicator
@@ -133,6 +134,7 @@ fun WelcomeAnimation(modifier: Modifier) {
     val gifRequest = remember {
         ImageRequest.Builder(context)
             .data(R.drawable.welcom_animation)
+            .repeatCount(20)
             .build()
     }
 
