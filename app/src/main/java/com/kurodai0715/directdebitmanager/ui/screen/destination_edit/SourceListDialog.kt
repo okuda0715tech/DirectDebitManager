@@ -85,7 +85,7 @@ fun SourceListDialog(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = stringResource(R.string.add_edit),
+                        text = stringResource(R.string.add_edit_delete),
                     )
                 }
             }
