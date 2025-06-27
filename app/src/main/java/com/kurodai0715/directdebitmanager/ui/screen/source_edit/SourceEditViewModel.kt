@@ -129,52 +129,55 @@ class SourceEditViewModel @Inject constructor(
                 type = SourceType.toInt(uiState.value.sourceType),
             )
 
+            val isNewlyCreated = uiState.value.sourceId == 0
+
             _uiState.update {
-                if (resultSuccess) {
-                    // 新規作成 or 更新が成功した場合
-                    if (uiState.value.sourceId == 0) {
-                        // 新規作成の場合
+                when {
+                    // 新規作成が成功した場合
+                    resultSuccess && isNewlyCreated -> {
                         it.copy(
                             sourceName = "",
                             userMessage = R.string.common_save_successfully
                         )
-                    } else {
-                        // 更新の場合
+                    }
+
+                    // 更新が成功した場合
+                    resultSuccess -> {
                         it.copy(
                             userMessage = R.string.common_update_successfully
                         )
                     }
-                } else {
+
                     // 新規作成 or 更新が失敗した場合
-                    it.copy(
-                        userMessage = R.string.common_save_failed
-                    )
+                    else -> {
+                        it.copy(
+                            userMessage = R.string.common_save_failed
+                        )
+                    }
                 }
             }
         }
     }
 
+
     fun checkRelatedDataExists(sourceId: Int) {
         viewModelScope.launch {
+            // sourceId を振替元として使用している振替先データの件数
             val relatedDestCount = directDebitDefRepo.fetchNumOfDestination(sourceId)
 
-            if (relatedDestCount == 0) {
-                _uiState.update {
-                    it.copy(
-                        showDelConfDialog = true
-                    )
-                }
-            } else if (relatedDestCount > 0) {
-                _uiState.update {
-                    it.copy(
-                        showDelNotAllowedDialog = true,
-                    )
-                }
-            } else if (relatedDestCount == -1) {
-                _uiState.update {
-                    it.copy(
-                        userMessage = R.string.common_unexpected_error
-                    )
+            _uiState.update {
+                when (relatedDestCount) {
+                    0 ->
+                        it.copy(showDelConfDialog = true)
+
+                    in 1..Int.MAX_VALUE ->
+                        it.copy(showDelNotAllowedDialog = true)
+
+                    -1 ->
+                        it.copy(userMessage = R.string.common_unexpected_error)
+
+                    else ->
+                        it // 予期しない値が来た場合は変更なし
                 }
             }
         }
@@ -188,19 +191,15 @@ class SourceEditViewModel @Inject constructor(
                 type = SourceType.toInt(uiState.value.sourceType),
             )
 
+            val resultFailure = deletedSourceCount == -1
+
             _uiState.update {
-                if (deletedSourceCount != -1) {
-                    // 削除に成功した場合
-
-                    it.copy(
-                        showDelCompDialog = true,
-                    )
-                } else {
+                if (resultFailure) {
                     // 削除に失敗した場合
-
-                    it.copy(
-                        userMessage = R.string.common_delete_failed,
-                    )
+                    it.copy(userMessage = R.string.common_delete_failed)
+                } else {
+                    // 削除に成功した場合
+                    it.copy(showDelCompDialog = true)
                 }
             }
         }
