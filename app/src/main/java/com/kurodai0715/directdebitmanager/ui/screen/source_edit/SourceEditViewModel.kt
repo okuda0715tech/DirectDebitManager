@@ -159,7 +159,6 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-
     fun checkRelatedDataExistence(sourceId: Int) {
         viewModelScope.launch {
             // sourceId を振替元として使用している振替先データの件数
