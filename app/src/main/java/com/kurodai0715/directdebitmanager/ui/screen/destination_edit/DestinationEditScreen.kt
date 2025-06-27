@@ -88,6 +88,7 @@ fun DestinationEditScreen(
 
         if (uiState.showDelConfDialog) {
             DeleteConfirmDialog(
+                messageResId = R.string.del_conf_text_transfer_info,
                 onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
                 onClickNo = { /* 処理不要 */ },
                 onClickYes = { viewModel.deleteData() },

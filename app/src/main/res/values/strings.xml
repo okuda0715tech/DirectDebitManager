@@ -48,7 +48,8 @@
 
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>
-    <string name="del_conf_text">表示中のデータを削除しますか？</string>
+    <string name="del_conf_text_transfer_info">この振替情報を削除しますか？</string>
+    <string name="del_conf_text_source_info">この振替元を削除しますか？</string>
     <string name="del_conf_icon_description">削除確認アイコン</string>
 
     <!-- 振替元 編集 画面用 削除確認 ダイアログ -->

@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.common_ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -16,6 +17,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun DeleteConfirmDialog(
+    @StringRes messageResId: Int,
     onDismissRequest: () -> Unit,
     onClickNo: () -> Unit,
     onClickYes: () -> Unit,
@@ -32,7 +34,7 @@ fun DeleteConfirmDialog(
             Text(text = stringResource(R.string.del_conf_title))
         },
         text = {
-            Text(text = stringResource(R.string.del_conf_text))
+            Text(text = stringResource(messageResId))
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
@@ -59,8 +61,20 @@ fun DeleteConfirmDialog(
 
 @Preview
 @Composable
-private fun PreviewDelConfDialog() {
+private fun PreviewDelConfDialogInTransferEdit() {
     DeleteConfirmDialog(
+        messageResId = R.string.del_conf_text_transfer_info,
+        onDismissRequest = {},
+        onClickNo = {},
+        onClickYes = {}
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewDelConfDialogInSourceEdit() {
+    DeleteConfirmDialog(
+        messageResId = R.string.del_conf_text_source_info,
         onDismissRequest = {},
         onClickNo = {},
         onClickYes = {}

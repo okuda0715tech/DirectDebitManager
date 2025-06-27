@@ -91,6 +91,7 @@ fun SourceEditScreen(
 
         if (uiState.showDelConfDialog) {
             DeleteConfirmDialog(
+                messageResId = R.string.del_conf_text_source_info,
                 onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
                 onClickNo = { /* 処理不要 */ },
                 onClickYes = { viewModel.deleteData() },
