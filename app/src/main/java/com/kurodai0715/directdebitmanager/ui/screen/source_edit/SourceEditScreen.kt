@@ -77,7 +77,7 @@ fun SourceEditScreen(
             itemId = uiState.sourceId,
             sourceTypeStringRes = getSourceTypeStringRes(uiState.sourceType),
             sourceErrorMessage = uiState.sourceErrorMessage,
-            onClickDelete = { viewModel.checkRelatedDataExists(uiState.sourceId) },
+            onClickDelete = { viewModel.checkRelatedDataExistence(uiState.sourceId) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickType = { viewModel.updateSourceTypeListDialogVisibility(true) }
