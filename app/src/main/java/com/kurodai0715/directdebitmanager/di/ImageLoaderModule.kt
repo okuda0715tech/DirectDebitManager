@@ -1,8 +1,10 @@
 package com.kurodai0715.directdebitmanager.di
 
 import android.content.Context
+import android.os.Build.VERSION.SDK_INT
 import coil.ImageLoader
 import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +21,11 @@ object ImageLoaderModule {
     fun provideImageLoader(@ApplicationContext context: Context): ImageLoader {
         return ImageLoader.Builder(context)
             .components {
-                add(GifDecoder.Factory())
+                if (SDK_INT >= 28) {
+                    add(ImageDecoderDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
             }
             .build()
     }
