@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.screen.source_edit
+package com.kurodai0715.directdebitmanager.ui.common_ui
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.size
