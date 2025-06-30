@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -16,6 +17,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun DeleteNotAllowedDialog(
+    @StringRes messageResId: Int,
     onDismissRequest: () -> Unit,
 ) {
     AlertDialog(
@@ -30,7 +32,7 @@ fun DeleteNotAllowedDialog(
             Text(text = stringResource(R.string.del_not_allowed_title))
         },
         text = {
-            Text(text = stringResource(R.string.del_not_allowed_text))
+            Text(text = stringResource(messageResId))
         },
         onDismissRequest = onDismissRequest,
         confirmButton = {
@@ -47,8 +49,18 @@ fun DeleteNotAllowedDialog(
 
 @Preview
 @Composable
-private fun PreviewDelNotAllowedDialog() {
+private fun PreviewDelNotAllowedDialogInSourceEdit() {
     DeleteNotAllowedDialog(
+        messageResId = R.string.del_not_allowed_text_in_source_edit,
+        onDismissRequest = {},
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewDelNotAllowedDialogInTransferEdit() {
+    DeleteNotAllowedDialog(
+        messageResId = R.string.del_not_allowed_text_in_transfer_edit,
         onDismissRequest = {},
     )
 }

@@ -43,7 +43,8 @@
 
     <!-- 削除不可 ダイアログ -->
     <string name="del_not_allowed_title">削除不可</string>
-    <string name="del_not_allowed_text">この振替元を使用中の振替先が存在するため、削除できません。</string>
+    <string name="del_not_allowed_text_in_transfer_edit">現在、この振替情報は削除できません。\n\nこの振替情報を削除するには、この振替先を振替元に使用しているデータを先に削除してください。</string>
+    <string name="del_not_allowed_text_in_source_edit">この振替元を使用中の振替先が存在するため、削除できません。</string>
     <string name="del_not_allowed_icon_description">削除不可アイコン</string>
 
     <!-- 削除確認 ダイアログ -->

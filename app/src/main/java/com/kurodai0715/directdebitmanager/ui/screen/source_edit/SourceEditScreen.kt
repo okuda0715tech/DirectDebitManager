@@ -85,6 +85,7 @@ fun SourceEditScreen(
 
         if (uiState.showDelNotAllowedDialog) {
             DeleteNotAllowedDialog(
+                messageResId = R.string.del_not_allowed_text_in_source_edit,
                 onDismissRequest = { viewModel.updateDelNotAllowedDialogVisibility(false) },
             )
         }
