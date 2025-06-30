@@ -33,7 +33,7 @@ interface DirectDebitDao {
      * 引数で指定した parentId を振替元として使用している振替先の件数を取得.
      */
     @Query("SELECT COUNT(*) FROM transfer_item WHERE parentId = :parentId")
-    suspend fun fetchNumOfDestination(parentId: Int): Int
+    suspend fun countDestsBy(parentId: Int): Int
 
     /**
      * 振替元情報テーブルのレコードの削除.

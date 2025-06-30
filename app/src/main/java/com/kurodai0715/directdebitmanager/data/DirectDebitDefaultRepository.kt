@@ -90,11 +90,11 @@ class DirectDebitDefaultRepository @Inject constructor(
         return resultSuccess
     }
 
-    suspend fun fetchNumOfDestination(sourceId: Int): Int {
+    suspend fun countDestsBySourceId(sourceId: Int): Int {
         var numOfDestination: Int
         withContext(ioDispatcher) {
             numOfDestination = try {
-                localDataSource.fetchNumOfDestination(sourceId)
+                localDataSource.countDestsBy(sourceId)
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
