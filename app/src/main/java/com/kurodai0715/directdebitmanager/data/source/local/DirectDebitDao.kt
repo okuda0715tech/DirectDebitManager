@@ -21,7 +21,7 @@ interface DirectDebitDao {
      * @return 削除したレコードの件数
      */
     @Delete
-    suspend fun deleteDestination(destination: LocalDestination): Int
+    suspend fun deleteDestination(destination: LocalTransferItem): Int
 
     /**
      * 振替元として登録されているデータを全件取得.

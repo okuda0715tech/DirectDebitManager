@@ -6,7 +6,6 @@ import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.toExternal
-import com.kurodai0715.directdebitmanager.data.source.toLocal
 import com.kurodai0715.directdebitmanager.data.source.toLocalTransferItem
 import com.kurodai0715.directdebitmanager.data.source.toSource
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
@@ -57,7 +56,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             val destination = Destination(id = id, name = dest, sourceId = sourceId)
             numOfDeleted = try {
-                localDataSource.deleteDestination(destination.toLocal())
+                localDataSource.deleteDestination(destination.toLocalTransferItem())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1

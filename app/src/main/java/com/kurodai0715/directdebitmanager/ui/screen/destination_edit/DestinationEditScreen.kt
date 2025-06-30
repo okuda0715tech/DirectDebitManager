@@ -81,7 +81,7 @@ fun DestinationEditScreen(
             itemId = uiState.destId,
             destErrorMessage = uiState.destErrorMessage,
             sourceErrorMessage = uiState.sourceErrorMessage,
-            onClickDelete = { viewModel.updateDelConfDialogVisibility(true) },
+            onClickDelete = { viewModel.checkRelatedDataExistence(uiState.destId) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
