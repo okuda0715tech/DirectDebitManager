@@ -90,11 +90,17 @@ class DirectDebitDefaultRepository @Inject constructor(
         return resultSuccess
     }
 
-    suspend fun countDestsBySourceId(sourceId: Int): Int {
+    /**
+     * 引数で指定されたデータを sourceId として参照しているレコードの件数を取得する.
+     *
+     * @param id sourceId
+     * @return id を sourceId として参照しているレコードの件数。エラーが発生した場合は -1。
+     */
+    suspend fun countDestinationsReferencing(id: Int): Int {
         var numOfDestination: Int
         withContext(ioDispatcher) {
             numOfDestination = try {
-                localDataSource.countDestsBy(sourceId)
+                localDataSource.countDestinationsReferencing(id)
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1

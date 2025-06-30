@@ -159,10 +159,10 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun checkRelatedDataExistence(id: Int) {
+    fun checkRelatedDataExistence(sourceId: Int) {
         viewModelScope.launch {
-            // id を振替元として使用している振替先データの件数
-            val relatedDestCount = directDebitDefRepo.countDestsBySourceId(id)
+            // sourceId を振替元として使用している振替先データの件数
+            val relatedDestCount = directDebitDefRepo.countDestinationsReferencing(sourceId)
 
             _uiState.update {
                 when (relatedDestCount) {
