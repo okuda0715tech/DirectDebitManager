@@ -26,6 +26,7 @@ import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.ui.common_ui.AppTextField
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.SelectableText
@@ -85,6 +86,13 @@ fun DestinationEditScreen(
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
         )
+
+        if (uiState.showDelNotAllowedDialog) {
+            DeleteNotAllowedDialog(
+                messageResId = R.string.del_not_allowed_text_in_transfer_edit,
+                onDismissRequest = { viewModel.updateDelNotAllowedDialogVisibility(false) },
+            )
+        }
 
         if (uiState.showDelConfDialog) {
             DeleteConfirmDialog(

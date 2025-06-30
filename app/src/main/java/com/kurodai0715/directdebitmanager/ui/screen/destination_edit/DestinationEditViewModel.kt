@@ -33,6 +33,7 @@ data class DestinationEditUiState(
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
+    val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val showSourceListDialog: Boolean = false,
@@ -123,6 +124,12 @@ class DestinationEditViewModel @Inject constructor(
                 destName = destination.name,
                 sourceId = destination.sourceId,
             )
+        }
+    }
+
+    fun updateDelNotAllowedDialogVisibility(show: Boolean) {
+        _uiState.update {
+            it.copy(showDelNotAllowedDialog = show)
         }
     }
 
@@ -254,6 +261,29 @@ class DestinationEditViewModel @Inject constructor(
                     it.copy(
                         userMessage = R.string.common_save_failed
                     )
+                }
+            }
+        }
+    }
+
+    fun checkRelatedDataExistence(sourceId: Int) {
+        viewModelScope.launch {
+            // sourceId を振替元として使用している振替先データの件数
+            val relatedDestCount = directDebitDefRepo.fetchNumOfDestination(sourceId)
+
+            _uiState.update {
+                when (relatedDestCount) {
+                    0 ->
+                        it.copy(showDelConfDialog = true)
+
+                    in 1..Int.MAX_VALUE ->
+                        it.copy(showDelNotAllowedDialog = true)
+
+                    -1 ->
+                        it.copy(userMessage = R.string.common_unexpected_error)
+
+                    else ->
+                        it // 予期しない値が来た場合は変更なし
                 }
             }
         }
