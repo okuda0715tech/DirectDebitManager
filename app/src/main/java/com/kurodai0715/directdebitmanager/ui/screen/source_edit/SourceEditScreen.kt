@@ -23,13 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.common_ui.AppTextField
+import com.kurodai0715.directdebitmanager.ui.common_ui.KeyboardEditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.SelectableText
+import com.kurodai0715.directdebitmanager.ui.common_ui.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -141,7 +141,7 @@ fun SourceEditContents(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        AppTextField(
+        KeyboardEditableFormField(
             labelText = stringResource(R.string.source_text_label),
             text = source,
             onTextChanged = onSourceChanged,
@@ -151,7 +151,7 @@ fun SourceEditContents(
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
-        SelectableText(
+        DisplayTextFormField(
             labelText = stringResource(R.string.source_type),
             text = stringResource(sourceTypeStringRes),
             onClickText = onClickType,

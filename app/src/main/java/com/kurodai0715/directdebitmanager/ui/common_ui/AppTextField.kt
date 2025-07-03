@@ -22,7 +22,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
 @Composable
-fun AppTextField(
+fun KeyboardEditableFormField(
     labelText: String,
     text: String,
     onTextChanged: (String) -> Unit,
@@ -74,8 +74,8 @@ fun AppDefaultBasicTextField(
 
 @Preview
 @Composable
-private fun PreviewAppTextFieldFilled() {
-    AppTextField(
+private fun PreviewKeyboardEditableFormFieldFilled() {
+    KeyboardEditableFormField(
         labelText = stringResource(R.string.destination_text_label),
         text = "横浜銀行",
         onTextChanged = { },
@@ -85,8 +85,8 @@ private fun PreviewAppTextFieldFilled() {
 
 @Preview
 @Composable
-private fun PreviewAppTextFieldEmpty() {
-    AppTextField(
+private fun PreviewKeyboardEditableFormFieldEmpty() {
+    KeyboardEditableFormField(
         labelText = stringResource(R.string.destination_text_label),
         text = "",
         onTextChanged = { },
@@ -95,7 +95,7 @@ private fun PreviewAppTextFieldEmpty() {
 }
 
 @Composable
-fun SelectableText(
+fun DisplayTextFormField(
     labelText: String,
     text: String,
     onClickText: () -> Unit,
@@ -144,8 +144,8 @@ fun AppDefaultText(
 
 @Preview
 @Composable
-private fun PreviewSelectableTextFilled() {
-    SelectableText(
+private fun PreviewDisplayTextFormFieldFilled() {
+    DisplayTextFormField(
         labelText = stringResource(R.string.source_text_label),
         text = "横浜銀行",
         onClickText = { },
@@ -156,8 +156,8 @@ private fun PreviewSelectableTextFilled() {
 
 @Preview
 @Composable
-private fun PreviewSelectableTextEmpty() {
-    SelectableText(
+private fun PreviewDisplayTextFormFieldEmpty() {
+    DisplayTextFormField(
         labelText = stringResource(R.string.source_text_label),
         text = "",
         onClickText = { },
