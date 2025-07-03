@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.common_ui.KeyboardEditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
