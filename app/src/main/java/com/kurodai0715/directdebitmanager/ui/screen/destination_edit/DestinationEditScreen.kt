@@ -26,7 +26,7 @@ import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
-import com.kurodai0715.directdebitmanager.ui.common_ui.DisplayTextFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.KeyboardEditableFormField
