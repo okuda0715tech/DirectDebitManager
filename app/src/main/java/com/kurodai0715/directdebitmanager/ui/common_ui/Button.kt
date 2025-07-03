@@ -89,27 +89,3 @@ private fun PreviewHorizontalTwoButton() {
     )
 }
 
-@Composable
-fun OneOutlinedButton(
-    onClick: () -> Unit,
-    text: String,
-) {
-
-    Row(
-        modifier = Modifier.padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp)
-    ) {
-        OutlinedButton(onClick = { onClick() }) {
-            Text(text)
-        }
-    }
-}
-
-@Preview
-@Composable
-private fun PreviewOneOutlinedButton() {
-    OneOutlinedButton(
-        onClick = {},
-        text = stringResource(R.string.common_edit)
-    )
-}
