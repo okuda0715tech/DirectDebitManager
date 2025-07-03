@@ -25,7 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
-import com.kurodai0715.directdebitmanager.ui.common_ui.DialogSurfaceButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SPACE_SMALL
 import com.kurodai0715.directdebitmanager.ui.theme.TAP_AREA_DEF

@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.SourceType
-import com.kurodai0715.directdebitmanager.ui.common_ui.DialogSurfaceButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
