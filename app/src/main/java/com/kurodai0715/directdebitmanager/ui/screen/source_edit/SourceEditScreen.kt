@@ -24,9 +24,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.KeyboardEditableFormField
-import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteCompletionDialog
-import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteConfirmDialog
-import com.kurodai0715.directdebitmanager.ui.common_ui.DeleteNotAllowedDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.DisplayTextFormField

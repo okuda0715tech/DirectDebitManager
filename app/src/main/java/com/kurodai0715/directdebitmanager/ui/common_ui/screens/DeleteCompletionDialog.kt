@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.common_ui
+package com.kurodai0715.directdebitmanager.ui.common_ui.screens
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
