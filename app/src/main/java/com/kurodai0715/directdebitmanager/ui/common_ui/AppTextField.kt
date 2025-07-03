@@ -1,18 +1,10 @@
 package com.kurodai0715.directdebitmanager.ui.common_ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,76 +16,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
-import com.kurodai0715.directdebitmanager.ui.theme.SPACE_EXTRA_SMALL
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
-
-@Composable
-fun AppBaseFormField(
-    labelText: String,
-    supportingText: Int?,
-    onClickIcon: () -> Unit = {},
-    iconVisible: Boolean,
-    icon: Painter?,
-    iconDescription: String?,
-    userInputComposable: @Composable (Modifier) -> Unit,
-) {
-    Column(
-        modifier = Modifier.Companion.fillMaxWidth()
-    ) {
-        Text(
-            text = labelText,
-            style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
-        )
-
-        Spacer(modifier = Modifier.size(SPACE_EXTRA_SMALL))
-
-        Row(
-            verticalAlignment = Alignment.Companion.CenterVertically,
-            modifier = Modifier.Companion
-                .heightIn(min = TEXT_FIELD_MIN_HEIGHT)
-                .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
-                .padding(start = 16.dp, end = 12.dp)
-        ) {
-            userInputComposable(Modifier.weight(1f))
-
-            if (iconVisible && icon != null) {
-                Icon(
-                    painter = icon,
-                    contentDescription = iconDescription,
-                    modifier = Modifier.Companion
-                        .size(ICON_LARGE_SIZE)
-                        .clickable(onClick = { debouncedClick(onClickIcon) }),
-                    tint = MaterialTheme.colorScheme.primary,
-                )
-            }
-        }
-        var dividerColor = MaterialTheme.colorScheme.onSurfaceVariant
-        if (supportingText != null) {
-            dividerColor = MaterialTheme.colorScheme.error
-        }
-        HorizontalDivider(
-            color = if (supportingText == null)
-                MaterialTheme.colorScheme.onSurfaceVariant
-            else
-                MaterialTheme.colorScheme.error
-        )
-
-        Spacer(modifier = Modifier.size(SPACE_EXTRA_SMALL))
-
-        Text(
-            text = if (supportingText != null) stringResource(supportingText) else "",
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
-        )
-    }
-}
 
 @Composable
 fun AppTextField(
