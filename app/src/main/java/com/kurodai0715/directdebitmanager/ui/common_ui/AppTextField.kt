@@ -40,7 +40,7 @@ fun AppBaseText(
     iconVisible: Boolean,
     icon: Painter?,
     iconDescription: String?,
-    textComposable: @Composable (Modifier) -> Unit,
+    userInputComposable: @Composable (Modifier) -> Unit,
 ) {
     Column(
         modifier = Modifier.Companion.fillMaxWidth()
@@ -60,7 +60,7 @@ fun AppBaseText(
                 .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 .padding(start = 16.dp, end = 12.dp)
         ) {
-            textComposable(Modifier.weight(1f))
+            userInputComposable(Modifier.weight(1f))
 
             if (iconVisible && icon != null) {
                 Icon(
@@ -110,7 +110,7 @@ fun AppTextField(
         iconVisible = !text.isEmpty(),
         icon = painterResource(id = R.drawable.cancel_24px),
         iconDescription = stringResource(id = R.string.clear_text_icon_description),
-        textComposable = { modifier ->
+        userInputComposable = { modifier ->
             AppDefaultBasicTextField(
                 modifier = modifier,
                 text = text,
@@ -185,7 +185,7 @@ fun SelectableText(
         iconVisible = true,
         icon = icon,
         iconDescription = iconDescription,
-        textComposable = { modifier ->
+        userInputComposable = { modifier ->
             AppDefaultText(
                 modifier = modifier,
                 text = text,
