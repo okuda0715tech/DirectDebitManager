@@ -37,7 +37,7 @@ fun KeyboardEditableFormField(
         icon = painterResource(id = R.drawable.cancel_24px),
         iconDescription = stringResource(id = R.string.clear_text_icon_description),
         userInputComposable = { modifier ->
-            AppDefaultBasicTextField(
+            DefaultBasicTextField(
                 modifier = modifier,
                 text = text,
                 onTextChanged = onTextChanged,
@@ -47,7 +47,7 @@ fun KeyboardEditableFormField(
 }
 
 @Composable
-fun AppDefaultBasicTextField(
+fun DefaultBasicTextField(
     modifier: Modifier,
     text: String,
     onTextChanged: (String) -> Unit,
@@ -112,7 +112,7 @@ fun DisplayTextFormField(
         icon = icon,
         iconDescription = iconDescription,
         userInputComposable = { modifier ->
-            AppDefaultText(
+            DefaultText(
                 modifier = modifier,
                 text = text,
                 onClickText = onClickText,
@@ -122,7 +122,7 @@ fun DisplayTextFormField(
 }
 
 @Composable
-fun AppDefaultText(
+fun DefaultText(
     modifier: Modifier,
     text: String,
     onClickText: () -> Unit,
