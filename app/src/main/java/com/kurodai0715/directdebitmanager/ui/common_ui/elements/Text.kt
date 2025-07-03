@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.common_ui
+package com.kurodai0715.directdebitmanager.ui.common_ui.elements
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

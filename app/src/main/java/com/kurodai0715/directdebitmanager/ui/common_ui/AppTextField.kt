@@ -6,6 +6,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.AppBaseFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultBasicTextField
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultText
 
 
 @Composable
