@@ -33,7 +33,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
 @Composable
-fun AppBaseText(
+fun AppBaseFormField(
     labelText: String,
     supportingText: Int?,
     onClickIcon: () -> Unit = {},
@@ -103,7 +103,7 @@ fun AppTextField(
     supportingText: Int?,
     onClickClear: () -> Unit = {},
 ) {
-    AppBaseText(
+    AppBaseFormField(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickClear,
@@ -178,7 +178,7 @@ fun SelectableText(
     iconDescription: String? = null,
     onClickIcon: (() -> Unit) = {},
 ) {
-    AppBaseText(
+    AppBaseFormField(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickIcon,
