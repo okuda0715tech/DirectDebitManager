@@ -23,8 +23,8 @@
     <string name="welcome_animation_description">ユーザーを歓迎するアニメーション</string>
 
     <!-- 口座振替 編集 画面 -->
-    <string name="destination_text_label">振替先（支払対象）</string>
-    <string name="source_text_label">振替元（銀行・クレカ等）</string>
+    <string name="destination_text_label">振替先</string>
+    <string name="source_text_label">振替元</string>
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
     <string name="clear_text_icon_description">入力文字を削除</string>
