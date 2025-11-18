@@ -248,7 +248,7 @@ class DestinationEditViewModel @Inject constructor(
                         it.copy(
                             destName = "",
                             sourceId = 0,
-                            userMessage = R.string.common_save_successfully
+                            userMessage = R.string.common_register_successfully
                         )
                     } else {
                         // 更新の場合

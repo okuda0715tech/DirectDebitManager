@@ -137,7 +137,7 @@ class SourceEditViewModel @Inject constructor(
                     resultSuccess && isNewlyCreated -> {
                         it.copy(
                             sourceName = "",
-                            userMessage = R.string.common_save_successfully
+                            userMessage = R.string.common_register_successfully
                         )
                     }
 

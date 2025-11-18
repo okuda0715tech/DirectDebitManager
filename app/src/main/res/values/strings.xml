@@ -31,6 +31,7 @@
     <string name="open_source_list_dialog_icon_description">振替元選択ダイアログを開くアイコン</string>
 
     <!-- 振替元 編集 画面 -->
+    <string name="source_edit_text_label">振替元の名称</string>
     <string name="source_type">区分</string>
     <string name="bank">銀行</string>
     <string name="credit_card">クレジットカード</string>
@@ -81,7 +82,7 @@
     <string name="common_edit">変更</string>
     <!-- 「更新」はデータを実際に保存する際に使用 -->
     <string name="common_update">更新</string>
-    <string name="common_save_successfully">新規に作成しました。</string>
+    <string name="common_register_successfully">登録しました。</string>
     <string name="common_update_successfully">更新しました。</string>
     <string name="common_save_failed">保存に失敗しました。</string>
     <string name="common_delete_successfully">削除しました。</string>

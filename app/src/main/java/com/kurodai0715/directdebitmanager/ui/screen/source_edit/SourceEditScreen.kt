@@ -23,13 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -142,7 +142,7 @@ fun SourceEditContents(
     ) {
 
         KeyboardEditableFormField(
-            labelText = stringResource(R.string.source_text_label),
+            labelText = stringResource(R.string.source_edit_text_label),
             text = source,
             onTextChanged = onSourceChanged,
             supportingText = sourceErrorMessage,
