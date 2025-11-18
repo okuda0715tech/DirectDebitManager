@@ -35,8 +35,8 @@ import coil.request.ImageRequest
 import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.DestWithSource
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -176,7 +176,7 @@ fun DestinationItem(
 
 @Preview
 @Composable
-private fun Preview() {
+private fun PreviewDestinationListContents() {
     DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
