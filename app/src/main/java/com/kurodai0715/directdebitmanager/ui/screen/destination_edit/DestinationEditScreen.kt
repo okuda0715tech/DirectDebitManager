@@ -23,13 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Destination
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -230,7 +230,7 @@ fun DestinationEditContents(
     }
 }
 
-@Preview
+@Preview(name = "DestinationEditContents")
 @Composable
 private fun PreviewUpdateContents() {
     DestinationEditContents(
@@ -247,7 +247,7 @@ private fun PreviewUpdateContents() {
     )
 }
 
-@Preview
+@Preview(name = "DestinationEditContents")
 @Composable
 private fun PreviewRegisterContents() {
     DestinationEditContents(
@@ -264,7 +264,7 @@ private fun PreviewRegisterContents() {
     )
 }
 
-@Preview
+@Preview(name = "DestinationEditContents")
 @Composable
 private fun PreviewEmptyTextContents() {
     DestinationEditContents(
@@ -281,7 +281,7 @@ private fun PreviewEmptyTextContents() {
     )
 }
 
-@Preview
+@Preview(name = "DestinationEditContents")
 @Composable
 private fun PreviewValidationErrorContents() {
     DestinationEditContents(
