@@ -10,19 +10,19 @@
 
     <!-- 画面名 -->
     <string name="no_title"> </string>
-    <string name="list_screen_title">口座振替 / 一覧</string>
-    <string name="register_screen_title">口座振替 / 登録</string>
-    <string name="edit_screen_title">口座振替 / 変更</string>
+    <string name="list_screen_title">振替情報 / 一覧</string>
+    <string name="register_screen_title">振替情報 / 登録</string>
+    <string name="edit_screen_title">振替情報 / 変更</string>
     <string name="source_list_title">振替元 / 一覧</string>
     <string name="source_registration_title">振替元 / 登録</string>
     <string name="source_update_title">振替元 / 変更</string>
 
-    <!-- 口座振替 一覧 画面 -->
+    <!-- 振替情報 一覧 画面 -->
     <string name="fetch_error">データの取得に失敗しました。</string>
     <string name="down_arrow">↓</string>
     <string name="welcome_animation_description">ユーザーを歓迎するアニメーション</string>
 
-    <!-- 口座振替 編集 画面 -->
+    <!-- 振替情報 編集 画面 -->
     <string name="destination_text_label">振替先</string>
     <string name="source_text_label">振替元</string>
     <string name="select_destination_input_method_label">振替先の指定方法</string>
