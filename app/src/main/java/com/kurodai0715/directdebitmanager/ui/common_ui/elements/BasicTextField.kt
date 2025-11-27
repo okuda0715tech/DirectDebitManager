@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 
 @Composable
@@ -34,5 +35,15 @@ fun DefaultBasicTextField(
                 innerTextField()
             }
         }
+    )
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    DefaultBasicTextField(
+        modifier = Modifier,
+        text = "test",
+        onTextChanged = { },
     )
 }
