@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -27,6 +28,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFor
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.DeleteNotAllowedDialog
@@ -185,6 +187,18 @@ fun DestinationEditContents(
             icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
             iconDescription = stringResource(id = R.string.open_source_list_dialog_icon_description),
             onClickIcon = onClickSource,
+        )
+
+        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
+
+        SingleChoiceSegmentedButton(
+            modifier = Modifier.fillMaxWidth(),
+            label = stringResource(R.string.select_destination_input_method_label),
+            labels = listOf(
+                stringResource(R.string.keyboard_input),
+                stringResource(R.string.select_from_source)
+            ),
+            onSelected = {}
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))

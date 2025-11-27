@@ -25,6 +25,9 @@
     <!-- 口座振替 編集 画面 -->
     <string name="destination_text_label">振替先</string>
     <string name="source_text_label">振替元</string>
+    <string name="select_destination_input_method_label">振替先の指定方法</string>
+    <string name="keyboard_input">手書き入力</string>
+    <string name="select_from_source">振替元から選択</string>
     <string name="transfer_date">振替予定日</string>
     <string name="transfer_amount">振替金額</string>
     <string name="clear_text_icon_description">入力文字を削除</string>
