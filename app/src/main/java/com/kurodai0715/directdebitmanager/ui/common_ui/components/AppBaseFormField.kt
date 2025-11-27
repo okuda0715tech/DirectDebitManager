@@ -65,10 +65,6 @@ fun AppBaseFormField(
                 )
             }
         }
-        var dividerColor = MaterialTheme.colorScheme.onSurfaceVariant
-        if (supportingText != null) {
-            dividerColor = MaterialTheme.colorScheme.error
-        }
         HorizontalDivider(
             color = if (supportingText == null)
                 MaterialTheme.colorScheme.onSurfaceVariant
