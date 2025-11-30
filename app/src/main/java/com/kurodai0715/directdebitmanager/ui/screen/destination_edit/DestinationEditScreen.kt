@@ -130,7 +130,7 @@ fun DestinationEditScreen(
                     },
                     onClickAddEdit = {
                         viewModel.updateSourceListDialogVisibility(false)
-                        viewModel.updateAddEditSourceListEventConsumed(false)
+                        viewModel.updateShouldNavigateToSourceList(true)
                     }
                 )
             } else {
@@ -140,20 +140,20 @@ fun DestinationEditScreen(
                     },
                     onClickRegister = {
                         viewModel.updateSourceListDialogVisibility(false)
-                        viewModel.updateAddSourceListEventConsumed(false)
+                        viewModel.updateShouldNavigateToSourceEdit(true)
                     },
                 )
             }
         } else {
             when {
-                !uiState.addEditSourceListEventConsumed -> {
+                uiState.shouldNavigateToSourceList -> {
                     onNavigateToSourceList()
-                    viewModel.updateAddEditSourceListEventConsumed(true)
+                    viewModel.updateShouldNavigateToSourceList(false)
                 }
 
-                !uiState.addSourceListEventConsumed -> {
+                uiState.shouldNavigateToSourceEdit -> {
                     onNavigateToSourceEdit()
-                    viewModel.updateAddSourceListEventConsumed(true)
+                    viewModel.updateShouldNavigateToSourceEdit(false)
                 }
             }
         }
