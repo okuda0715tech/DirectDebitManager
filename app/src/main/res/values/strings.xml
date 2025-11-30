@@ -71,7 +71,7 @@
     <string name="usage_rules_icon_description">ご使用方法</string>
 
     <!-- 振替元選択 ダイアログ -->
-    <string name="source_select_dialog_title">振替元の選択</string>
+    <string name="source_list_dialog_title">振替元一覧</string>
     <string name="edit_here">修正はこちら</string>
 
     <!-- 共通 -->
