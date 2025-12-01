@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.Destination
+import com.kurodai0715.directdebitmanager.domain.DestInputType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
@@ -57,6 +58,7 @@ fun DestinationEditScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
+        // TODO 前画面から「振替先データ入力方法」の値も引き継いで画面に反映する。
         LaunchedEffect(destination) {
             if (destination != null) {
                 viewModel.updateDirectDebit(destination)
@@ -77,18 +79,21 @@ fun DestinationEditScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            destName = uiState.destName,
-            onDestChanged = { viewModel.updateDest(it) },
+            keyboardInputDestName = uiState.keyboardInputDestName,
+            dialogSelectionDestName = uiState.dialogSelectionDestName,
+            onDestChanged = { viewModel.updateKeyboardInputDest(it) },
             sourceName = uiState.sourceName,
             itemId = uiState.destId,
             selectedDestInputTypeIndex = uiState.destInputTypeIndex,
+            destInputTypes = uiState.destInputTypes,
+            onSelectDestInputType = { index -> viewModel.updateDestInputTypeIndex(index) },
             destErrorMessage = uiState.destErrorMessage,
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.checkRelatedDataExistence(uiState.destId) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogType(SourceListDialogType.Source) },
-//            onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) },
+            onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
         )
 
         if (uiState.showDelNotAllowedDialog) {
@@ -131,7 +136,14 @@ fun DestinationEditScreen(
                     onDismissRequest = { viewModel.updateSourceListDialogType(null) },
                     onClickItem = { index ->
                         val source = uiState.sources[index]
-                        viewModel.updateSource(sourceId = source.id)
+                        when (type) {
+                            SourceListDialogType.Source -> viewModel.updateSource(sourceId = source.id)
+                            SourceListDialogType.Destination -> viewModel.updateDialogSelectionDest(
+                                source.name
+                            )
+
+                            else -> throw IllegalStateException("Unexpected value: $type")
+                        }
                     },
                     onClickAddEdit = {
                         viewModel.updateSourceListDialogType(null)
@@ -149,7 +161,7 @@ fun DestinationEditScreen(
                     },
                 )
             }
-        } else {
+        } else { // TODO この else が本当に必要なのか検証して、問題なければ else を消したい。
             when {
                 uiState.shouldNavigateToSourceList -> {
                     onNavigateToSourceList()
@@ -168,17 +180,21 @@ fun DestinationEditScreen(
 @Composable
 fun DestinationEditContents(
     modifier: Modifier = Modifier,
-    destName: String,
+    keyboardInputDestName: String,
+    dialogSelectionDestName: String,
     onDestChanged: (String) -> Unit,
     sourceName: String,
     itemId: Int,
     selectedDestInputTypeIndex: Int,
+    destInputTypes: List<DestInputType>,
+    onSelectDestInputType: (Int) -> Unit,
     destErrorMessage: Int?,
     sourceErrorMessage: Int?,
     onClickDelete: () -> Unit,
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
     onClickSource: () -> Unit,
+    onClickDestSelectField: () -> Unit,
 ) {
     Column(
         modifier = modifier,
@@ -202,22 +218,31 @@ fun DestinationEditContents(
             selectedIndex = selectedDestInputTypeIndex,
             label = stringResource(R.string.destination_input_type_label),
             buttonLabels =
-                listOf(
-                    stringResource(R.string.keyboard_input),
-                    stringResource(R.string.select_from_source)
-                ),
-            onSelected = {}
+                destInputTypes.map { it.label() },
+            onSelected = { index -> onSelectDestInputType(index) },
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
-        KeyboardEditableFormField(
-            labelText = stringResource(R.string.destination_text_label),
-            text = destName,
-            onTextChanged = onDestChanged,
-            supportingText = destErrorMessage,
-            onClickClear = { onDestChanged("") }
-        )
+        if (selectedDestInputTypeIndex == 0) {
+            KeyboardEditableFormField(
+                labelText = stringResource(R.string.destination_text_label),
+                text = keyboardInputDestName,
+                onTextChanged = onDestChanged,
+                supportingText = destErrorMessage,
+                onClickClear = { onDestChanged("") }
+            )
+        } else if (selectedDestInputTypeIndex == 1) {
+            DisplayTextFormField(
+                labelText = stringResource(R.string.destination_text_label),
+                text = dialogSelectionDestName,
+                onClickText = onClickDestSelectField,
+                supportingText = destErrorMessage,
+                icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
+                iconDescription = stringResource(id = R.string.open_destination_list_dialog_icon_description),
+                onClickIcon = onClickDestSelectField,
+            )
+        }
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
@@ -252,21 +277,34 @@ fun DestinationEditContents(
     }
 }
 
+@Suppress("ComposableNaming")
+@Composable
+private fun DestInputType.label(): String {
+    return when (this) {
+        DestInputType.Keyboard -> stringResource(R.string.keyboard_input)
+        DestInputType.SourceList -> stringResource(R.string.select_from_source)
+    }
+}
+
 @Preview(name = "DestinationEditContents")
 @Composable
 private fun PreviewUpdateContents() {
     DestinationEditContents(
-        destName = "横浜銀行クレジットカード",
+        keyboardInputDestName = "横浜銀行クレジットカード",
+        dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 1,
         selectedDestInputTypeIndex = 0,
+        destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
+        onSelectDestInputType = {},
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
+        onClickDestSelectField = {},
     )
 }
 
@@ -274,17 +312,21 @@ private fun PreviewUpdateContents() {
 @Composable
 private fun PreviewRegisterContents() {
     DestinationEditContents(
-        destName = "横浜銀行クレジットカード",
+        keyboardInputDestName = "横浜銀行クレジットカード",
+        dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 0,
         selectedDestInputTypeIndex = 1,
+        destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
+        onSelectDestInputType = {},
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
+        onClickDestSelectField = {},
     )
 }
 
@@ -292,17 +334,21 @@ private fun PreviewRegisterContents() {
 @Composable
 private fun PreviewEmptyTextContents() {
     DestinationEditContents(
-        destName = "",
+        keyboardInputDestName = "",
+        dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
         selectedDestInputTypeIndex = 0,
+        destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
+        onSelectDestInputType = {},
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
+        onClickDestSelectField = {},
     )
 }
 
@@ -310,16 +356,20 @@ private fun PreviewEmptyTextContents() {
 @Composable
 private fun PreviewValidationErrorContents() {
     DestinationEditContents(
-        destName = "",
+        keyboardInputDestName = "",
+        dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
         selectedDestInputTypeIndex = 1,
+        destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
+        onSelectDestInputType = {},
         destErrorMessage = R.string.common_required_field,
         sourceErrorMessage = R.string.common_required_field,
         onClickDelete = {},
         onNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
+        onClickDestSelectField = {},
     )
 }

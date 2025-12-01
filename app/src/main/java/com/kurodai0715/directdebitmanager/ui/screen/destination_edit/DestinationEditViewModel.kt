@@ -8,6 +8,7 @@ import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
+import com.kurodai0715.directdebitmanager.domain.DestInputType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -26,11 +27,14 @@ const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
     val destId: Int = 0,
-    val destName: String = "",
+    val keyboardInputDestName: String = "",
+    val dialogSelectionDestName: String = "",
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<Source> = emptyList(),
+    val destInputType: DestInputType = DestInputType.Keyboard,
     val destInputTypeIndex: Int = 0,
+    val destInputTypes: List<DestInputType> = DestInputType.getList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
@@ -103,9 +107,15 @@ class DestinationEditViewModel @Inject constructor(
         return ""
     }
 
-    fun updateDest(dest: String) {
+    fun updateKeyboardInputDest(dest: String) {
         _uiState.update {
-            it.copy(destName = dest)
+            it.copy(keyboardInputDestName = dest)
+        }
+    }
+
+    fun updateDialogSelectionDest(dest: String) {
+        _uiState.update {
+            it.copy(dialogSelectionDestName = dest)
         }
     }
 
@@ -117,11 +127,12 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    // TODO 振替先を振替元から選択した場合の更新方法を実装する
     fun updateDirectDebit(destination: Destination) {
         _uiState.update {
             it.copy(
                 destId = destination.id,
-                destName = destination.name,
+                keyboardInputDestName = destination.name,
                 sourceId = destination.sourceId,
             )
         }
@@ -196,7 +207,8 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     private fun destValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(uiState.value.destName)
+        val validationResult = BasicTextValidator.validate(getDestName())
+
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
@@ -206,6 +218,16 @@ class DestinationEditViewModel @Inject constructor(
         updateDestErrorMessage(message)
 
         return validationResult == ValidationResult.Valid
+    }
+
+    private fun getDestName(): String {
+        val destInputTypeIndex = uiState.value.destInputTypeIndex
+
+        return when (destInputTypeIndex) {
+            0 -> uiState.value.keyboardInputDestName
+            1 -> uiState.value.dialogSelectionDestName
+            else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
+        }
     }
 
     private fun sourceValidation(): Boolean {
@@ -236,7 +258,7 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = uiState.value.destId,
-                dest = uiState.value.destName,
+                dest = getDestName(),
                 sourceId = uiState.value.sourceId,
             )
 
@@ -246,7 +268,8 @@ class DestinationEditViewModel @Inject constructor(
                     if (uiState.value.destId == 0) {
                         // 新規作成の場合
                         it.copy(
-                            destName = "",
+                            keyboardInputDestName = "",
+                            dialogSelectionDestName = "",
                             sourceId = 0,
                             userMessage = R.string.common_register_successfully
                         )
@@ -293,7 +316,7 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteDestination(
                 id = uiState.value.destId,
-                dest = uiState.value.destName,
+                dest = getDestName(),
                 sourceId = uiState.value.sourceId,
             )
 
@@ -322,4 +345,28 @@ class DestinationEditViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateDestInputTypeIndex(index: Int) {
+        _uiState.update {
+            it.copy(destInputTypeIndex = index)
+        }
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

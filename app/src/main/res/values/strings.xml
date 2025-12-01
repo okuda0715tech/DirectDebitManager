@@ -32,6 +32,7 @@
     <string name="transfer_amount">振替金額</string>
     <string name="clear_text_icon_description">入力文字を削除</string>
     <string name="open_source_list_dialog_icon_description">振替元選択ダイアログを開くアイコン</string>
+    <string name="open_destination_list_dialog_icon_description">振替先選択ダイアログを開くアイコン</string>
 
     <!-- 振替元 編集 画面 -->
     <string name="source_edit_text_label">振替元の名称</string>
