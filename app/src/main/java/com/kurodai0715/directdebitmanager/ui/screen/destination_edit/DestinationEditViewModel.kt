@@ -47,7 +47,6 @@ data class DestinationEditUiState(
     val sourceErrorMessage: Int? = null,
 )
 
-
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
