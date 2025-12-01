@@ -11,10 +11,6 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +19,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.SPACE_EXTRA_SMALL
 @Composable
 fun SingleChoiceSegmentedButton(
     modifier: Modifier = Modifier,
+    selectedIndex: Int,
     label: String,
     buttonLabels: List<String>,
     onSelected: (Int) -> Unit,
@@ -36,8 +33,6 @@ fun SingleChoiceSegmentedButton(
 
         Spacer(modifier = Modifier.Companion.size(SPACE_EXTRA_SMALL))
 
-        var selectedIndex by remember { mutableIntStateOf(0) }
-
         SingleChoiceSegmentedButtonRow(modifier = modifier) {
             buttonLabels.forEachIndexed { index, label ->
                 SegmentedButton(
@@ -46,7 +41,6 @@ fun SingleChoiceSegmentedButton(
                         count = buttonLabels.size
                     ),
                     onClick = {
-                        selectedIndex = index
                         onSelected(index)
                     },
                     selected = index == selectedIndex,
@@ -62,6 +56,7 @@ fun SingleChoiceSegmentedButton(
 private fun Preview() {
     SingleChoiceSegmentedButton(
         modifier = Modifier.width(400.dp),
+        selectedIndex = 0,
         label = "単一選択セグメントボタン",
         buttonLabels = listOf("ボタンA", "ボタンB", "ボタンC"),
         onSelected = {},

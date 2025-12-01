@@ -81,6 +81,7 @@ fun DestinationEditScreen(
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = uiState.sourceName,
             itemId = uiState.destId,
+            selectedDestInputTypeIndex = uiState.destInputTypeIndex,
             destErrorMessage = uiState.destErrorMessage,
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.checkRelatedDataExistence(uiState.destId) },
@@ -171,6 +172,7 @@ fun DestinationEditContents(
     onDestChanged: (String) -> Unit,
     sourceName: String,
     itemId: Int,
+    selectedDestInputTypeIndex: Int,
     destErrorMessage: Int?,
     sourceErrorMessage: Int?,
     onClickDelete: () -> Unit,
@@ -197,6 +199,7 @@ fun DestinationEditContents(
 
         SingleChoiceSegmentedButton(
             modifier = Modifier.fillMaxWidth(),
+            selectedIndex = selectedDestInputTypeIndex,
             label = stringResource(R.string.destination_input_type_label),
             buttonLabels =
                 listOf(
@@ -257,6 +260,7 @@ private fun PreviewUpdateContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 1,
+        selectedDestInputTypeIndex = 0,
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
@@ -274,6 +278,7 @@ private fun PreviewRegisterContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 0,
+        selectedDestInputTypeIndex = 1,
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
@@ -291,6 +296,7 @@ private fun PreviewEmptyTextContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
+        selectedDestInputTypeIndex = 0,
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
@@ -308,6 +314,7 @@ private fun PreviewValidationErrorContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
+        selectedDestInputTypeIndex = 1,
         destErrorMessage = R.string.common_required_field,
         sourceErrorMessage = R.string.common_required_field,
         onClickDelete = {},

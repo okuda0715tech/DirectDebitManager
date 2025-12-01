@@ -30,6 +30,7 @@ data class DestinationEditUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<Source> = emptyList(),
+    val destInputTypeIndex: Int = 0,
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,
