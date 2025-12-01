@@ -24,7 +24,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.SPACE_EXTRA_SMALL
 fun SingleChoiceSegmentedButton(
     modifier: Modifier = Modifier,
     label: String,
-    labels: List<String>,
+    buttonLabels: List<String>,
     onSelected: (Int) -> Unit,
 ) {
     Column(modifier = modifier) {
@@ -39,11 +39,11 @@ fun SingleChoiceSegmentedButton(
         var selectedIndex by remember { mutableIntStateOf(0) }
 
         SingleChoiceSegmentedButtonRow(modifier = modifier) {
-            labels.forEachIndexed { index, label ->
+            buttonLabels.forEachIndexed { index, label ->
                 SegmentedButton(
                     shape = SegmentedButtonDefaults.itemShape(
                         index = index,
-                        count = labels.size
+                        count = buttonLabels.size
                     ),
                     onClick = {
                         selectedIndex = index
@@ -63,7 +63,7 @@ private fun Preview() {
     SingleChoiceSegmentedButton(
         modifier = Modifier.width(400.dp),
         label = "単一選択セグメントボタン",
-        labels = listOf("ボタンA", "ボタンB", "ボタンC"),
+        buttonLabels = listOf("ボタンA", "ボタンB", "ボタンC"),
         onSelected = {},
     )
 }
