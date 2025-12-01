@@ -86,7 +86,8 @@ fun DestinationEditScreen(
             onClickDelete = { viewModel.checkRelatedDataExistence(uiState.destId) },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
-            onClickSource = { viewModel.updateSourceListDialogVisibility(true) },
+            onClickSource = { viewModel.updateSourceListDialogType(SourceListDialogType.Source) },
+//            onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) },
         )
 
         if (uiState.showDelNotAllowedDialog) {
@@ -119,27 +120,30 @@ fun DestinationEditScreen(
             }
         }
 
-        if (uiState.showSourceListDialog) {
+        if (uiState.sourceListDialogType != null) {
+
+            val type = uiState.sourceListDialogType
+
             if (uiState.sources.isNotEmpty()) {
                 SourceListDialog(
                     items = uiState.sources,
-                    onDismissRequest = { viewModel.updateSourceListDialogVisibility(false) },
+                    onDismissRequest = { viewModel.updateSourceListDialogType(null) },
                     onClickItem = { index ->
                         val source = uiState.sources[index]
                         viewModel.updateSource(sourceId = source.id)
                     },
                     onClickAddEdit = {
-                        viewModel.updateSourceListDialogVisibility(false)
+                        viewModel.updateSourceListDialogType(null)
                         viewModel.updateShouldNavigateToSourceList(true)
                     }
                 )
             } else {
                 NoSourceDataDialog(
                     onDismissRequest = {
-                        viewModel.updateSourceListDialogVisibility(false)
+                        viewModel.updateSourceListDialogType(null)
                     },
                     onClickRegister = {
-                        viewModel.updateSourceListDialogVisibility(false)
+                        viewModel.updateSourceListDialogType(null)
                         viewModel.updateShouldNavigateToSourceEdit(true)
                     },
                 )

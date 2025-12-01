@@ -36,9 +36,7 @@ data class DestinationEditUiState(
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
-    val showSourceListDialog: Boolean = false,
-    val addEditSourceListEventConsumed: Boolean = true,
-    val addSourceListEventConsumed: Boolean = true,
+    val sourceListDialogType: SourceListDialogType? = null,
     val shouldNavigateToSourceList: Boolean = false,
     val shouldNavigateToSourceEdit: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
@@ -146,9 +144,9 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateSourceListDialogVisibility(show: Boolean) {
+    fun updateSourceListDialogType(type: SourceListDialogType?) {
         _uiState.update {
-            it.copy(showSourceListDialog = show)
+            it.copy(sourceListDialogType = type)
         }
     }
 

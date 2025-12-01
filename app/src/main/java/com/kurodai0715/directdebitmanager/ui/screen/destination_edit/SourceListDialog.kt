@@ -93,6 +93,14 @@ fun SourceListDialog(
     )
 }
 
+/**
+ * 何を選択するために振替元一覧ダイアログを表示したのかを区別するための enum.
+ */
+enum class SourceListDialogType() {
+    Source, // 振替元を選択するため
+    Destination; // 振替先を選択するため
+}
+
 @Preview
 @Composable
 private fun PreviewSourceListDialog() {
