@@ -194,10 +194,11 @@ fun DestinationEditContents(
         SingleChoiceSegmentedButton(
             modifier = Modifier.fillMaxWidth(),
             label = stringResource(R.string.destination_input_type_label),
-            labels = listOf(
-                stringResource(R.string.keyboard_input),
-                stringResource(R.string.select_from_source)
-            ),
+            labels =
+                listOf(
+                    stringResource(R.string.keyboard_input),
+                    stringResource(R.string.select_from_source)
+                ),
             onSelected = {}
         )
 
