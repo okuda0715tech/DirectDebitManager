@@ -26,8 +26,8 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val destId: Int = 0, // TODO プロパティ名を keyboardInputDestId に変更する。
-    val dialogSelectionDestId: Int? = null,
+    val destIdFromKeyboard: Int = 0,
+    val destIdFromDialog: Int? = null,
     val keyboardInputDestName: String = "",
     val dialogSelectionDestName: String = "",
     val sourceId: Int = 0,
@@ -117,7 +117,7 @@ class DestinationEditViewModel @Inject constructor(
     fun updateDialogSelectionDest(dest: String, destId: Int) {
         _uiState.update {
             it.copy(
-                dialogSelectionDestId = destId,
+                destIdFromDialog = destId,
                 dialogSelectionDestName = dest
             )
         }
@@ -135,7 +135,7 @@ class DestinationEditViewModel @Inject constructor(
     fun updateDirectDebit(destination: Destination) {
         _uiState.update {
             it.copy(
-                destId = destination.id,
+                destIdFromKeyboard = destination.id,
                 keyboardInputDestName = destination.name,
                 sourceId = destination.sourceId,
             )
@@ -240,8 +240,8 @@ class DestinationEditViewModel @Inject constructor(
         val destInputTypeIndex = uiState.value.destInputTypeIndex
 
         return when (destInputTypeIndex) {
-            0 -> uiState.value.destId
-            1 -> uiState.value.dialogSelectionDestId
+            0 -> uiState.value.destIdFromKeyboard
+            1 -> uiState.value.destIdFromDialog
                 ?: throw IllegalStateException("dialogSelectionDestId is null")
 
             else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
@@ -286,7 +286,7 @@ class DestinationEditViewModel @Inject constructor(
             _uiState.update {
                 if (resultSuccess) {
                     // 新規作成 or 更新が成功した場合
-                    if (uiState.value.destId == 0) {
+                    if (uiState.value.destIdFromKeyboard == 0) {
                         // 新規作成の場合
                         it.copy(
                             keyboardInputDestName = "",
@@ -336,7 +336,7 @@ class DestinationEditViewModel @Inject constructor(
     fun deleteData() {
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteDestination(
-                id = uiState.value.destId,
+                id = uiState.value.destIdFromKeyboard,
                 dest = getDestName(),
                 sourceId = uiState.value.sourceId,
             )
