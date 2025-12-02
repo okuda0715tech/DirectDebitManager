@@ -79,8 +79,8 @@ fun DestinationEditScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            keyboardInputDestName = uiState.keyboardInputDestName,
-            dialogSelectionDestName = uiState.dialogSelectionDestName,
+            keyboardInputDestName = uiState.destNameFromKeyboard,
+            dialogSelectionDestName = uiState.destNameFromDialog,
             onDestChanged = { viewModel.updateKeyboardInputDest(it) },
             sourceName = uiState.sourceName,
             itemId = uiState.destIdFromKeyboard,

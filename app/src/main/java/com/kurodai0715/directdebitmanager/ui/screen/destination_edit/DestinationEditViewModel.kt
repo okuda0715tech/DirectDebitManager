@@ -28,8 +28,8 @@ const val TAG = "DestinationEditViewModel.kt"
 data class DestinationEditUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
-    val keyboardInputDestName: String = "",
-    val dialogSelectionDestName: String = "",
+    val destNameFromKeyboard: String = "",
+    val destNameFromDialog: String = "",
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<Source> = emptyList(),
@@ -110,7 +110,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateKeyboardInputDest(dest: String) {
         _uiState.update {
-            it.copy(keyboardInputDestName = dest)
+            it.copy(destNameFromKeyboard = dest)
         }
     }
 
@@ -118,7 +118,7 @@ class DestinationEditViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 destIdFromDialog = destId,
-                dialogSelectionDestName = dest
+                destNameFromDialog = dest
             )
         }
     }
@@ -136,7 +136,7 @@ class DestinationEditViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 destIdFromKeyboard = destination.id,
-                keyboardInputDestName = destination.name,
+                destNameFromKeyboard = destination.name,
                 sourceId = destination.sourceId,
             )
         }
@@ -230,8 +230,8 @@ class DestinationEditViewModel @Inject constructor(
         val destInputTypeIndex = uiState.value.destInputTypeIndex
 
         return when (destInputTypeIndex) {
-            0 -> uiState.value.keyboardInputDestName
-            1 -> uiState.value.dialogSelectionDestName
+            0 -> uiState.value.destNameFromKeyboard
+            1 -> uiState.value.destNameFromDialog
             else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
         }
     }
@@ -289,8 +289,8 @@ class DestinationEditViewModel @Inject constructor(
                     if (uiState.value.destIdFromKeyboard == 0) {
                         // 新規作成の場合
                         it.copy(
-                            keyboardInputDestName = "",
-                            dialogSelectionDestName = "",
+                            destNameFromKeyboard = "",
+                            destNameFromDialog = "",
                             sourceId = 0,
                             userMessage = R.string.common_register_successfully
                         )
