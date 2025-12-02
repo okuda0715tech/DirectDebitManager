@@ -13,7 +13,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.SourceType
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.DialogSurfaceButton
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -21,7 +21,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun SourceTypeListDialog(
     onDismissRequest: () -> Unit,
-    onClickItem: (SourceType) -> Unit,
+    onClickItem: (TransferItemType) -> Unit,
 ) {
 
     AlertDialog(
@@ -30,7 +30,7 @@ fun SourceTypeListDialog(
         },
         text = {
             LazyColumn {
-                items(SourceType.entries.toTypedArray()) { sourceType ->
+                items(TransferItemType.entries.toTypedArray()) { sourceType ->
                     DialogSurfaceButton(
                         onClick = {
                             debouncedClick {
