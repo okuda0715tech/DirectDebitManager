@@ -1,14 +1,14 @@
 package com.kurodai0715.directdebitmanager.domain
 
 
-enum class SourceType(val value: Int) {
+enum class TransferItemType(val value: Int) {
     Bank(0),
     CreditCard(1),
     DebitCard(2),
     Others(3);
 
     companion object {
-        fun fromInt(value: Int): SourceType {
+        fun fromInt(value: Int): TransferItemType {
             for (type in entries) {
                 if (type.value == value) {
                     return type
@@ -17,9 +17,9 @@ enum class SourceType(val value: Int) {
             return Others
         }
 
-        fun toInt(sourceType: SourceType): Int {
+        fun toInt(transferItemType: TransferItemType): Int {
             for (type in entries) {
-                if (type == sourceType) {
+                if (type == transferItemType) {
                     return type.value
                 }
             }

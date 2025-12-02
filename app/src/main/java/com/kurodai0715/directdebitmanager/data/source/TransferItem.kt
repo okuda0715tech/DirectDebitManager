@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.data.source
 
-import com.kurodai0715.directdebitmanager.domain.SourceType
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
 
 data class TransferItem(
 
@@ -27,7 +27,7 @@ data class TransferItem(
     /**
      * この [TransferItem] の区分.
      *
-     * 具体的な区分の種類は、 [SourceType] を参照。
+     * 具体的な区分の種類は、 [TransferItemType] を参照。
      */
     val type: Int?,
 

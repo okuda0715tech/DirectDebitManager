@@ -6,7 +6,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
-import com.kurodai0715.directdebitmanager.domain.SourceType
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +26,7 @@ data class SourceEditUiState(
     val showSourceTypeListDialog: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
     val sourceErrorMessage: Int? = null,
-    val sourceType: SourceType = SourceType.Bank,
+    val sourceType: TransferItemType = TransferItemType.Bank,
 )
 
 @HiltViewModel
@@ -55,7 +55,7 @@ class SourceEditViewModel @Inject constructor(
             it.copy(
                 sourceId = source.id,
                 sourceName = source.name,
-                sourceType = SourceType.fromInt(source.type),
+                sourceType = TransferItemType.fromInt(source.type),
             )
         }
     }
@@ -90,7 +90,7 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun updateSourceType(type: SourceType) {
+    fun updateSourceType(type: TransferItemType) {
         _uiState.update {
             it.copy(sourceType = type)
         }
@@ -126,7 +126,7 @@ class SourceEditViewModel @Inject constructor(
             val resultSuccess = directDebitDefRepo.upsertSource(
                 id = uiState.value.sourceId,
                 name = uiState.value.sourceName,
-                type = SourceType.toInt(uiState.value.sourceType),
+                type = TransferItemType.toInt(uiState.value.sourceType),
             )
 
             val isNewlyCreated = uiState.value.sourceId == 0
@@ -187,7 +187,7 @@ class SourceEditViewModel @Inject constructor(
             val deletedSourceCount = directDebitDefRepo.deleteSource(
                 id = uiState.value.sourceId,
                 name = uiState.value.sourceName,
-                type = SourceType.toInt(uiState.value.sourceType),
+                type = TransferItemType.toInt(uiState.value.sourceType),
             )
 
             val resultFailure = deletedSourceCount == -1
