@@ -26,7 +26,8 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val destId: Int = 0,
+    val destId: Int = 0, // TODO プロパティ名を keyboardInputDestId に変更する。
+    val dialogSelectionDestId: Int? = null,
     val keyboardInputDestName: String = "",
     val dialogSelectionDestName: String = "",
     val sourceId: Int = 0,
@@ -113,9 +114,12 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDialogSelectionDest(dest: String) {
+    fun updateDialogSelectionDest(dest: String, destId: Int) {
         _uiState.update {
-            it.copy(dialogSelectionDestName = dest)
+            it.copy(
+                dialogSelectionDestId = destId,
+                dialogSelectionDestName = dest
+            )
         }
     }
 
@@ -232,6 +236,18 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    private fun getDestId(): Int {
+        val destInputTypeIndex = uiState.value.destInputTypeIndex
+
+        return when (destInputTypeIndex) {
+            0 -> uiState.value.destId
+            1 -> uiState.value.dialogSelectionDestId
+                ?: throw IllegalStateException("dialogSelectionDestId is null")
+
+            else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
+        }
+    }
+
     private fun sourceValidation(): Boolean {
         val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
         val message = when (validationResult) {
@@ -259,7 +275,10 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertDestination(
-                id = uiState.value.destId,
+                // TODO [Destination] クラスには、 type プロパティや isSourceItem プロパティが存在しないため、
+                //  DB 保存前に [LocalTransferItem] クラスに変換する際に、必要なデータが渡せていないため、
+                //  ここで渡す必要がある。
+                id = getDestId(),
                 dest = getDestName(),
                 sourceId = uiState.value.sourceId,
             )
