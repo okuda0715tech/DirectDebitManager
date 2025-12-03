@@ -61,6 +61,23 @@ flowchart TD
 sequenceDiagram
   participant UI as UI(Compose)
   participant VM as ViewModel
+  participant REP as Repository
+  participant DS as DataSource
+
+  UI ->> VM: Event を ViewModel に送る
+  VM ->> REP: Repository 呼び出し
+  REP ->> DS: API/DB からデータ取得
+  DS -->> REP: Data Model 返却
+  REP -->> VM: Data Model 返却
+  VM -->> UI: UI State 更新
+```
+
+または、 UseCase を挟む場合は以下とします。
+
+```mermaid
+sequenceDiagram
+  participant UI as UI(Compose)
+  participant VM as ViewModel
   participant UC as UseCase
   participant REP as Repository
   participant DS as DataSource
