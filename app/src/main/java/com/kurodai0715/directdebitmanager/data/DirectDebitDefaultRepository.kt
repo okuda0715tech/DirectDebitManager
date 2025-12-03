@@ -124,12 +124,11 @@ class DirectDebitDefaultRepository @Inject constructor(
      * @param name 削除するレコードの name
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun deleteSource(id: Int, name: String, type: Int): Int {
+    suspend fun deleteSource(id: Int): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val source = Source(id = id, name = name, type = type)
             numOfDeleted = try {
-                localDataSource.deleteSource(source.toLocalTransferItem())
+                localDataSource.deleteSource(LocalTransferItem(id, "", true, null, null))
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
