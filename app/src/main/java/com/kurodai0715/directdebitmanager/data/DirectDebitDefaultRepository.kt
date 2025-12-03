@@ -80,13 +80,14 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun upsertSource(id: Int, name: String, type: Int): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
-            val source = Source(
-                id = id,
-                name = name,
-                type = type,
-            )
             resultSuccess = try {
-                localDataSource.upsertTransferItem(source.toLocalTransferItem())
+                localDataSource.upsertTransferItem(LocalTransferItem(
+                    id = id,
+                    label = name,
+                    isSourceItem = true,
+                    type = type,
+                    parentId = null,
+                ))
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
