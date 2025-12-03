@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
@@ -37,7 +36,9 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun SourceEditScreen(
     viewModel: SourceEditViewModel = hiltViewModel(),
-    source: Source?,
+    sourceId: Int?,
+    sourceName: String?,
+    sourceType: Int?,
     onNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -53,9 +54,13 @@ fun SourceEditScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
-        LaunchedEffect(source) {
-            if (source != null) {
-                viewModel.updateTransSource(source)
+        LaunchedEffect(sourceId) {
+            if (sourceId != null) {
+                viewModel.updateTransSource(
+                    sourceId = sourceId,
+                    sourceName = sourceName!!,
+                    sourceType = sourceType!!
+                )
             }
         }
 

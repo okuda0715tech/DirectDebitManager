@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
@@ -50,12 +49,12 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun updateTransSource(source: Source) {
+    fun updateTransSource(sourceId: Int, sourceName: String, sourceType: Int) {
         _uiState.update {
             it.copy(
-                sourceId = source.id,
-                sourceName = source.name,
-                sourceType = TransferItemType.fromInt(source.type),
+                sourceId = sourceId,
+                sourceName = sourceName,
+                sourceType = TransferItemType.fromInt(sourceType),
             )
         }
     }

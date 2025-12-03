@@ -102,11 +102,9 @@ fun NavGraphBuilder.sourceEditDestination(
         val sourceEdit: SourceEdit = backStackEntry.toRoute()
 
         SourceEditScreen(
-            source = if (sourceEdit.sourceId == null) {
-                null
-            } else {
-                Source(id = sourceEdit.sourceId, name = sourceEdit.sourceName!!, type = sourceEdit.sourceType!!)
-            },
+            sourceId = sourceEdit.sourceId,
+            sourceName = sourceEdit.sourceName,
+            sourceType = sourceEdit.sourceType,
             onNavigateUp = onNavigateUp,
         )
 
