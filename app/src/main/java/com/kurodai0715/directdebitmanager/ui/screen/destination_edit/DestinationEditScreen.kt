@@ -140,7 +140,8 @@ fun DestinationEditScreen(
                             SourceListDialogType.Source -> viewModel.updateSource(sourceId = source.id)
                             SourceListDialogType.Destination -> viewModel.updateDialogSelectionDest(
                                 destId = source.id,
-                                dest = source.name,
+                                destName = source.name,
+                                destItemType = source.typeEnum,
                             )
 
                             else -> throw IllegalStateException("Unexpected value: $type")

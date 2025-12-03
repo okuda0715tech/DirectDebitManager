@@ -9,6 +9,7 @@ import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.DestInputType
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -25,11 +26,14 @@ import javax.inject.Inject
 
 const val TAG = "DestinationEditViewModel.kt"
 
+// TODO UI 状態はドメインモデルに依存するべきではないため、修正が必要。
+//  UI が依存しても良いのは、 UI Model のみ。それ以外の場合はプリミティブ型のみでデータを扱う。
 data class DestinationEditUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
     val destNameFromDialog: String = "",
+    val destItemType: TransferItemType? = null,
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<Source> = emptyList(),
@@ -114,11 +118,12 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDialogSelectionDest(dest: String, destId: Int) {
+    fun updateDialogSelectionDest(destId: Int, destName: String, destItemType: TransferItemType) {
         _uiState.update {
             it.copy(
                 destIdFromDialog = destId,
-                destNameFromDialog = dest
+                destNameFromDialog = destName,
+                destItemType = destItemType,
             )
         }
     }
@@ -275,12 +280,11 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertDestination(
-                // TODO [Destination] クラスには、 type プロパティや isSourceItem プロパティが存在しないため、
-                //  DB 保存前に [LocalTransferItem] クラスに変換する際に、必要なデータが渡せていないため、
-                //  ここで渡す必要がある。
                 id = getDestId(),
-                dest = getDestName(),
-                sourceId = uiState.value.sourceId,
+                label = getDestName(),
+                isSourceItem = uiState.value.destInputTypeIndex == 1,
+                parentId = uiState.value.sourceId,
+                type = uiState.value.destItemType,
             )
 
             _uiState.update {

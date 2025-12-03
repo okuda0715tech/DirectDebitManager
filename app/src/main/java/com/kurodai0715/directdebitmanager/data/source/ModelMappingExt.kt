@@ -4,6 +4,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.LocalDestWithSource
 import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
 
 fun LocalDestination.toExternal() = Destination(
     id = id,
@@ -34,11 +35,16 @@ fun LocalDestWithSource.toExternal() = DestWithSource(
     sourceName = sourceName,
 )
 
-fun LocalTransferItem.toSource() = Source(
-    id = id,
-    name = label,
-    type = type!!,
-)
+fun LocalTransferItem.toSource(): Source {
+    val type = requireNotNull(type) { "LocalTransferItem.type is null" }
+
+    return Source(
+        id = id,
+        name = label,
+        typeEnum = TransferItemType.fromInt(type),
+        type = type,
+    )
+}
 
 fun Source.toLocalTransferItem() = LocalTransferItem(
     id = id,

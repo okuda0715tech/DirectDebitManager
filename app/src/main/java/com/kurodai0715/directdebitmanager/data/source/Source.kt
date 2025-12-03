@@ -1,5 +1,7 @@
 package com.kurodai0715.directdebitmanager.data.source
 
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
+
 data class Source(
     /**
      * ID.
@@ -11,5 +13,7 @@ data class Source(
     val name: String,
 
     val type: Int,
+
+    val typeEnum: TransferItemType,
 )
 

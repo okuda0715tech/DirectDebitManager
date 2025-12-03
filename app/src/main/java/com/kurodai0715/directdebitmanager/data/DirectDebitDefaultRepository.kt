@@ -10,6 +10,7 @@ import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toLocalTransferItem
 import com.kurodai0715.directdebitmanager.data.source.toSource
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
+import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -28,17 +29,23 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替先情報を DB へ登録する.
      */
-    suspend fun upsertDestination(id: Int, dest: String, sourceId: Int): Boolean {
+    suspend fun upsertDestination(
+        id: Int,
+        label: String,
+        isSourceItem: Boolean,
+        type: TransferItemType?,
+        parentId: Int,
+    ): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
                 localDataSource.upsertTransferItem(
                     LocalTransferItem(
                         id = id,
-                        label = dest,
-                        isSourceItem = false,
-                        type = null,
-                        parentId = sourceId
+                        label = label,
+                        isSourceItem = isSourceItem,
+                        type = type?.let { TransferItemType.toInt(type) },
+                        parentId = parentId
                     )
                 )
                 true
@@ -81,13 +88,15 @@ class DirectDebitDefaultRepository @Inject constructor(
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
-                localDataSource.upsertTransferItem(LocalTransferItem(
-                    id = id,
-                    label = name,
-                    isSourceItem = true,
-                    type = type,
-                    parentId = null,
-                ))
+                localDataSource.upsertTransferItem(
+                    LocalTransferItem(
+                        id = id,
+                        label = name,
+                        isSourceItem = true,
+                        type = type,
+                        parentId = null,
+                    )
+                )
                 true
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
