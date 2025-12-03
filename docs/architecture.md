@@ -69,6 +69,7 @@ sequenceDiagram
   REP ->> DS: API/DB からデータ取得
   DS -->> REP: Data Model 返却
   REP -->> VM: Data Model 返却
+  VM -> VM: Data Model を UI State に変換
   VM -->> UI: UI State 更新
 ```
 
