@@ -49,8 +49,10 @@ flowchart TD
 ## 4. 依存関係ルール
 
 - 依存方向は UI → Domain → Data の一方向のみ 
-- Data Layer は UI に依存してはならない 
-- Repository は UI Model や ViewModel に依存しない
+- UI は Domain Model や Data Model に依存しない
+- UI は UI 状態にのみ依存する
+- UI 状態は ViewModel が Domain Model or Data Model から生成する
+- UI 状態は Domain Model or Data Model に依存しない
 
 
 ## 5. データフロー
