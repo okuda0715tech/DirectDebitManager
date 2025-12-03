@@ -68,8 +68,10 @@ sequenceDiagram
   VM ->> REP: Repository 呼び出し
   REP ->> DS: API/DB からデータ取得
   DS -->> REP: Data Model 返却
-  REP -->> VM: Data Model 返却
-  VM -> VM: Data Model を UI State に変換
+  REP -> REP: 必要なら、ローカルデータ(XxxEntity)とリモートデータ(XxxResponse)をマージしてドメインモデル(Xxx)を生成
+  REP -->> VM: Data Model or Domain Model 返却
+  VM -> VM: 必要なら、 Data Model or Domain Model を UI Model に変換
+  VM -> VM: Data Model or Domain Model を UI State に変換(必要なら、間に UI Model を挟む)
   VM -->> UI: UI State 更新
 ```
 
@@ -117,9 +119,15 @@ sequenceDiagram
 
 ### 6.4 モデル名
 
-- Domain model: アプリ内部で意味を持つ 
-- Data model: API/DB を正確に表す構造体
+- UI モデル: `XxxUiModel`
+- ドメインモデル: `Xxx`
+- データモデル: リモートデータの場合 `XxxResponse` / ローカルデータの場合 `XxxEntity`
 
+```
+【理由】
+ドメインモデルは、 DDD の観点から見ると何もつけない自然な名前にするのが一般的であるため。
+ローカルデータは Room の @Entity アノテーションとも親和性があり、認識しやすいため。
+```
 
 ## 7. エラーハンドリング方針
 
