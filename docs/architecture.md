@@ -70,9 +70,9 @@ sequenceDiagram
   VM ->> REP: Repository 呼び出し
   REP ->> DS: API/DB からデータ取得
   DS -->> REP: Data Model 返却
-  REP -> REP: 必要なら、ローカルデータ(XxxEntity)とリモートデータ(XxxResponse)をマージしてドメインモデル(Xxx)を生成
+  REP -> REP: (必要なら、ローカルデータ(XxxEntity)とリモートデータ(XxxResponse)をマージしてドメインモデル(Xxx)を生成)
   REP -->> VM: Data Model or Domain Model 返却
-  VM -> VM: 必要なら、 Data Model or Domain Model を UI Model に変換
+  VM -> VM: (必要なら、 Data Model or Domain Model を UI Model に変換)
   VM -> VM: Data Model or Domain Model を UI State に変換(必要なら、間に UI Model を挟む)
   VM -->> UI: UI State 更新
 ```
