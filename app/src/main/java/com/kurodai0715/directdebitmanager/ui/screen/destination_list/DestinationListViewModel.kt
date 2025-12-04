@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -24,6 +23,13 @@ data class DestinationListUiState(
     val items: List<DestWithSource> = emptyList(),
     val isLoading: Boolean = false,
     val userMessage: Int? = null
+)
+
+data class DestWithSource(
+    val destId: Int,
+    val destName: String,
+    val sourceId: Int,
+    val sourceName: String
 )
 
 @HiltViewModel

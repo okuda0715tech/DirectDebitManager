@@ -34,7 +34,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.DestWithSource
+import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSource
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader

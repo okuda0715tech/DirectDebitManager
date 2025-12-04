@@ -5,6 +5,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.LocalDestination
 import com.kurodai0715.directdebitmanager.data.source.local.LocalSource
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSource
 
 fun LocalDestination.toExternal() = Destination(
     id = id,

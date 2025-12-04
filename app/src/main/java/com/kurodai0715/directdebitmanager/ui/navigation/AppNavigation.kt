@@ -6,7 +6,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.DestWithSource
+import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSource
 import com.kurodai0715.directdebitmanager.data.source.Destination
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
