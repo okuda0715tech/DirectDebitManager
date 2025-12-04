@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.Destination
+import com.kurodai0715.directdebitmanager.data.source.DestinationUiModel
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.DestInputType
@@ -137,12 +137,12 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     // TODO 振替先を振替元から選択した場合の更新方法を実装する
-    fun updateDirectDebit(destination: Destination) {
+    fun updateDirectDebit(destinationUiModel: DestinationUiModel) {
         _uiState.update {
             it.copy(
-                destIdFromKeyboard = destination.id,
-                destNameFromKeyboard = destination.name,
-                sourceId = destination.sourceId,
+                destIdFromKeyboard = destinationUiModel.id,
+                destNameFromKeyboard = destinationUiModel.name,
+                sourceId = destinationUiModel.sourceId,
             )
         }
     }

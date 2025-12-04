@@ -1,7 +1,7 @@
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
-import com.kurodai0715.directdebitmanager.data.source.Destination
+import com.kurodai0715.directdebitmanager.data.source.DestinationUiModel
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
@@ -69,9 +69,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun deleteDestination(id: Int, dest: String, sourceId: Int): Int {
         var numOfDeleted: Int
         withContext(ioDispatcher) {
-            val destination = Destination(id = id, name = dest, sourceId = sourceId)
+            val destinationUiModel = DestinationUiModel(id = id, name = dest, sourceId = sourceId)
             numOfDeleted = try {
-                localDataSource.deleteDestination(destination.toLocalTransferItem())
+                localDataSource.deleteDestination(destinationUiModel.toLocalTransferItem())
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1

@@ -7,7 +7,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
 
-fun LocalDestination.toExternal() = Destination(
+fun LocalDestination.toExternal() = DestinationUiModel(
     id = id,
     name = name,
     sourceId = sourceId,
@@ -15,7 +15,7 @@ fun LocalDestination.toExternal() = Destination(
 //    amount = amount.toString(),
 )
 
-fun Destination.toLocal() = LocalDestination(
+fun DestinationUiModel.toLocal() = LocalDestination(
     id = id,
     name = name,
     sourceId = sourceId,
@@ -55,7 +55,7 @@ fun Source.toLocalTransferItem() = LocalTransferItem(
     parentId = null,
 )
 
-fun Destination.toLocalTransferItem() = LocalTransferItem(
+fun DestinationUiModel.toLocalTransferItem() = LocalTransferItem(
     id = id,
     label = name,
     isSourceItem = false, // TODO [Destination] クラスに isSourceItem 項目を追加して、それを渡すように修正する

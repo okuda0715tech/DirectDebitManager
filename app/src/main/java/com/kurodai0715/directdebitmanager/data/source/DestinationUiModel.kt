@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.data.source
 
-data class Destination(
+data class DestinationUiModel(
     /**
      * ID.
      *
