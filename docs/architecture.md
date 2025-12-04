@@ -9,10 +9,10 @@
   - [4. 依存関係ルール](#4-依存関係ルール)
   - [5. データフロー](#5-データフロー)
   - [6. 命名規則](#6-命名規則)
-    - [6.1 UI State / Event](#61-ui-state--event)
-    - [6.2 UseCase](#62-usecase)
-    - [6.3 Repository / DataSource](#63-repository--datasource)
-    - [6.4 モデル名](#64-モデル名)
+    - [6.1 UI 状態 / イベント](#61-ui-状態--イベント)
+    - [6.2 ユースケース](#62-ユースケース)
+    - [6.3 リポジトリ / データソース](#63-リポジトリ--データソース)
+    - [6.4 モデル](#64-モデル)
   - [7. エラーハンドリング方針](#7-エラーハンドリング方針)
   - [8. 画面遷移ポリシー](#8-画面遷移ポリシー)
   - [9. テスト方針](#9-テスト方針)
@@ -120,26 +120,26 @@ sequenceDiagram
 
 ## 6. 命名規則
 
-### 6.1 UI State / Event
+### 6.1 UI 状態 / イベント
 
 - State: XxxUiState 
 - Event: XxxEvent 
 - 動作を表す Boolean は isXxx, shouldXxx
 
 
-### 6.2 UseCase
+### 6.2 ユースケース
 
 - GetUserInfoUseCase 
 - UpdateAccountUseCase
 
 
-### 6.3 Repository / DataSource
+### 6.3 リポジトリ / データソース
 
 - Repository: UserRepository 
 - DataSource: UserRemoteDataSource, UserLocalDataSource
 
 
-### 6.4 モデル名
+### 6.4 モデル
 
 - UI モデル: `XxxUiModel`
 - ドメインモデル: `Xxx`
@@ -150,6 +150,13 @@ sequenceDiagram
 ドメインモデルは、 DDD の観点から見ると何もつけない自然な名前にするのが一般的であるため。
 ローカルデータは Room の @Entity アノテーションとも親和性があり、認識しやすいため。
 ```
+
+```
+【 UI 状態と UI モデルの違い】
+- UI 状態 : ViewModel で直接保持して、 UI に直接渡す入れ物的な存在
+- UI モデル : UI 状態に List<T> などで別のモデルが必要な場合に別途定義される UI 専用のモデル
+```
+
 
 ## 7. エラーハンドリング方針
 
