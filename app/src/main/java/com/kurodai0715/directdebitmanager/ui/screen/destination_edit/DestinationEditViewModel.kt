@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.DestinationUiModel
+import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationUiModel
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.DestInputType
@@ -380,18 +380,18 @@ class DestinationEditViewModel @Inject constructor(
 }
 
 
+data class DestinationUiModel(
+    /**
+     * ID.
+     *
+     * ID を自動採番したい場合は 0 を設定してください。
+     */
+    val id: Int = 0,
 
+    val name: String,
 
+    val sourceId: Int,
 
-
-
-
-
-
-
-
-
-
-
-
-
+//    val date: String,
+//    val amount: String,
+)
