@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationUiModel
 import com.kurodai0715.directdebitmanager.domain.DestInputType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
@@ -40,7 +39,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun DestinationEditScreen(
     viewModel: DestinationEditViewModel = hiltViewModel(),
-    destinationUiModel: DestinationUiModel?,
+    destinationId: Int?,
     onNavigateUp: () -> Unit,
     onNavigateToSourceList: () -> Unit,
     onNavigateToSourceEdit: () -> Unit,
@@ -58,11 +57,8 @@ fun DestinationEditScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
-        // TODO 前画面から「振替先データ入力方法」の値も引き継いで画面に反映する。
-        LaunchedEffect(destinationUiModel) {
-            if (destinationUiModel != null) {
-                viewModel.updateDirectDebit(destinationUiModel)
-            }
+        LaunchedEffect(destinationId) {
+            viewModel.initialize(destinationId)
         }
 
         uiState.userMessage?.let { message ->

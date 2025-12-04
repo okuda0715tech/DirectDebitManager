@@ -49,4 +49,14 @@ interface DirectDebitDao {
     @Query("SELECT * FROM transfer_item")
     fun observeTransferItems(): Flow<List<LocalTransferItem>>
 
+    /**
+     * 振替元と振替先のデータを全件取得.
+     */
+    @Query("SELECT a.id, a.label, a.isSourceItem, a.type, a.parentId, b.label AS source_name " +
+            "FROM transfer_item AS a " +
+            "INNER JOIN transfer_item AS b " +
+            "ON a.parentId = b.id " +
+            "WHERE a.id = :id")
+    suspend fun getTransferItem(id: Int): DestWithSourceLocal
+
 }

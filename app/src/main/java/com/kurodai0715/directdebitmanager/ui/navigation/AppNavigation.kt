@@ -6,10 +6,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
-import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationUiModel
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
@@ -23,8 +22,6 @@ data object DestList
 @Serializable
 data class DestEdit(
     val destId: Int? = null,
-    val destName: String? = null,
-    val sourceId: Int? = null,
 )
 
 fun NavGraphBuilder.destListDestination(
@@ -56,15 +53,7 @@ fun NavGraphBuilder.destEditDestination(
     composable<DestEdit> { backStackEntry ->
         val destEdit: DestEdit = backStackEntry.toRoute()
         DestinationEditScreen(
-            destinationUiModel = if (destEdit.destId == null) {
-                null
-            } else {
-                DestinationUiModel(
-                    id = destEdit.destId,
-                    name = destEdit.destName!!,
-                    sourceId = destEdit.sourceId!!
-                )
-            },
+            destinationId = destEdit.destId,
             onNavigateUp = onNavigateUp,
             onNavigateToSourceList = onNavigateToSourceList,
             onNavigateToSourceEdit = onNavigateToSourceEdit,
@@ -122,11 +111,7 @@ fun NavGraphBuilder.sourceEditDestination(
 
 fun NavController.navigateToEditDestination(destWithSourceUiModel: DestWithSourceUiModel?) {
     navigate(
-        DestEdit(
-            destId = destWithSourceUiModel?.destId,
-            destName = destWithSourceUiModel?.destName,
-            sourceId = destWithSourceUiModel?.sourceId,
-        )
+        DestEdit(destId = destWithSourceUiModel?.destId)
     )
 }
 

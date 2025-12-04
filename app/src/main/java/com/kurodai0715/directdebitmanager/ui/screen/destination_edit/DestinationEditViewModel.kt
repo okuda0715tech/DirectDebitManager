@@ -32,11 +32,11 @@ data class DestinationEditUiState(
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
     val destNameFromDialog: String = "",
-    val destItemType: TransferItemType? = null,
+    val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<Source> = emptyList(),
-    val destInputType: DestInputType = DestInputType.Keyboard,
+    val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
     val destInputTypeIndex: Int = 0,
     val destInputTypes: List<DestInputType> = DestInputType.getList(),
 //    val transferDate: String = "",
@@ -119,6 +119,35 @@ class DestinationEditViewModel @Inject constructor(
             initialValue = DestinationEditUiState(isLoading = true)
         )
 
+    fun initialize(destId: Int?) {
+        viewModelScope.launch {
+            if (destId != null) {
+                val item = directDebitDefRepo.loadTransferItem(destId)
+
+                _uiState.update {
+                    if (item.destination.isSourceItem) {
+                        it.copy(
+                            destIdFromDialog = item.destination.id,
+                            destNameFromDialog = item.destination.label,
+                            destInputTypeIndex = 1,
+                            sourceId = item.destination.parentId ?: 0,
+                            sourceName = item.sourceName,
+                            destItemTypeFromDialog = TransferItemType.fromInt(item.destination.type!!)
+                        )
+                    } else {
+                        it.copy(
+                            destIdFromKeyboard = item.destination.id,
+                            destNameFromKeyboard = item.destination.label,
+                            destInputTypeIndex = 0,
+                            sourceId = item.destination.parentId ?: 0,
+                            sourceName = item.sourceName,
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     private fun updateSourceString(sourceId: Int, sources: List<Source>): String {
         for (source in sources) {
             if (source.id == sourceId) {
@@ -139,7 +168,7 @@ class DestinationEditViewModel @Inject constructor(
             it.copy(
                 destIdFromDialog = destId,
                 destNameFromDialog = destName,
-                destItemType = destItemType,
+                destItemTypeFromDialog = destItemType,
             )
         }
     }
@@ -148,17 +177,6 @@ class DestinationEditViewModel @Inject constructor(
         _uiState.update {
             it.copy(
                 sourceId = sourceId,
-            )
-        }
-    }
-
-    // TODO 振替先を振替元から選択した場合の更新方法を実装する
-    fun updateDirectDebit(destinationUiModel: DestinationUiModel) {
-        _uiState.update {
-            it.copy(
-                destIdFromKeyboard = destinationUiModel.id,
-                destNameFromKeyboard = destinationUiModel.name,
-                sourceId = destinationUiModel.sourceId,
             )
         }
     }
@@ -300,7 +318,7 @@ class DestinationEditViewModel @Inject constructor(
                 label = getDestName(),
                 isSourceItem = uiState.value.destInputTypeIndex == 1,
                 parentId = uiState.value.sourceId,
-                type = uiState.value.destItemType,
+                type = uiState.value.destItemTypeFromDialog,
             )
 
             _uiState.update {

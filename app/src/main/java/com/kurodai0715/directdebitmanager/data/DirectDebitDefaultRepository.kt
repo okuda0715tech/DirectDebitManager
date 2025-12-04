@@ -3,6 +3,7 @@ package com.kurodai0715.directdebitmanager.data
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.Source
 import com.kurodai0715.directdebitmanager.data.source.TransferItem
+import com.kurodai0715.directdebitmanager.data.source.local.DestWithSourceLocal
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.data.source.toExternal
@@ -162,6 +163,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         }
     }
 
+    // TODO fetchXxx はリモートから取得するというニュアンスになるため、 loadXxx に変更する。
     /**
      * 振替先と振替元の一覧を取得するストリーム.
      */
@@ -169,6 +171,13 @@ class DirectDebitDefaultRepository @Inject constructor(
         return localDataSource.observeTransferItems().map { localTransferItem ->
             localTransferItem.map { it.toExternal() }
         }
+    }
+
+    /**
+     * 振替元の ID に基づき、その明細を取得する.
+     */
+    suspend fun loadTransferItem(id: Int): DestWithSourceLocal {
+        return localDataSource.getTransferItem(id)
     }
 }
 
