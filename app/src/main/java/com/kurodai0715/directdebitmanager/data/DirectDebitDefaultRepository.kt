@@ -163,7 +163,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 振替先と振替元を取得するストリーム.
+     * 振替先と振替元の一覧を取得するストリーム.
      */
     fun fetchTransferItemsStream(): Flow<List<TransferItem>> {
         return localDataSource.observeTransferItems().map { localTransferItem ->
