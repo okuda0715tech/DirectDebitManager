@@ -64,7 +64,10 @@ flowchart TD
 
 - 永続化・ネットワーク通信などの外部データの取得 
 - Domain Layer にのみ依存する 
-- Repository は Domain モデルを返す
+- Repository は Data モデル or Domain モデルを返す
+- DB のテーブルの結合やレコードのソートを行う
+  - 取得方法に関することなので Data レイヤーで OK
+  - 取得したデータの加工は Domain レイヤーで行うこと
 
 
 ## 4. 依存関係ルール
@@ -143,7 +146,11 @@ sequenceDiagram
 
 - UI モデル: `XxxUiModel`
 - ドメインモデル: `Xxx`
-- データモデル: リモートデータの場合 `XxxResponse` / ローカルデータの場合 `XxxEntity`
+- データモデル:
+  - リモートデータの場合 `XxxResponse`
+  - リモートデータの複合データの場合 `XxxResponse`
+  - ローカルデータの場合 `XxxEntity`
+  - ローカルデータの複合データの場合 `XxxLocal`
 
 ```
 【理由】
