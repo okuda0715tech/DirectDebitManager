@@ -20,12 +20,12 @@ import javax.inject.Inject
 private const val TAG = "DestinationListViewModel.kt"
 
 data class DestinationListUiState(
-    val items: List<DestWithSource> = emptyList(),
+    val items: List<DestWithSourceUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val userMessage: Int? = null
 )
 
-data class DestWithSource(
+data class DestWithSourceUiModel(
     val destId: Int,
     val destName: String,
     val sourceId: Int,
@@ -76,10 +76,10 @@ class DestinationListViewModel @Inject constructor(
         _userMessage.value = null
     }
 
-    fun convertModel(transferItems: List<TransferItem>): List<DestWithSource> {
+    fun convertModel(transferItems: List<TransferItem>): List<DestWithSourceUiModel> {
         return transferItems.mapNotNull {
             if (it.sourceId != null) {
-                DestWithSource(
+                DestWithSourceUiModel(
                     destId = it.id,
                     destName = it.label,
                     sourceId = it.sourceId,

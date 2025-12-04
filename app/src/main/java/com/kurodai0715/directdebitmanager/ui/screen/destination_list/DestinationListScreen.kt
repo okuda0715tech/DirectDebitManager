@@ -34,7 +34,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSource
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
@@ -46,7 +45,7 @@ private const val TAG = "DestinationListScreen.kt"
 @Composable
 fun DestinationListScreen(
     viewModel: DestinationListViewModel = hiltViewModel(),
-    onNavigateToEdit: (DestWithSource?) -> Unit,
+    onNavigateToEdit: (DestWithSourceUiModel?) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -89,8 +88,8 @@ fun DestinationListScreen(
 @Composable
 fun DestinationListContents(
     modifier: Modifier = Modifier,
-    items: List<DestWithSource>,
-    onNavigateToEdit: (DestWithSource?) -> Unit
+    items: List<DestWithSourceUiModel>,
+    onNavigateToEdit: (DestWithSourceUiModel?) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -154,7 +153,7 @@ fun WelcomeAnimation(modifier: Modifier) {
 
 @Composable
 fun DestinationItem(
-    destWithSource: DestWithSource,
+    destWithSourceUiModel: DestWithSourceUiModel,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit
 ) {
@@ -168,9 +167,9 @@ fun DestinationItem(
             })
             .padding(8.dp)
     ) {
-        Text(destWithSource.sourceName)
+        Text(destWithSourceUiModel.sourceName)
         Text(stringResource(R.string.down_arrow))
-        Text(destWithSource.destName)
+        Text(destWithSourceUiModel.destName)
     }
 }
 
@@ -182,11 +181,11 @@ private fun PreviewDestinationListContents() {
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
-            DestWithSource(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
-            DestWithSource(2, "Oliveクレジットカード", 2, "三井住友銀行"),
-            DestWithSource(3, "電気料金", 2, "三井住友銀行"),
-            DestWithSource(4, "水道料金", 3, "PayPay銀行"),
-            DestWithSource(5, "PayPayカード", 3, "PayPay銀行"),
+            DestWithSourceUiModel(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
+            DestWithSourceUiModel(2, "Oliveクレジットカード", 2, "三井住友銀行"),
+            DestWithSourceUiModel(3, "電気料金", 2, "三井住友銀行"),
+            DestWithSourceUiModel(4, "水道料金", 3, "PayPay銀行"),
+            DestWithSourceUiModel(5, "PayPayカード", 3, "PayPay銀行"),
         ),
         onNavigateToEdit = { })
 }
