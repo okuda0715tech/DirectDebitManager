@@ -13,16 +13,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -99,7 +104,16 @@ fun DestinationListContents(
         if (items.isEmpty()) {
             WelcomeAnimation(modifier = Modifier.weight(1f))
         } else {
-            ListView(items, onNavigateToEdit)
+            var selectedTab by remember { mutableStateOf(TabType.ListView) }
+
+            ViewChangeTab(selectedTab = selectedTab, onChangeTab = { selectedTab = it })
+
+
+            if (selectedTab == TabType.ListView) {
+                ListView(items, onNavigateToEdit)
+            } else {
+                TreeView()
+            }
         }
 
         HorizontalDivider()
@@ -119,14 +133,40 @@ private fun ColumnScope.ListView(
     LazyColumn(modifier = Modifier.weight(1f)) {
         itemsIndexed(items) { index, item ->
             val itemModifier = when (index) {
-                // 最初のアイテムは Bottom にのみパディング
-                0 -> Modifier.padding(bottom = 8.dp)
+                // 最初のアイテムは Top に 2 倍のパディング、 Bottom に通常のパディング
+                0 -> Modifier.padding(top = 16.dp, bottom = 8.dp)
                 // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
                 items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
                 // それ以外のアイテムは Top と Bottom にパディング
                 else -> Modifier.padding(vertical = 8.dp)
             }
             DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
+        }
+    }
+}
+
+@Composable
+private fun ColumnScope.TreeView() {
+    Text("ツリービュー")
+}
+
+enum class TabType() {
+    ListView,
+    TreeView;
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ColumnScope.ViewChangeTab(selectedTab: TabType, onChangeTab: (TabType) -> Unit) {
+    SecondaryTabRow(
+        selectedTabIndex = TabType.entries.indexOf(selectedTab)
+    ) {
+        TabType.entries.forEach { tab ->
+            Tab(
+                selected = tab == selectedTab,
+                onClick = { onChangeTab(tab) },
+                text = { Text(tab.name) }
+            )
         }
     }
 }
