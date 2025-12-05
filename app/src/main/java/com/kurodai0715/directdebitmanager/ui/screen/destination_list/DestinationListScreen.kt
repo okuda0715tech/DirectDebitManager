@@ -131,7 +131,8 @@ private fun ColumnScope.ListView(
     onNavigateToEdit: (DestWithSourceUiModel?) -> Unit
 ) {
     LazyColumn(modifier = Modifier.weight(1f)) {
-        itemsIndexed(items) { index, item ->
+        val itemsHasSource = items.filter { it.sourceId != 0 }
+        itemsIndexed(itemsHasSource) { index, item ->
             val itemModifier = when (index) {
                 // 最初のアイテムは Top に 2 倍のパディング、 Bottom に通常のパディング
                 0 -> Modifier.padding(top = 16.dp, bottom = 8.dp)

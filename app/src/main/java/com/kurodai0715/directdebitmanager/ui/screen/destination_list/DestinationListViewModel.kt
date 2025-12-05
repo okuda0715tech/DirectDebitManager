@@ -77,17 +77,13 @@ class DestinationListViewModel @Inject constructor(
     }
 
     fun convertModel(transferItems: List<TransferItem>): List<DestWithSourceUiModel> {
-        return transferItems.mapNotNull {
-            if (it.sourceId != null) {
-                DestWithSourceUiModel(
-                    destId = it.id,
-                    destName = it.label,
-                    sourceId = it.sourceId,
-                    sourceName = transferItems.find { item -> item.id == it.sourceId }?.label ?: "",
-                )
-            } else {
-                null
-            }
+        return transferItems.map {
+            DestWithSourceUiModel(
+                destId = it.id,
+                destName = it.label,
+                sourceId = it.sourceId ?: 0,
+                sourceName = transferItems.find { item -> item.id == it.sourceId }?.label ?: "",
+            )
         }
     }
 }
