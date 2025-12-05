@@ -96,7 +96,11 @@ fun DestinationListContents(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        ListView(items, onNavigateToEdit)
+        if (items.isEmpty()) {
+            WelcomeAnimation(modifier = Modifier.weight(1f))
+        } else {
+            ListView(items, onNavigateToEdit)
+        }
 
         HorizontalDivider()
 
@@ -112,21 +116,17 @@ private fun ColumnScope.ListView(
     items: List<DestWithSourceUiModel>,
     onNavigateToEdit: (DestWithSourceUiModel?) -> Unit
 ) {
-    if (items.isEmpty()) {
-        WelcomeAnimation(modifier = Modifier.weight(1f))
-    } else {
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            itemsIndexed(items) { index, item ->
-                val itemModifier = when (index) {
-                    // 最初のアイテムは Bottom にのみパディング
-                    0 -> Modifier.padding(bottom = 8.dp)
-                    // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
-                    items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
-                    // それ以外のアイテムは Top と Bottom にパディング
-                    else -> Modifier.padding(vertical = 8.dp)
-                }
-                DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
+    LazyColumn(modifier = Modifier.weight(1f)) {
+        itemsIndexed(items) { index, item ->
+            val itemModifier = when (index) {
+                // 最初のアイテムは Bottom にのみパディング
+                0 -> Modifier.padding(bottom = 8.dp)
+                // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
+                items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
+                // それ以外のアイテムは Top と Bottom にパディング
+                else -> Modifier.padding(vertical = 8.dp)
             }
+            DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
         }
     }
 }
