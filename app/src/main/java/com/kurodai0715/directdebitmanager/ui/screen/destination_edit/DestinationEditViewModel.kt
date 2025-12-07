@@ -275,17 +275,18 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    private fun getDestId(): Int {
-        val destInputTypeIndex = uiState.value.destInputTypeIndex
+    val destId: Int
+        get() {
+            val destInputTypeIndex = uiState.value.destInputTypeIndex
 
-        return when (destInputTypeIndex) {
-            0 -> uiState.value.destIdFromKeyboard
-            1 -> uiState.value.destIdFromDialog
-                ?: throw IllegalStateException("dialogSelectionDestId is null")
+            return when (destInputTypeIndex) {
+                0 -> uiState.value.destIdFromKeyboard
+                1 -> uiState.value.destIdFromDialog
+                    ?: throw IllegalStateException("dialogSelectionDestId is null")
 
-            else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
+                else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
+            }
         }
-    }
 
     private fun sourceValidation(): Boolean {
         val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
@@ -314,7 +315,7 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val resultSuccess = directDebitDefRepo.upsertDestination(
-                id = getDestId(),
+                id = destId,
                 label = getDestName(),
                 isSourceItem = uiState.value.destInputTypeIndex == 1,
                 parentId = uiState.value.sourceId,
