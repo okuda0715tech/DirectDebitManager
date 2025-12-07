@@ -162,7 +162,7 @@ private fun ColumnScope.TreeView(
             .fillMaxWidth()
     ) {
         items(flatTree) { item ->
-            Text("${"----".repeat(item.depth)} ${item.label}")
+            Text("${"    ".repeat(item.depth - 1)}└${item.label}")
         }
     }
 }
