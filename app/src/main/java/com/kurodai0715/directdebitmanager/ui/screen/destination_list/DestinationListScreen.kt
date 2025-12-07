@@ -162,6 +162,7 @@ private fun ColumnScope.TreeView(
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)
                 .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                .padding(8.dp)
         ) {
             items(flatTree) { item ->
                 Text("${"     ".repeat(item.depth - 1)}└ ${item.label}")
