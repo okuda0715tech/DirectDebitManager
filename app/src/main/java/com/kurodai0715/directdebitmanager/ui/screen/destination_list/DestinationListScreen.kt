@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -112,7 +113,11 @@ fun DestinationListContents(
             if (selectedTab == TabType.ListView) {
                 ListView(items, onNavigateToEdit)
             } else {
-                TreeView()
+                // 要素の親子関係を解析し、深さ情報を算出しやすいツリー構造そのものを組み立てる。
+                val rootItem = buildNestedTree(items)
+                // 組み立てたツリー構造を、深さ付きで表示用に平坦化する。
+                val flatTree = flattenTree(rootItem)
+                TreeView(flatTree)
             }
         }
 
@@ -147,8 +152,18 @@ private fun ColumnScope.ListView(
 }
 
 @Composable
-private fun ColumnScope.TreeView() {
-    Text("ツリービュー")
+private fun ColumnScope.TreeView(
+    flatTree: List<FlattenedTreeItemUiModel>,
+) {
+    LazyColumn(
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
+    ) {
+        items(flatTree) { item ->
+            Text("${"----".repeat(item.depth)} ${item.label}")
+        }
+    }
 }
 
 enum class TabType() {
