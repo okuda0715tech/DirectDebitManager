@@ -15,14 +15,16 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 private const val TAG = "DestinationListViewModel.kt"
 
 data class DestinationListUiState(
+//    val tabType: TabType = TabType.ListView,
     val items: List<DestWithSourceUiModel> = emptyList(),
     val isLoading: Boolean = false,
-    val userMessage: Int? = null
+    val userMessage: Int? = null,
 )
 
 data class DestWithSourceUiModel(
@@ -37,7 +39,10 @@ class DestinationListViewModel @Inject constructor(
     directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
-    private val _userMessage: MutableStateFlow<Int?> = MutableStateFlow(null)
+    /**
+     * 更新用.
+     */
+    private val _uiState = MutableStateFlow(DestinationListUiState())
 
     private val _destinationAsync = directDebitDefRepo.fetchTransferItemsStream()
         .map { Async.Success(it) }
@@ -47,22 +52,24 @@ class DestinationListViewModel @Inject constructor(
         }
 
     val uiState: StateFlow<DestinationListUiState> =
-        combine(_destinationAsync, _userMessage) { directDebitAsync, userMessage ->
+        combine(
+            _destinationAsync,
+            _uiState
+        ) { directDebitAsync, uiState ->
 
             when (directDebitAsync) {
                 is Async.Loading -> {
-                    DestinationListUiState(isLoading = true)
+                    uiState.copy(isLoading = true)
                 }
 
                 is Async.Error -> {
-                    DestinationListUiState(userMessage = directDebitAsync.errorMessage)
+                    uiState.copy(userMessage = directDebitAsync.errorMessage)
                 }
 
                 is Async.Success -> {
-                    DestinationListUiState(
+                    uiState.copy(
                         items = convertModel(directDebitAsync.data),
                         isLoading = false,
-                        userMessage = userMessage,
                     )
                 }
             }
@@ -73,7 +80,9 @@ class DestinationListViewModel @Inject constructor(
         )
 
     fun snackbarMessageShown() {
-        _userMessage.value = null
+        _uiState.update {
+            it.copy(userMessage = null)
+        }
     }
 
     fun convertModel(transferItems: List<TransferItem>): List<DestWithSourceUiModel> {
