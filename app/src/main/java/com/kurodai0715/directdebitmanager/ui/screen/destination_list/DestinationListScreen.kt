@@ -166,11 +166,6 @@ private fun ColumnScope.TreeView(
     }
 }
 
-enum class TabType() {
-    ListView,
-    TreeView;
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.ViewChangeTab(selectedTab: TabType, onChangeTab: (TabType) -> Unit) {

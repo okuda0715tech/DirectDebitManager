@@ -11,3 +11,8 @@ data class FlattenedTreeItemUiModel(
     val label: String,
     val depth: Int,
 )
+
+enum class TabType() {
+    ListView,
+    TreeView;
+}
