@@ -21,7 +21,7 @@ import javax.inject.Inject
 private const val TAG = "DestinationListViewModel.kt"
 
 data class DestinationListUiState(
-//    val tabType: TabType = TabType.ListView,
+    val tabType: TabType = TabType.ListView,
     val items: List<DestWithSourceUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val userMessage: Int? = null,
@@ -78,6 +78,12 @@ class DestinationListViewModel @Inject constructor(
             started = WhileUiSubscribed,
             initialValue = DestinationListUiState(isLoading = true)
         )
+
+    fun updateTabType(tabType: TabType) {
+        _uiState.update {
+            it.copy(tabType = tabType)
+        }
+    }
 
     fun snackbarMessageShown() {
         _uiState.update {

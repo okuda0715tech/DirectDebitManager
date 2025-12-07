@@ -26,9 +26,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -81,7 +79,9 @@ fun DestinationListScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
+            tabType = uiState.tabType,
             items = uiState.items,
+            onChangeTab = { viewModel.updateTabType(it) },
             onNavigateToEdit = onNavigateToEdit
         )
 
@@ -95,7 +95,9 @@ fun DestinationListScreen(
 @Composable
 fun DestinationListContents(
     modifier: Modifier = Modifier,
+    tabType: TabType,
     items: List<DestWithSourceUiModel>,
+    onChangeTab: (TabType) -> Unit,
     onNavigateToEdit: (DestWithSourceUiModel?) -> Unit
 ) {
     Column(
@@ -105,12 +107,9 @@ fun DestinationListContents(
         if (items.isEmpty()) {
             WelcomeAnimation(modifier = Modifier.weight(1f))
         } else {
-            var selectedTab by remember { mutableStateOf(TabType.ListView) }
+            ViewChangeTab(selectedTab = tabType, onChangeTab = onChangeTab)
 
-            ViewChangeTab(selectedTab = selectedTab, onChangeTab = { selectedTab = it })
-
-
-            if (selectedTab == TabType.ListView) {
+            if (tabType == TabType.ListView) {
                 ListView(items, onNavigateToEdit)
             } else {
                 // 要素の親子関係を解析し、深さ情報を算出しやすいツリー構造そのものを組み立てる。
@@ -240,6 +239,7 @@ private fun PreviewDestinationListContents() {
         modifier = Modifier
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
+        tabType = TabType.ListView,
         items = listOf(
             DestWithSourceUiModel(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
             DestWithSourceUiModel(2, "Oliveクレジットカード", 2, "三井住友銀行"),
@@ -247,5 +247,6 @@ private fun PreviewDestinationListContents() {
             DestWithSourceUiModel(4, "水道料金", 3, "PayPay銀行"),
             DestWithSourceUiModel(5, "PayPayカード", 3, "PayPay銀行"),
         ),
+        onChangeTab = { },
         onNavigateToEdit = { })
 }
