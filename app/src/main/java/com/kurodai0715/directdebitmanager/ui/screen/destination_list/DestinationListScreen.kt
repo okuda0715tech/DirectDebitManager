@@ -175,9 +175,18 @@ fun ColumnScope.ViewChangeTab(selectedTab: TabType, onChangeTab: (TabType) -> Un
             Tab(
                 selected = tab == selectedTab,
                 onClick = { onChangeTab(tab) },
-                text = { Text(tab.name) }
+                text = { Text(tab.label()) }
             )
         }
+    }
+}
+
+@Suppress("ComposableNaming")
+@Composable
+private fun TabType.label(): String {
+    return when (this) {
+        TabType.ListView -> stringResource(R.string.list_view_tab_label)
+        TabType.TreeView -> stringResource(R.string.tree_view_tab_label)
     }
 }
 

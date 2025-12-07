@@ -18,6 +18,8 @@
     <string name="source_update_title">振替元 / 変更</string>
 
     <!-- 振替情報 一覧 画面 -->
+    <string name="list_view_tab_label">個別表示</string>
+    <string name="tree_view_tab_label">ツリー表示</string>
     <string name="fetch_error">データの取得に失敗しました。</string>
     <string name="down_arrow">↓</string>
     <string name="welcome_animation_description">ユーザーを歓迎するアニメーション</string>
