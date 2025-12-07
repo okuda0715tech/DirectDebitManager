@@ -160,9 +160,10 @@ private fun ColumnScope.TreeView(
         modifier = Modifier
             .weight(1f)
             .fillMaxWidth()
+            .padding(16.dp)
     ) {
         items(flatTree) { item ->
-            Text("${"    ".repeat(item.depth - 1)}└${item.label}")
+            Text("${"     ".repeat(item.depth - 1)}└ ${item.label}")
         }
     }
 }
