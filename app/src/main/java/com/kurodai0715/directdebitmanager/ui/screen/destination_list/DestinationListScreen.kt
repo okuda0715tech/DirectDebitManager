@@ -156,14 +156,16 @@ private fun ColumnScope.ListView(
 private fun ColumnScope.TreeView(
     flatTree: List<FlattenedTreeItemUiModel>,
 ) {
-    LazyColumn(
-        modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        items(flatTree) { item ->
-            Text("${"     ".repeat(item.depth - 1)}└ ${item.label}")
+    Box(Modifier.weight(1f)) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+                .background(MaterialTheme.colorScheme.surfaceContainerLow)
+        ) {
+            items(flatTree) { item ->
+                Text("${"     ".repeat(item.depth - 1)}└ ${item.label}")
+            }
         }
     }
 }
