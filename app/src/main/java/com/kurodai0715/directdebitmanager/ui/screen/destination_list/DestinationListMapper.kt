@@ -56,7 +56,7 @@ fun flattenTree(nestedTreeRoot: NestedTreeItemUiModel): List<FlattenedTreeItemUi
      * @param depth [nestedTreeNode] の深さ ( 0 がルート)
      */
     fun flatten(nestedTreeNode: NestedTreeItemUiModel, depth: Int) {
-        result.add(FlattenedTreeItemUiModel(nestedTreeNode.label, depth))
+        result.add(FlattenedTreeItemUiModel(nestedTreeNode.destId, nestedTreeNode.label, depth))
         nestedTreeNode.children.forEach { flatten(it, depth + 1) }
     }
 

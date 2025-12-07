@@ -8,6 +8,7 @@ data class NestedTreeItemUiModel(
 )
 
 data class FlattenedTreeItemUiModel(
+    val destId: Int,
     val label: String,
     val depth: Int,
 )

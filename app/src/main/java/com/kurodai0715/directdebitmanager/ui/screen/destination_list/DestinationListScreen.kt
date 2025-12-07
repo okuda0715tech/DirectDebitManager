@@ -116,7 +116,9 @@ fun DestinationListContents(
                 val rootItem = buildNestedTree(items)
                 // 組み立てたツリー構造を、深さ付きで表示用に平坦化する。
                 val flatTree = flattenTree(rootItem)
-                TreeView(flatTree)
+                // 画面に表示する必要のない加工時にのみ必要なデータはリストから除外する。
+                val displayTree = flatTree.filterNot { it.destId == 0 }
+                TreeView(displayTree)
             }
         }
 
