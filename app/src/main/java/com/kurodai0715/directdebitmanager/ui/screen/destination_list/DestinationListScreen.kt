@@ -241,9 +241,9 @@ fun DestinationItem(
     }
 }
 
-@Preview
+@Preview(name = "DestinationListContents")
 @Composable
-private fun PreviewDestinationListContents() {
+private fun PreviewDestinationListListView() {
     DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
@@ -255,6 +255,26 @@ private fun PreviewDestinationListContents() {
             DestWithSourceUiModel(3, "電気料金", 2, "三井住友銀行"),
             DestWithSourceUiModel(4, "水道料金", 3, "PayPay銀行"),
             DestWithSourceUiModel(5, "PayPayカード", 3, "PayPay銀行"),
+        ),
+        onChangeTab = { },
+        onNavigateToEdit = { })
+}
+
+@Preview(name = "DestinationListContents")
+@Composable
+private fun PreviewDestinationListTreeView() {
+    DestinationListContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(SCREEN_EDGE_PADDING_DEF),
+        tabType = TabType.TreeView,
+        items = listOf(
+            DestWithSourceUiModel(1, "横浜銀行", 0, ""),
+            DestWithSourceUiModel(2, "横浜銀行クレジットカード", 1, "横浜銀行"),
+            DestWithSourceUiModel(3, "Oliveクレジットカード", 5, "三井住友銀行"),
+            DestWithSourceUiModel(4, "電気料金", 5, "三井住友銀行"),
+            DestWithSourceUiModel(5, "三井住友銀行", 0, ""),
+            DestWithSourceUiModel(6, "水道料金", 3, "Oliveクレジットカード"),
         ),
         onChangeTab = { },
         onNavigateToEdit = { })
