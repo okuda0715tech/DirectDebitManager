@@ -370,12 +370,10 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    // TODO 振替先を振替元から選択したデータの削除に失敗する不具合があるため修正する。
-    //  そもそも、振替元が振替先として使用される可能性がでてきたため、その場合は削除できないようにする。
     fun deleteData() {
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteDestination(
-                id = uiState.value.destIdFromKeyboard,
+                id = destId,
                 dest = getDestName(),
                 sourceId = uiState.value.sourceId,
             )
