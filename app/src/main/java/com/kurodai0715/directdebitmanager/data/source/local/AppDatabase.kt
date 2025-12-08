@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
  * Note exportSchema は、リリース前に true に変更してください。
  */
 
-@Database(entities = [LocalDestination::class, LocalSource::class, LocalTransferItem::class], version = 1, exportSchema = false)
+@Database(entities = [LocalTransferItem::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun directDebitDao(): DirectDebitDao

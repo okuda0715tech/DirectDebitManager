@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.data.source
 
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 
+// TODO このクラスって使う必要ある？必要なければ削除する。
 data class TransferItem(
 
     /**
