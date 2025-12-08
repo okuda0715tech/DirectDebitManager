@@ -29,12 +29,14 @@ class DirectDebitDefaultRepository @Inject constructor(
      * 振替先情報を DB へ登録する.
      */
     suspend fun upsertDestination(
-        id: Int,
+        id: Int?,
         label: String,
         isSourceItem: Boolean,
         type: TransferItemType?,
         parentId: Int,
     ): Boolean {
+        requireNotNull(id) { "id is null" }
+
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
@@ -65,7 +67,9 @@ class DirectDebitDefaultRepository @Inject constructor(
      * @param sourceId 削除するレコードの sourceId
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun deleteDestination(id: Int, dest: String, sourceId: Int): Int {
+    suspend fun deleteDestination(id: Int?, dest: String, sourceId: Int): Int {
+        requireNotNull(id) { "id is null" }
+
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             numOfDeleted = try {
@@ -119,7 +123,9 @@ class DirectDebitDefaultRepository @Inject constructor(
      * @param id sourceId
      * @return id を sourceId として参照しているレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun countDestinationsReferencing(id: Int): Int {
+    suspend fun countDestinationsReferencing(id: Int?): Int {
+        requireNotNull(id) { "id is null" }
+
         var numOfDestination: Int
         withContext(ioDispatcher) {
             numOfDestination = try {

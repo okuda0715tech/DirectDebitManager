@@ -182,7 +182,7 @@ fun DestinationEditContents(
     dialogSelectionDestName: String,
     onDestChanged: (String) -> Unit,
     sourceName: String,
-    itemId: Int,
+    itemId: Int?,
     selectedDestInputTypeIndex: Int,
     destInputTypes: List<DestInputType>,
     onSelectDestInputType: (Int) -> Unit,
@@ -255,7 +255,7 @@ fun DestinationEditContents(
 //            modifier = Modifier.fillMaxWidth(),
 //        )
 
-        if (itemId != 0) {
+        if (itemId != 0 && itemId != null) {
             HorizontalThreeButton(
                 onClickLeft = { debouncedClick(onClickDelete) },
                 onClickCenter = { debouncedClick(onNavigateUp) },

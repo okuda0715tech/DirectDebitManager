@@ -274,15 +274,13 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    val destId: Int
+    val destId: Int?
         get() {
             val destInputTypeIndex = uiState.value.destInputTypeIndex
 
             return when (destInputTypeIndex) {
                 0 -> uiState.value.destIdFromKeyboard
                 1 -> uiState.value.destIdFromDialog
-                    ?: throw IllegalStateException("dialogSelectionDestId is null")
-
                 else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
             }
         }
