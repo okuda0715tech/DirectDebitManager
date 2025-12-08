@@ -137,7 +137,6 @@ class DirectDebitDefaultRepository @Inject constructor(
      * 振替元情報を DB から削除する.
      *
      * @param id 削除するレコードの id
-     * @param name 削除するレコードの name
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
     suspend fun deleteSource(id: Int): Int {
