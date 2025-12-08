@@ -18,6 +18,7 @@ import javax.inject.Inject
 data class SourceEditUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
+    val parentId: Int = 0,
     val userMessage: Int? = null,
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
@@ -49,13 +50,21 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun updateTransSource(sourceId: Int, sourceName: String, sourceType: Int) {
-        _uiState.update {
-            it.copy(
-                sourceId = sourceId,
-                sourceName = sourceName,
-                sourceType = TransferItemType.fromInt(sourceType),
-            )
+    fun initialize(sourceId: Int?) {
+        viewModelScope.launch {
+            if (sourceId != null) {
+                val item = directDebitDefRepo.loadItem(sourceId)
+
+                _uiState.update {
+                    it.copy(
+                        sourceId = item.id,
+                        sourceName = item.label,
+                        sourceType = TransferItemType.fromInt(item.type!!),
+                        // TODO 0 へのフォールバックは、 NotNull 型に変更するまでの暫定対応とする。
+                        parentId = item.parentId ?: 0,
+                    )
+                }
+            }
         }
     }
 
@@ -126,6 +135,7 @@ class SourceEditViewModel @Inject constructor(
                 id = uiState.value.sourceId,
                 name = uiState.value.sourceName,
                 type = TransferItemType.toInt(uiState.value.sourceType),
+                parentId = uiState.value.parentId
             )
 
             val isNewlyCreated = uiState.value.sourceId == 0

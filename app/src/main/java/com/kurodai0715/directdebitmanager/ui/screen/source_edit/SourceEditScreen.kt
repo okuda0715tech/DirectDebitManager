@@ -37,8 +37,6 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 fun SourceEditScreen(
     viewModel: SourceEditViewModel = hiltViewModel(),
     sourceId: Int?,
-    sourceName: String?,
-    sourceType: Int?,
     onNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -56,11 +54,7 @@ fun SourceEditScreen(
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
         LaunchedEffect(sourceId) {
             if (sourceId != null) {
-                viewModel.updateTransSource(
-                    sourceId = sourceId,
-                    sourceName = sourceName!!,
-                    sourceType = sourceType!!
-                )
+                viewModel.initialize(sourceId)
             }
         }
 

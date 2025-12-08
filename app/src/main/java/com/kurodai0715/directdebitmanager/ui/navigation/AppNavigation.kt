@@ -40,8 +40,6 @@ data object SourceList
 @Serializable
 data class SourceEdit(
     val sourceId: Int? = null,
-    val sourceName: String? = null,
-    val sourceType: Int? = null,
 )
 
 fun NavGraphBuilder.destEditDestination(
@@ -92,8 +90,6 @@ fun NavGraphBuilder.sourceEditDestination(
 
         SourceEditScreen(
             sourceId = sourceEdit.sourceId,
-            sourceName = sourceEdit.sourceName,
-            sourceType = sourceEdit.sourceType,
             onNavigateUp = onNavigateUp,
         )
 
@@ -119,8 +115,6 @@ fun NavController.navigateToSourceEditDestination(source: Source?) {
     navigate(
         SourceEdit(
             sourceId = source?.id,
-            sourceName = source?.name,
-            sourceType = source?.type,
         )
     )
 }

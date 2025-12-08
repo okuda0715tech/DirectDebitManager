@@ -61,4 +61,10 @@ interface DirectDebitDao {
     )
     suspend fun getTransferItem(id: Int): DestWithSourceLocal
 
+    /**
+     * 指定した id のレコードを取得.
+     */
+    @Query("SELECT * FROM transfer_item WHERE id = :id")
+    suspend fun getItem(id: Int): LocalTransferItem
+
 }

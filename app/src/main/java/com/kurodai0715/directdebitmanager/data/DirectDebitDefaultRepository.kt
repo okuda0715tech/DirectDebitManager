@@ -94,7 +94,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を DB へ登録する.
      */
-    suspend fun upsertSource(id: Int, name: String, type: Int): Boolean {
+    suspend fun upsertSource(id: Int, name: String, type: Int, parentId: Int?): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
@@ -104,7 +104,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         label = name,
                         isSourceItem = true,
                         type = type,
-                        parentId = null,
+                        parentId = parentId,
                     )
                 )
                 true
@@ -183,6 +183,13 @@ class DirectDebitDefaultRepository @Inject constructor(
      */
     suspend fun loadTransferItem(id: Int): DestWithSourceLocal {
         return localDataSource.getTransferItem(id)
+    }
+
+    /**
+     * 指定した id のレコードを取得.
+     */
+    suspend fun loadItem(id: Int): LocalTransferItem {
+        return localDataSource.getItem(id)
     }
 }
 
