@@ -255,6 +255,7 @@ fun DestinationEditContents(
 //            modifier = Modifier.fillMaxWidth(),
 //        )
 
+        // TODO 振替先を振替元から選択すると新規登録でも削除ボタンが出てくる動作がいまいちなので、修正する。
         if (itemId != 0 && itemId != null) {
             HorizontalThreeButton(
                 onClickLeft = { debouncedClick(onClickDelete) },

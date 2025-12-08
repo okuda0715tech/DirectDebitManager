@@ -38,9 +38,9 @@ data class LocalTransferItem(
     /**
      * この [LocalTransferItem] の振替元の [LocalTransferItem] の ID .
      *
-     * null の場合、この [LocalTransferItem] は、振替元を持たない（つまり、ルートである）ことを意味する。
+     * 0 の場合、この [LocalTransferItem] は、振替元を持たない（つまり、ルートである）ことを意味する。
      */
-    val parentId: Int?,
+    val parentId: Int = 0,
 
 //    val date: String,
 //    val amount: Int,

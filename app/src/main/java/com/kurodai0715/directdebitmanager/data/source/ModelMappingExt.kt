@@ -53,7 +53,7 @@ fun Source.toLocalTransferItem() = LocalTransferItem(
     label = name,
     isSourceItem = true,
     type = type,
-    parentId = null,
+    parentId = 0,
 )
 
 fun DestinationUiModel.toLocalTransferItem() = LocalTransferItem(

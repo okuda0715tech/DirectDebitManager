@@ -94,7 +94,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を DB へ登録する.
      */
-    suspend fun upsertSource(id: Int, name: String, type: Int, parentId: Int?): Boolean {
+    suspend fun upsertSource(id: Int, name: String, type: Int, parentId: Int): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
@@ -149,7 +149,8 @@ class DirectDebitDefaultRepository @Inject constructor(
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             numOfDeleted = try {
-                localDataSource.deleteSource(LocalTransferItem(id, "", true, null, null))
+                // TODO 削除の場合は ID が必要なだけなので、 SQL の引数にクラスを渡すのではなく、 Int だけを渡すように変更する。
+                localDataSource.deleteSource(LocalTransferItem(id, "", true, null, 0))
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
