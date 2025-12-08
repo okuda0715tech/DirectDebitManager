@@ -103,13 +103,15 @@ fun SourceEditScreen(
             DeleteCompletionDialog(
                 onClickClose = {
                     viewModel.updateDelCompDialogVisibility(false)
-                    viewModel.updateNavigateUpEventConsumed(false)
+                    viewModel.updateShouldNavigateUp(true)
                 }
             )
-        } else {
-            if (!uiState.navigationUpEventConsumed) {
+        }
+
+        LaunchedEffect(uiState.shouldNavigateUp) {
+            if (uiState.shouldNavigateUp) {
+                viewModel.updateShouldNavigateUp(false)
                 onNavigateUp()
-                viewModel.updateNavigateUpEventConsumed(true)
             }
         }
 

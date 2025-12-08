@@ -24,7 +24,7 @@ data class SourceEditUiState(
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val showSourceTypeListDialog: Boolean = false,
-    val navigationUpEventConsumed: Boolean = true,
+    val shouldNavigateUp: Boolean = false,
     val sourceErrorMessage: Int? = null,
     val sourceType: TransferItemType = TransferItemType.Bank,
 )
@@ -92,9 +92,9 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun updateNavigateUpEventConsumed(value: Boolean) {
+    fun updateShouldNavigateUp(value: Boolean) {
         _uiState.update {
-            it.copy(navigationUpEventConsumed = value)
+            it.copy(shouldNavigateUp = value)
         }
     }
 
