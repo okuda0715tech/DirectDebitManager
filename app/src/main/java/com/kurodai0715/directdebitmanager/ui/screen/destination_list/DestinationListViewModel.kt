@@ -44,11 +44,11 @@ class DestinationListViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(DestinationListUiState())
 
-    private val _destinationAsync = directDebitDefRepo.fetchTransferItemsStream()
+    private val _destinationAsync = directDebitDefRepo.loadTransferItemsStream()
         .map { Async.Success(it) }
         .catch<Async<List<TransferItem>>> { e ->
-            Log.e(TAG, "fetchDestWithSourcesStream failed.", e)
-            emit(Async.Error(R.string.fetch_error))
+            Log.e(TAG, "loadDestWithSourcesStream failed.", e)
+            emit(Async.Error(R.string.load_error))
         }
 
     val uiState: StateFlow<DestinationListUiState> =
