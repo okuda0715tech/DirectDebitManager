@@ -85,7 +85,7 @@ fun DestinationEditScreen(
             onSelectDestInputType = { index -> viewModel.updateDestInputTypeIndex(index) },
             destErrorMessage = uiState.destErrorMessage,
             sourceErrorMessage = uiState.sourceErrorMessage,
-            onClickDelete = { viewModel.checkRelatedDataExistence(uiState.destIdFromKeyboard) },
+            onClickDelete = { viewModel.checkRelatedDataExistence() },
             onNavigateUp = onNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogType(SourceListDialogType.Source) },
