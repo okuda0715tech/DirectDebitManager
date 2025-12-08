@@ -107,7 +107,7 @@ class SourceEditViewModel @Inject constructor(
         val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
-            ValidationResult.LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
+            ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
             else -> null
         }
 

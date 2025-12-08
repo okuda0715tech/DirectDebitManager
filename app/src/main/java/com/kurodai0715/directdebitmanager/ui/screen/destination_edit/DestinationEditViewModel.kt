@@ -254,9 +254,7 @@ class DestinationEditViewModel @Inject constructor(
 
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
-            // TODO 入力可能文字数は多いほうがユーザーにとって使いやすく、システムとしては上限さえあれば問題ないため、
-            //  上限を 100 文字程度まで拡大する。
-            ValidationResult.LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
+            ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
             else -> null
         }
 
@@ -292,7 +290,7 @@ class DestinationEditViewModel @Inject constructor(
         val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
-            ValidationResult.LengthWithin30Error -> R.string.common_length_needs_to_be_within_30
+            ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
             else -> null
         }
         updateSourceErrorMessage(message)
@@ -372,6 +370,8 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    // TODO 振替先を振替元から選択したデータの削除に失敗する不具合があるため修正する。
+    //  そもそも、振替元が振替先として使用される可能性がでてきたため、その場合は削除できないようにする。
     fun deleteData() {
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteDestination(

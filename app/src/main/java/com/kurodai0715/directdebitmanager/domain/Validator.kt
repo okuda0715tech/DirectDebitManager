@@ -18,18 +18,18 @@ sealed interface ValidationResult {
     object Valid : ValidationResult
 
     /**
-     * EmptyValidator に失敗した場合.
+     * [EmptyValidator] に失敗した場合.
      */
     object EmptyError : ValidationResult
 
     /**
-     * LengthWithin30Validator に失敗した場合.
+     * [LengthWithin100Validator] に失敗した場合.
      */
-    object LengthWithin30Error : ValidationResult
+    object LengthWithin100Error : ValidationResult
 }
 
 /**
- * 入力が空文字の場合に [ValidationResult.EmptyError] を返す Validator.
+ * 入力が空文字の場合に [ValidationResult.EmptyError] を返す [Validator].
  */
 object EmptyValidator : Validator {
     override fun validate(input: String): ValidationResult {
@@ -41,13 +41,13 @@ object EmptyValidator : Validator {
 }
 
 /**
- * 入力の文字数が 0 ～ 30 文字以外の場合に [ValidationResult.LengthWithin30Error] を返す Validator.
+ * 入力の文字数が 0 ～ 100 文字以外の場合に [ValidationResult.LengthWithin100Error] を返す Validator.
  */
-object LengthWithin30Validator : Validator {
+object LengthWithin100Validator : Validator {
     override fun validate(input: String): ValidationResult {
         return when (input.length) {
-            in 0..30 -> ValidationResult.Valid
-            else -> ValidationResult.LengthWithin30Error
+            in 0..100 -> ValidationResult.Valid
+            else -> ValidationResult.LengthWithin100Error
         }
     }
 }
@@ -69,6 +69,6 @@ class CompositeValidator(vararg validators: Validator) : Validator {
 }
 
 /**
- * [EmptyValidator] と [LengthWithin30Validator] を組み合わせて使用する Validator.
+ * [EmptyValidator] と [LengthWithin100Validator] を組み合わせて使用する Validator.
  */
-val BasicTextValidator = CompositeValidator(EmptyValidator, LengthWithin30Validator)
+val BasicTextValidator = CompositeValidator(EmptyValidator, LengthWithin100Validator)
