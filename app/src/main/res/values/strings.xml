@@ -2,7 +2,7 @@
     <string name="app_name">振替管理</string>
 
     <!-- ドロワーメニュー -->
-    <string name="screen_list">画面一覧</string>
+    <string name="header_label">メニュー</string>
     <string name="direct_debit_info">口座振替情報</string>
     <string name="source_info">振替元情報</string>
     <string name="privacy_policy">プライバシーポリシー</string>
@@ -78,7 +78,7 @@
     <string name="edit_here">修正はこちら</string>
 
     <!-- 共通 -->
-    <string name="menu">メニュー</string>
+    <string name="menu_icon_description">メニュー</string>
     <string name="common_delete">削除</string>
     <string name="common_back">戻る</string>
     <string name="common_save">保存</string>

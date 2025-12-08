@@ -123,7 +123,7 @@ fun AppTopBar(
             IconButton(onClick = { debouncedClick(onClickMenu) }) {
                 Icon(
                     painter = painterResource(R.drawable.baseline_menu_24),
-                    contentDescription = stringResource(R.string.menu)
+                    contentDescription = stringResource(R.string.menu_icon_description)
                 )
             }
         },
@@ -140,7 +140,8 @@ fun AppDrawerContent(
 
         val uriHandler = LocalUriHandler.current
 
-        Text(stringResource(R.string.screen_list), modifier = Modifier.padding(16.dp))
+        Text(stringResource(R.string.header_label), modifier = Modifier.padding(16.dp))
+
         HorizontalDivider()
 
         NavigationDrawerItem(
