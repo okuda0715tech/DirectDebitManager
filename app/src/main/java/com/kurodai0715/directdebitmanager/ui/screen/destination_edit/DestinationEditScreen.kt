@@ -159,17 +159,21 @@ fun DestinationEditScreen(
                     },
                 )
             }
-        } else { // TODO この else が本当に必要なのか検証して、問題なければ else を消したい。
-            when {
-                uiState.shouldNavigateToSourceList -> {
-                    onNavigateToSourceList()
-                    viewModel.updateShouldNavigateToSourceList(false)
-                }
+        }
 
-                uiState.shouldNavigateToSourceEdit -> {
-                    onNavigateToSourceEdit()
-                    viewModel.updateShouldNavigateToSourceEdit(false)
-                }
+        // 関係ないパラメータの変更による再コンポーズで、何度も処理が実行されることがないように、
+        // LaunchedEffect ブロックで囲む必要がある。
+        LaunchedEffect(uiState.shouldNavigateToSourceList) {
+            if (uiState.shouldNavigateToSourceList) {
+                onNavigateToSourceList()
+                viewModel.updateShouldNavigateToSourceList(false)
+            }
+        }
+
+        LaunchedEffect(uiState.shouldNavigateToSourceEdit) {
+            if (uiState.shouldNavigateToSourceEdit) {
+                onNavigateToSourceEdit()
+                viewModel.updateShouldNavigateToSourceEdit(false)
             }
         }
     }
