@@ -52,11 +52,13 @@ interface DirectDebitDao {
     /**
      * 振替元と振替先のデータを全件取得.
      */
-    @Query("SELECT a.id, a.label, a.isSourceItem, a.type, a.parentId, b.label AS source_name " +
-            "FROM transfer_item AS a " +
-            "INNER JOIN transfer_item AS b " +
-            "ON a.parentId = b.id " +
-            "WHERE a.id = :id")
+    @Query(
+        "SELECT dest.id, dest.label, dest.isSourceItem, dest.type, dest.parentId, source.label AS source_name " +
+                "FROM transfer_item AS dest " +
+                "INNER JOIN transfer_item AS source " +
+                "ON dest.parentId = source.id " +
+                "WHERE dest.id = :id"
+    )
     suspend fun getTransferItem(id: Int): DestWithSourceLocal
 
 }
