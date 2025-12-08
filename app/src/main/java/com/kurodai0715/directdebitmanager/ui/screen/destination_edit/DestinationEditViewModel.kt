@@ -38,7 +38,7 @@ data class DestinationEditUiState(
     val sources: List<Source> = emptyList(),
     val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
     val destInputTypeIndex: Int = 0,
-    val destInputTypes: List<DestInputType> = DestInputType.getList(),
+    val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val userMessage: Int? = null,

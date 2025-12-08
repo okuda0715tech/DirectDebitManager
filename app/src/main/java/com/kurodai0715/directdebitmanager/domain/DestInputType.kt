@@ -37,7 +37,7 @@ enum class DestInputType(val value: Int) {
             return Keyboard.value
         }
 
-        fun getList(): List<DestInputType> {
+        fun getSortedList(): List<DestInputType> {
             return DestInputType.entries.toList()
                 .sortedBy { it.value } // value の昇順にソート
         }
