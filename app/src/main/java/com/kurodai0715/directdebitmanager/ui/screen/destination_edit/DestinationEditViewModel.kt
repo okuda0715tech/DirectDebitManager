@@ -239,6 +239,7 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    // TODO 同じ振替先が 2 個以上登録されないようにするチェックを追加する。
     fun validate() {
         val destValidationSuccess = destValidation()
         val sourceValidationSuccess = sourceValidation()
