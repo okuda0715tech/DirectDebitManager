@@ -1,7 +1,6 @@
 package com.kurodai0715.directdebitmanager.data.source.local
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
@@ -14,14 +13,6 @@ interface DirectDebitDao {
      */
     @Upsert
     suspend fun upsertTransferItem(destination: LocalTransferItem)
-
-    /**
-     * 口座振替情報テーブルのレコードの削除 (主キーで削除) .
-     *
-     * @return 削除したレコードの件数
-     */
-    @Delete
-    suspend fun deleteDestination(destination: LocalTransferItem): Int
 
     /**
      * 振替元として登録されているデータを全件取得.
@@ -41,7 +32,7 @@ interface DirectDebitDao {
      * @return 削除したレコードの件数
      */
     @Query("DELETE FROM transfer_item WHERE id = :id")
-    fun deleteSource(id: Int): Int
+    fun deleteItem(id: Int): Int
 
     /**
      * 振替元と振替先のデータを全件取得.

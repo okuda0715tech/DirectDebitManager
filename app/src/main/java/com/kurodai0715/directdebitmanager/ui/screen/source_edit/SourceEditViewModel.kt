@@ -193,7 +193,7 @@ class SourceEditViewModel @Inject constructor(
 
     fun deleteData() {
         viewModelScope.launch {
-            val deletedSourceCount = directDebitDefRepo.deleteSource(id = uiState.value.sourceId)
+            val deletedSourceCount = directDebitDefRepo.deleteItemBy(id = uiState.value.sourceId)
 
             val resultFailure = deletedSourceCount == -1
 

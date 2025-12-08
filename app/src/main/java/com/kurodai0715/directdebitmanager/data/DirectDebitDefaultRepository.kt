@@ -60,39 +60,6 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 振替先情報を DB から削除する.
-     *
-     * @param id 削除するレコードの id
-     * @param dest 削除するレコードの destination
-     * @param sourceId 削除するレコードの sourceId
-     * @return 削除したレコードの件数。エラーが発生した場合は -1。
-     */
-    suspend fun deleteDestination(id: Int?, dest: String, sourceId: Int): Int {
-        requireNotNull(id) { "id is null" }
-
-        var numOfDeleted: Int
-        withContext(ioDispatcher) {
-            numOfDeleted = try {
-                // TODO id を渡すだけの形式を検討する
-                localDataSource.deleteDestination(
-                    LocalTransferItem(
-                        id = id,
-                        label = dest,
-                        isSourceItem = false,
-                        type = null,
-                        parentId = sourceId,
-                    )
-                )
-            } catch (e: Exception) {
-                Log.e(TAG, "$e")
-                -1
-            }
-            Log.d(TAG, "NumOfDeleted = $numOfDeleted")
-        }
-        return numOfDeleted
-    }
-
-    /**
      * 振替元情報を DB へ登録する.
      */
     suspend fun upsertSource(id: Int, name: String, type: Int, parentId: Int): Boolean {
@@ -141,16 +108,18 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 振替元情報を DB から削除する.
+     * 振替情報を DB から削除する.
      *
      * @param id 削除するレコードの id
      * @return 削除したレコードの件数。エラーが発生した場合は -1。
      */
-    suspend fun deleteSource(id: Int): Int {
+    suspend fun deleteItemBy(id: Int?): Int {
+        requireNotNull(id) { "id is null" }
+
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             numOfDeleted = try {
-                localDataSource.deleteSource(id)
+                localDataSource.deleteItem(id)
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1

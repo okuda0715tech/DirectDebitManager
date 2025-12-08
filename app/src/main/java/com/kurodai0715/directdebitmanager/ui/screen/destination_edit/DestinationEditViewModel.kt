@@ -371,11 +371,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun deleteData() {
         viewModelScope.launch {
-            val numOfDeleted = directDebitDefRepo.deleteDestination(
-                id = destId,
-                dest = getDestName(),
-                sourceId = uiState.value.sourceId,
-            )
+            val numOfDeleted = directDebitDefRepo.deleteItemBy(id = destId)
 
             _uiState.update {
                 if (numOfDeleted > 0) {
