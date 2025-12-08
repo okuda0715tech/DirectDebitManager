@@ -69,7 +69,7 @@ fun AppBaseScreen() {
         },
     ) {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-        @StringRes var title by remember { mutableIntStateOf(R.string.no_title) }
+        @StringRes var screenHeaderTitle by remember { mutableIntStateOf(R.string.no_title) }
 
         Scaffold(
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -83,7 +83,7 @@ fun AppBaseScreen() {
                             }
                         }
                     },
-                    title = stringResource(title),
+                    title = stringResource(screenHeaderTitle),
                 )
             }
         ) { contentPadding ->
@@ -91,7 +91,7 @@ fun AppBaseScreen() {
                 modifier = Modifier
                     .padding(contentPadding)
                     .consumeWindowInsets(contentPadding),
-                onChangeTitle = { title = it },
+                onChangeTitle = { screenHeaderTitle = it },
                 startDestination = selectedDrawerItem,
             )
         }
