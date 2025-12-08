@@ -36,12 +36,12 @@ interface DirectDebitDao {
     suspend fun countDestinationsReferencing(parentId: Int): Int
 
     /**
-     * 振替元情報テーブルのレコードの削除.
+     * 指定した id のレコードを削除.
      *
      * @return 削除したレコードの件数
      */
-    @Delete
-    suspend fun deleteSource(source: LocalTransferItem): Int
+    @Query("DELETE FROM transfer_item WHERE id = :id")
+    fun deleteSource(id: Int): Int
 
     /**
      * 振替元と振替先のデータを全件取得.

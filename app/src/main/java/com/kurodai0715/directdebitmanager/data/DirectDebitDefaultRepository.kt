@@ -73,6 +73,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             numOfDeleted = try {
+                // TODO id を渡すだけの形式を検討する
                 localDataSource.deleteDestination(
                     LocalTransferItem(
                         id = id,
@@ -149,8 +150,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         var numOfDeleted: Int
         withContext(ioDispatcher) {
             numOfDeleted = try {
-                // TODO 削除の場合は ID が必要なだけなので、 SQL の引数にクラスを渡すのではなく、 Int だけを渡すように変更する。
-                localDataSource.deleteSource(LocalTransferItem(id, "", true, null, 0))
+                localDataSource.deleteSource(id)
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
                 -1
