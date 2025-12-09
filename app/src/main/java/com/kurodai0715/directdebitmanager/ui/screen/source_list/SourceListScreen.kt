@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator

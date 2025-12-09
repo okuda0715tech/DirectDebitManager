@@ -6,7 +6,7 @@
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
-import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.data.source.local.DestWithSourceLocal
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao

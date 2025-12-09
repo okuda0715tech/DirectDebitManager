@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.data.source
+package com.kurodai0715.directdebitmanager.domain.model
 
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 
@@ -21,4 +21,3 @@ data class Source(
 
     val typeEnum: TransferItemType,
 )
-

@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.Source
+import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
