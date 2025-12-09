@@ -1,8 +1,12 @@
+/*
+ * Copyright (c) 2025 Okuda Tomohiro
+ * Licensed under the MIT License.
+ */
+
 package com.kurodai0715.directdebitmanager
 
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).

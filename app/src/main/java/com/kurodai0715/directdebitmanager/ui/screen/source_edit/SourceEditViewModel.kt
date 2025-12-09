@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2025 Okuda Tomohiro
+ * Licensed under the MIT License.
+ */
+
 package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import androidx.lifecycle.ViewModel
@@ -60,8 +65,7 @@ class SourceEditViewModel @Inject constructor(
                         sourceId = item.id,
                         sourceName = item.label,
                         sourceType = TransferItemType.fromInt(item.type!!),
-                        // TODO 0 へのフォールバックは、 NotNull 型に変更するまでの暫定対応とする。
-                        parentId = item.parentId ?: 0,
+                        parentId = item.parentId,
                     )
                 }
             }
