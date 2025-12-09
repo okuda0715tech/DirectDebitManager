@@ -10,11 +10,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
+import com.kurodai0715.directdebitmanager.data.source.toSourceUiModel
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.DestInputType
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
-import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.ui.dialog.SourceListDialogType
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -68,9 +69,9 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(DestinationEditUiState())
 
-    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
+    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream2()
         .map { Async.Success(it) }
-        .catch<Async<List<Source>>> {
+        .catch<Async<List<LocalTransferItem>>> {
             Log.e(TAG, "Failed to read trans sources.", it)
             emit(Async.Error(R.string.load_error))
         }
