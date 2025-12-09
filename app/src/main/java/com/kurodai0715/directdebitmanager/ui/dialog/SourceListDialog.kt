@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
+package com.kurodai0715.directdebitmanager.ui.dialog
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SPACE_SMALL

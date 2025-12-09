@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.ui.common_ui.screens
+package com.kurodai0715.directdebitmanager.ui.dialog
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.size
@@ -21,20 +21,22 @@ import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun DeleteNotAllowedDialog(
+fun DeleteConfirmDialog(
     @StringRes messageResId: Int,
     onDismissRequest: () -> Unit,
+    onClickNo: () -> Unit,
+    onClickYes: () -> Unit,
 ) {
     AlertDialog(
         icon = {
             Icon(
-                painter = painterResource(id = R.drawable.baseline_block_24),
-                contentDescription = stringResource(id = R.string.del_not_allowed_icon_description),
+                painter = painterResource(id = R.drawable.baseline_delete_outline_24),
+                contentDescription = stringResource(id = R.string.del_conf_icon_description),
                 modifier = Modifier.Companion.size(ICON_EX_LARGE_SIZE),
             )
         },
         title = {
-            Text(text = stringResource(R.string.del_not_allowed_title))
+            Text(text = stringResource(R.string.del_conf_title))
         },
         text = {
             Text(text = stringResource(messageResId))
@@ -43,29 +45,43 @@ fun DeleteNotAllowedDialog(
         confirmButton = {
             TextButton(onClick = {
                 debouncedClick {
+                    onClickYes()
                     onDismissRequest()
                 }
             }) {
-                Text(stringResource(R.string.common_close))
+                Text(stringResource(R.string.common_yes))
             }
         },
+        dismissButton = {
+            TextButton(onClick = {
+                debouncedClick {
+                    onClickNo()
+                    onDismissRequest()
+                }
+            }) {
+                Text(stringResource(R.string.common_no))
+            }
+        })
+}
+
+@Preview
+@Composable
+private fun PreviewDelConfDialogInTransferEdit() {
+    DeleteConfirmDialog(
+        messageResId = R.string.del_conf_text_transfer_info,
+        onDismissRequest = {},
+        onClickNo = {},
+        onClickYes = {}
     )
 }
 
 @Preview
 @Composable
-private fun PreviewDelNotAllowedDialogInSourceEdit() {
-    DeleteNotAllowedDialog(
-        messageResId = R.string.del_not_allowed_text_in_source_edit,
+private fun PreviewDelConfDialogInSourceEdit() {
+    DeleteConfirmDialog(
+        messageResId = R.string.del_conf_text_source_info,
         onDismissRequest = {},
-    )
-}
-
-@Preview
-@Composable
-private fun PreviewDelNotAllowedDialogInTransferEdit() {
-    DeleteNotAllowedDialog(
-        messageResId = R.string.del_not_allowed_text_in_transfer_edit,
-        onDismissRequest = {},
+        onClickNo = {},
+        onClickYes = {}
     )
 }

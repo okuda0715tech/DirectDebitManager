@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.ui.common_ui.screens
+package com.kurodai0715.directdebitmanager.ui.dialog
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
