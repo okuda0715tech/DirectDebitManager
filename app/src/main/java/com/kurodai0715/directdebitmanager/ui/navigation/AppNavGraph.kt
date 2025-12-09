@@ -50,8 +50,8 @@ fun AppNavGraph(
             onNavigateUp = {
                 navController.navigateUp()
             },
-            onNavigateToEdit = { selectedItem ->
-                navController.navigateToSourceEditDestination(selectedItem)
+            onNavigateToEdit = { selectedItemId ->
+                navController.navigateToSourceEditDestination(selectedItemId)
             },
             onChangeTitle = onChangeTitle
         )

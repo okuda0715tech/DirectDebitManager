@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
-import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
@@ -74,7 +73,7 @@ fun NavGraphBuilder.destEditDestination(
 
 fun NavGraphBuilder.sourceListDestination(
     onNavigateUp: () -> Unit,
-    onNavigateToEdit: (SourceUiModel?) -> Unit,
+    onNavigateToEdit: (Int?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<SourceList> {
@@ -110,16 +109,17 @@ fun NavGraphBuilder.sourceEditDestination(
     }
 }
 
+// TODO DestWithSourceUiModel への依存を解消する
 fun NavController.navigateToEditDestination(destWithSourceUiModel: DestWithSourceUiModel?) {
     navigate(
         DestEdit(destId = destWithSourceUiModel?.destId)
     )
 }
 
-fun NavController.navigateToSourceEditDestination(source: SourceUiModel?) {
+fun NavController.navigateToSourceEditDestination(sourceId: Int?) {
     navigate(
         SourceEdit(
-            sourceId = source?.id,
+            sourceId = sourceId,
         )
     )
 }

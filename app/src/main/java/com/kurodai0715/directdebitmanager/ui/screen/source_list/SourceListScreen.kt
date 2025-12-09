@@ -46,7 +46,7 @@ private const val TAG = "SourceListScreen.kt"
 @Composable
 fun SourceListScreen(
     viewModel: SourceListViewModel = hiltViewModel(),
-    onNavigateToEdit: (SourceUiModel?) -> Unit,
+    onNavigateToEdit: (Int?) -> Unit,
     onNavigateUp: () -> Unit,
 ) {
 
@@ -85,7 +85,7 @@ fun SourceListScreen(
 fun SourceListContents(
     modifier: Modifier = Modifier,
     items: List<SourceUiModel>,
-    onNavigateToEdit: (SourceUiModel?) -> Unit,
+    onNavigateToEdit: (Int?) -> Unit,
     onNavigateUp: () -> Unit,
 ) {
     Column(
@@ -102,7 +102,7 @@ fun SourceListContents(
                     // それ以外のアイテムは Top と Bottom にパディング
                     else -> Modifier.padding(vertical = 8.dp)
                 }
-                TransSourceItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
+                TransSourceItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.id) })
             }
         }
 
