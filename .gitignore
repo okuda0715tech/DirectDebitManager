@@ -1,15 +1,34 @@
+# IntelliJ / Android Studio のモジュールファイル
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
+
+# Android Studio の画面録画・スクリーンキャプチャの出力ディレクトリ
 /captures
+
+# NDK ビルドのキャッシュ（ビルド結果）
 .externalNativeBuild
+
+# CMake/NDK のビルド中間ファイル（キャッシュファイル）
 .cxx
+
+# SDK のパスを指定するファイル
 local.properties
+
+# IntelliJ / Android Studio の設定ファイルを全部除外
+.idea/
+
+# Kotlin 関連のローカルファイル（.kotlin/ 以下）
+.kotlin/
+
+# ログファイル全部除外
+*.log
+
+# Gradle のローカルビルドキャッシュ
+.gradle/
+
+# ビルド結果
+/build/
+app/build/
+
+# Mac PC 固有ファイル
+.DS_Store
+
