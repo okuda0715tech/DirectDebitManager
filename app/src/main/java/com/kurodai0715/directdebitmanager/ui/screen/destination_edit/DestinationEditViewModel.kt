@@ -60,23 +60,6 @@ data class DestinationEditUiState(
     val sourceErrorMessage: Int? = null,
 )
 
-
-data class DestinationUiModel(
-    /**
-     * ID.
-     *
-     * ID を自動採番したい場合は 0 を設定してください。
-     */
-    val id: Int = 0,
-
-    val name: String,
-
-    val sourceId: Int,
-
-//    val date: String,
-//    val amount: String,
-)
-
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
