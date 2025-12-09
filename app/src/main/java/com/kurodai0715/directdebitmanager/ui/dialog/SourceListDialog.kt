@@ -30,20 +30,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
-import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
+import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SPACE_SMALL
 import com.kurodai0715.directdebitmanager.ui.theme.TAP_AREA_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
-// TODO UI はドメインモデルに依存するべきではないため、修正が必要。
-//  UI が依存しても良いのは、 UI 状態のみで、それ以外の場合は、プリミティブ型でデータを扱う。
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SourceListDialog(
-    items: List<Source>,
+    items: List<SourceUiModel>,
     onDismissRequest: () -> Unit,
     onClickItem: (Int) -> Unit,
     onClickAddEdit: () -> Unit,
@@ -114,9 +112,9 @@ enum class SourceListDialogType() {
 private fun PreviewSourceListDialog() {
     SourceListDialog(
         items = listOf(
-            Source(id = 1, name = "横浜銀行", type = 0, typeEnum = TransferItemType.Bank),
-            Source(id = 2, name = "三井住友銀行", type = 0, typeEnum = TransferItemType.Bank),
-            Source(id = 3, name = "PayPay銀行", type = 0, typeEnum = TransferItemType.Bank),
+            SourceUiModel(id = 1, name = "横浜銀行", type = 0, typeEnum = TransferItemType.Bank),
+            SourceUiModel(id = 2, name = "三井住友銀行", type = 0, typeEnum = TransferItemType.Bank),
+            SourceUiModel(id = 3, name = "PayPay銀行", type = 0, typeEnum = TransferItemType.Bank),
         ),
         onDismissRequest = {},
         onClickItem = {},
