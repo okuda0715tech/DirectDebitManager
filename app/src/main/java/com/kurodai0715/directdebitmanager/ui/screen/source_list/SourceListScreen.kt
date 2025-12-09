@@ -33,10 +33,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
+import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.getSourceTypeStringRes
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -46,7 +46,7 @@ private const val TAG = "SourceListScreen.kt"
 @Composable
 fun SourceListScreen(
     viewModel: SourceListViewModel = hiltViewModel(),
-    onNavigateToEdit: (Source?) -> Unit,
+    onNavigateToEdit: (SourceUiModel?) -> Unit,
     onNavigateUp: () -> Unit,
 ) {
 
@@ -84,8 +84,8 @@ fun SourceListScreen(
 @Composable
 fun SourceListContents(
     modifier: Modifier = Modifier,
-    items: List<Source>,
-    onNavigateToEdit: (Source?) -> Unit,
+    items: List<SourceUiModel>,
+    onNavigateToEdit: (SourceUiModel?) -> Unit,
     onNavigateUp: () -> Unit,
 ) {
     Column(
@@ -119,7 +119,7 @@ fun SourceListContents(
 
 @Composable
 fun TransSourceItem(
-    source: Source,
+    source: SourceUiModel,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit
 ) {
@@ -150,11 +150,11 @@ private fun Preview() {
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
-            Source(1, "横浜銀行クレジットカード", 1, TransferItemType.CreditCard),
-            Source(2, "横浜銀行", 0, TransferItemType.Bank),
-            Source(3, "三菱UFJ銀行", 0, TransferItemType.Bank),
-            Source(4, "横浜銀行デビットカード", 2, TransferItemType.DebitCard),
-            Source(5, "PayPay", 3, TransferItemType.Others),
+            SourceUiModel(1, "横浜銀行クレジットカード", 1, TransferItemType.CreditCard),
+            SourceUiModel(2, "横浜銀行", 0, TransferItemType.Bank),
+            SourceUiModel(3, "三菱UFJ銀行", 0, TransferItemType.Bank),
+            SourceUiModel(4, "横浜銀行デビットカード", 2, TransferItemType.DebitCard),
+            SourceUiModel(5, "PayPay", 3, TransferItemType.Others),
         ),
         onNavigateUp = { },
         onNavigateToEdit = { },

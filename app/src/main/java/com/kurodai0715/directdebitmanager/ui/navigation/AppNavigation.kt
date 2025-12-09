@@ -11,8 +11,8 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.model.Source
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
@@ -74,7 +74,7 @@ fun NavGraphBuilder.destEditDestination(
 
 fun NavGraphBuilder.sourceListDestination(
     onNavigateUp: () -> Unit,
-    onNavigateToEdit: (Source?) -> Unit,
+    onNavigateToEdit: (SourceUiModel?) -> Unit,
     onChangeTitle: (Int) -> Unit,
 ) {
     composable<SourceList> {
@@ -116,7 +116,7 @@ fun NavController.navigateToEditDestination(destWithSourceUiModel: DestWithSourc
     )
 }
 
-fun NavController.navigateToSourceEditDestination(source: Source?) {
+fun NavController.navigateToSourceEditDestination(source: SourceUiModel?) {
     navigate(
         SourceEdit(
             sourceId = source?.id,
