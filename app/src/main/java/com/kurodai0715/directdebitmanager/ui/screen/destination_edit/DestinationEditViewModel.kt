@@ -71,7 +71,7 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _uiState = MutableStateFlow(DestinationEditUiState())
 
-    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream2()
+    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
         .map { Async.Success(it) }
         .catch<Async<List<LocalTransferItem>>> {
             Log.e(TAG, "Failed to read trans sources.", it)

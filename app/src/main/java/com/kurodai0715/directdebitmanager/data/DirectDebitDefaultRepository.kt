@@ -9,13 +9,10 @@ import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.DestWithSourceLocal
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
-import com.kurodai0715.directdebitmanager.data.source.toSource
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
-import com.kurodai0715.directdebitmanager.domain.model.Source
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -135,16 +132,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を取得するストリーム.
      */
-    fun loadSourcesStream(): Flow<List<Source>> {
-        return localDataSource.observeSources().map { localTransSources ->
-            localTransSources.map { it.toSource() }
-        }
-    }
-
-    /**
-     * 振替元情報を取得するストリーム.
-     */
-    fun loadSourcesStream2(): Flow<List<LocalTransferItem>> {
+    fun loadSourcesStream(): Flow<List<LocalTransferItem>> {
         return localDataSource.observeSources()
     }
 
