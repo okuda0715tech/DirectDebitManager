@@ -10,13 +10,6 @@ import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.model.Source
 
 
-fun Source.toSourceUiModel() = SourceUiModel(
-    id = id,
-    name = name,
-    type = type,
-    typeEnum = typeEnum
-)
-
 fun LocalTransferItem.toSourceUiModel(): SourceUiModel {
     val type = requireNotNull(type) { "LocalTransferItem.type is null" }
 
