@@ -31,11 +31,3 @@ fun LocalTransferItem.toSourceUiModel(): SourceUiModel {
         type = type,
     )
 }
-
-fun LocalTransferItem.toExternal() = TransferItem(
-    id = id,
-    label = label,
-    isSourceItem = isSourceItem,
-    type = type,
-    sourceId = parentId,
-)
