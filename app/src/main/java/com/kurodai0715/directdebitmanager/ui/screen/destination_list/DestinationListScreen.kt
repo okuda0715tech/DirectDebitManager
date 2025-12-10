@@ -55,7 +55,7 @@ private const val TAG = "DestinationListScreen.kt"
 @Composable
 fun DestinationListScreen(
     viewModel: DestinationListViewModel = hiltViewModel(),
-    onNavigateToEdit: (DestWithSourceUiModel?) -> Unit,
+    onClickDestEdit: (DestWithSourceUiModel?) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -87,7 +87,7 @@ fun DestinationListScreen(
             tabType = uiState.tabType,
             items = uiState.items,
             onChangeTab = { viewModel.updateTabType(it) },
-            onNavigateToEdit = onNavigateToEdit
+            onNavigateToEdit = onClickDestEdit
         )
 
         if (uiState.isLoading) {

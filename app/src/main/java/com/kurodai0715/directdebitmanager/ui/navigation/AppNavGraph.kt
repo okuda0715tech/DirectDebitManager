@@ -41,7 +41,7 @@ fun AppNavGraph(
 
         composable<DestList> {
             DestinationListScreen(
-                onNavigateToEdit = { navController.navigateToDestEdit(it) }
+                onClickDestEdit = { navController.navigateToDestEdit(it) }
             )
             onChangeTitle(R.string.list_screen_title)
         }
@@ -50,9 +50,9 @@ fun AppNavGraph(
             val destEdit: DestEdit = backStackEntry.toRoute()
             DestinationEditScreen(
                 destinationId = destEdit.destId,
-                onNavigateUp = { navController.navigateUp() },
-                onNavigateToSourceList = { navController.navigateToSourceList() },
-                onNavigateToSourceEdit = { navController.navigateToSourceEdit(null) },
+                onClickNavigateUp = { navController.navigateUp() },
+                onClickSourceList = { navController.navigateToSourceList() },
+                onClickSourceEdit = { navController.navigateToSourceEdit(null) },
             )
 
             Log.d(TAG, "edit.id = ${destEdit.destId}")
@@ -67,8 +67,8 @@ fun AppNavGraph(
 
         composable<SourceList> {
             SourceListScreen(
-                onNavigateUp = { navController.navigateUp() },
-                onNavigateToEdit = { navController.navigateToSourceEdit(it) }
+                onClickNavigateUp = { navController.navigateUp() },
+                onClickSourceEdit = { navController.navigateToSourceEdit(it) }
             )
             onChangeTitle(source_list_title)
         }
@@ -78,7 +78,7 @@ fun AppNavGraph(
 
             SourceEditScreen(
                 sourceId = sourceEdit.sourceId,
-                onNavigateUp = { navController.navigateUp() },
+                onClickNavigateUp = { navController.navigateUp() },
             )
 
             Log.d(TAG, "sourceEdit.id = ${sourceEdit.sourceId}")

@@ -47,9 +47,9 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 fun DestinationEditScreen(
     viewModel: DestinationEditViewModel = hiltViewModel(),
     destinationId: Int?,
-    onNavigateUp: () -> Unit,
-    onNavigateToSourceList: () -> Unit,
-    onNavigateToSourceEdit: () -> Unit,
+    onClickNavigateUp: () -> Unit,
+    onClickSourceList: () -> Unit,
+    onClickSourceEdit: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -93,7 +93,7 @@ fun DestinationEditScreen(
             destErrorMessage = uiState.destErrorMessage,
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.checkRelatedDataExistence() },
-            onNavigateUp = onNavigateUp,
+            onNavigateUp = onClickNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogType(SourceListDialogType.Source) },
             onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
@@ -124,7 +124,7 @@ fun DestinationEditScreen(
             )
         } else {
             if (!uiState.navigationUpEventConsumed) {
-                onNavigateUp()
+                onClickNavigateUp()
                 viewModel.updateNavigateUpEventConsumed(true)
             }
         }
@@ -172,14 +172,14 @@ fun DestinationEditScreen(
         // LaunchedEffect ブロックで囲む必要がある。
         LaunchedEffect(uiState.shouldNavigateToSourceList) {
             if (uiState.shouldNavigateToSourceList) {
-                onNavigateToSourceList()
+                onClickSourceList()
                 viewModel.updateShouldNavigateToSourceList(false)
             }
         }
 
         LaunchedEffect(uiState.shouldNavigateToSourceEdit) {
             if (uiState.shouldNavigateToSourceEdit) {
-                onNavigateToSourceEdit()
+                onClickSourceEdit()
                 viewModel.updateShouldNavigateToSourceEdit(false)
             }
         }

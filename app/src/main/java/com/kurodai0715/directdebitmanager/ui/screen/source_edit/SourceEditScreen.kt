@@ -42,7 +42,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 fun SourceEditScreen(
     viewModel: SourceEditViewModel = hiltViewModel(),
     sourceId: Int?,
-    onNavigateUp: () -> Unit,
+    onClickNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -83,7 +83,7 @@ fun SourceEditScreen(
             sourceTypeStringRes = getSourceTypeStringRes(uiState.sourceType),
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.checkRelatedDataExistence(uiState.sourceId) },
-            onNavigateUp = onNavigateUp,
+            onNavigateUp = onClickNavigateUp,
             onClickSave = { viewModel.validate() },
             onClickType = { viewModel.updateSourceTypeListDialogVisibility(true) }
         )
@@ -116,7 +116,7 @@ fun SourceEditScreen(
         LaunchedEffect(uiState.shouldNavigateUp) {
             if (uiState.shouldNavigateUp) {
                 viewModel.updateShouldNavigateUp(false)
-                onNavigateUp()
+                onClickNavigateUp()
             }
         }
 

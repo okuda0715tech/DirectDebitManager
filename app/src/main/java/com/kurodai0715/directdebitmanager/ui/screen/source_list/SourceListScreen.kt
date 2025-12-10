@@ -46,8 +46,8 @@ private const val TAG = "SourceListScreen.kt"
 @Composable
 fun SourceListScreen(
     viewModel: SourceListViewModel = hiltViewModel(),
-    onNavigateToEdit: (Int?) -> Unit,
-    onNavigateUp: () -> Unit,
+    onClickSourceEdit: (Int?) -> Unit,
+    onClickNavigateUp: () -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -69,8 +69,8 @@ fun SourceListScreen(
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
             items = uiState.items,
-            onNavigateToEdit = onNavigateToEdit,
-            onNavigateUp = onNavigateUp,
+            onNavigateToEdit = onClickSourceEdit,
+            onNavigateUp = onClickNavigateUp,
         )
 
         if (uiState.isLoading) {
