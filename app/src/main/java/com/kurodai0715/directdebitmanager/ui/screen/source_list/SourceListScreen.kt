@@ -79,8 +79,6 @@ fun SourceListScreen(
     }
 }
 
-// TODO UI はドメインモデルに依存するべきではないため、修正が必要。
-//  UI が依存しても良いのは、 UI 状態のみで、それ以外の場合は、プリミティブ型でデータを扱う。
 @Composable
 fun SourceListContents(
     modifier: Modifier = Modifier,
