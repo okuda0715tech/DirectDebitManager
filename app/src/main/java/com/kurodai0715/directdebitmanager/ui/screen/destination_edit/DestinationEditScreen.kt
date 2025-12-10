@@ -84,7 +84,7 @@ fun DestinationEditScreen(
                 .padding(SCREEN_EDGE_PADDING_DEF),
             keyboardInputDestName = uiState.destNameFromKeyboard,
             dialogSelectionDestName = uiState.destNameFromDialog,
-            onDestChanged = { viewModel.updateKeyboardInputDest(it) },
+            onDestChanged = { viewModel.updateDest(it) },
             sourceName = uiState.sourceName,
             itemId = viewModel.destId,
             selectedDestInputTypeIndex = uiState.destInputTypeIndex,
@@ -140,7 +140,7 @@ fun DestinationEditScreen(
                     onClickItem = { source ->
                         when (type) {
                             SourceListDialogType.Source -> viewModel.updateSource(sourceId = source.sourceId)
-                            SourceListDialogType.Destination -> viewModel.updateDialogSelectionDest(
+                            SourceListDialogType.Destination -> viewModel.updateDest(
                                 destId = source.sourceId
                             )
 

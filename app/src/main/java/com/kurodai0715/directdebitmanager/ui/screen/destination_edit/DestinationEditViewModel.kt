@@ -149,13 +149,13 @@ class DestinationEditViewModel @Inject constructor(
         return ""
     }
 
-    fun updateKeyboardInputDest(dest: String) {
+    fun updateDest(dest: String) {
         _uiState.update {
             it.copy(destNameFromKeyboard = dest)
         }
     }
 
-    fun updateDialogSelectionDest(destId: Int) {
+    fun updateDest(destId: Int) {
         _uiState.update {
             val source = checkNotNull(it.sources.find { it.id == destId }) { "source is null." }
 
