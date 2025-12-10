@@ -17,6 +17,8 @@ import com.kurodai0715.directdebitmanager.domain.DestInputType
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceListDialogType
+import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
+import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,6 +43,7 @@ data class DestinationEditUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<SourceUiModel> = emptyList(),
+    val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
     val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
     val destInputTypeIndex: Int = 0,
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
@@ -97,6 +100,7 @@ class DestinationEditViewModel @Inject constructor(
                             sources = transSourcesAsync.data.map { it.toSourceUiModel() }
                         ),
                         sources = transSourcesAsync.data.map { it.toSourceUiModel() },
+                        sourceSelectionDialogItems = transSourcesAsync.data.toSourceSelectionUiModel(),
                         isLoading = false,
                     )
                 }
@@ -151,12 +155,16 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDialogSelectionDest(destId: Int, destName: String, destItemType: TransferItemType) {
+    fun updateDialogSelectionDest(destId: Int) {
         _uiState.update {
             it.copy(
                 destIdFromDialog = destId,
-                destNameFromDialog = destName,
-                destItemTypeFromDialog = destItemType,
+                destNameFromDialog = checkNotNull(it.sources.find { it.id == destId }?.name) {
+                    "destNameFromDialog is null."
+                },
+                destItemTypeFromDialog = checkNotNull(it.sources.find { it.id == destId }?.typeEnum) {
+                    "destItemTypeFromDialog is null."
+                },
             )
         }
     }

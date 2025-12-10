@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,9 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
-import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.SPACE_SMALL
 import com.kurodai0715.directdebitmanager.ui.theme.TAP_AREA_DEF
@@ -41,9 +39,9 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SourceSelectionDialog(
-    items: List<SourceUiModel>,
+    items: List<SourceSelectionUiModel>,
     onDismissRequest: () -> Unit,
-    onClickItem: (Int) -> Unit,
+    onClickItem: (SourceSelectionUiModel) -> Unit,
     onClickAddEdit: () -> Unit,
 ) {
     AlertDialog(
@@ -52,17 +50,17 @@ fun SourceSelectionDialog(
         },
         text = {
             LazyColumn {
-                itemsIndexed(items) { index, item ->
+                items(items) { item ->
                     DialogSurfaceButton(
                         onClick = {
                             debouncedClick {
-                                onClickItem(index)
+                                onClickItem(item)
                                 onDismissRequest()
                             }
                         },
                     ) {
                         Text(
-                            text = item.name,
+                            text = item.sourceName,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(12.dp)
@@ -112,9 +110,9 @@ enum class SourceListDialogType() {
 private fun PreviewSourceListDialog() {
     SourceSelectionDialog(
         items = listOf(
-            SourceUiModel(id = 1, name = "横浜銀行", type = 0, typeEnum = TransferItemType.Bank),
-            SourceUiModel(id = 2, name = "三井住友銀行", type = 0, typeEnum = TransferItemType.Bank),
-            SourceUiModel(id = 3, name = "PayPay銀行", type = 0, typeEnum = TransferItemType.Bank),
+            SourceSelectionUiModel(sourceId = 1, sourceName = "横浜銀行"),
+            SourceSelectionUiModel(sourceId = 2, sourceName = "三井住友銀行"),
+            SourceSelectionUiModel(sourceId = 3, sourceName = "PayPay銀行"),
         ),
         onDismissRequest = {},
         onClickItem = {},
