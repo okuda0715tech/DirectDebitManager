@@ -28,6 +28,14 @@ data class DestEdit(
     val destId: Int? = null,
 )
 
+@Serializable
+data object SourceList
+
+@Serializable
+data class SourceEdit(
+    val sourceId: Int? = null,
+)
+
 fun NavGraphBuilder.destListDestination(
     onNavigateToEdit: (DestWithSourceUiModel?) -> Unit,
     onChangeTitle: (Int) -> Unit,
@@ -37,14 +45,6 @@ fun NavGraphBuilder.destListDestination(
         onChangeTitle(R.string.list_screen_title)
     }
 }
-
-@Serializable
-data object SourceList
-
-@Serializable
-data class SourceEdit(
-    val sourceId: Int? = null,
-)
 
 fun NavGraphBuilder.destEditDestination(
     onNavigateUp: () -> Unit,
