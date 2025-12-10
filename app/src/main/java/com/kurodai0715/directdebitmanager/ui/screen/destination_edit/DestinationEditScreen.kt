@@ -37,8 +37,8 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSe
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
-import com.kurodai0715.directdebitmanager.ui.dialog.source_list.SourceListDialog
-import com.kurodai0715.directdebitmanager.ui.dialog.source_list.SourceListDialogType
+import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionDialog
+import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceListDialogType
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -134,7 +134,7 @@ fun DestinationEditScreen(
             val type = uiState.sourceListDialogType
 
             if (uiState.sources.isNotEmpty()) {
-                SourceListDialog(
+                SourceSelectionDialog(
                     items = uiState.sources,
                     onDismissRequest = { viewModel.updateSourceListDialogType(null) },
                     onClickItem = { index ->

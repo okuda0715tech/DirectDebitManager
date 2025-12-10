@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.ui.dialog.source_list
+package com.kurodai0715.directdebitmanager.ui.dialog.source_selection
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -40,7 +40,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SourceListDialog(
+fun SourceSelectionDialog(
     items: List<SourceUiModel>,
     onDismissRequest: () -> Unit,
     onClickItem: (Int) -> Unit,
@@ -110,7 +110,7 @@ enum class SourceListDialogType() {
 @Preview
 @Composable
 private fun PreviewSourceListDialog() {
-    SourceListDialog(
+    SourceSelectionDialog(
         items = listOf(
             SourceUiModel(id = 1, name = "横浜銀行", type = 0, typeEnum = TransferItemType.Bank),
             SourceUiModel(id = 2, name = "三井住友銀行", type = 0, typeEnum = TransferItemType.Bank),
