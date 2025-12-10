@@ -7,25 +7,9 @@ package com.kurodai0715.directdebitmanager.ui.navigation
 
 import androidx.navigation.NavController
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
-import kotlinx.serialization.Serializable
 
-private const val TAG = "AppNavigation.kt"
 
-@Serializable
-data object DestList
-
-@Serializable
-data class DestEdit(
-    val destId: Int? = null,
-)
-
-@Serializable
-data object SourceList
-
-@Serializable
-data class SourceEdit(
-    val sourceId: Int? = null,
-)
+//private const val TAG = "NavigationActions.kt"
 
 // TODO DestWithSourceUiModel への依存を解消する
 fun NavController.navigateToDestEdit(destWithSourceUiModel: DestWithSourceUiModel?) {
@@ -45,4 +29,3 @@ fun NavController.navigateToSourceEdit(sourceId: Int?) {
 fun NavController.navigateToSourceList() {
     navigate(SourceList)
 }
-
