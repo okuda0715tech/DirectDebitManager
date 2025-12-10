@@ -6,15 +6,13 @@
 package com.kurodai0715.directdebitmanager.ui.navigation
 
 import androidx.navigation.NavController
-import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestWithSourceUiModel
 
 
 //private const val TAG = "NavigationActions.kt"
 
-// TODO DestWithSourceUiModel への依存を解消する
-fun NavController.navigateToDestEdit(destWithSourceUiModel: DestWithSourceUiModel?) {
+fun NavController.navigateToDestEdit(destId: Int?) {
     navigate(
-        DestEdit(destId = destWithSourceUiModel?.destId)
+        DestEdit(destId = destId)
     )
 }
 

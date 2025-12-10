@@ -55,7 +55,7 @@ private const val TAG = "DestinationListScreen.kt"
 @Composable
 fun DestinationListScreen(
     viewModel: DestinationListViewModel = hiltViewModel(),
-    onClickDestEdit: (DestWithSourceUiModel?) -> Unit,
+    onClickDestEdit: (Int?) -> Unit,
 ) {
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -103,7 +103,7 @@ fun DestinationListContents(
     tabType: TabType,
     items: List<DestWithSourceUiModel>,
     onChangeTab: (TabType) -> Unit,
-    onNavigateToEdit: (DestWithSourceUiModel?) -> Unit
+    onNavigateToEdit: (Int?) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -139,7 +139,7 @@ fun DestinationListContents(
 @Composable
 private fun ColumnScope.ListView(
     items: List<DestWithSourceUiModel>,
-    onNavigateToEdit: (DestWithSourceUiModel?) -> Unit
+    onNavigateToEdit: (Int?) -> Unit
 ) {
     LazyColumn(modifier = Modifier.weight(1f)) {
         val itemsHasSource = items.filter { it.sourceId != 0 }
@@ -152,7 +152,7 @@ private fun ColumnScope.ListView(
                 // それ以外のアイテムは Top と Bottom にパディング
                 else -> Modifier.padding(vertical = 8.dp)
             }
-            DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item) })
+            DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.destId) })
         }
     }
 }
