@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.ui.dialog
+package com.kurodai0715.directdebitmanager.ui.dialog.source_list
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
