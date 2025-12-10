@@ -6,11 +6,9 @@
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
-import com.kurodai0715.directdebitmanager.data.source.TransferItem
 import com.kurodai0715.directdebitmanager.data.source.local.DestWithSourceLocal
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
-import com.kurodai0715.directdebitmanager.data.source.toExternal
 import com.kurodai0715.directdebitmanager.data.source.toSource
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.TransferItemType
@@ -153,10 +151,8 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替先と振替元の一覧を取得するストリーム.
      */
-    fun loadTransferItemsStream(): Flow<List<TransferItem>> {
-        return localDataSource.observeTransferItems().map { localTransferItem ->
-            localTransferItem.map { it.toExternal() }
-        }
+    fun loadTransferItemsStream(): Flow<List<LocalTransferItem>> {
+        return localDataSource.observeTransferItems()
     }
 
     /**

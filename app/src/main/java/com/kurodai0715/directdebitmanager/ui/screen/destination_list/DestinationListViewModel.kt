@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.TransferItem
+import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,7 +51,7 @@ class DestinationListViewModel @Inject constructor(
 
     private val _destinationAsync = directDebitDefRepo.loadTransferItemsStream()
         .map { Async.Success(it) }
-        .catch<Async<List<TransferItem>>> { e ->
+        .catch<Async<List<LocalTransferItem>>> { e ->
             Log.e(TAG, "loadDestWithSourcesStream failed.", e)
             emit(Async.Error(R.string.load_error))
         }
@@ -73,7 +73,7 @@ class DestinationListViewModel @Inject constructor(
 
                 is Async.Success -> {
                     uiState.copy(
-                        items = convertModel(directDebitAsync.data),
+                        items = directDebitAsync.data.convertModel(),
                         isLoading = false,
                     )
                 }
@@ -96,14 +96,4 @@ class DestinationListViewModel @Inject constructor(
         }
     }
 
-    fun convertModel(transferItems: List<TransferItem>): List<DestWithSourceUiModel> {
-        return transferItems.map {
-            DestWithSourceUiModel(
-                destId = it.id,
-                destName = it.label,
-                sourceId = it.sourceId ?: 0,
-                sourceName = transferItems.find { item -> item.id == it.sourceId }?.label ?: "",
-            )
-        }
-    }
 }

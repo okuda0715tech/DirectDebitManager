@@ -5,6 +5,8 @@
 
 package com.kurodai0715.directdebitmanager.ui.screen.destination_list
 
+import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
+
 /**
  * 要素の親子関係を解析し、ツリー構造に変換する.
  *
@@ -78,3 +80,18 @@ fun DestWithSourceUiModel.toNestedTreeItemUiModel() = NestedTreeItemUiModel(
     sourceId = sourceId,
     label = destName,
 )
+
+fun List<LocalTransferItem>.convertModel(): List<DestWithSourceUiModel> {
+    // 1. O(N) で parentId → label のマップを作る
+    val parentLabelMap = associateBy({ it.id }, { it.label })
+
+    // 2. 変換処理を O(N) で行う
+    return map {
+        DestWithSourceUiModel(
+            destId = it.id,
+            destName = it.label,
+            sourceId = it.parentId,
+            sourceName = parentLabelMap[it.parentId] ?: "",
+        )
+    }}
+
