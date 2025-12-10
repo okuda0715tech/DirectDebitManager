@@ -62,12 +62,13 @@ fun NavGraphBuilder.destEditDestination(
         )
 
         Log.d(TAG, "edit.id = ${destEdit.destId}")
-        val titleResId = if (destEdit.destId == null) {
-            R.string.register_screen_title
-        } else {
-            R.string.edit_screen_title
-        }
-        onChangeTitle(titleResId)
+
+        onChangeTitle(
+            if (destEdit.destId == null)
+                R.string.register_screen_title
+            else
+                R.string.edit_screen_title
+        )
     }
 }
 
@@ -99,13 +100,12 @@ fun NavGraphBuilder.sourceEditDestination(
 
         Log.d(TAG, "sourceEdit.id = ${sourceEdit.sourceId}")
 
-        val titleResId = if (sourceEdit.sourceId == null) {
-            R.string.source_registration_title
-        } else {
-            R.string.source_update_title
-        }
-
-        onChangeTitle(titleResId)
+        onChangeTitle(
+            if (sourceEdit.sourceId == null)
+                R.string.source_registration_title
+            else
+                R.string.source_update_title
+        )
     }
 }
 
