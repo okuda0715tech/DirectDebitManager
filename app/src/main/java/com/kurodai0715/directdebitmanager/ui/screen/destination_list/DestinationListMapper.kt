@@ -93,5 +93,6 @@ fun List<LocalTransferItem>.convertModel(): List<DestWithSourceUiModel> {
             sourceId = it.parentId,
             sourceName = parentLabelMap[it.parentId] ?: "",
         )
-    }}
+    }
+}
 
