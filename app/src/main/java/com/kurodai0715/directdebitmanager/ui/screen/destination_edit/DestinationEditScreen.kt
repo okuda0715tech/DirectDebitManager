@@ -139,7 +139,10 @@ fun DestinationEditScreen(
                     onDismissRequest = { viewModel.updateSourceListDialogType(null) },
                     onClickItem = { sourceUiModel ->
                         when (type) {
-                            SourceListDialogType.Source -> viewModel.updateSource(sourceId = sourceUiModel.sourceId)
+                            SourceListDialogType.Source -> viewModel.updateSource(
+                                sourceId = sourceUiModel.sourceId
+                            )
+
                             SourceListDialogType.Destination -> viewModel.updateDest(
                                 destId = sourceUiModel.sourceId
                             )
