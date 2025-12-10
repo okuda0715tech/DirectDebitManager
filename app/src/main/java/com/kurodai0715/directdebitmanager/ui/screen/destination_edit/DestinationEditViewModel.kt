@@ -122,7 +122,7 @@ class DestinationEditViewModel @Inject constructor(
                             destIdFromDialog = item.destination.id,
                             destNameFromDialog = item.destination.label,
                             destInputTypeIndex = 1,
-                            sourceId = item.destination.parentId ?: 0,
+                            sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                             destItemTypeFromDialog = TransferItemType.fromInt(item.destination.type!!)
                         )
@@ -131,7 +131,7 @@ class DestinationEditViewModel @Inject constructor(
                             destIdFromKeyboard = item.destination.id,
                             destNameFromKeyboard = item.destination.label,
                             destInputTypeIndex = 0,
-                            sourceId = item.destination.parentId ?: 0,
+                            sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                         )
                     }
