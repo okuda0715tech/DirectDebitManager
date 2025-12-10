@@ -157,14 +157,12 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDialogSelectionDest(destId: Int) {
         _uiState.update {
+            val source = checkNotNull(it.sources.find { it.id == destId }) { "source is null." }
+
             it.copy(
                 destIdFromDialog = destId,
-                destNameFromDialog = checkNotNull(it.sources.find { it.id == destId }?.name) {
-                    "destNameFromDialog is null."
-                },
-                destItemTypeFromDialog = checkNotNull(it.sources.find { it.id == destId }?.typeEnum) {
-                    "destItemTypeFromDialog is null."
-                },
+                destNameFromDialog = source.name,
+                destItemTypeFromDialog = source.typeEnum,
             )
         }
     }
