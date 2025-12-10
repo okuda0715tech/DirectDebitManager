@@ -10,7 +10,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.DestWithSourceLocal
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

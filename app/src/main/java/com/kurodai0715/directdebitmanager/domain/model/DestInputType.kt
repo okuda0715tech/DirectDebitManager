@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.domain
+package com.kurodai0715.directdebitmanager.domain.model
 
 enum class DestInputType(val value: Int) {
     Keyboard(0),
@@ -11,7 +11,7 @@ enum class DestInputType(val value: Int) {
 
     companion object {
         fun fromInt(value: Int): DestInputType {
-            for (type in DestInputType.entries) {
+            for (type in entries) {
                 if (type.value == value) {
                     return type
                 }
@@ -27,7 +27,7 @@ enum class DestInputType(val value: Int) {
         }
 
         fun toInt(destInputType: DestInputType): Int {
-            for (type in DestInputType.entries) {
+            for (type in entries) {
                 if (type == destInputType) {
                     return type.value
                 }
@@ -43,7 +43,7 @@ enum class DestInputType(val value: Int) {
         }
 
         fun getSortedList(): List<DestInputType> {
-            return DestInputType.entries.toList()
+            return entries.toList()
                 .sortedBy { it.value } // value の昇順にソート
         }
     }

@@ -6,7 +6,7 @@
 package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 
 
 fun LocalTransferItem.toSourceUiModel(): SourceUiModel {

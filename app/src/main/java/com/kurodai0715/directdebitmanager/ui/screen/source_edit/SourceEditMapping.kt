@@ -6,7 +6,7 @@
 package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 
 
 fun getSourceTypeStringRes(type: TransferItemType): Int =

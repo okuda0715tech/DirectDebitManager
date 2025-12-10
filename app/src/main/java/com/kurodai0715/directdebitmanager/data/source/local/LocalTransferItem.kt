@@ -7,7 +7,7 @@ package com.kurodai0715.directdebitmanager.data.source.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 
 @Entity(tableName = "transfer_item")
 data class LocalTransferItem(

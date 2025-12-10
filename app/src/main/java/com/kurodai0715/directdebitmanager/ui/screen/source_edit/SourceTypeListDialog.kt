@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 

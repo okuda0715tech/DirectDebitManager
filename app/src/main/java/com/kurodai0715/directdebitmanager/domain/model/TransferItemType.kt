@@ -3,8 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.domain
-
+package com.kurodai0715.directdebitmanager.domain.model
 
 enum class TransferItemType(val value: Int) {
     Bank(0),

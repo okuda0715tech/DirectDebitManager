@@ -5,8 +5,6 @@
 
 package com.kurodai0715.directdebitmanager.domain.model
 
-import com.kurodai0715.directdebitmanager.domain.TransferItemType
-
 data class Source(
     /**
      * ID.
