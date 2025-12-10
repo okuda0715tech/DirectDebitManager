@@ -110,13 +110,13 @@ fun NavGraphBuilder.sourceEditDestination(
 }
 
 // TODO DestWithSourceUiModel への依存を解消する
-fun NavController.navigateToEditDestination(destWithSourceUiModel: DestWithSourceUiModel?) {
+fun NavController.navigateToDestEdit(destWithSourceUiModel: DestWithSourceUiModel?) {
     navigate(
         DestEdit(destId = destWithSourceUiModel?.destId)
     )
 }
 
-fun NavController.navigateToSourceEditDestination(sourceId: Int?) {
+fun NavController.navigateToSourceEdit(sourceId: Int?) {
     navigate(
         SourceEdit(
             sourceId = sourceId,
@@ -124,7 +124,7 @@ fun NavController.navigateToSourceEditDestination(sourceId: Int?) {
     )
 }
 
-fun NavController.navigateToSourceListDestination() {
+fun NavController.navigateToSourceList() {
     navigate(SourceList)
 }
 

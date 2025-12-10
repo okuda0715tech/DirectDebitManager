@@ -28,7 +28,7 @@ fun AppNavGraph(
 
         destListDestination(
             onNavigateToEdit = { selectedItem ->
-                navController.navigateToEditDestination(selectedItem)
+                navController.navigateToDestEdit(selectedItem)
             },
             onChangeTitle = onChangeTitle
         )
@@ -39,10 +39,10 @@ fun AppNavGraph(
             },
             onChangeTitle = onChangeTitle,
             onNavigateToSourceList = {
-                navController.navigateToSourceListDestination()
+                navController.navigateToSourceList()
             },
             onNavigateToSourceEdit = {
-                navController.navigateToSourceEditDestination(null)
+                navController.navigateToSourceEdit(null)
             }
         )
 
@@ -51,7 +51,7 @@ fun AppNavGraph(
                 navController.navigateUp()
             },
             onNavigateToEdit = { selectedItemId ->
-                navController.navigateToSourceEditDestination(selectedItemId)
+                navController.navigateToSourceEdit(selectedItemId)
             },
             onChangeTitle = onChangeTitle
         )
