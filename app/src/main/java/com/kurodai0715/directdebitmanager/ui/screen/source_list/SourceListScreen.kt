@@ -117,7 +117,7 @@ fun SourceListContents(
 
 @Composable
 fun TransSourceItem(
-    source: SourceUiModel,
+    item: SourceUiModel,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit
 ) {
@@ -131,9 +131,9 @@ fun TransSourceItem(
             })
             .padding(8.dp)
     ) {
-        Text(source.name)
+        Text(item.name)
         Text(
-            text = stringResource(getSourceTypeStringRes(source.type)),
+            text = stringResource(getSourceTypeStringRes(item.typeEnum)),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
