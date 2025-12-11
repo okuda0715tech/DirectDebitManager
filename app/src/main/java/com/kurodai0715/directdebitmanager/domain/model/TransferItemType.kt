@@ -12,15 +12,9 @@ enum class TransferItemType(val value: Int) {
     Others(3);
 
     companion object {
-        fun fromInt(value: Int): TransferItemType {
-            for (type in entries) {
-                if (type.value == value) {
-                    return type
-                }
-            }
-
-            throw IllegalArgumentException("Unexpected value: $value")
-        }
+        fun fromInt(value: Int): TransferItemType =
+            entries.firstOrNull { it.value == value }
+                ?: throw IllegalArgumentException("Unexpected value: $value")
     }
 
 }
