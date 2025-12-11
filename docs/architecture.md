@@ -81,6 +81,8 @@ flowchart TD
 
 ユーザー操作を起点としたデータの流れを示す。
 
+ドメインレイヤーが存在しない場合は以下とする。
+
 ```mermaid
 sequenceDiagram
   participant UI as UI(Compose)
@@ -89,17 +91,18 @@ sequenceDiagram
   participant DS as DataSource
 
   UI ->> VM: Event を ViewModel に送る
+  VM -> VM: UI Model を Data Modelに変換
   VM ->> REP: Repository 呼び出し
   REP ->> DS: API/DB からデータ取得
   DS -->> REP: Data Model 返却
-  REP -> REP: (必要なら、ローカルデータ(XxxEntity)とリモートデータ(XxxResponse)をマージしてドメインモデル(Xxx)を生成)
-  REP -->> VM: Data Model or Domain Model 返却
-  VM -> VM: (必要なら、 Data Model or Domain Model を UI Model に変換)
-  VM -> VM: Data Model or Domain Model を UI State に変換(必要なら、間に UI Model を挟む)
-  VM -->> UI: UI State 更新
+  REP -->> VM: Data Model 返却
+  VM -> VM: Data Model を UI Model (UI State) に変換
+  VM -->> UI: UI State を反映
 ```
 
-または、 UseCase を挟む場合は以下とします。
+UI モデルは画面ごとに異なる。 Repository はそれら全てに対して、データモデルとの変換方法を知っていては、 Repository の責務が多すぎる。よって、画面ごとに存在する ViewModel で変換を実施する。
+
+ドメインレイヤー ( UseCase ) を挟む場合は以下とする。
 
 ```mermaid
 sequenceDiagram
@@ -110,14 +113,24 @@ sequenceDiagram
   participant DS as DataSource
 
   UI ->> VM: Event を ViewModel に送る
+  VM -> VM: UI Model を Domain Model に変換
   VM ->> UC: UseCase 呼び出し
   UC ->> REP: Repository 呼び出し
+  REP -> REP: Domain Model を Data Model に変換
   REP ->> DS: API/DB からデータ取得
   DS -->> REP: Data Model 返却
+  REP -> REP: Data Model を Domain Model に変換
   REP -->> UC: Domain Model 返却
   UC -->> VM: Domain Model 返却
-  VM -->> UI: UI State 更新
+  VM -> VM: Domain Model を UI Model (UI State) に変換
+  VM -->> UI: UI State を反映
 ```
+
+ドメインモデルからデータモデルへの変換は、 Repository で行う。その理由は、以下の通り。
+
+- 複数のユースケースから、同じ保存処理を呼び出した場合に、それぞれの呼び出し元で、同じ変換処理を繰り返し実装する必要がなくなるため
+- Repository は、ビジネスロジックに近い高レベルのモデルを DB 等に保存しやすい低レベルのモデルに変換する役割を担っているため
+  - 例えば、 enum で定義された型を Int などのプリミティブな型に変換する。
 
 
 ## 6. 命名規則
