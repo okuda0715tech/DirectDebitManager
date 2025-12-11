@@ -226,8 +226,7 @@ fun DestinationEditContents(
             modifier = Modifier.fillMaxWidth(),
             selectedIndex = selectedDestInputTypeIndex,
             label = stringResource(R.string.destination_input_type_label),
-            buttonLabels =
-                destInputTypes.map { it.label() },
+            buttonLabels = destInputTypes.map { it.label() },
             onSelected = { index -> onSelectDestInputType(index) },
         )
 
