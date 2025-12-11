@@ -45,7 +45,7 @@ data class DestinationEditUiState(
     val sources: List<SourceUiModel> = emptyList(),
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
     val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
-    val destInputTypeIndex: Int = 0,
+    val selectedButtonIndex: Int = 0, // セグメントボタンの選択されたボタンのインデックス
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
@@ -121,7 +121,7 @@ class DestinationEditViewModel @Inject constructor(
                         it.copy(
                             destIdFromDialog = item.destination.id,
                             destNameFromDialog = item.destination.label,
-                            destInputTypeIndex = 1,
+                            selectedButtonIndex = 1,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                             destItemTypeFromDialog = TransferItemType.fromInt(item.destination.type!!)
@@ -130,7 +130,7 @@ class DestinationEditViewModel @Inject constructor(
                         it.copy(
                             destIdFromKeyboard = item.destination.id,
                             destNameFromKeyboard = item.destination.label,
-                            destInputTypeIndex = 0,
+                            selectedButtonIndex = 0,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                         )
@@ -265,22 +265,22 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     private fun getDestName(): String {
-        val destInputTypeIndex = uiState.value.destInputTypeIndex
+        val selectedButtonIndex = uiState.value.selectedButtonIndex
 
-        return when (destInputTypeIndex) {
-            DestInputType.Keyboard.value -> uiState.value.destNameFromKeyboard
-            DestInputType.SourceList.value -> uiState.value.destNameFromDialog
-            else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
+        return when (selectedButtonIndex) {
+            DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.destNameFromKeyboard
+            DestInputType.SourceList.defaultDisplayOrder -> uiState.value.destNameFromDialog
+            else -> throw IllegalStateException("Unexpected value: $selectedButtonIndex")
         }
     }
 
     val destId: Int?
         get() {
-            val destInputTypeIndex = uiState.value.destInputTypeIndex
+            val destInputTypeIndex = uiState.value.selectedButtonIndex
 
             return when (destInputTypeIndex) {
-                DestInputType.Keyboard.value -> uiState.value.destIdFromKeyboard
-                DestInputType.SourceList.value -> uiState.value.destIdFromDialog
+                DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.destIdFromKeyboard
+                DestInputType.SourceList.defaultDisplayOrder -> uiState.value.destIdFromDialog
                 else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
             }
         }
@@ -314,7 +314,7 @@ class DestinationEditViewModel @Inject constructor(
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
-                isSourceItem = uiState.value.destInputTypeIndex == DestInputType.SourceList.value,
+                isSourceItem = uiState.value.selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder,
                 parentId = uiState.value.sourceId,
                 type = uiState.value.destItemTypeFromDialog,
             )
@@ -401,7 +401,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDestInputTypeIndex(index: Int) {
         _uiState.update {
-            it.copy(destInputTypeIndex = index)
+            it.copy(selectedButtonIndex = index)
         }
     }
 

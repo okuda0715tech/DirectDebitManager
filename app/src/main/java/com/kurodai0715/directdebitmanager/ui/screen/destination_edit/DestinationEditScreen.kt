@@ -87,7 +87,7 @@ fun DestinationEditScreen(
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = uiState.sourceName,
             itemId = viewModel.destId,
-            selectedDestInputTypeIndex = uiState.destInputTypeIndex,
+            selectedButtonIndex = uiState.selectedButtonIndex,
             destInputTypes = uiState.destInputTypes,
             onSelectDestInputType = { index -> viewModel.updateDestInputTypeIndex(index) },
             destErrorMessage = uiState.destErrorMessage,
@@ -194,7 +194,7 @@ fun DestinationEditContents(
     onDestChanged: (String) -> Unit,
     sourceName: String,
     itemId: Int?,
-    selectedDestInputTypeIndex: Int,
+    selectedButtonIndex: Int,
     destInputTypes: List<DestInputType>,
     onSelectDestInputType: (Int) -> Unit,
     destErrorMessage: Int?,
@@ -224,7 +224,7 @@ fun DestinationEditContents(
 
         SingleChoiceSegmentedButton(
             modifier = Modifier.fillMaxWidth(),
-            selectedIndex = selectedDestInputTypeIndex,
+            selectedIndex = selectedButtonIndex,
             label = stringResource(R.string.destination_input_type_label),
             buttonLabels = destInputTypes.map { it.label() },
             onSelected = { index -> onSelectDestInputType(index) },
@@ -232,7 +232,7 @@ fun DestinationEditContents(
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
-        if (selectedDestInputTypeIndex == DestInputType.Keyboard.value) {
+        if (selectedButtonIndex == DestInputType.Keyboard.defaultDisplayOrder) {
             KeyboardEditableFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = keyboardInputDestName,
@@ -240,7 +240,7 @@ fun DestinationEditContents(
                 supportingText = destErrorMessage,
                 onClickClear = { onDestChanged("") }
             )
-        } else if (selectedDestInputTypeIndex == DestInputType.SourceList.value) {
+        } else if (selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder) {
             DisplayTextFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = dialogSelectionDestName,
@@ -304,7 +304,7 @@ private fun PreviewUpdateContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 1,
-        selectedDestInputTypeIndex = 0,
+        selectedButtonIndex = 0,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = null,
@@ -326,7 +326,7 @@ private fun PreviewRegisterContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 0,
-        selectedDestInputTypeIndex = 1,
+        selectedButtonIndex = 1,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = null,
@@ -348,7 +348,7 @@ private fun PreviewEmptyTextContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
-        selectedDestInputTypeIndex = 0,
+        selectedButtonIndex = 0,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = null,
@@ -370,7 +370,7 @@ private fun PreviewValidationErrorContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
-        selectedDestInputTypeIndex = 1,
+        selectedButtonIndex = 1,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = R.string.common_required_field,
