@@ -18,7 +18,8 @@ enum class TransferItemType(val value: Int) {
                     return type
                 }
             }
-            return Others
+
+            throw IllegalArgumentException("Unexpected value: $value")
         }
     }
 
