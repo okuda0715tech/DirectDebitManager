@@ -27,7 +27,7 @@ data class TransferItemEntity(
     val label: String,
 
     /**
-     * この  [TransferItemEntity] が振替元として登録されたかどうかを判別するためのもの.
+     * この  [TransferItemEntity] が振替元として登録されたかものどうかを判別するためのもの.
      *
      * 振替元として登録された場合は true 。そうでなければ false 。
      */
