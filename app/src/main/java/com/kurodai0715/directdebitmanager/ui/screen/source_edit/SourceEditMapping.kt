@@ -17,6 +17,4 @@ fun getSourceTypeStringRes(type: TransferItemType): Int =
         TransferItemType.Others -> R.string.others
     }
 
-fun getSourceTypeStringRes(type: Int): Int = getSourceTypeStringRes(TransferItemType.fromInt(type))
-
 
