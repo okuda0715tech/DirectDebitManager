@@ -26,22 +26,6 @@ enum class DestInputType(val value: Int) {
             return Keyboard
         }
 
-        fun toInt(destInputType: DestInputType): Int {
-            for (type in entries) {
-                if (type == destInputType) {
-                    return type.value
-                }
-            }
-
-            try {
-                throw IllegalArgumentException()
-            } catch (e: IllegalArgumentException) {
-                // TODO エラーハンドリング
-            }
-
-            return Keyboard.value
-        }
-
         fun getSortedList(): List<DestInputType> {
             return entries.toList()
                 .sortedBy { it.value } // value の昇順にソート
