@@ -161,7 +161,7 @@ class DestinationEditViewModel @Inject constructor(
             it.copy(
                 destIdFromDialog = destId,
                 destNameFromDialog = source.name,
-                destItemTypeFromDialog = source.typeEnum,
+                destItemTypeFromDialog = source.type,
             )
         }
     }

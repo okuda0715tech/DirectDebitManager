@@ -15,6 +15,6 @@ fun LocalTransferItem.toSourceUiModel(): SourceUiModel {
     return SourceUiModel(
         id = id,
         name = label,
-        typeEnum = TransferItemType.Companion.fromInt(type),
+        type = TransferItemType.Companion.fromInt(type),
     )
 }

@@ -12,5 +12,5 @@ data class SourceUiModel(
 
     val name: String,
 
-    val typeEnum: TransferItemType,
+    val type: TransferItemType,
 )

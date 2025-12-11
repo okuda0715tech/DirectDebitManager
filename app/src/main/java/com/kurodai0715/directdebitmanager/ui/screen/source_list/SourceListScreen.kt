@@ -133,7 +133,7 @@ fun TransSourceItem(
     ) {
         Text(item.name)
         Text(
-            text = stringResource(getSourceTypeStringRes(item.typeEnum)),
+            text = stringResource(getSourceTypeStringRes(item.type)),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
