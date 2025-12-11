@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 
 @Entity(tableName = "transfer_item")
-data class LocalTransferItem(
+data class TransferItemEntity(
 
     /**
      * ID.
@@ -27,23 +27,23 @@ data class LocalTransferItem(
     val label: String,
 
     /**
-     * この  [LocalTransferItem] が振替元として登録されたかどうかを判別するためのもの.
+     * この  [TransferItemEntity] が振替元として登録されたかどうかを判別するためのもの.
      *
      * 振替元として登録された場合は true 。そうでなければ false 。
      */
     val isSourceItem: Boolean,
 
     /**
-     * この [LocalTransferItem] の区分.
+     * この [TransferItemEntity] の区分.
      *
      * 具体的な区分の種類は、 [TransferItemType] を参照。
      */
     val type: Int?,
 
     /**
-     * この [LocalTransferItem] の振替元の [LocalTransferItem] の ID .
+     * この [TransferItemEntity] の振替元の [TransferItemEntity] の ID .
      *
-     * 0 の場合、この [LocalTransferItem] は、振替元を持たない（つまり、ルートである）ことを意味する。
+     * 0 の場合、この [TransferItemEntity] は、振替元を持たない（つまり、ルートである）ことを意味する。
      */
     val parentId: Int = 0,
 

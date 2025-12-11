@@ -10,7 +10,7 @@ import androidx.room.Embedded
 
 data class DestWithSourceLocal(
     @Embedded
-    val destination: LocalTransferItem,
+    val destination: TransferItemEntity,
 
     @ColumnInfo(name = "source_name")
     val sourceName: String,

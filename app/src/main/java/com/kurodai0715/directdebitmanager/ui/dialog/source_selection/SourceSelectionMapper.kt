@@ -5,9 +5,9 @@
 
 package com.kurodai0715.directdebitmanager.ui.dialog.source_selection
 
-import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
+import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 
-fun List<LocalTransferItem>.toSourceSelectionUiModel(): List<SourceSelectionUiModel> {
+fun List<TransferItemEntity>.toSourceSelectionUiModel(): List<SourceSelectionUiModel> {
     return map {
         SourceSelectionUiModel(
             sourceId = it.id,

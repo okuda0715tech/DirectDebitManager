@@ -8,7 +8,7 @@ package com.kurodai0715.directdebitmanager.data
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.DestWithSourceLocal
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
-import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
+import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import kotlinx.coroutines.CoroutineDispatcher
@@ -41,7 +41,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             resultSuccess = try {
                 localDataSource.upsertTransferItem(
-                    LocalTransferItem(
+                    TransferItemEntity(
                         id = id,
                         label = label,
                         isSourceItem = isSourceItem,
@@ -67,7 +67,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         withContext(ioDispatcher) {
             resultSuccess = try {
                 localDataSource.upsertTransferItem(
-                    LocalTransferItem(
+                    TransferItemEntity(
                         id = id,
                         label = name,
                         isSourceItem = true,
@@ -132,14 +132,14 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を取得するストリーム.
      */
-    fun loadSourcesStream(): Flow<List<LocalTransferItem>> {
+    fun loadSourcesStream(): Flow<List<TransferItemEntity>> {
         return localDataSource.observeSources()
     }
 
     /**
      * 振替先と振替元の一覧を取得するストリーム.
      */
-    fun loadTransferItemsStream(): Flow<List<LocalTransferItem>> {
+    fun loadTransferItemsStream(): Flow<List<TransferItemEntity>> {
         return localDataSource.observeTransferItems()
     }
 
@@ -153,7 +153,7 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 指定した id のレコードを取得.
      */
-    suspend fun loadItem(id: Int): LocalTransferItem {
+    suspend fun loadItem(id: Int): TransferItemEntity {
         return localDataSource.getItem(id)
     }
 }

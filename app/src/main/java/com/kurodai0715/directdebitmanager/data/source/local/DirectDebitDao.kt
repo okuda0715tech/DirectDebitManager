@@ -17,13 +17,13 @@ interface DirectDebitDao {
      * transfer_item テーブルに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsertTransferItem(destination: LocalTransferItem)
+    suspend fun upsertTransferItem(destination: TransferItemEntity)
 
     /**
      * 振替元として登録されているデータを全件取得.
      */
     @Query("SELECT * FROM transfer_item WHERE isSourceItem = 1")
-    fun observeSources(): Flow<List<LocalTransferItem>>
+    fun observeSources(): Flow<List<TransferItemEntity>>
 
     /**
      * 引数で指定した parentId を振替元として使用している振替先の件数を取得.
@@ -43,7 +43,7 @@ interface DirectDebitDao {
      * 振替元と振替先のデータを全件取得.
      */
     @Query("SELECT * FROM transfer_item")
-    fun observeTransferItems(): Flow<List<LocalTransferItem>>
+    fun observeTransferItems(): Flow<List<TransferItemEntity>>
 
     /**
      * 振替元と振替先のデータを全件取得.
@@ -61,6 +61,6 @@ interface DirectDebitDao {
      * 指定した id のレコードを取得.
      */
     @Query("SELECT * FROM transfer_item WHERE id = :id")
-    suspend fun getItem(id: Int): LocalTransferItem
+    suspend fun getItem(id: Int): TransferItemEntity
 
 }
