@@ -232,7 +232,7 @@ fun DestinationEditContents(
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
-        if (selectedDestInputTypeIndex == 0) {
+        if (selectedDestInputTypeIndex == DestInputType.Keyboard.value) {
             KeyboardEditableFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = keyboardInputDestName,
@@ -240,7 +240,7 @@ fun DestinationEditContents(
                 supportingText = destErrorMessage,
                 onClickClear = { onDestChanged("") }
             )
-        } else if (selectedDestInputTypeIndex == 1) {
+        } else if (selectedDestInputTypeIndex == DestInputType.SourceList.value) {
             DisplayTextFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = dialogSelectionDestName,

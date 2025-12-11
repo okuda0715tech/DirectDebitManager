@@ -268,8 +268,8 @@ class DestinationEditViewModel @Inject constructor(
         val destInputTypeIndex = uiState.value.destInputTypeIndex
 
         return when (destInputTypeIndex) {
-            0 -> uiState.value.destNameFromKeyboard
-            1 -> uiState.value.destNameFromDialog
+            DestInputType.Keyboard.value -> uiState.value.destNameFromKeyboard
+            DestInputType.SourceList.value -> uiState.value.destNameFromDialog
             else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
         }
     }
@@ -279,8 +279,8 @@ class DestinationEditViewModel @Inject constructor(
             val destInputTypeIndex = uiState.value.destInputTypeIndex
 
             return when (destInputTypeIndex) {
-                0 -> uiState.value.destIdFromKeyboard
-                1 -> uiState.value.destIdFromDialog
+                DestInputType.Keyboard.value -> uiState.value.destIdFromKeyboard
+                DestInputType.SourceList.value -> uiState.value.destIdFromDialog
                 else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
             }
         }
@@ -314,7 +314,7 @@ class DestinationEditViewModel @Inject constructor(
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
-                isSourceItem = uiState.value.destInputTypeIndex == 1,
+                isSourceItem = uiState.value.destInputTypeIndex == DestInputType.SourceList.value,
                 parentId = uiState.value.sourceId,
                 type = uiState.value.destItemTypeFromDialog,
             )
