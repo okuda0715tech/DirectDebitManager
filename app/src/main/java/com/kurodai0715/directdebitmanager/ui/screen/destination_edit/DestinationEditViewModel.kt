@@ -156,9 +156,15 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDest(destId: Int) {
-        _uiState.update {
-            val source = checkNotNull(it.sources.find { it.id == destId }) { "source is null." }
+        /*
+        【注意】
+        uiState と _uiState は別物です。
+        DestinationEditUiState.sources は uiState にしか格納されておらず、 _uiState には格納されていません。
+         */
+        val sources = uiState.value.sources
+        val source = checkNotNull(sources.find { it.id == destId }) { "source is null." }
 
+        _uiState.update {
             it.copy(
                 destIdFromDialog = destId,
                 destNameFromDialog = source.name,
