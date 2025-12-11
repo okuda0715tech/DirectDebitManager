@@ -148,11 +148,11 @@ private fun Preview() {
             .fillMaxSize()
             .padding(SCREEN_EDGE_PADDING_DEF),
         items = listOf(
-            SourceUiModel(1, "横浜銀行クレジットカード", 1, TransferItemType.CreditCard),
-            SourceUiModel(2, "横浜銀行", 0, TransferItemType.Bank),
-            SourceUiModel(3, "三菱UFJ銀行", 0, TransferItemType.Bank),
-            SourceUiModel(4, "横浜銀行デビットカード", 2, TransferItemType.DebitCard),
-            SourceUiModel(5, "PayPay", 3, TransferItemType.Others),
+            SourceUiModel(1, "横浜銀行クレジットカード", TransferItemType.CreditCard),
+            SourceUiModel(2, "横浜銀行", TransferItemType.Bank),
+            SourceUiModel(3, "三菱UFJ銀行", TransferItemType.Bank),
+            SourceUiModel(4, "横浜銀行デビットカード", TransferItemType.DebitCard),
+            SourceUiModel(5, "PayPay", TransferItemType.Others),
         ),
         onNavigateUp = { },
         onNavigateToEdit = { },
