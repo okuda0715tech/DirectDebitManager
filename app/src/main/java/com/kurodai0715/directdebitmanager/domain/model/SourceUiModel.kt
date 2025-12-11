@@ -1,6 +1,9 @@
-package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
+/*
+ * Copyright (c) 2025 Okuda Tomohiro
+ * Licensed under the MIT License.
+ */
 
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+package com.kurodai0715.directdebitmanager.domain.model
 
 data class SourceUiModel(
     /**

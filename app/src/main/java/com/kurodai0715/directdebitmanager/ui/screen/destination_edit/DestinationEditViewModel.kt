@@ -12,9 +12,10 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.local.LocalTransferItem
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
-import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
+import com.kurodai0715.directdebitmanager.domain.model.DestInputType
+import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceListDialogType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
