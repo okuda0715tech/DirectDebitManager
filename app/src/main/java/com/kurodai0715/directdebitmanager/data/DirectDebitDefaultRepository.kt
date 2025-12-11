@@ -45,7 +45,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         id = id,
                         label = label,
                         isSourceItem = isSourceItem,
-                        type = type?.let { TransferItemType.toInt(type) },
+                        type = type?.value,
                         parentId = parentId
                     )
                 )

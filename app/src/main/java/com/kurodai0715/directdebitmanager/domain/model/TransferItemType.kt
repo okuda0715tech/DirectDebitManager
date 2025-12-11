@@ -20,15 +20,6 @@ enum class TransferItemType(val value: Int) {
             }
             return Others
         }
-
-        fun toInt(transferItemType: TransferItemType): Int {
-            for (type in entries) {
-                if (type == transferItemType) {
-                    return type.value
-                }
-            }
-            return Others.value
-        }
     }
 
 }

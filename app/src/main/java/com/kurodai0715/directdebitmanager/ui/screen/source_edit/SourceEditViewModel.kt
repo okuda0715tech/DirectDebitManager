@@ -10,8 +10,8 @@ import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
+import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -138,7 +138,7 @@ class SourceEditViewModel @Inject constructor(
             val resultSuccess = directDebitDefRepo.upsertSource(
                 id = uiState.value.sourceId,
                 name = uiState.value.sourceName,
-                type = TransferItemType.toInt(uiState.value.sourceType),
+                type = uiState.value.sourceType.value,
                 parentId = uiState.value.parentId
             )
 
