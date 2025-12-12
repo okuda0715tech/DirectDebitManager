@@ -86,7 +86,7 @@ class DestinationEditViewModel @Inject constructor(
         combine(_sourcesAsync, _somethingUiState) { transSourcesAsync, uiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
-                    uiState.copy(isLoading = true)
+                    DestinationEditUiState(isLoading = true)
                 }
 
                 is Async.Error -> {
