@@ -94,7 +94,26 @@ class DestinationEditViewModel @Inject constructor(
                 }
 
                 is Async.Success -> {
-                    uiState.copy(
+                    DestinationEditUiState(
+                        destIdFromKeyboard = uiState.destIdFromKeyboard,
+                        destIdFromDialog = uiState.destIdFromDialog,
+                        destNameFromKeyboard = uiState.destNameFromKeyboard,
+                        destNameFromDialog = uiState.destNameFromDialog,
+                        destItemTypeFromDialog = uiState.destItemTypeFromDialog,
+                        sourceId = uiState.sourceId,
+                        destInputType = uiState.destInputType,
+                        selectedButtonIndex = uiState.selectedButtonIndex,
+                        destInputTypes = uiState.destInputTypes,
+                        userMessage = uiState.userMessage,
+                        showDelNotAllowedDialog = uiState.showDelNotAllowedDialog,
+                        showDelConfDialog = uiState.showDelConfDialog,
+                        showDelCompDialog = uiState.showDelCompDialog,
+                        sourceListDialogType = uiState.sourceListDialogType,
+                        shouldNavigateToSourceList = uiState.shouldNavigateToSourceList,
+                        shouldNavigateToSourceEdit = uiState.shouldNavigateToSourceEdit,
+                        navigationUpEventConsumed = uiState.navigationUpEventConsumed,
+                        destErrorMessage = uiState.destErrorMessage,
+                        sourceErrorMessage = uiState.sourceErrorMessage,
                         sourceName = updateSourceString(
                             sourceId = uiState.sourceId,
                             sources = transSourcesAsync.data.map { it.toSourceUiModel() }
