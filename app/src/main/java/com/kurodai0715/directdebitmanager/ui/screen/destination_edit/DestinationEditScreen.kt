@@ -168,10 +168,11 @@ fun DestinationEditScreen(
             }
         }
 
+        val navUiState = uiState.navigationUiState
         // 関係ないパラメータの変更による再コンポーズで、何度も処理が実行されることがないように、
         // LaunchedEffect ブロックで囲む必要がある。
-        LaunchedEffect(uiState.shouldNavigateToSourceList) {
-            if (uiState.shouldNavigateToSourceList) {
+        LaunchedEffect(navUiState.shouldNavigateToSourceList) {
+            if (navUiState.shouldNavigateToSourceList) {
                 onClickSourceList()
                 viewModel.updateShouldNavigateToSourceList(false)
             }

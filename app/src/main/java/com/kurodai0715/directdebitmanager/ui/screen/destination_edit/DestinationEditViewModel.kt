@@ -54,12 +54,16 @@ data class DestinationEditUiState(
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val sourceListDialogType: SourceListDialogType? = null,
-    val shouldNavigateToSourceList: Boolean = false,
     val shouldNavigateToSourceEdit: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
     val isLoading: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
+    val navigationUiState: NavigationUiState = NavigationUiState(),
+)
+
+data class NavigationUiState(
+    val shouldNavigateToSourceList: Boolean = false,
 )
 
 @HiltViewModel
@@ -67,10 +71,17 @@ class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
+    // TODO DestinationEditUiState のプロパティがすべて他の data class に譲渡できたら、
+    //  この _somethingUiState プロパティは削除できる予定。
     /**
      * 更新用.
      */
     private val _somethingUiState = MutableStateFlow(DestinationEditUiState())
+
+    /**
+     * 更新用.
+     */
+    private val _navigationUiState = MutableStateFlow(NavigationUiState())
 
     private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
         .map { Async.Success(it) }
@@ -83,7 +94,7 @@ class DestinationEditViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<DestinationEditUiState> =
-        combine(_sourcesAsync, _somethingUiState) { transSourcesAsync, uiState ->
+        combine(_sourcesAsync, _somethingUiState, _navigationUiState) { transSourcesAsync, uiState, navigationUiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(isLoading = true)
@@ -109,7 +120,6 @@ class DestinationEditViewModel @Inject constructor(
                         showDelConfDialog = uiState.showDelConfDialog,
                         showDelCompDialog = uiState.showDelCompDialog,
                         sourceListDialogType = uiState.sourceListDialogType,
-                        shouldNavigateToSourceList = uiState.shouldNavigateToSourceList,
                         shouldNavigateToSourceEdit = uiState.shouldNavigateToSourceEdit,
                         navigationUpEventConsumed = uiState.navigationUpEventConsumed,
                         destErrorMessage = uiState.destErrorMessage,
@@ -121,6 +131,7 @@ class DestinationEditViewModel @Inject constructor(
                         sources = transSourcesAsync.data.map { it.toSourceUiModel() },
                         sourceSelectionDialogItems = transSourcesAsync.data.toSourceSelectionUiModel(),
                         isLoading = false,
+                        navigationUiState = navigationUiState
                     )
                 }
             }
@@ -225,7 +236,10 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateShouldNavigateToSourceList(value: Boolean) {
-        _somethingUiState.update {
+//        _somethingUiState.update {
+//            it.copy(shouldNavigateToSourceList = value)
+//        }
+        _navigationUiState.update {
             it.copy(shouldNavigateToSourceList = value)
         }
     }
