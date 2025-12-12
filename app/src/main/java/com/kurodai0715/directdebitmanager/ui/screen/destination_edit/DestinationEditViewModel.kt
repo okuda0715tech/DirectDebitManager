@@ -49,21 +49,29 @@ data class DestinationEditUiState(
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
-    val userMessage: Int? = null,
-    val showDelNotAllowedDialog: Boolean = false,
-    val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val sourceListDialogType: SourceListDialogType? = null,
     val isLoading: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val navigationUiState: NavigationUiState = NavigationUiState(),
+    val dialogUiState: DialogUiState = DialogUiState(),
+    val messageUiState: MessageUiState = MessageUiState(),
 )
 
 data class NavigationUiState(
     val shouldNavigateToSourceList: Boolean = false,
     val shouldNavigateToSourceEdit: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
+)
+
+data class DialogUiState(
+    val showDelNotAllowedDialog: Boolean = false,
+    val showDelConfDialog: Boolean = false,
+)
+
+data class MessageUiState(
+    val userMessage: Int? = null,
 )
 
 @HiltViewModel
@@ -83,6 +91,16 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _navigationUiState = MutableStateFlow(NavigationUiState())
 
+    /**
+     * 更新用.
+     */
+    private val _dialogUiState = MutableStateFlow(DialogUiState())
+
+    /**
+     * 更新用.
+     */
+    private val _messageUiState = MutableStateFlow(MessageUiState())
+
     private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
         .map { Async.Success(it) }
         .catch<Async<List<TransferItemEntity>>> {
@@ -94,14 +112,24 @@ class DestinationEditViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<DestinationEditUiState> =
-        combine(_sourcesAsync, _somethingUiState, _navigationUiState) { transSourcesAsync, uiState, navigationUiState ->
+        combine(
+            _sourcesAsync,
+            _somethingUiState,
+            _navigationUiState,
+            _dialogUiState,
+            _messageUiState,
+        ) { transSourcesAsync, uiState, navigationUiState, dialogUiState, messageUiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(isLoading = true)
                 }
 
                 is Async.Error -> {
-                    DestinationEditUiState(userMessage = transSourcesAsync.errorMessage)
+                    DestinationEditUiState(
+                        messageUiState = MessageUiState(
+                            userMessage = transSourcesAsync.errorMessage
+                        )
+                    )
                 }
 
                 is Async.Success -> {
@@ -115,9 +143,6 @@ class DestinationEditViewModel @Inject constructor(
                         destInputType = uiState.destInputType,
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
-                        userMessage = uiState.userMessage,
-                        showDelNotAllowedDialog = uiState.showDelNotAllowedDialog,
-                        showDelConfDialog = uiState.showDelConfDialog,
                         showDelCompDialog = uiState.showDelCompDialog,
                         sourceListDialogType = uiState.sourceListDialogType,
                         destErrorMessage = uiState.destErrorMessage,
@@ -129,7 +154,9 @@ class DestinationEditViewModel @Inject constructor(
                         sources = transSourcesAsync.data.map { it.toSourceUiModel() },
                         sourceSelectionDialogItems = transSourcesAsync.data.toSourceSelectionUiModel(),
                         isLoading = false,
-                        navigationUiState = navigationUiState
+                        navigationUiState = navigationUiState,
+                        dialogUiState = dialogUiState,
+                        messageUiState = messageUiState,
                     )
                 }
             }
@@ -210,13 +237,13 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDelNotAllowedDialogVisibility(show: Boolean) {
-        _somethingUiState.update {
+        _dialogUiState.update {
             it.copy(showDelNotAllowedDialog = show)
         }
     }
 
     fun updateDelConfDialogVisibility(show: Boolean) {
-        _somethingUiState.update {
+        _dialogUiState.update {
             it.copy(showDelConfDialog = show)
         }
     }
@@ -347,28 +374,33 @@ class DestinationEditViewModel @Inject constructor(
                 type = uiState.value.destItemTypeFromDialog,
             )
 
-            _somethingUiState.update {
-                if (resultSuccess) {
-                    // 新規作成 or 更新が成功した場合
-                    if (uiState.value.destIdFromKeyboard == 0) {
+            if (resultSuccess) {
+                // 新規作成 or 更新が成功した場合
+                if (uiState.value.destIdFromKeyboard == 0) {
+                    _somethingUiState.update {
                         // 新規作成の場合
                         it.copy(
                             destNameFromKeyboard = "",
                             destNameFromDialog = "",
                             sourceId = 0,
-                            userMessage = R.string.common_register_successfully
                         )
+                    }
+                }
+            }
+
+            _messageUiState.update {
+                if (resultSuccess) {
+                    // 新規作成 or 更新が成功した場合
+                    if (uiState.value.destIdFromKeyboard == 0) {
+                        // 新規作成の場合
+                        it.copy(userMessage = R.string.common_register_successfully)
                     } else {
                         // 更新の場合
-                        it.copy(
-                            userMessage = R.string.common_update_successfully
-                        )
+                        it.copy(userMessage = R.string.common_update_successfully)
                     }
                 } else {
                     // 新規作成 or 更新が失敗した場合
-                    it.copy(
-                        userMessage = R.string.common_save_failed
-                    )
+                    it.copy(userMessage = R.string.common_save_failed)
                 }
             }
         }
@@ -379,20 +411,17 @@ class DestinationEditViewModel @Inject constructor(
             // destinationId を振替元として使用している振替先データの件数
             val relatedDestCount = directDebitDefRepo.countDestinationsReferencing(destId)
 
-            _somethingUiState.update {
-                when (relatedDestCount) {
-                    0 ->
-                        it.copy(showDelConfDialog = true)
+            when (relatedDestCount) {
+                0 ->
+                    _dialogUiState.update { it.copy(showDelConfDialog = true) }
 
-                    in 1..Int.MAX_VALUE ->
-                        it.copy(showDelNotAllowedDialog = true)
+                in 1..Int.MAX_VALUE ->
+                    _dialogUiState.update { it.copy(showDelNotAllowedDialog = true) }
 
-                    -1 ->
+                -1 ->
+                    _messageUiState.update {
                         it.copy(userMessage = R.string.common_unexpected_error)
-
-                    else ->
-                        it // 予期しない値が来た場合は変更なし
-                }
+                    }
             }
         }
     }
@@ -401,26 +430,20 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteItemBy(id = destId)
 
-            _somethingUiState.update {
-                if (numOfDeleted > 0) {
-                    // 削除に成功した場合
+            if (numOfDeleted > 0) {
+                // 削除に成功した場合
 
-                    it.copy(
-                        showDelCompDialog = true,
-                    )
-                } else {
-                    // 削除に失敗した場合
+                _somethingUiState.update { it.copy(showDelCompDialog = true) }
+            } else {
+                // 削除に失敗した場合
 
-                    it.copy(
-                        userMessage = R.string.common_delete_failed,
-                    )
-                }
+                _messageUiState.update { it.copy(userMessage = R.string.common_delete_failed) }
             }
         }
     }
 
     fun clearMessage() {
-        _somethingUiState.update {
+        _messageUiState.update {
             it.copy(
                 userMessage = null
             )

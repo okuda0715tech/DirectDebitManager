@@ -63,13 +63,15 @@ fun DestinationEditScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val navUiState = uiState.navigationUiState
+        val dialogUiState = uiState.dialogUiState
+        val messageUiState = uiState.messageUiState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
         LaunchedEffect(destinationId) {
             viewModel.initialize(destinationId)
         }
 
-        uiState.userMessage?.let { message ->
+        messageUiState.userMessage?.let { message ->
             val snackbarText = stringResource(message)
             LaunchedEffect(snackbarText) {
                 snackbarHostState.showSnackbar(snackbarText)
@@ -100,14 +102,14 @@ fun DestinationEditScreen(
             onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
         )
 
-        if (uiState.showDelNotAllowedDialog) {
+        if (dialogUiState.showDelNotAllowedDialog) {
             DeleteNotAllowedDialog(
                 messageResId = R.string.del_not_allowed_text_in_transfer_edit,
                 onDismissRequest = { viewModel.updateDelNotAllowedDialogVisibility(false) },
             )
         }
 
-        if (uiState.showDelConfDialog) {
+        if (dialogUiState.showDelConfDialog) {
             DeleteConfirmDialog(
                 messageResId = R.string.del_conf_text_transfer_info,
                 onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
