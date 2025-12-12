@@ -49,7 +49,6 @@ data class DestinationEditUiState(
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
-    val showDelCompDialog: Boolean = false,
     val sourceListDialogType: SourceListDialogType? = null,
     val isLoading: Boolean = false,
     val destErrorMessage: Int? = null,
@@ -68,6 +67,7 @@ data class NavigationUiState(
 data class DialogUiState(
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
+    val showDelCompDialog: Boolean = false,
 )
 
 data class MessageUiState(
@@ -143,7 +143,6 @@ class DestinationEditViewModel @Inject constructor(
                         destInputType = uiState.destInputType,
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
-                        showDelCompDialog = uiState.showDelCompDialog,
                         sourceListDialogType = uiState.sourceListDialogType,
                         destErrorMessage = uiState.destErrorMessage,
                         sourceErrorMessage = uiState.sourceErrorMessage,
@@ -249,7 +248,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDelCompDialogVisibility(show: Boolean) {
-        _somethingUiState.update {
+        _dialogUiState.update {
             it.copy(showDelCompDialog = show)
         }
     }
@@ -433,7 +432,7 @@ class DestinationEditViewModel @Inject constructor(
             if (numOfDeleted > 0) {
                 // 削除に成功した場合
 
-                _somethingUiState.update { it.copy(showDelCompDialog = true) }
+                _dialogUiState.update { it.copy(showDelCompDialog = true) }
             } else {
                 // 削除に失敗した場合
 

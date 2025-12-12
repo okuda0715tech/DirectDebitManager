@@ -118,7 +118,7 @@ fun DestinationEditScreen(
             )
         }
 
-        if (uiState.showDelCompDialog) {
+        if (dialogUiState.showDelCompDialog) {
             DeleteCompletionDialog(
                 onClickClose = {
                     viewModel.updateDelCompDialogVisibility(false)
