@@ -54,7 +54,6 @@ data class DestinationEditUiState(
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val sourceListDialogType: SourceListDialogType? = null,
-    val navigationUpEventConsumed: Boolean = true,
     val isLoading: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
@@ -64,6 +63,7 @@ data class DestinationEditUiState(
 data class NavigationUiState(
     val shouldNavigateToSourceList: Boolean = false,
     val shouldNavigateToSourceEdit: Boolean = false,
+    val navigationUpEventConsumed: Boolean = true,
 )
 
 @HiltViewModel
@@ -120,7 +120,6 @@ class DestinationEditViewModel @Inject constructor(
                         showDelConfDialog = uiState.showDelConfDialog,
                         showDelCompDialog = uiState.showDelCompDialog,
                         sourceListDialogType = uiState.sourceListDialogType,
-                        navigationUpEventConsumed = uiState.navigationUpEventConsumed,
                         destErrorMessage = uiState.destErrorMessage,
                         sourceErrorMessage = uiState.sourceErrorMessage,
                         sourceName = updateSourceString(
@@ -247,7 +246,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateNavigateUpEventConsumed(value: Boolean) {
-        _somethingUiState.update {
+        _navigationUiState.update {
             it.copy(navigationUpEventConsumed = value)
         }
     }

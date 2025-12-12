@@ -62,6 +62,7 @@ fun DestinationEditScreen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+        val navUiState = uiState.navigationUiState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
         LaunchedEffect(destinationId) {
@@ -123,7 +124,7 @@ fun DestinationEditScreen(
                 }
             )
         } else {
-            if (!uiState.navigationUpEventConsumed) {
+            if (!navUiState.navigationUpEventConsumed) {
                 onClickNavigateUp()
                 viewModel.updateNavigateUpEventConsumed(true)
             }
@@ -168,7 +169,6 @@ fun DestinationEditScreen(
             }
         }
 
-        val navUiState = uiState.navigationUiState
         // 関係ないパラメータの変更による再コンポーズで、何度も処理が実行されることがないように、
         // LaunchedEffect ブロックで囲む必要がある。
         LaunchedEffect(navUiState.shouldNavigateToSourceList) {
