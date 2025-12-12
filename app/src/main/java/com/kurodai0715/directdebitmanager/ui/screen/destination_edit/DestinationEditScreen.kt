@@ -178,8 +178,8 @@ fun DestinationEditScreen(
             }
         }
 
-        LaunchedEffect(uiState.shouldNavigateToSourceEdit) {
-            if (uiState.shouldNavigateToSourceEdit) {
+        LaunchedEffect(navUiState.shouldNavigateToSourceEdit) {
+            if (navUiState.shouldNavigateToSourceEdit) {
                 onClickSourceEdit()
                 viewModel.updateShouldNavigateToSourceEdit(false)
             }
