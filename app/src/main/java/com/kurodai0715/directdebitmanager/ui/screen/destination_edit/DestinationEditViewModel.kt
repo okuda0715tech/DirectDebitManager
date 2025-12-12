@@ -90,7 +90,7 @@ class DestinationEditViewModel @Inject constructor(
                 }
 
                 is Async.Error -> {
-                    uiState.copy(userMessage = transSourcesAsync.errorMessage)
+                    DestinationEditUiState(userMessage = transSourcesAsync.errorMessage)
                 }
 
                 is Async.Success -> {
