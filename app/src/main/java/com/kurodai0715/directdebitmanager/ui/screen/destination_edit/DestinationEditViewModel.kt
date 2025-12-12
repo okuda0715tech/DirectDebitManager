@@ -70,7 +70,7 @@ class DestinationEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(DestinationEditUiState())
+    private val _somethingUiState = MutableStateFlow(DestinationEditUiState())
 
     private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
         .map { Async.Success(it) }
@@ -83,7 +83,7 @@ class DestinationEditViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<DestinationEditUiState> =
-        combine(_sourcesAsync, _uiState) { transSourcesAsync, uiState ->
+        combine(_sourcesAsync, _somethingUiState) { transSourcesAsync, uiState ->
             when (transSourcesAsync) {
                 is Async.Loading -> {
                     uiState.copy(isLoading = true)
@@ -116,7 +116,7 @@ class DestinationEditViewModel @Inject constructor(
             if (destId != null) {
                 val item = directDebitDefRepo.loadTransferItem(destId)
 
-                _uiState.update {
+                _somethingUiState.update {
                     if (item.destination.isSourceItem) {
                         it.copy(
                             destIdFromDialog = item.destination.id,
@@ -150,7 +150,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDest(dest: String) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(destNameFromKeyboard = dest)
         }
     }
@@ -164,7 +164,7 @@ class DestinationEditViewModel @Inject constructor(
         val sources = uiState.value.sources
         val source = checkNotNull(sources.find { it.id == destId }) { "source is null." }
 
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(
                 destIdFromDialog = destId,
                 destNameFromDialog = source.name,
@@ -174,7 +174,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateSource(sourceId: Int) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(
                 sourceId = sourceId,
             )
@@ -182,49 +182,49 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDelNotAllowedDialogVisibility(show: Boolean) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(showDelNotAllowedDialog = show)
         }
     }
 
     fun updateDelConfDialogVisibility(show: Boolean) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(showDelConfDialog = show)
         }
     }
 
     fun updateDelCompDialogVisibility(show: Boolean) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(showDelCompDialog = show)
         }
     }
 
     fun updateSourceListDialogType(type: SourceListDialogType?) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(sourceListDialogType = type)
         }
     }
 
     fun updateShouldNavigateToSourceList(value: Boolean) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(shouldNavigateToSourceList = value)
         }
     }
 
     fun updateShouldNavigateToSourceEdit(value: Boolean) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(shouldNavigateToSourceEdit = value)
         }
     }
 
     fun updateNavigateUpEventConsumed(value: Boolean) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(navigationUpEventConsumed = value)
         }
     }
 
     fun updateDestErrorMessage(message: Int?) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(
                 destErrorMessage = message
             )
@@ -232,7 +232,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateSourceErrorMessage(message: Int?) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(
                 sourceErrorMessage = message
             )
@@ -319,7 +319,7 @@ class DestinationEditViewModel @Inject constructor(
                 type = uiState.value.destItemTypeFromDialog,
             )
 
-            _uiState.update {
+            _somethingUiState.update {
                 if (resultSuccess) {
                     // 新規作成 or 更新が成功した場合
                     if (uiState.value.destIdFromKeyboard == 0) {
@@ -351,7 +351,7 @@ class DestinationEditViewModel @Inject constructor(
             // destinationId を振替元として使用している振替先データの件数
             val relatedDestCount = directDebitDefRepo.countDestinationsReferencing(destId)
 
-            _uiState.update {
+            _somethingUiState.update {
                 when (relatedDestCount) {
                     0 ->
                         it.copy(showDelConfDialog = true)
@@ -373,7 +373,7 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteItemBy(id = destId)
 
-            _uiState.update {
+            _somethingUiState.update {
                 if (numOfDeleted > 0) {
                     // 削除に成功した場合
 
@@ -392,7 +392,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun clearMessage() {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(
                 userMessage = null
             )
@@ -400,7 +400,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestInputTypeIndex(index: Int) {
-        _uiState.update {
+        _somethingUiState.update {
             it.copy(selectedButtonIndex = index)
         }
     }
