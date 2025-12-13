@@ -63,15 +63,13 @@ fun DestinationEditScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val uiLocalState = uiState.uiLocalState
-        val dialogUiState = uiState.dialogUiState
-        val messageUiState = uiState.messageUiState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
         LaunchedEffect(destinationId) {
             viewModel.initialize(destinationId)
         }
 
-        messageUiState.userMessage?.let { message ->
+        uiLocalState.userMessage?.let { message ->
             val snackbarText = stringResource(message)
             LaunchedEffect(snackbarText) {
                 snackbarHostState.showSnackbar(snackbarText)
@@ -102,14 +100,14 @@ fun DestinationEditScreen(
             onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
         )
 
-        if (dialogUiState.showDelNotAllowedDialog) {
+        if (uiLocalState.showDelNotAllowedDialog) {
             DeleteNotAllowedDialog(
                 messageResId = R.string.del_not_allowed_text_in_transfer_edit,
                 onDismissRequest = { viewModel.updateDelNotAllowedDialogVisibility(false) },
             )
         }
 
-        if (dialogUiState.showDelConfDialog) {
+        if (uiLocalState.showDelConfDialog) {
             DeleteConfirmDialog(
                 messageResId = R.string.del_conf_text_transfer_info,
                 onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
@@ -118,7 +116,7 @@ fun DestinationEditScreen(
             )
         }
 
-        if (dialogUiState.showDelCompDialog) {
+        if (uiLocalState.showDelCompDialog) {
             DeleteCompletionDialog(
                 onClickClose = {
                     viewModel.updateDelCompDialogVisibility(false)
