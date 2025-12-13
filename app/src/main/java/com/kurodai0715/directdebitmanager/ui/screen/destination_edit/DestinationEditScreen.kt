@@ -62,7 +62,7 @@ fun DestinationEditScreen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        val navUiState = uiState.uiLocalState
+        val uiLocalState = uiState.uiLocalState
         val dialogUiState = uiState.dialogUiState
         val messageUiState = uiState.messageUiState
 
@@ -126,7 +126,7 @@ fun DestinationEditScreen(
                 }
             )
         } else {
-            if (!navUiState.navigationUpEventConsumed) {
+            if (!uiLocalState.navigationUpEventConsumed) {
                 onClickNavigateUp()
                 viewModel.updateNavigateUpEventConsumed(true)
             }
@@ -173,15 +173,15 @@ fun DestinationEditScreen(
 
         // 関係ないパラメータの変更による再コンポーズで、何度も処理が実行されることがないように、
         // LaunchedEffect ブロックで囲む必要がある。
-        LaunchedEffect(navUiState.shouldNavigateToSourceList) {
-            if (navUiState.shouldNavigateToSourceList) {
+        LaunchedEffect(uiLocalState.shouldNavigateToSourceList) {
+            if (uiLocalState.shouldNavigateToSourceList) {
                 onClickSourceList()
                 viewModel.updateShouldNavigateToSourceList(false)
             }
         }
 
-        LaunchedEffect(navUiState.shouldNavigateToSourceEdit) {
-            if (navUiState.shouldNavigateToSourceEdit) {
+        LaunchedEffect(uiLocalState.shouldNavigateToSourceEdit) {
+            if (uiLocalState.shouldNavigateToSourceEdit) {
                 onClickSourceEdit()
                 viewModel.updateShouldNavigateToSourceEdit(false)
             }
