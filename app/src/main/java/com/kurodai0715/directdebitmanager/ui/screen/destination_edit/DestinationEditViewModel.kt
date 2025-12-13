@@ -53,12 +53,12 @@ data class DestinationEditUiState(
     val isLoading: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
-    val navigationUiState: NavigationUiState = NavigationUiState(),
+    val uiLocalState: UiLocalState = UiLocalState(),
     val dialogUiState: DialogUiState = DialogUiState(),
     val messageUiState: MessageUiState = MessageUiState(),
 )
 
-data class NavigationUiState(
+data class UiLocalState(
     val shouldNavigateToSourceList: Boolean = false,
     val shouldNavigateToSourceEdit: Boolean = false,
     val navigationUpEventConsumed: Boolean = true,
@@ -89,7 +89,7 @@ class DestinationEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _navigationUiState = MutableStateFlow(NavigationUiState())
+    private val _uiLocalState = MutableStateFlow(UiLocalState())
 
     /**
      * 更新用.
@@ -115,7 +115,7 @@ class DestinationEditViewModel @Inject constructor(
         combine(
             _sourcesAsync,
             _somethingUiState,
-            _navigationUiState,
+            _uiLocalState,
             _dialogUiState,
             _messageUiState,
         ) { transSourcesAsync, uiState, navigationUiState, dialogUiState, messageUiState ->
@@ -153,7 +153,7 @@ class DestinationEditViewModel @Inject constructor(
                         sources = transSourcesAsync.data.map { it.toSourceUiModel() },
                         sourceSelectionDialogItems = transSourcesAsync.data.toSourceSelectionUiModel(),
                         isLoading = false,
-                        navigationUiState = navigationUiState,
+                        uiLocalState = navigationUiState,
                         dialogUiState = dialogUiState,
                         messageUiState = messageUiState,
                     )
@@ -260,19 +260,19 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateShouldNavigateToSourceList(value: Boolean) {
-        _navigationUiState.update {
+        _uiLocalState.update {
             it.copy(shouldNavigateToSourceList = value)
         }
     }
 
     fun updateShouldNavigateToSourceEdit(value: Boolean) {
-        _navigationUiState.update {
+        _uiLocalState.update {
             it.copy(shouldNavigateToSourceEdit = value)
         }
     }
 
     fun updateNavigateUpEventConsumed(value: Boolean) {
-        _navigationUiState.update {
+        _uiLocalState.update {
             it.copy(navigationUpEventConsumed = value)
         }
     }

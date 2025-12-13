@@ -62,7 +62,7 @@ fun DestinationEditScreen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-        val navUiState = uiState.navigationUiState
+        val navUiState = uiState.uiLocalState
         val dialogUiState = uiState.dialogUiState
         val messageUiState = uiState.messageUiState
 
