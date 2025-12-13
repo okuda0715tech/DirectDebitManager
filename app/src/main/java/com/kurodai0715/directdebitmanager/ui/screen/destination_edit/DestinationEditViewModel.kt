@@ -54,6 +54,7 @@ data class DestinationEditUiState(
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val uiLocalState: UiLocalState = UiLocalState(),
+    val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
 )
 
 data class UiLocalState(
@@ -64,6 +65,10 @@ data class UiLocalState(
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val userMessage: Int? = null,
+)
+
+data class PersistedUiState(
+    val sources: List<TransferItemEntity> = emptyList(),
 )
 
 @HiltViewModel
@@ -83,23 +88,37 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
-    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
-        .map { Async.Success(it) }
-        .catch<Async<List<TransferItemEntity>>> {
-            Log.e(TAG, "Failed to read trans sources.", it)
-            emit(Async.Error(R.string.load_error))
-        }
+    private val persistedAsync: StateFlow<Async<PersistedUiState>> =
+        // Repository から複数の Flow を取得する場合はここを combine にすれば OK
+        directDebitDefRepo.loadSourcesStream()
+            .map { sources ->
+                PersistedUiState(
+                    sources = sources
+                )
+            }
+            .map<PersistedUiState, Async<PersistedUiState>> { state ->
+                Async.Success(state)
+            }
+            .catch {
+                Log.e(TAG, "Failed to read trans sources.", it)
+                emit(Async.Error(R.string.load_error))
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = WhileUiSubscribed,
+                Async.Loading
+            )
 
     /**
      * 読み取り専用.
      */
     val uiState: StateFlow<DestinationEditUiState> =
         combine(
-            _sourcesAsync,
             _somethingUiState,
             _uiLocalState,
-        ) { transSourcesAsync, uiState, navigationUiState ->
-            when (transSourcesAsync) {
+            persistedAsync,
+        ) { uiState, navigationUiState, persistedAsync ->
+            when (persistedAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(isLoading = true)
                 }
@@ -107,12 +126,13 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Error -> {
                     DestinationEditUiState(
                         uiLocalState = UiLocalState(
-                            userMessage = transSourcesAsync.errorMessage
+                            userMessage = persistedAsync.errorMessage
                         )
                     )
                 }
 
                 is Async.Success -> {
+                    val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
                         destIdFromKeyboard = uiState.destIdFromKeyboard,
                         destIdFromDialog = uiState.destIdFromDialog,
@@ -128,10 +148,10 @@ class DestinationEditViewModel @Inject constructor(
                         sourceErrorMessage = uiState.sourceErrorMessage,
                         sourceName = getSourceString(
                             sourceId = uiState.sourceId,
-                            sources = transSourcesAsync.data.map { it.toSourceUiModel() }
+                            sources = sourceUiModels
                         ),
-                        sources = transSourcesAsync.data.map { it.toSourceUiModel() },
-                        sourceSelectionDialogItems = transSourcesAsync.data.toSourceSelectionUiModel(),
+                        sources = sourceUiModels,
+                        sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         isLoading = false,
                         uiLocalState = navigationUiState,
                     )
