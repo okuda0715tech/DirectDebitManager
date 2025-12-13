@@ -146,7 +146,7 @@ class DestinationEditViewModel @Inject constructor(
                         sourceListDialogType = uiState.sourceListDialogType,
                         destErrorMessage = uiState.destErrorMessage,
                         sourceErrorMessage = uiState.sourceErrorMessage,
-                        sourceName = updateSourceString(
+                        sourceName = getSourceString(
                             sourceId = uiState.sourceId,
                             sources = transSourcesAsync.data.map { it.toSourceUiModel() }
                         ),
@@ -194,7 +194,7 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    private fun updateSourceString(sourceId: Int, sources: List<SourceUiModel>): String {
+    private fun getSourceString(sourceId: Int, sources: List<SourceUiModel>): String {
         for (source in sources) {
             if (source.id == sourceId) {
                 return source.name
