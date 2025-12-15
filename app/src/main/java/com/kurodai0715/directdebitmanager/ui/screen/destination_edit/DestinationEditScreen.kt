@@ -35,6 +35,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThre
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
@@ -179,6 +180,10 @@ fun DestinationEditScreen(
                     },
                 )
             }
+        }
+
+        if (uiLocalState.isLoading) {
+            AppUncertainCircularIndicator()
         }
     }
 }
