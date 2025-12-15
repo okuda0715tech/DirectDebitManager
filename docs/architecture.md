@@ -1,9 +1,10 @@
 - [アーキテクチャ設計書](#アーキテクチャ設計書)
   - [1. 目的](#1-目的)
   - [2. 全体構成](#2-全体構成)
-    - [2.1 全体図（Mermaid）](#21-全体図mermaid)
+    - [2.1 全体図（Mermaidで作成）](#21-全体図mermaidで作成)
   - [3. レイヤーの責務](#3-レイヤーの責務)
     - [3.1 UI Layer](#31-ui-layer)
+      - [3.1.1 状態とイベントの区別](#311-状態とイベントの区別)
     - [3.2 Domain Layer](#32-domain-layer)
     - [3.3 Data Layer](#33-data-layer)
   - [4. 依存関係ルール](#4-依存関係ルール)
@@ -34,7 +35,7 @@
 - Domain Layer（UseCase + Domain Models）
 - Data Layer（Repository + DataSource + Data Models）
 
-### 2.1 全体図（Mermaid）
+### 2.1 全体図（Mermaidで作成）
 
 ```mermaid
 flowchart TD
@@ -50,6 +51,17 @@ flowchart TD
 - 画面表示・ユーザー入力の対応 
 - ViewModel が保持する UI State の購読と表示 
 - ビジネスロジックは保持しない
+
+
+#### 3.1.1 状態とイベントの区別
+
+- 一回限りのイベントとして管理するもの
+  - Snackbar や Toast の表示 / 非表示
+  - Navigation Component を使用した画面遷移
+- UI 状態として管理する
+  - Navigation Component を使用しない画面遷移
+    - ダイアログの表示 / 非表示
+    - ローディングやインジケーターの表示 / 非表示
 
 
 ### 3.2 Domain Layer
