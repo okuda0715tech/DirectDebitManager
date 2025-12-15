@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +54,8 @@ fun DestinationEditScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val context = LocalContext.current
+
     Scaffold(snackbarHost = {
         SnackbarHost(
             hostState = snackbarHostState,
@@ -69,11 +72,15 @@ fun DestinationEditScreen(
             viewModel.initialize(destinationId)
         }
 
-        uiLocalState.userMessage?.let { message ->
-            val snackbarText = stringResource(message)
-            LaunchedEffect(snackbarText) {
-                snackbarHostState.showSnackbar(snackbarText)
-                viewModel.clearMessage()
+        LaunchedEffect(Unit) {
+            viewModel.eventFlow.collect { event ->
+                when (event) {
+                    is UiEvent.ShowSnackbar -> {
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(event.messageRes)
+                        )
+                    }
+                }
             }
         }
 

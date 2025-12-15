@@ -22,11 +22,13 @@ import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSel
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -64,12 +66,15 @@ data class UiLocalState(
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
-    val userMessage: Int? = null,
 )
 
 data class PersistedUiState(
     val sources: List<TransferItemEntity> = emptyList(),
 )
+
+sealed class UiEvent {
+    data class ShowSnackbar(val messageRes: Int) : UiEvent()
+}
 
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
@@ -124,11 +129,8 @@ class DestinationEditViewModel @Inject constructor(
                 }
 
                 is Async.Error -> {
-                    DestinationEditUiState(
-                        uiLocalState = UiLocalState(
-                            userMessage = persistedAsync.errorMessage
-                        )
-                    )
+                    _eventChannel.send(UiEvent.ShowSnackbar(persistedAsync.errorMessage))
+                    DestinationEditUiState()
                 }
 
                 is Async.Success -> {
@@ -162,6 +164,16 @@ class DestinationEditViewModel @Inject constructor(
             started = WhileUiSubscribed,
             initialValue = DestinationEditUiState(isLoading = true)
         )
+
+    /**
+     * 更新用.
+     */
+    private val _eventChannel = Channel<UiEvent>(Channel.BUFFERED)
+
+    /**
+     * 参照用.
+     */
+    val eventFlow = _eventChannel.receiveAsFlow()
 
     fun initialize(destId: Int?) {
         viewModelScope.launch {
@@ -385,20 +397,18 @@ class DestinationEditViewModel @Inject constructor(
                 }
             }
 
-            _uiLocalState.update {
-                if (resultSuccess) {
-                    // 新規作成 or 更新が成功した場合
-                    if (uiState.value.destIdFromKeyboard == 0) {
-                        // 新規作成の場合
-                        it.copy(userMessage = R.string.common_register_successfully)
-                    } else {
-                        // 更新の場合
-                        it.copy(userMessage = R.string.common_update_successfully)
-                    }
+            if (resultSuccess) {
+                // 新規作成 or 更新が成功した場合
+                if (uiState.value.destIdFromKeyboard == 0) { // TODO ダイアログから選択した場合の考慮漏れ
+                    // 新規作成の場合
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_register_successfully))
                 } else {
-                    // 新規作成 or 更新が失敗した場合
-                    it.copy(userMessage = R.string.common_save_failed)
+                    // 更新の場合
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_update_successfully))
                 }
+            } else {
+                // 新規作成 or 更新が失敗した場合
+                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
     }
@@ -408,20 +418,21 @@ class DestinationEditViewModel @Inject constructor(
             // destinationId を振替元として使用している振替先データの件数
             val relatedDestCount = directDebitDefRepo.countDestinationsReferencing(destId)
 
-            _uiLocalState.update {
-                when (relatedDestCount) {
-                    0 ->
+            when (relatedDestCount) {
+                0 ->
+                    _uiLocalState.update {
                         it.copy(showDelConfDialog = true)
+                    }
 
-                    in 1..Int.MAX_VALUE ->
+                in 1..Int.MAX_VALUE ->
+                    _uiLocalState.update {
                         it.copy(showDelNotAllowedDialog = true)
+                    }
 
-                    -1 ->
-                        it.copy(userMessage = R.string.common_unexpected_error)
-
-                    else ->
-                        it
+                -1 -> {
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_unexpected_error))
                 }
+
             }
         }
     }
@@ -430,25 +441,17 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val numOfDeleted = directDebitDefRepo.deleteItemBy(id = destId)
 
-            _uiLocalState.update {
-                if (numOfDeleted > 0) {
-                    // 削除に成功した場合
+            if (numOfDeleted > 0) {
+                // 削除に成功した場合
+                _uiLocalState.update {
 
                     it.copy(showDelCompDialog = true)
-                } else {
-                    // 削除に失敗した場合
-
-                    it.copy(userMessage = R.string.common_delete_failed)
                 }
-            }
-        }
-    }
+            } else {
+                // 削除に失敗した場合
 
-    fun clearMessage() {
-        _uiLocalState.update {
-            it.copy(
-                userMessage = null
-            )
+                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_delete_failed))
+            }
         }
     }
 
