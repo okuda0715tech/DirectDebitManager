@@ -62,7 +62,6 @@ data class DestinationEditUiState(
 data class UiLocalState(
     val shouldNavigateToSourceList: Boolean = false,
     val shouldNavigateToSourceEdit: Boolean = false,
-    val navigationUpEventConsumed: Boolean = true,
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
@@ -74,6 +73,8 @@ data class PersistedUiState(
 
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
+
+    object NavigateUp : UiEvent()
 }
 
 @HiltViewModel
@@ -281,12 +282,6 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateNavigateUpEventConsumed(value: Boolean) {
-        _uiLocalState.update {
-            it.copy(navigationUpEventConsumed = value)
-        }
-    }
-
     fun updateDestErrorMessage(message: Int?) {
         _somethingUiState.update {
             it.copy(
@@ -443,8 +438,8 @@ class DestinationEditViewModel @Inject constructor(
 
             if (numOfDeleted > 0) {
                 // 削除に成功した場合
-                _uiLocalState.update {
 
+                _uiLocalState.update {
                     it.copy(showDelCompDialog = true)
                 }
             } else {
@@ -461,4 +456,9 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    fun requestNavigateUp() {
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.NavigateUp)
+        }
+    }
 }

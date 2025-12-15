@@ -80,6 +80,8 @@ fun DestinationEditScreen(
                             message = context.getString(event.messageRes)
                         )
                     }
+
+                    UiEvent.NavigateUp -> onClickNavigateUp()
                 }
             }
         }
@@ -101,7 +103,7 @@ fun DestinationEditScreen(
             destErrorMessage = uiState.destErrorMessage,
             sourceErrorMessage = uiState.sourceErrorMessage,
             onClickDelete = { viewModel.checkRelatedDataExistence() },
-            onNavigateUp = onClickNavigateUp,
+            onClickNavigateUp = { viewModel.requestNavigateUp() },
             onClickSave = { viewModel.validate() },
             onClickSource = { viewModel.updateSourceListDialogType(SourceListDialogType.Source) },
             onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
@@ -127,14 +129,9 @@ fun DestinationEditScreen(
             DeleteCompletionDialog(
                 onClickClose = {
                     viewModel.updateDelCompDialogVisibility(false)
-                    viewModel.updateNavigateUpEventConsumed(false)
+                    viewModel.requestNavigateUp()
                 }
             )
-        } else {
-            if (!uiLocalState.navigationUpEventConsumed) {
-                onClickNavigateUp()
-                viewModel.updateNavigateUpEventConsumed(true)
-            }
         }
 
         if (uiState.sourceListDialogType != null) {
@@ -208,7 +205,7 @@ fun DestinationEditContents(
     destErrorMessage: Int?,
     sourceErrorMessage: Int?,
     onClickDelete: () -> Unit,
-    onNavigateUp: () -> Unit,
+    onClickNavigateUp: () -> Unit,
     onClickSave: () -> Unit,
     onClickSource: () -> Unit,
     onClickDestSelectField: () -> Unit,
@@ -277,7 +274,7 @@ fun DestinationEditContents(
         if (itemId != 0 && itemId != null) {
             HorizontalThreeButton(
                 onClickLeft = { debouncedClick(onClickDelete) },
-                onClickCenter = { debouncedClick(onNavigateUp) },
+                onClickCenter = { debouncedClick(onClickNavigateUp) },
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_delete),
                 centerText = stringResource(R.string.common_back),
@@ -285,7 +282,7 @@ fun DestinationEditContents(
             )
         } else {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick(onNavigateUp) },
+                onClickLeft = { debouncedClick(onClickNavigateUp) },
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)
@@ -318,7 +315,7 @@ private fun PreviewUpdateContents() {
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
-        onNavigateUp = {},
+        onClickNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
         onClickDestSelectField = {},
@@ -340,7 +337,7 @@ private fun PreviewRegisterContents() {
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
-        onNavigateUp = {},
+        onClickNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
         onClickDestSelectField = {},
@@ -362,7 +359,7 @@ private fun PreviewEmptyTextContents() {
         destErrorMessage = null,
         sourceErrorMessage = null,
         onClickDelete = {},
-        onNavigateUp = {},
+        onClickNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
         onClickDestSelectField = {},
@@ -384,7 +381,7 @@ private fun PreviewValidationErrorContents() {
         destErrorMessage = R.string.common_required_field,
         sourceErrorMessage = R.string.common_required_field,
         onClickDelete = {},
-        onNavigateUp = {},
+        onClickNavigateUp = {},
         onClickSave = {},
         onClickSource = {},
         onClickDestSelectField = {},
