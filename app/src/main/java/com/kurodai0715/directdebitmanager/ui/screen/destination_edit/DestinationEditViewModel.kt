@@ -52,7 +52,6 @@ data class DestinationEditUiState(
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val sourceListDialogType: SourceListDialogType? = null,
-    val isLoading: Boolean = false,
     val uiLocalState: UiLocalState = UiLocalState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
 )
@@ -63,6 +62,7 @@ data class UiLocalState(
     val showDelCompDialog: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
+    val isLoading: Boolean = false,
 )
 
 data class PersistedUiState(
@@ -126,7 +126,7 @@ class DestinationEditViewModel @Inject constructor(
         ) { uiState, uiLocalState, persistedAsync ->
             when (persistedAsync) {
                 is Async.Loading -> {
-                    DestinationEditUiState(isLoading = true)
+                    DestinationEditUiState(uiLocalState = UiLocalState(isLoading = true))
                 }
 
                 is Async.Error -> {
@@ -153,15 +153,14 @@ class DestinationEditViewModel @Inject constructor(
                         ),
                         sources = sourceUiModels,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
-                        isLoading = false,
-                        uiLocalState = uiLocalState,
+                        uiLocalState = uiLocalState.copy(isLoading = false),
                     )
                 }
             }
         }.stateIn(
             scope = viewModelScope,
             started = WhileUiSubscribed,
-            initialValue = DestinationEditUiState(isLoading = true)
+            initialValue = DestinationEditUiState(uiLocalState = UiLocalState(isLoading = true))
         )
 
     /**
@@ -448,13 +447,13 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun requestNavigateToSourceList(){
+    fun requestNavigateToSourceList() {
         viewModelScope.launch {
             _eventChannel.send(UiEvent.NavigateToSourceList)
         }
     }
 
-    fun requestNavigateToSourceEdit(){
+    fun requestNavigateToSourceEdit() {
         viewModelScope.launch {
             _eventChannel.send(UiEvent.NavigateToSourceEdit)
         }
