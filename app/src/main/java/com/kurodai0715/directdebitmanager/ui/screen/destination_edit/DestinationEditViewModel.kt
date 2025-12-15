@@ -37,8 +37,6 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val destIdFromKeyboard: Int = 0,
-    val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
     val destNameFromDialog: String = "",
     val destItemTypeFromDialog: TransferItemType? = null,
@@ -53,6 +51,7 @@ data class DestinationEditUiState(
 //    val transferAmount: String = "",
     val sourceListDialogType: SourceListDialogType? = null,
     val uiLocalState: UiLocalState = UiLocalState(),
+    val formUiState: FormUiState = FormUiState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
 )
 
@@ -63,6 +62,11 @@ data class UiLocalState(
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val isLoading: Boolean = false,
+)
+
+data class FormUiState(
+    val destIdFromKeyboard: Int = 0,
+    val destIdFromDialog: Int? = null,
 )
 
 data class PersistedUiState(
@@ -94,6 +98,11 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
+    /**
+     * 更新用.
+     */
+    private val _formUiState = MutableStateFlow(FormUiState())
+
     private val persistedAsync: StateFlow<Async<PersistedUiState>> =
         // Repository から複数の Flow を取得する場合はここを combine にすれば OK
         directDebitDefRepo.loadSourcesStream()
@@ -122,8 +131,9 @@ class DestinationEditViewModel @Inject constructor(
         combine(
             _somethingUiState,
             _uiLocalState,
+            _formUiState,
             persistedAsync,
-        ) { uiState, uiLocalState, persistedAsync ->
+        ) { uiState, uiLocalState, formUiState, persistedAsync ->
             when (persistedAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(uiLocalState = UiLocalState(isLoading = true))
@@ -137,8 +147,6 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
-                        destIdFromKeyboard = uiState.destIdFromKeyboard,
-                        destIdFromDialog = uiState.destIdFromDialog,
                         destNameFromKeyboard = uiState.destNameFromKeyboard,
                         destNameFromDialog = uiState.destNameFromDialog,
                         destItemTypeFromDialog = uiState.destItemTypeFromDialog,
@@ -154,6 +162,7 @@ class DestinationEditViewModel @Inject constructor(
                         sources = sourceUiModels,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         uiLocalState = uiLocalState.copy(isLoading = false),
+                        formUiState = formUiState,
                     )
                 }
             }
@@ -181,7 +190,6 @@ class DestinationEditViewModel @Inject constructor(
                 _somethingUiState.update {
                     if (item.destination.isSourceItem) {
                         it.copy(
-                            destIdFromDialog = item.destination.id,
                             destNameFromDialog = item.destination.label,
                             selectedButtonIndex = 1,
                             sourceId = item.destination.parentId,
@@ -190,12 +198,19 @@ class DestinationEditViewModel @Inject constructor(
                         )
                     } else {
                         it.copy(
-                            destIdFromKeyboard = item.destination.id,
                             destNameFromKeyboard = item.destination.label,
                             selectedButtonIndex = 0,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                         )
+                    }
+                }
+
+                _formUiState.update {
+                    if (item.destination.isSourceItem) {
+                        it.copy(destIdFromDialog = item.destination.id)
+                    } else {
+                        it.copy(destIdFromKeyboard = item.destination.id)
                     }
                 }
             }
@@ -228,9 +243,14 @@ class DestinationEditViewModel @Inject constructor(
 
         _somethingUiState.update {
             it.copy(
-                destIdFromDialog = destId,
                 destNameFromDialog = source.name,
                 destItemTypeFromDialog = source.type,
+            )
+        }
+
+        _formUiState.update {
+            it.copy(
+                destIdFromDialog = destId,
             )
         }
     }
@@ -323,8 +343,8 @@ class DestinationEditViewModel @Inject constructor(
             val destInputTypeIndex = uiState.value.selectedButtonIndex
 
             return when (destInputTypeIndex) {
-                DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.destIdFromKeyboard
-                DestInputType.SourceList.defaultDisplayOrder -> uiState.value.destIdFromDialog
+                DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.formUiState.destIdFromKeyboard
+                DestInputType.SourceList.defaultDisplayOrder -> uiState.value.formUiState.destIdFromDialog
                 else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
             }
         }
