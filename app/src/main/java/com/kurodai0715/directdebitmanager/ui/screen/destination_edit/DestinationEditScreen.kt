@@ -43,6 +43,7 @@ import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelec
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
+import kotlinx.coroutines.launch
 
 @Composable
 fun DestinationEditScreen(
@@ -75,7 +76,10 @@ fun DestinationEditScreen(
         LaunchedEffect(Unit) {
             viewModel.eventFlow.collect { event ->
                 when (event) {
-                    is UiEvent.ShowSnackbar -> {
+                    is UiEvent.ShowSnackbar -> launch {
+                        // showSnackbar() 関数は suspend 関数であるため、スナックバーが消えるまで
+                        // 次の命令に進めない。そのため、 launch{} ブロック内で実行することにより、
+                        // 別の子ルーチン化することにより、すぐに後続のコルーチンを開始している。
                         snackbarHostState.showSnackbar(
                             message = context.getString(event.messageRes)
                         )
