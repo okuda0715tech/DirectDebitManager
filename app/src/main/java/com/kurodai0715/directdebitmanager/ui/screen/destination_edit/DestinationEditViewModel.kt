@@ -53,8 +53,6 @@ data class DestinationEditUiState(
 //    val transferAmount: String = "",
     val sourceListDialogType: SourceListDialogType? = null,
     val isLoading: Boolean = false,
-    val destErrorMessage: Int? = null,
-    val sourceErrorMessage: Int? = null,
     val uiLocalState: UiLocalState = UiLocalState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
 )
@@ -63,6 +61,8 @@ data class UiLocalState(
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
+    val destErrorMessage: Int? = null,
+    val sourceErrorMessage: Int? = null,
 )
 
 data class PersistedUiState(
@@ -123,7 +123,7 @@ class DestinationEditViewModel @Inject constructor(
             _somethingUiState,
             _uiLocalState,
             persistedAsync,
-        ) { uiState, navigationUiState, persistedAsync ->
+        ) { uiState, uiLocalState, persistedAsync ->
             when (persistedAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(isLoading = true)
@@ -147,8 +147,6 @@ class DestinationEditViewModel @Inject constructor(
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
                         sourceListDialogType = uiState.sourceListDialogType,
-                        destErrorMessage = uiState.destErrorMessage,
-                        sourceErrorMessage = uiState.sourceErrorMessage,
                         sourceName = getSourceString(
                             sourceId = uiState.sourceId,
                             sources = sourceUiModels
@@ -156,7 +154,7 @@ class DestinationEditViewModel @Inject constructor(
                         sources = sourceUiModels,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         isLoading = false,
-                        uiLocalState = navigationUiState,
+                        uiLocalState = uiLocalState,
                     )
                 }
             }
@@ -271,7 +269,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestErrorMessage(message: Int?) {
-        _somethingUiState.update {
+        _uiLocalState.update {
             it.copy(
                 destErrorMessage = message
             )
@@ -279,7 +277,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateSourceErrorMessage(message: Int?) {
-        _somethingUiState.update {
+        _uiLocalState.update {
             it.copy(
                 sourceErrorMessage = message
             )
