@@ -385,7 +385,7 @@ class DestinationEditViewModel @Inject constructor(
 
             if (resultSuccess) {
                 // 新規作成 or 更新が成功した場合
-                if (uiState.value.destIdFromKeyboard == 0) {
+                if (destId == 0) {
                     _somethingUiState.update {
                         // 新規作成の場合
                         it.copy(
@@ -399,7 +399,7 @@ class DestinationEditViewModel @Inject constructor(
 
             if (resultSuccess) {
                 // 新規作成 or 更新が成功した場合
-                if (uiState.value.destIdFromKeyboard == 0) { // TODO ダイアログから選択した場合の考慮漏れ
+                if (destId == 0) {
                     // 新規作成の場合
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_register_successfully))
                 } else {
