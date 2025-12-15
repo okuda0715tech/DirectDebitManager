@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
@@ -24,6 +25,9 @@ fun AppUncertainCircularIndicator() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Black.copy(alpha = 0.5f)) // 半透明の黒背景
+            .pointerInput(Unit) {
+                // 何もしない。背後へのタップを遮断するためのもの。
+            },
     ) {
         CircularProgressIndicator(
             modifier = Modifier
