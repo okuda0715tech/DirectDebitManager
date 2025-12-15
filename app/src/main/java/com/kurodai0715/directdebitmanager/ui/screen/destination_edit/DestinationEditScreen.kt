@@ -82,6 +82,10 @@ fun DestinationEditScreen(
                     }
 
                     UiEvent.NavigateUp -> onClickNavigateUp()
+
+                    UiEvent.NavigateToSourceList -> onClickSourceList()
+
+                    UiEvent.NavigateToSourceEdit -> onClickSourceEdit()
                 }
             }
         }
@@ -157,7 +161,7 @@ fun DestinationEditScreen(
                     },
                     onClickAddEdit = {
                         viewModel.updateSourceListDialogType(null)
-                        viewModel.updateShouldNavigateToSourceList(true)
+                        viewModel.requestNavigateToSourceList()
                     }
                 )
             } else {
@@ -167,25 +171,9 @@ fun DestinationEditScreen(
                     },
                     onClickRegister = {
                         viewModel.updateSourceListDialogType(null)
-                        viewModel.updateShouldNavigateToSourceEdit(true)
+                        viewModel.requestNavigateToSourceEdit()
                     },
                 )
-            }
-        }
-
-        // 関係ないパラメータの変更による再コンポーズで、何度も処理が実行されることがないように、
-        // LaunchedEffect ブロックで囲む必要がある。
-        LaunchedEffect(uiLocalState.shouldNavigateToSourceList) {
-            if (uiLocalState.shouldNavigateToSourceList) {
-                onClickSourceList()
-                viewModel.updateShouldNavigateToSourceList(false)
-            }
-        }
-
-        LaunchedEffect(uiLocalState.shouldNavigateToSourceEdit) {
-            if (uiLocalState.shouldNavigateToSourceEdit) {
-                onClickSourceEdit()
-                viewModel.updateShouldNavigateToSourceEdit(false)
             }
         }
     }

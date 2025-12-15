@@ -60,8 +60,6 @@ data class DestinationEditUiState(
 )
 
 data class UiLocalState(
-    val shouldNavigateToSourceList: Boolean = false,
-    val shouldNavigateToSourceEdit: Boolean = false,
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
@@ -75,6 +73,8 @@ sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
 
     object NavigateUp : UiEvent()
+    object NavigateToSourceList : UiEvent()
+    object NavigateToSourceEdit : UiEvent()
 }
 
 @HiltViewModel
@@ -270,18 +270,6 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateShouldNavigateToSourceList(value: Boolean) {
-        _uiLocalState.update {
-            it.copy(shouldNavigateToSourceList = value)
-        }
-    }
-
-    fun updateShouldNavigateToSourceEdit(value: Boolean) {
-        _uiLocalState.update {
-            it.copy(shouldNavigateToSourceEdit = value)
-        }
-    }
-
     fun updateDestErrorMessage(message: Int?) {
         _somethingUiState.update {
             it.copy(
@@ -459,6 +447,18 @@ class DestinationEditViewModel @Inject constructor(
     fun requestNavigateUp() {
         viewModelScope.launch {
             _eventChannel.send(UiEvent.NavigateUp)
+        }
+    }
+
+    fun requestNavigateToSourceList(){
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.NavigateToSourceList)
+        }
+    }
+
+    fun requestNavigateToSourceEdit(){
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.NavigateToSourceEdit)
         }
     }
 }
