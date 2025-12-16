@@ -37,7 +37,6 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<SourceUiModel> = emptyList(),
@@ -149,7 +148,6 @@ class DestinationEditViewModel @Inject constructor(
                     DestinationEditUiState(
 //                        destNameFromKeyboard = uiState.destNameFromKeyboard,
 //                        destNameFromDialog = uiState.destNameFromDialog,
-                        destItemTypeFromDialog = uiState.destItemTypeFromDialog,
                         sourceId = uiState.sourceId,
                         destInputType = uiState.destInputType,
                         selectedButtonIndex = uiState.selectedButtonIndex,
@@ -193,7 +191,6 @@ class DestinationEditViewModel @Inject constructor(
                             selectedButtonIndex = 1,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
-                            destItemTypeFromDialog = TransferItemType.fromInt(item.destination.type!!)
                         )
                     } else {
                         it.copy(
@@ -244,12 +241,6 @@ class DestinationEditViewModel @Inject constructor(
          */
         val sources = uiState.value.sources
         val source = checkNotNull(sources.find { it.id == destId }) { "source is null." }
-
-        _somethingUiState.update {
-            it.copy(
-                destItemTypeFromDialog = source.type,
-            )
-        }
 
         _formUiState.update {
             it.copy(
@@ -379,12 +370,16 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
+            val isSourceItem =
+                uiState.value.selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder
+            val itemType = if (isSourceItem) TransferItemType.fromInt(destId!!) else null
+
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
-                isSourceItem = uiState.value.selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder,
+                isSourceItem = isSourceItem,
                 parentId = uiState.value.sourceId,
-                type = uiState.value.destItemTypeFromDialog,
+                type = itemType,
             )
 
             if (resultSuccess) {
