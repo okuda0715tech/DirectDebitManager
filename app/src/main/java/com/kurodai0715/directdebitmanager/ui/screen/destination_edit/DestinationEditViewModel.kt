@@ -167,6 +167,7 @@ class DestinationEditViewModel @Inject constructor(
                         formUiState = formUiState,
                         destNameFromDialog = getDestStringFromDialog(sources = sourceUiModels),
                         destItemTypeFromDialog = getDestItemType(sources = sourceUiModels),
+                        sourceName = getSourceString(sources = sourceUiModels),
                     )
                 }
             }
