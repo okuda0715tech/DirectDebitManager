@@ -146,9 +146,6 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
-//                        destNameFromKeyboard = uiState.destNameFromKeyboard,
-//                        destNameFromDialog = uiState.destNameFromDialog,
-//                        sourceId = uiState.sourceId,
                         destInputType = uiState.destInputType,
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
