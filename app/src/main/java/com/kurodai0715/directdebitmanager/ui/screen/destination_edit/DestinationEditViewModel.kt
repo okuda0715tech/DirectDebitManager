@@ -37,8 +37,6 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val destNameFromKeyboard: String = "",
-    val destNameFromDialog: String = "",
     val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
     val sourceName: String = "",
@@ -67,6 +65,8 @@ data class UiLocalState(
 data class FormUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
+    val destNameFromKeyboard: String = "",
+    val destNameFromDialog: String = "",
 )
 
 data class PersistedUiState(
@@ -147,8 +147,8 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
-                        destNameFromKeyboard = uiState.destNameFromKeyboard,
-                        destNameFromDialog = uiState.destNameFromDialog,
+//                        destNameFromKeyboard = uiState.destNameFromKeyboard,
+//                        destNameFromDialog = uiState.destNameFromDialog,
                         destItemTypeFromDialog = uiState.destItemTypeFromDialog,
                         sourceId = uiState.sourceId,
                         destInputType = uiState.destInputType,
@@ -190,7 +190,6 @@ class DestinationEditViewModel @Inject constructor(
                 _somethingUiState.update {
                     if (item.destination.isSourceItem) {
                         it.copy(
-                            destNameFromDialog = item.destination.label,
                             selectedButtonIndex = 1,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
@@ -198,7 +197,6 @@ class DestinationEditViewModel @Inject constructor(
                         )
                     } else {
                         it.copy(
-                            destNameFromKeyboard = item.destination.label,
                             selectedButtonIndex = 0,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
@@ -208,9 +206,15 @@ class DestinationEditViewModel @Inject constructor(
 
                 _formUiState.update {
                     if (item.destination.isSourceItem) {
-                        it.copy(destIdFromDialog = item.destination.id)
+                        it.copy(
+                            destIdFromDialog = item.destination.id,
+                            destNameFromDialog = item.destination.label,
+                        )
                     } else {
-                        it.copy(destIdFromKeyboard = item.destination.id)
+                        it.copy(
+                            destIdFromKeyboard = item.destination.id,
+                            destNameFromKeyboard = item.destination.label
+                        )
                     }
                 }
             }
@@ -227,7 +231,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDest(dest: String) {
-        _somethingUiState.update {
+        _formUiState.update {
             it.copy(destNameFromKeyboard = dest)
         }
     }
@@ -243,7 +247,6 @@ class DestinationEditViewModel @Inject constructor(
 
         _somethingUiState.update {
             it.copy(
-                destNameFromDialog = source.name,
                 destItemTypeFromDialog = source.type,
             )
         }
@@ -251,6 +254,7 @@ class DestinationEditViewModel @Inject constructor(
         _formUiState.update {
             it.copy(
                 destIdFromDialog = destId,
+                destNameFromDialog = source.name,
             )
         }
     }
@@ -332,8 +336,8 @@ class DestinationEditViewModel @Inject constructor(
         val selectedButtonIndex = uiState.value.selectedButtonIndex
 
         return when (selectedButtonIndex) {
-            DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.destNameFromKeyboard
-            DestInputType.SourceList.defaultDisplayOrder -> uiState.value.destNameFromDialog
+            DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.formUiState.destNameFromKeyboard
+            DestInputType.SourceList.defaultDisplayOrder -> uiState.value.formUiState.destNameFromDialog
             else -> throw IllegalStateException("Unexpected value: $selectedButtonIndex")
         }
     }
@@ -389,9 +393,14 @@ class DestinationEditViewModel @Inject constructor(
                     _somethingUiState.update {
                         // 新規作成の場合
                         it.copy(
+                            sourceId = 0,
+                        )
+                    }
+
+                    _formUiState.update {
+                        it.copy(
                             destNameFromKeyboard = "",
                             destNameFromDialog = "",
-                            sourceId = 0,
                         )
                     }
                 }

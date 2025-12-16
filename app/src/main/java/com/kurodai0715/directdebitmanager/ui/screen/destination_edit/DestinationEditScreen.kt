@@ -68,6 +68,7 @@ fun DestinationEditScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val uiLocalState = uiState.uiLocalState
+        val formUiState = uiState.formUiState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
         LaunchedEffect(destinationId) {
@@ -101,8 +102,8 @@ fun DestinationEditScreen(
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
-            keyboardInputDestName = uiState.destNameFromKeyboard,
-            dialogSelectionDestName = uiState.destNameFromDialog,
+            keyboardInputDestName = formUiState.destNameFromKeyboard,
+            dialogSelectionDestName = formUiState.destNameFromDialog,
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = uiState.sourceName,
             itemId = viewModel.destId,
