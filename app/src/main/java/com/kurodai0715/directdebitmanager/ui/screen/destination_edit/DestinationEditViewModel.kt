@@ -333,8 +333,8 @@ class DestinationEditViewModel @Inject constructor(
         val selectedButtonIndex = uiState.value.selectedButtonIndex
 
         return when (selectedButtonIndex) {
-            DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.formUiState.destNameFromKeyboard
-            DestInputType.SourceList.defaultDisplayOrder -> uiState.value.destNameFromDialog
+            DestInputType.Keyboard.displayIndex -> uiState.value.formUiState.destNameFromKeyboard
+            DestInputType.SourceList.displayIndex -> uiState.value.destNameFromDialog
             else -> throw IllegalStateException("Unexpected value: $selectedButtonIndex")
         }
     }
@@ -344,8 +344,8 @@ class DestinationEditViewModel @Inject constructor(
             val destInputTypeIndex = uiState.value.selectedButtonIndex
 
             return when (destInputTypeIndex) {
-                DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.formUiState.destIdFromKeyboard
-                DestInputType.SourceList.defaultDisplayOrder -> uiState.value.formUiState.destIdFromDialog
+                DestInputType.Keyboard.displayIndex -> uiState.value.formUiState.destIdFromKeyboard
+                DestInputType.SourceList.displayIndex -> uiState.value.formUiState.destIdFromDialog
                 else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
             }
         }
@@ -377,7 +377,7 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val isSourceItem =
-                uiState.value.selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder
+                uiState.value.selectedButtonIndex == DestInputType.SourceList.displayIndex
             val itemType = if (isSourceItem) uiState.value.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(

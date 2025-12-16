@@ -5,14 +5,14 @@
 
 package com.kurodai0715.directdebitmanager.domain.model
 
-enum class DestInputType(val defaultDisplayOrder: Int) {
+enum class DestInputType(val displayIndex: Int) {
     Keyboard(0),
     SourceList(1);
 
     companion object {
         fun fromInt(displayOrder: Int): DestInputType {
             for (type in entries) {
-                if (type.defaultDisplayOrder == displayOrder) {
+                if (type.displayIndex == displayOrder) {
                     return type
                 }
             }
@@ -28,7 +28,7 @@ enum class DestInputType(val defaultDisplayOrder: Int) {
 
         fun getSortedList(): List<DestInputType> {
             return entries.toList()
-                .sortedBy { it.defaultDisplayOrder } // value の昇順にソート
+                .sortedBy { it.displayIndex } // value の昇順にソート
         }
     }
 
