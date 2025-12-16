@@ -143,9 +143,9 @@ fun DestinationEditScreen(
             )
         }
 
-        if (uiState.sourceListDialogType != null) {
+        if (uiLocalState.sourceListDialogType != null) {
 
-            val type = uiState.sourceListDialogType
+            val type = uiLocalState.sourceListDialogType
 
             if (uiState.sourceSelectionDialogItems.isNotEmpty()) {
                 SourceSelectionDialog(

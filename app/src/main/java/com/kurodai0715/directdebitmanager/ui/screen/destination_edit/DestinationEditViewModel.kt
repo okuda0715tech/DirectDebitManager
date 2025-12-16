@@ -45,7 +45,6 @@ data class DestinationEditUiState(
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
-    val sourceListDialogType: SourceListDialogType? = null,
     val uiLocalState: UiLocalState = UiLocalState(),
     val formUiState: FormUiState = FormUiState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
@@ -64,6 +63,7 @@ data class UiLocalState(
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val isLoading: Boolean = false,
+    val sourceListDialogType: SourceListDialogType? = null, // TODO 他のダイアログ表示用のプロパティと仕様を統一したいところ。
 )
 
 /**
@@ -158,7 +158,6 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
-                        sourceListDialogType = uiState.sourceListDialogType,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         uiLocalState = uiLocalState.copy(isLoading = false),
                         formUiState = formUiState,
@@ -280,7 +279,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateSourceListDialogType(type: SourceListDialogType?) {
-        _somethingUiState.update {
+        _uiLocalState.update {
             it.copy(sourceListDialogType = type)
         }
     }
