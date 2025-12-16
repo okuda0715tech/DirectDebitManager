@@ -43,7 +43,6 @@ const val TAG = "DestinationEditViewModel.kt"
  */
 data class DestinationEditUiState(
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
-    val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val sourceListDialogType: SourceListDialogType? = null,
