@@ -93,7 +93,7 @@ flowchart TD
 
 ユーザー操作を起点としたデータの流れを示す。
 
-ドメインレイヤーが存在しない場合は以下とする。
+ドメインレイヤー ( UseCase ) が存在しない場合は以下とする。
 
 ```mermaid
 sequenceDiagram
