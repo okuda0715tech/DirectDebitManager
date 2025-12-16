@@ -43,7 +43,6 @@ const val TAG = "DestinationEditViewModel.kt"
  */
 data class DestinationEditUiState(
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
-    val selectedButton: DestInputType = DestInputType.Keyboard,
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
@@ -69,13 +68,14 @@ data class UiLocalState(
 )
 
 /**
- * 永続化される前の一時的な状態.
+ * 永続化する前の一時的な UI の状態.
  */
 data class FormUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
     val sourceId: Int = 0,
+    val selectedButton: DestInputType = DestInputType.Keyboard,
 )
 
 /**
@@ -195,12 +195,10 @@ class DestinationEditViewModel @Inject constructor(
                     if (item.inputType == DestInputType.SourceList) {
                         it.copy(
                             destNameFromDialog = item.destName,
-                            selectedButton = item.inputType,
                             sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
-                            selectedButton = item.inputType,
                             sourceName = item.sourceName,
                         )
                     }
@@ -210,12 +208,14 @@ class DestinationEditViewModel @Inject constructor(
                     if (item.inputType == DestInputType.SourceList) {
                         it.copy(
                             destIdFromDialog = item.destId,
+                            selectedButton = item.inputType,
                             sourceId = item.sourceId,
                         )
                     } else {
                         it.copy(
                             destIdFromKeyboard = item.destId,
                             destNameFromKeyboard = item.destName,
+                            selectedButton = item.inputType,
                             sourceId = item.sourceId,
                         )
                     }
@@ -329,9 +329,9 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     private fun getDestName(): String {
-        val selectedButton = uiState.value.selectedButton
+        val destInputType = uiState.value.formUiState.selectedButton
 
-        return when (selectedButton) {
+        return when (destInputType) {
             DestInputType.Keyboard -> uiState.value.formUiState.destNameFromKeyboard
             DestInputType.SourceList -> uiState.value.destNameFromDialog
         }
@@ -339,7 +339,7 @@ class DestinationEditViewModel @Inject constructor(
 
     val destId: Int?
         get() {
-            val destInputType = uiState.value.selectedButton
+            val destInputType = uiState.value.formUiState.selectedButton
 
             return when (destInputType) {
                 DestInputType.Keyboard -> uiState.value.formUiState.destIdFromKeyboard
@@ -373,7 +373,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem = uiState.value.selectedButton == DestInputType.SourceList
+            val isSourceItem = uiState.value.formUiState.selectedButton == DestInputType.SourceList
             val itemType = if (isSourceItem) uiState.value.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
@@ -456,7 +456,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestInputType(type: DestInputType) {
-        _somethingUiState.update {
+        _formUiState.update {
             it.copy(selectedButton = type)
         }
     }
