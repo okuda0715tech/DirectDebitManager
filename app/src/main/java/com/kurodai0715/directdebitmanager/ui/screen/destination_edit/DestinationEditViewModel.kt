@@ -41,7 +41,6 @@ const val TAG = "DestinationEditViewModel.kt"
  */
 data class DestinationEditUiState(
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
-    val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
     val selectedButtonIndex: Int = 0, // セグメントボタンの選択されたボタンのインデックス
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
@@ -158,7 +157,6 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
-                        destInputType = uiState.destInputType,
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
                         sourceListDialogType = uiState.sourceListDialogType,
