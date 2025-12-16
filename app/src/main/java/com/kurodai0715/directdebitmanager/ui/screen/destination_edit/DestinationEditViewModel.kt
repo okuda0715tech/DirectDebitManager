@@ -38,6 +38,8 @@ const val TAG = "DestinationEditViewModel.kt"
 
 /**
  * UI で必要とされる全ての状態.
+ *
+ * 各上流 Flow のデータに加工が必要な場合はここに定義する。
  */
 data class DestinationEditUiState(
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
