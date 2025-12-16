@@ -37,7 +37,6 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val sourceId: Int = 0,
     val sourceName: String = "",
     val sources: List<SourceUiModel> = emptyList(),
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
@@ -66,6 +65,7 @@ data class FormUiState(
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
     val destNameFromDialog: String = "",
+    val sourceId: Int = 0,
 )
 
 data class PersistedUiState(
@@ -148,13 +148,13 @@ class DestinationEditViewModel @Inject constructor(
                     DestinationEditUiState(
 //                        destNameFromKeyboard = uiState.destNameFromKeyboard,
 //                        destNameFromDialog = uiState.destNameFromDialog,
-                        sourceId = uiState.sourceId,
+//                        sourceId = uiState.sourceId,
                         destInputType = uiState.destInputType,
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
                         sourceListDialogType = uiState.sourceListDialogType,
                         sourceName = getSourceString(
-                            sourceId = uiState.sourceId,
+                            sourceId = formUiState.sourceId,
                             sources = sourceUiModels
                         ),
                         sources = sourceUiModels,
@@ -189,13 +189,11 @@ class DestinationEditViewModel @Inject constructor(
                     if (item.destination.isSourceItem) {
                         it.copy(
                             selectedButtonIndex = 1,
-                            sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
                             selectedButtonIndex = 0,
-                            sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                         )
                     }
@@ -206,11 +204,13 @@ class DestinationEditViewModel @Inject constructor(
                         it.copy(
                             destIdFromDialog = item.destination.id,
                             destNameFromDialog = item.destination.label,
+                            sourceId = item.destination.parentId,
                         )
                     } else {
                         it.copy(
                             destIdFromKeyboard = item.destination.id,
-                            destNameFromKeyboard = item.destination.label
+                            destNameFromKeyboard = item.destination.label,
+                            sourceId = item.destination.parentId,
                         )
                     }
                 }
@@ -251,7 +251,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateSource(sourceId: Int) {
-        _somethingUiState.update {
+        _formUiState.update {
             it.copy(
                 sourceId = sourceId,
             )
@@ -378,24 +378,19 @@ class DestinationEditViewModel @Inject constructor(
                 id = destId,
                 label = getDestName(),
                 isSourceItem = isSourceItem,
-                parentId = uiState.value.sourceId,
+                parentId = uiState.value.formUiState.sourceId,
                 type = itemType,
             )
 
             if (resultSuccess) {
                 // 新規作成 or 更新が成功した場合
                 if (destId == 0) {
-                    _somethingUiState.update {
-                        // 新規作成の場合
-                        it.copy(
-                            sourceId = 0,
-                        )
-                    }
-
+                    // 新規作成の場合
                     _formUiState.update {
                         it.copy(
                             destNameFromKeyboard = "",
                             destNameFromDialog = "",
+                            sourceId = 0,
                         )
                     }
                 }
