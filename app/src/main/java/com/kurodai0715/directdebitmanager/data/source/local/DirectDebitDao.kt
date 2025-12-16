@@ -55,7 +55,7 @@ interface DirectDebitDao {
                 "ON dest.parentId = source.id " +
                 "WHERE dest.id = :id"
     )
-    suspend fun getTransferItem(id: Int): DestWithSourceLocal
+    suspend fun getTransferItem(id: Int): TransferInfoLocal
 
     /**
      * 指定した id のレコードを取得.

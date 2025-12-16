@@ -8,7 +8,7 @@ package com.kurodai0715.directdebitmanager.data.source.local
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 
-data class DestWithSourceLocal(
+data class TransferInfoLocal(
     @Embedded
     val destination: TransferItemEntity,
 
