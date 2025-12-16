@@ -46,7 +46,7 @@ interface DirectDebitDao {
     fun observeTransferItems(): Flow<List<TransferItemEntity>>
 
     /**
-     * 振替元と振替先のデータを全件取得.
+     * 振替先の ID をキーとして振替先情報を取得し、その振替元の [TransferItemEntity.label] も同時に取得する.
      */
     @Query(
         "SELECT dest.id, dest.label, dest.isSourceItem, dest.type, dest.parentId, source.label AS source_name " +

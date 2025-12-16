@@ -144,10 +144,10 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 振替元の ID に基づき、その明細を取得する.
+     * 振替先の ID に基づき、振替先と振替元を紐づけて取得する.
      */
-    suspend fun loadTransferItem(id: Int): DestWithSourceLocal {
-        return localDataSource.getTransferItem(id)
+    suspend fun loadTransferItem(destId: Int): DestWithSourceLocal {
+        return localDataSource.getTransferItem(destId)
     }
 
     /**
