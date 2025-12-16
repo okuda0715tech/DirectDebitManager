@@ -43,7 +43,7 @@ const val TAG = "DestinationEditViewModel.kt"
  */
 data class DestinationEditUiState(
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
-    val selectedButtonIndex: Int = 0, // セグメントボタンの選択されたボタンのインデックス
+    val selectedButton: DestInputType = DestInputType.Keyboard,
     val destInputTypes: List<DestInputType> = DestInputType.getSortedList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
@@ -159,7 +159,6 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
-                        selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
                         sourceListDialogType = uiState.sourceListDialogType,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
@@ -196,12 +195,12 @@ class DestinationEditViewModel @Inject constructor(
                     if (item.inputType == DestInputType.SourceList) {
                         it.copy(
                             destNameFromDialog = item.destName,
-                            selectedButtonIndex = item.inputType.displayIndex,
+                            selectedButton = item.inputType,
                             sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
-                            selectedButtonIndex = item.inputType.displayIndex,
+                            selectedButton = item.inputType,
                             sourceName = item.sourceName,
                         )
                     }
@@ -330,23 +329,21 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     private fun getDestName(): String {
-        val selectedButtonIndex = uiState.value.selectedButtonIndex
+        val selectedButton = uiState.value.selectedButton
 
-        return when (selectedButtonIndex) {
-            DestInputType.Keyboard.displayIndex -> uiState.value.formUiState.destNameFromKeyboard
-            DestInputType.SourceList.displayIndex -> uiState.value.destNameFromDialog
-            else -> throw IllegalStateException("Unexpected value: $selectedButtonIndex")
+        return when (selectedButton) {
+            DestInputType.Keyboard -> uiState.value.formUiState.destNameFromKeyboard
+            DestInputType.SourceList -> uiState.value.destNameFromDialog
         }
     }
 
     val destId: Int?
         get() {
-            val destInputTypeIndex = uiState.value.selectedButtonIndex
+            val destInputType = uiState.value.selectedButton
 
-            return when (destInputTypeIndex) {
-                DestInputType.Keyboard.displayIndex -> uiState.value.formUiState.destIdFromKeyboard
-                DestInputType.SourceList.displayIndex -> uiState.value.formUiState.destIdFromDialog
-                else -> throw IllegalStateException("Unexpected value: $destInputTypeIndex")
+            return when (destInputType) {
+                DestInputType.Keyboard -> uiState.value.formUiState.destIdFromKeyboard
+                DestInputType.SourceList -> uiState.value.formUiState.destIdFromDialog
             }
         }
 
@@ -376,8 +373,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem =
-                uiState.value.selectedButtonIndex == DestInputType.SourceList.displayIndex
+            val isSourceItem = uiState.value.selectedButton == DestInputType.SourceList
             val itemType = if (isSourceItem) uiState.value.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
@@ -459,9 +455,9 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDestInputTypeIndex(index: Int) {
+    fun updateDestInputType(type: DestInputType) {
         _somethingUiState.update {
-            it.copy(selectedButtonIndex = index)
+            it.copy(selectedButton = type)
         }
     }
 

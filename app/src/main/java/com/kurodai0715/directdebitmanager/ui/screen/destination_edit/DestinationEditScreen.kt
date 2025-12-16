@@ -107,9 +107,9 @@ fun DestinationEditScreen(
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = uiState.sourceName,
             itemId = viewModel.destId,
-            selectedButtonIndex = uiState.selectedButtonIndex,
+            selectedButton = uiState.selectedButton,
             destInputTypes = uiState.destInputTypes,
-            onSelectDestInputType = { index -> viewModel.updateDestInputTypeIndex(index) },
+            onSelectDestInputType = { viewModel.updateDestInputType(it) },
             destErrorMessage = uiLocalState.destErrorMessage,
             sourceErrorMessage = uiLocalState.sourceErrorMessage,
             onClickDelete = { viewModel.checkRelatedDataExistence() },
@@ -197,9 +197,9 @@ fun DestinationEditContents(
     onDestChanged: (String) -> Unit,
     sourceName: String,
     itemId: Int?,
-    selectedButtonIndex: Int,
+    selectedButton: DestInputType,
     destInputTypes: List<DestInputType>,
-    onSelectDestInputType: (Int) -> Unit,
+    onSelectDestInputType: (DestInputType) -> Unit,
     destErrorMessage: Int?,
     sourceErrorMessage: Int?,
     onClickDelete: () -> Unit,
@@ -227,15 +227,15 @@ fun DestinationEditContents(
 
         SingleChoiceSegmentedButton(
             modifier = Modifier.fillMaxWidth(),
-            selectedIndex = selectedButtonIndex,
+            selectedIndex = selectedButton.displayIndex,
             label = stringResource(R.string.destination_input_type_label),
             buttonLabels = destInputTypes.map { it.label() },
-            onSelected = { index -> onSelectDestInputType(index) },
+            onSelected = { index -> onSelectDestInputType(DestInputType.fromInt(index)) },
         )
 
         Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
 
-        if (selectedButtonIndex == DestInputType.Keyboard.displayIndex) {
+        if (selectedButton == DestInputType.Keyboard) {
             KeyboardEditableFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = keyboardInputDestName,
@@ -243,7 +243,7 @@ fun DestinationEditContents(
                 supportingText = destErrorMessage,
                 onClickClear = { onDestChanged("") }
             )
-        } else if (selectedButtonIndex == DestInputType.SourceList.displayIndex) {
+        } else if (selectedButton == DestInputType.SourceList) {
             DisplayTextFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = dialogSelectionDestName,
@@ -307,7 +307,7 @@ private fun PreviewUpdateContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 1,
-        selectedButtonIndex = 0,
+        selectedButton = DestInputType.Keyboard,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = null,
@@ -329,7 +329,7 @@ private fun PreviewRegisterContents() {
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 0,
-        selectedButtonIndex = 1,
+        selectedButton = DestInputType.SourceList,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = null,
@@ -351,7 +351,7 @@ private fun PreviewEmptyTextContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
-        selectedButtonIndex = 0,
+        selectedButton = DestInputType.Keyboard,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = null,
@@ -373,7 +373,7 @@ private fun PreviewValidationErrorContents() {
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
-        selectedButtonIndex = 1,
+        selectedButton = DestInputType.SourceList,
         destInputTypes = listOf(DestInputType.Keyboard, DestInputType.SourceList),
         onSelectDestInputType = {},
         destErrorMessage = R.string.common_required_field,
