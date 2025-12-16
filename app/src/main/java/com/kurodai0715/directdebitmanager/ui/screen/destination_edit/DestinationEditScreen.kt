@@ -105,7 +105,7 @@ fun DestinationEditScreen(
             keyboardInputDestName = formUiState.destNameFromKeyboard,
             dialogSelectionDestName = formUiState.destNameFromDialog,
             onDestChanged = { viewModel.updateDest(it) },
-            sourceName = uiState.sourceName,
+            sourceName = formUiState.sourceName,
             itemId = viewModel.destId,
             selectedButtonIndex = uiState.selectedButtonIndex,
             destInputTypes = uiState.destInputTypes,

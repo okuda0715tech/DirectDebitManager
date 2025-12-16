@@ -37,7 +37,6 @@ import javax.inject.Inject
 const val TAG = "DestinationEditViewModel.kt"
 
 data class DestinationEditUiState(
-    val sourceName: String = "",
     val sources: List<SourceUiModel> = emptyList(),
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
     val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
@@ -66,6 +65,7 @@ data class FormUiState(
     val destNameFromKeyboard: String = "",
     val destNameFromDialog: String = "",
     val sourceId: Int = 0,
+    val sourceName: String = "",
 )
 
 data class PersistedUiState(
@@ -153,14 +153,15 @@ class DestinationEditViewModel @Inject constructor(
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
                         sourceListDialogType = uiState.sourceListDialogType,
-                        sourceName = getSourceString(
-                            sourceId = formUiState.sourceId,
-                            sources = sourceUiModels
-                        ),
                         sources = sourceUiModels,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         uiLocalState = uiLocalState.copy(isLoading = false),
-                        formUiState = formUiState,
+                        formUiState = formUiState.copy(
+                            sourceName = getSourceString(
+                                sourceId = formUiState.sourceId,
+                                sources = sourceUiModels
+                            )
+                        ),
                     )
                 }
             }
@@ -189,12 +190,10 @@ class DestinationEditViewModel @Inject constructor(
                     if (item.destination.isSourceItem) {
                         it.copy(
                             selectedButtonIndex = 1,
-                            sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
                             selectedButtonIndex = 0,
-                            sourceName = item.sourceName,
                         )
                     }
                 }
@@ -205,12 +204,14 @@ class DestinationEditViewModel @Inject constructor(
                             destIdFromDialog = item.destination.id,
                             destNameFromDialog = item.destination.label,
                             sourceId = item.destination.parentId,
+                            sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
                             destIdFromKeyboard = item.destination.id,
                             destNameFromKeyboard = item.destination.label,
                             sourceId = item.destination.parentId,
+                            sourceName = item.sourceName,
                         )
                     }
                 }
@@ -345,7 +346,7 @@ class DestinationEditViewModel @Inject constructor(
         }
 
     private fun sourceValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
+        val validationResult = BasicTextValidator.validate(uiState.value.formUiState.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
