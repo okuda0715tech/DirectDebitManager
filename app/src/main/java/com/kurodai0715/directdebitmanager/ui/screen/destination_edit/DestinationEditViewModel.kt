@@ -51,6 +51,8 @@ data class DestinationEditUiState(
     val formUiState: FormUiState = FormUiState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
     val destNameFromDialog: String = "",
+    val destItemTypeFromDialog: TransferItemType? = null,
+    val sourceName: String = "",
 )
 
 /**
@@ -72,9 +74,7 @@ data class FormUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
-    val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
-    val sourceName: String = "",
 )
 
 /**
@@ -164,11 +164,9 @@ class DestinationEditViewModel @Inject constructor(
                         sourceListDialogType = uiState.sourceListDialogType,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         uiLocalState = uiLocalState.copy(isLoading = false),
-                        formUiState = formUiState.copy(
-                            destItemTypeFromDialog = getDestItemType(sources = sourceUiModels),
-                            sourceName = getSourceString(sources = sourceUiModels)
-                        ),
+                        formUiState = formUiState,
                         destNameFromDialog = getDestStringFromDialog(sources = sourceUiModels),
+                        destItemTypeFromDialog = getDestItemType(sources = sourceUiModels),
                     )
                 }
             }
@@ -198,10 +196,12 @@ class DestinationEditViewModel @Inject constructor(
                         it.copy(
                             destNameFromDialog = item.destination.label,
                             selectedButtonIndex = 1,
+                            sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
                             selectedButtonIndex = 0,
+                            sourceName = item.sourceName,
                         )
                     }
                 }
@@ -211,14 +211,12 @@ class DestinationEditViewModel @Inject constructor(
                         it.copy(
                             destIdFromDialog = item.destination.id,
                             sourceId = item.destination.parentId,
-                            sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
                             destIdFromKeyboard = item.destination.id,
                             destNameFromKeyboard = item.destination.label,
                             sourceId = item.destination.parentId,
-                            sourceName = item.sourceName,
                         )
                     }
                 }
@@ -352,7 +350,7 @@ class DestinationEditViewModel @Inject constructor(
         }
 
     private fun sourceValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(uiState.value.formUiState.sourceName)
+        val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
@@ -379,7 +377,7 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val isSourceItem =
                 uiState.value.selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder
-            val itemType = if (isSourceItem) uiState.value.formUiState.destItemTypeFromDialog else null
+            val itemType = if (isSourceItem) uiState.value.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
