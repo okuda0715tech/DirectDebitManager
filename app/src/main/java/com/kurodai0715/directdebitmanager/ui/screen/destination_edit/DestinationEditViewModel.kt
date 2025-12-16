@@ -193,31 +193,31 @@ class DestinationEditViewModel @Inject constructor(
                 val item = directDebitDefRepo.loadTransferInfo(destId)
 
                 _somethingUiState.update {
-                    if (item.destination.isSourceItem) {
+                    if (item.inputType == DestInputType.SourceList) {
                         it.copy(
-                            destNameFromDialog = item.destination.label,
-                            selectedButtonIndex = 1,
+                            destNameFromDialog = item.destName,
+                            selectedButtonIndex = item.inputType.displayIndex,
                             sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
-                            selectedButtonIndex = 0,
+                            selectedButtonIndex = item.inputType.displayIndex,
                             sourceName = item.sourceName,
                         )
                     }
                 }
 
                 _formUiState.update {
-                    if (item.destination.isSourceItem) {
+                    if (item.inputType == DestInputType.SourceList) {
                         it.copy(
-                            destIdFromDialog = item.destination.id,
-                            sourceId = item.destination.parentId,
+                            destIdFromDialog = item.destId,
+                            sourceId = item.sourceId,
                         )
                     } else {
                         it.copy(
-                            destIdFromKeyboard = item.destination.id,
-                            destNameFromKeyboard = item.destination.label,
-                            sourceId = item.destination.parentId,
+                            destIdFromKeyboard = item.destId,
+                            destNameFromKeyboard = item.destName,
+                            sourceId = item.sourceId,
                         )
                     }
                 }

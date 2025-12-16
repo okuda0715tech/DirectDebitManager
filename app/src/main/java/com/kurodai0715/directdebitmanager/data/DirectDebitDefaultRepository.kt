@@ -7,9 +7,10 @@ package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
-import com.kurodai0715.directdebitmanager.data.source.local.TransferInfoLocal
 import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
+import com.kurodai0715.directdebitmanager.data.source.local.toTransferInfo
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
+import com.kurodai0715.directdebitmanager.domain.model.TransferInfo
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -146,8 +147,8 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替先の ID に基づき、振替先と振替元を紐づけて取得する.
      */
-    suspend fun loadTransferInfo(destId: Int): TransferInfoLocal {
-        return localDataSource.getTransferInfo(destId)
+    suspend fun loadTransferInfo(destId: Int): TransferInfo {
+        return localDataSource.getTransferInfo(destId).toTransferInfo()
     }
 
     /**
