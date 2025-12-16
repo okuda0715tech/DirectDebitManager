@@ -40,7 +40,6 @@ const val TAG = "DestinationEditViewModel.kt"
  * UI で必要とされる全ての状態.
  */
 data class DestinationEditUiState(
-    val sources: List<SourceUiModel> = emptyList(),
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
     val destInputType: DestInputType = DestInputType.Keyboard, // TODO 未使用なので削除するべき？使うべき？
     val selectedButtonIndex: Int = 0, // セグメントボタンの選択されたボタンのインデックス
@@ -51,6 +50,7 @@ data class DestinationEditUiState(
     val uiLocalState: UiLocalState = UiLocalState(),
     val formUiState: FormUiState = FormUiState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
+    val destNameFromDialog: String = "",
 )
 
 /**
@@ -72,7 +72,7 @@ data class FormUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
-    val destNameFromDialog: String = "",
+    val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
     val sourceName: String = "",
 )
@@ -162,15 +162,13 @@ class DestinationEditViewModel @Inject constructor(
                         selectedButtonIndex = uiState.selectedButtonIndex,
                         destInputTypes = uiState.destInputTypes,
                         sourceListDialogType = uiState.sourceListDialogType,
-                        sources = sourceUiModels,
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         uiLocalState = uiLocalState.copy(isLoading = false),
                         formUiState = formUiState.copy(
-                            sourceName = getSourceString(
-                                sourceId = formUiState.sourceId,
-                                sources = sourceUiModels
-                            )
+                            destItemTypeFromDialog = getDestItemType(sources = sourceUiModels),
+                            sourceName = getSourceString(sources = sourceUiModels)
                         ),
+                        destNameFromDialog = getDestStringFromDialog(sources = sourceUiModels),
                     )
                 }
             }
@@ -198,6 +196,7 @@ class DestinationEditViewModel @Inject constructor(
                 _somethingUiState.update {
                     if (item.destination.isSourceItem) {
                         it.copy(
+                            destNameFromDialog = item.destination.label,
                             selectedButtonIndex = 1,
                         )
                     } else {
@@ -211,7 +210,6 @@ class DestinationEditViewModel @Inject constructor(
                     if (item.destination.isSourceItem) {
                         it.copy(
                             destIdFromDialog = item.destination.id,
-                            destNameFromDialog = item.destination.label,
                             sourceId = item.destination.parentId,
                             sourceName = item.sourceName,
                         )
@@ -228,13 +226,23 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    private fun getSourceString(sourceId: Int, sources: List<SourceUiModel>): String {
-        for (source in sources) {
-            if (source.id == sourceId) {
-                return source.name
-            }
-        }
-        return ""
+    private fun getDestStringFromDialog(sources: List<SourceUiModel>): String {
+        val destId = _formUiState.value.destIdFromDialog
+        return sources.find { it.id == destId }?.name ?: ""
+    }
+
+    private fun getDestItemType(sources: List<SourceUiModel>): TransferItemType? {
+        val destId = _formUiState.value.destIdFromDialog
+        Log.d(TAG, "destId: ${destId}")
+
+        val type = sources.find { it.id == destId }?.type
+        Log.d(TAG, "type: $type")
+        return type
+    }
+
+    private fun getSourceString(sources: List<SourceUiModel>): String {
+        val sourceId = _formUiState.value.sourceId
+        return sources.find { it.id == sourceId }?.name ?: ""
     }
 
     fun updateDest(dest: String) {
@@ -244,19 +252,8 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDest(destId: Int) {
-        /*
-        【注意】
-        uiState と _uiState は別物です。
-        DestinationEditUiState.sources は uiState にしか格納されておらず、 _uiState には格納されていません。
-         */
-        val sources = uiState.value.sources
-        val source = checkNotNull(sources.find { it.id == destId }) { "source is null." }
-
         _formUiState.update {
-            it.copy(
-                destIdFromDialog = destId,
-                destNameFromDialog = source.name,
-            )
+            it.copy(destIdFromDialog = destId)
         }
     }
 
@@ -338,7 +335,7 @@ class DestinationEditViewModel @Inject constructor(
 
         return when (selectedButtonIndex) {
             DestInputType.Keyboard.defaultDisplayOrder -> uiState.value.formUiState.destNameFromKeyboard
-            DestInputType.SourceList.defaultDisplayOrder -> uiState.value.formUiState.destNameFromDialog
+            DestInputType.SourceList.defaultDisplayOrder -> uiState.value.destNameFromDialog
             else -> throw IllegalStateException("Unexpected value: $selectedButtonIndex")
         }
     }
@@ -382,7 +379,7 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val isSourceItem =
                 uiState.value.selectedButtonIndex == DestInputType.SourceList.defaultDisplayOrder
-            val itemType = if (isSourceItem) TransferItemType.fromInt(destId!!) else null
+            val itemType = if (isSourceItem) uiState.value.formUiState.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
@@ -399,7 +396,6 @@ class DestinationEditViewModel @Inject constructor(
                     _formUiState.update {
                         it.copy(
                             destNameFromKeyboard = "",
-                            destNameFromDialog = "",
                             sourceId = 0,
                         )
                     }
