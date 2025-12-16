@@ -36,6 +36,9 @@ import javax.inject.Inject
 
 const val TAG = "DestinationEditViewModel.kt"
 
+/**
+ * UI で必要とされる全ての状態.
+ */
 data class DestinationEditUiState(
     val sources: List<SourceUiModel> = emptyList(),
     val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
@@ -50,6 +53,9 @@ data class DestinationEditUiState(
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
 )
 
+/**
+ * 永続化する必要のない UI の見た目上の状態.
+ */
 data class UiLocalState(
     val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
@@ -59,6 +65,9 @@ data class UiLocalState(
     val isLoading: Boolean = false,
 )
 
+/**
+ * 永続化される前の一時的な状態.
+ */
 data class FormUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
@@ -68,6 +77,9 @@ data class FormUiState(
     val sourceName: String = "",
 )
 
+/**
+ * データレイヤーから取得した無加工のデータ.
+ */
 data class PersistedUiState(
     val sources: List<TransferItemEntity> = emptyList(),
 )
