@@ -190,7 +190,7 @@ class DestinationEditViewModel @Inject constructor(
     fun initialize(destId: Int?) {
         viewModelScope.launch {
             if (destId != null) {
-                val item = directDebitDefRepo.loadTransferItem(destId)
+                val item = directDebitDefRepo.loadTransferInfo(destId)
 
                 _somethingUiState.update {
                     if (item.destination.isSourceItem) {
