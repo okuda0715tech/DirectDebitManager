@@ -160,8 +160,6 @@ fun DestinationEditScreen(
                             SourceListDialogType.Destination -> viewModel.updateDest(
                                 destId = sourceUiModel.sourceId
                             )
-
-                            else -> throw IllegalStateException("Unexpected value: $type")
                         }
                     },
                     onClickAddEdit = {
