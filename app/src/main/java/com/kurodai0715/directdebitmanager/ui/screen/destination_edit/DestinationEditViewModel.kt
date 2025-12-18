@@ -228,7 +228,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun getDestItemType(sources: List<SourceUiModel>): TransferItemType? {
         val destId = _formUiState.value.destIdFromDialog
-        Log.d(TAG, "destId: ${destId}")
+        Log.d(TAG, "destId: $destId")
 
         val type = sources.find { it.id == destId }?.type
         Log.d(TAG, "type: $type")
