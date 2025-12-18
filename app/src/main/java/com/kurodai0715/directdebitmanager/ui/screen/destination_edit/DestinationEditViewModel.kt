@@ -14,7 +14,6 @@ import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceListDialogType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
@@ -205,25 +204,6 @@ class DestinationEditViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun getDestStringFromDialog(sources: List<SourceUiModel>): String {
-        val destId = _formUiState.value.destIdFromDialog
-        return sources.find { it.id == destId }?.name ?: ""
-    }
-
-    private fun getDestItemType(sources: List<SourceUiModel>): TransferItemType? {
-        val destId = _formUiState.value.destIdFromDialog
-        Log.d(TAG, "destId: $destId")
-
-        val type = sources.find { it.id == destId }?.type
-        Log.d(TAG, "type: $type")
-        return type
-    }
-
-    private fun getSourceString(sources: List<SourceUiModel>): String {
-        val sourceId = _formUiState.value.sourceId
-        return sources.find { it.id == sourceId }?.name ?: ""
     }
 
     fun updateDest(dest: String) {
