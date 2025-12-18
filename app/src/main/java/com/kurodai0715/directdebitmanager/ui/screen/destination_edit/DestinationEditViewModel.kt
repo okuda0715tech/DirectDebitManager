@@ -48,9 +48,6 @@ data class DestinationEditUiState(
     val uiLocalState: UiLocalState = UiLocalState(),
     val formUiState: FormUiState = FormUiState(),
     val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
-    val destNameFromDialog: String = "",
-    val destItemTypeFromDialog: TransferItemType? = null,
-    val sourceName: String = "",
 )
 
 /**
@@ -73,7 +70,10 @@ data class FormUiState(
     val destIdFromKeyboard: Int = 0,
     val destIdFromDialog: Int? = null,
     val destNameFromKeyboard: String = "",
+    val destNameFromDialog: String = "",
+    val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
+    val sourceName: String = "",
     val selectedButton: DestInputType = DestInputType.Keyboard,
 )
 
@@ -156,14 +156,10 @@ class DestinationEditViewModel @Inject constructor(
                 }
 
                 is Async.Success -> {
-                    val sourceUiModels = persistedAsync.data.sources.map { it.toSourceUiModel() }
                     DestinationEditUiState(
                         sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
                         uiLocalState = uiLocalState.copy(isLoading = false),
                         formUiState = formUiState,
-                        destNameFromDialog = getDestStringFromDialog(sources = sourceUiModels),
-                        destItemTypeFromDialog = getDestItemType(sources = sourceUiModels),
-                        sourceName = getSourceString(sources = sourceUiModels),
                     )
                 }
             }
@@ -188,25 +184,14 @@ class DestinationEditViewModel @Inject constructor(
             if (destId != null) {
                 val item = directDebitDefRepo.loadTransferInfo(destId)
 
-                _somethingUiState.update {
-                    if (item.inputType == DestInputType.SourceList) {
-                        it.copy(
-                            destNameFromDialog = item.destName,
-                            sourceName = item.sourceName,
-                        )
-                    } else {
-                        it.copy(
-                            sourceName = item.sourceName,
-                        )
-                    }
-                }
-
                 _formUiState.update {
                     if (item.inputType == DestInputType.SourceList) {
                         it.copy(
                             destIdFromDialog = item.destId,
+                            destNameFromDialog = item.destName,
                             selectedButton = item.inputType,
                             sourceId = item.sourceId,
+                            sourceName = item.sourceName,
                         )
                     } else {
                         it.copy(
@@ -214,6 +199,7 @@ class DestinationEditViewModel @Inject constructor(
                             destNameFromKeyboard = item.destName,
                             selectedButton = item.inputType,
                             sourceId = item.sourceId,
+                            sourceName = item.sourceName,
                         )
                     }
                 }
@@ -246,16 +232,42 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDest(destId: Int) {
+    private fun getItemBy(destId: Int): TransferItemEntity? {
+        val asyncSuccess = persistedAsync.value
+
+        check(asyncSuccess is Async.Success<PersistedUiState>) {
+            "persistedAsync must have been retrieved"
+        }
+
+        val sources = asyncSuccess.data.sources
+
+        return sources.find { it.id == destId }
+    }
+
+    fun updateDestFromDialog(destId: Int) {
+        val destination = getItemBy(destId)
+
+        checkNotNull(destination) { "There must be an item matching destId = $destId" }
+        checkNotNull(destination.type) { "" }
+
         _formUiState.update {
-            it.copy(destIdFromDialog = destId)
+            it.copy(
+                destIdFromDialog = destId,
+                destNameFromDialog = destination.label,
+                destItemTypeFromDialog = TransferItemType.fromInt(destination.type)
+            )
         }
     }
 
     fun updateSource(sourceId: Int) {
+        val source = getItemBy(sourceId)
+
+        checkNotNull(source) { "There must be an item matching sourceId = $sourceId" }
+
         _formUiState.update {
             it.copy(
                 sourceId = sourceId,
+                sourceName = source.label,
             )
         }
     }
@@ -330,7 +342,7 @@ class DestinationEditViewModel @Inject constructor(
 
         return when (destInputType) {
             DestInputType.Keyboard -> uiState.value.formUiState.destNameFromKeyboard
-            DestInputType.SourceList -> uiState.value.destNameFromDialog
+            DestInputType.SourceList -> _formUiState.value.destNameFromDialog
         }
     }
 
@@ -345,7 +357,7 @@ class DestinationEditViewModel @Inject constructor(
         }
 
     private fun sourceValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(uiState.value.sourceName)
+        val validationResult = BasicTextValidator.validate(_formUiState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
@@ -371,7 +383,7 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val isSourceItem = uiState.value.formUiState.selectedButton == DestInputType.SourceList
-            val itemType = if (isSourceItem) uiState.value.destItemTypeFromDialog else null
+            val itemType = if (isSourceItem) _formUiState.value.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
@@ -385,12 +397,8 @@ class DestinationEditViewModel @Inject constructor(
                 // 新規作成 or 更新が成功した場合
                 if (destId == 0) {
                     // 新規作成の場合
-                    _formUiState.update {
-                        it.copy(
-                            destNameFromKeyboard = "",
-                            sourceId = 0,
-                        )
-                    }
+                    // 入力フォームを初期化
+                    _formUiState.update { FormUiState() }
                 }
             }
 

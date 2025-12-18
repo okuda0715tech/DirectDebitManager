@@ -103,9 +103,9 @@ fun DestinationEditScreen(
                 .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
             keyboardInputDestName = formUiState.destNameFromKeyboard,
-            dialogSelectionDestName = uiState.destNameFromDialog,
+            dialogSelectionDestName = formUiState.destNameFromDialog,
             onDestChanged = { viewModel.updateDest(it) },
-            sourceName = uiState.sourceName,
+            sourceName = formUiState.sourceName,
             itemId = viewModel.destId,
             selectedButton = formUiState.selectedButton,
             onSelectDestInputType = { viewModel.updateDestInputType(it) },
@@ -157,7 +157,7 @@ fun DestinationEditScreen(
                                 sourceId = sourceUiModel.sourceId
                             )
 
-                            SourceListDialogType.Destination -> viewModel.updateDest(
+                            SourceListDialogType.Destination -> viewModel.updateDestFromDialog(
                                 destId = sourceUiModel.sourceId
                             )
                         }
