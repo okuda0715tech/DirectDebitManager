@@ -178,29 +178,34 @@ class DestinationEditViewModel @Inject constructor(
      */
     val eventFlow = _eventChannel.receiveAsFlow()
 
-    fun initialize(destId: Int?) {
-        viewModelScope.launch {
-            if (destId != null) {
-                val item = directDebitDefRepo.loadTransferInfo(destId)
+    private var initialized = false
 
-                _formUiState.update {
-                    if (item.inputType == DestInputType.SourceList) {
-                        it.copy(
-                            destIdFromDialog = item.destId,
-                            destNameFromDialog = item.destName,
-                            selectedButton = item.inputType,
-                            sourceId = item.sourceId,
-                            sourceName = item.sourceName,
-                        )
-                    } else {
-                        it.copy(
-                            destIdFromKeyboard = item.destId,
-                            destNameFromKeyboard = item.destName,
-                            selectedButton = item.inputType,
-                            sourceId = item.sourceId,
-                            sourceName = item.sourceName,
-                        )
-                    }
+    fun initialize(destId: Int?) {
+        if (initialized) return
+        initialized = true
+
+        if (destId == null) return
+
+        viewModelScope.launch {
+            val item = directDebitDefRepo.loadTransferInfo(destId)
+
+            _formUiState.update {
+                if (item.inputType == DestInputType.SourceList) {
+                    it.copy(
+                        destIdFromDialog = item.destId,
+                        destNameFromDialog = item.destName,
+                        selectedButton = item.inputType,
+                        sourceId = item.sourceId,
+                        sourceName = item.sourceName,
+                    )
+                } else {
+                    it.copy(
+                        destIdFromKeyboard = item.destId,
+                        destNameFromKeyboard = item.destName,
+                        selectedButton = item.inputType,
+                        sourceId = item.sourceId,
+                        sourceName = item.sourceName,
+                    )
                 }
             }
         }
