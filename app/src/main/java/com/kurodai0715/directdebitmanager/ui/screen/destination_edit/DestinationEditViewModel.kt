@@ -96,13 +96,6 @@ class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
-    // TODO DestinationEditUiState のプロパティがすべて他の data class に譲渡できたら、
-    //  この _somethingUiState プロパティは削除できる予定。
-    /**
-     * 更新用.
-     */
-    private val _somethingUiState = MutableStateFlow(DestinationEditUiState())
-
     /**
      * 更新用.
      */
@@ -139,11 +132,10 @@ class DestinationEditViewModel @Inject constructor(
      */
     val uiState: StateFlow<DestinationEditUiState> =
         combine(
-            _somethingUiState,
             _uiLocalState,
             _formUiState,
             persistedAsync,
-        ) { uiState, uiLocalState, formUiState, persistedAsync ->
+        ) { uiLocalState, formUiState, persistedAsync ->
             when (persistedAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(uiLocalState = UiLocalState(isLoading = true))
