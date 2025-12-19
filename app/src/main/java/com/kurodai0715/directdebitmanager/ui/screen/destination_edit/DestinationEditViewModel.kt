@@ -315,21 +315,21 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     private fun getDestName(): String {
-        val destInputType = uiState.value.formUiState.selectedButton
+        val destInputType = _formUiState.value.selectedButton
 
         return when (destInputType) {
-            DestInputType.Keyboard -> uiState.value.formUiState.destNameFromKeyboard
+            DestInputType.Keyboard -> _formUiState.value.destNameFromKeyboard
             DestInputType.SourceList -> _formUiState.value.destNameFromDialog
         }
     }
 
     val destId: Int?
         get() {
-            val destInputType = uiState.value.formUiState.selectedButton
+            val destInputType = _formUiState.value.selectedButton
 
             return when (destInputType) {
-                DestInputType.Keyboard -> uiState.value.formUiState.destIdFromKeyboard
-                DestInputType.SourceList -> uiState.value.formUiState.destIdFromDialog
+                DestInputType.Keyboard -> _formUiState.value.destIdFromKeyboard
+                DestInputType.SourceList -> _formUiState.value.destIdFromDialog
             }
         }
 
@@ -359,14 +359,14 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem = uiState.value.formUiState.selectedButton == DestInputType.SourceList
+            val isSourceItem = _formUiState.value.selectedButton == DestInputType.SourceList
             val itemType = if (isSourceItem) _formUiState.value.destItemTypeFromDialog else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
                 isSourceItem = isSourceItem,
-                parentId = uiState.value.formUiState.sourceId,
+                parentId = _formUiState.value.sourceId,
                 type = itemType,
             )
 
