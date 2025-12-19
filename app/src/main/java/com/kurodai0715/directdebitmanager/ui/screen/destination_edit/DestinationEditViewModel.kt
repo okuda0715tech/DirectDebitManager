@@ -186,6 +186,7 @@ class DestinationEditViewModel @Inject constructor(
                     it.copy(
                         destIdFromDialog = item.destId,
                         destNameFromDialog = item.destName,
+                        destItemTypeFromDialog = item.destAccountType,
                         selectedButton = item.inputType,
                         sourceId = item.sourceId,
                         sourceName = item.sourceName,
