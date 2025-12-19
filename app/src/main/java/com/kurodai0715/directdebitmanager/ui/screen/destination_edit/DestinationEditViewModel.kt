@@ -46,7 +46,7 @@ data class DestinationEditUiState(
 //    val transferAmount: String = "",
     val uiLocalState: UiLocalState = UiLocalState(),
     val formUiState: FormUiState = FormUiState(),
-    val persistedAsyncState: Async<PersistedUiState> = Async.Loading,
+    val persistedAsyncState: Async<PersistedDataState> = Async.Loading,
 )
 
 /**
@@ -73,20 +73,16 @@ data class FormUiState(
 )
 
 /**
- * データレイヤーから取得した無加工のデータ.
+ * データレイヤーから取得したデータ.
  */
-data class PersistedUiState(
-    val sources: List<TransferItemEntity> = emptyList(),
+data class PersistedDataState(
+    val sourceLookup: SourceLookupState
 )
 
-//data class PersistedDataState(
-//    val sourceLookup: SourceLookupState
-//)
-//
-//data class SourceLookupState(
-//    val sourceUiModels: List<SourceSelectionUiModel>,
-//    val sourceIndex: Map<Int, TransferItemEntity>
-//)
+data class SourceLookupState(
+    val sourceUiModels: List<SourceSelectionUiModel>,
+    val sourceIndex: Map<Int, TransferItemEntity>
+)
 
 sealed interface DestInput {
     val destId: Int?
@@ -128,15 +124,18 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _formUiState = MutableStateFlow(FormUiState())
 
-    private val persistedAsync: StateFlow<Async<PersistedUiState>> =
+    private val persistedAsync: StateFlow<Async<PersistedDataState>> =
         // Repository から複数の Flow を取得する場合はここを combine にすれば OK
         directDebitDefRepo.loadSourcesStream()
             .map { sources ->
-                PersistedUiState(
-                    sources = sources
+                PersistedDataState(
+                    sourceLookup = SourceLookupState(
+                        sourceUiModels = sources.toSourceSelectionUiModel(),
+                        sourceIndex = sources.associateBy { it.id }
+                    )
                 )
             }
-            .map<PersistedUiState, Async<PersistedUiState>> { state ->
+            .map<PersistedDataState, Async<PersistedDataState>> { state ->
                 Async.Success(state)
             }
             .catch {
@@ -170,7 +169,7 @@ class DestinationEditViewModel @Inject constructor(
 
                 is Async.Success -> {
                     DestinationEditUiState(
-                        sourceSelectionDialogItems = persistedAsync.data.sources.toSourceSelectionUiModel(),
+                        sourceSelectionDialogItems = persistedAsync.data.sourceLookup.sourceUiModels,
                         uiLocalState = uiLocalState.copy(isLoading = false),
                         formUiState = formUiState,
                     )
@@ -240,13 +239,13 @@ class DestinationEditViewModel @Inject constructor(
     private fun getItemBy(destId: Int): TransferItemEntity? {
         val asyncSuccess = persistedAsync.value
 
-        check(asyncSuccess is Async.Success<PersistedUiState>) {
+        check(asyncSuccess is Async.Success<PersistedDataState>) {
             "persistedAsync must have been retrieved"
         }
 
-        val sources = asyncSuccess.data.sources
+        val sourceIndex = asyncSuccess.data.sourceLookup.sourceIndex
 
-        return sources.find { it.id == destId }
+        return sourceIndex[destId]
     }
 
     fun updateDestFromDialog(destId: Int) {
