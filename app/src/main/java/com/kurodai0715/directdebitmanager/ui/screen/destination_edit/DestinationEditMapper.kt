@@ -7,6 +7,7 @@ package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
 import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
+import com.kurodai0715.directdebitmanager.domain.model.TransferInfo
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 
 
@@ -19,3 +20,12 @@ fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
         type = TransferItemType.Companion.fromInt(type),
     )
 }
+
+fun TransferInfo.toDestInputSourceList(): DestInput.SourceList {
+    return DestInput.SourceList(destId = destId, name = destName, type = destAccountType)
+}
+
+fun TransferInfo.toDestInputKeyboard(): DestInput.Keyboard {
+    return DestInput.Keyboard(destId = destId, name = destName)
+}
+

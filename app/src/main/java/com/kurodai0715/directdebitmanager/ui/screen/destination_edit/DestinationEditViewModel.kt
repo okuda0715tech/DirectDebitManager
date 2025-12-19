@@ -66,14 +66,10 @@ data class UiLocalState(
  * 永続化する前の一時的な UI の状態.
  */
 data class FormUiState(
-    val destIdFromKeyboard: Int = 0,
-    val destIdFromDialog: Int? = null,
-    val destNameFromKeyboard: String = "",
-    val destNameFromDialog: String = "",
-    val destItemTypeFromDialog: TransferItemType? = null,
     val sourceId: Int = 0,
     val sourceName: String = "",
     val selectedButton: DestInputType = DestInputType.Keyboard,
+    val destInput: DestInput = DestInput.Keyboard(destId = 0, name = ""),
 )
 
 /**
@@ -82,6 +78,32 @@ data class FormUiState(
 data class PersistedUiState(
     val sources: List<TransferItemEntity> = emptyList(),
 )
+
+//data class PersistedDataState(
+//    val sourceLookup: SourceLookupState
+//)
+//
+//data class SourceLookupState(
+//    val sourceUiModels: List<SourceSelectionUiModel>,
+//    val sourceIndex: Map<Int, TransferItemEntity>
+//)
+
+sealed interface DestInput {
+    val destId: Int?
+    val name: String
+
+    data class Keyboard(
+        override val destId: Int,
+        override val name: String
+    ) : DestInput
+
+    data class SourceList(
+        override val destId: Int?,
+        override val name: String,
+        val type: TransferItemType?
+    ) : DestInput
+}
+
 
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
@@ -184,17 +206,14 @@ class DestinationEditViewModel @Inject constructor(
             _formUiState.update {
                 if (item.inputType == DestInputType.SourceList) {
                     it.copy(
-                        destIdFromDialog = item.destId,
-                        destNameFromDialog = item.destName,
-                        destItemTypeFromDialog = item.destAccountType,
+                        destInput = item.toDestInputSourceList(),
                         selectedButton = item.inputType,
                         sourceId = item.sourceId,
                         sourceName = item.sourceName,
                     )
                 } else {
                     it.copy(
-                        destIdFromKeyboard = item.destId,
-                        destNameFromKeyboard = item.destName,
+                        destInput = item.toDestInputKeyboard(),
                         selectedButton = item.inputType,
                         sourceId = item.sourceId,
                         sourceName = item.sourceName,
@@ -206,7 +225,15 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDest(dest: String) {
         _formUiState.update {
-            it.copy(destNameFromKeyboard = dest)
+            val destId = it.destInput.destId
+            checkNotNull(destId) { "destId must not be null" }
+
+            it.copy(
+                destInput = DestInput.Keyboard(
+                    destId = destId,
+                    name = dest
+                )
+            )
         }
     }
 
@@ -230,9 +257,11 @@ class DestinationEditViewModel @Inject constructor(
 
         _formUiState.update {
             it.copy(
-                destIdFromDialog = destId,
-                destNameFromDialog = destination.label,
-                destItemTypeFromDialog = TransferItemType.fromInt(destination.type)
+                destInput = DestInput.SourceList(
+                    destId = destId,
+                    name = destination.label,
+                    type = TransferItemType.fromInt(destination.type)
+                )
             )
         }
     }
@@ -315,23 +344,13 @@ class DestinationEditViewModel @Inject constructor(
         return validationResult == ValidationResult.Valid
     }
 
-    private fun getDestName(): String {
-        val destInputType = _formUiState.value.selectedButton
-
-        return when (destInputType) {
-            DestInputType.Keyboard -> _formUiState.value.destNameFromKeyboard
-            DestInputType.SourceList -> _formUiState.value.destNameFromDialog
-        }
-    }
+    private fun getDestName(): String = _formUiState.value.destInput.name
 
     val destId: Int?
         get() {
-            val destInputType = _formUiState.value.selectedButton
-
-            return when (destInputType) {
-                DestInputType.Keyboard -> _formUiState.value.destIdFromKeyboard
-                DestInputType.SourceList -> _formUiState.value.destIdFromDialog
-            }
+            // 【注意】 getter は必要です。
+            // getter を使わずに直接代入してしまうと、 Int 型なので、データのコピーが保存されるだけになってしまう。
+            return _formUiState.value.destInput.destId
         }
 
     private fun sourceValidation(): Boolean {
@@ -361,14 +380,14 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val isSourceItem = _formUiState.value.selectedButton == DestInputType.SourceList
-            val itemType = if (isSourceItem) _formUiState.value.destItemTypeFromDialog else null
+            val type = (_formUiState.value.destInput as? DestInput.SourceList)?.type
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
                 isSourceItem = isSourceItem,
                 parentId = _formUiState.value.sourceId,
-                type = itemType,
+                type = type,
             )
 
             if (resultSuccess) {
