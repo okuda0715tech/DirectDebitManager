@@ -50,7 +50,9 @@ data class DestinationEditUiState(
 )
 
 /**
- * 永続化する必要のない UI の見た目上の状態.
+ * 永続化の対象外の UI 状態.
+ *
+ * 主に UI の見た目にのみ関わる状態を管理する。
  */
 data class UiLocalState(
     val showDelNotAllowedDialog: Boolean = false,
@@ -63,7 +65,7 @@ data class UiLocalState(
 )
 
 /**
- * 永続化する前の一時的な UI の状態.
+ * 永続化の対象の UI 状態.
  */
 data class FormUiState(
     val sourceId: Int = 0,
