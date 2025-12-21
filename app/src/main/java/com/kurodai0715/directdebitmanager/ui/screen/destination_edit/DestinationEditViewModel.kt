@@ -55,8 +55,6 @@ data class DestinationEditUiState(
  * 主に UI の見た目にのみ関わる状態を管理する。
  */
 data class UiLocalState(
-    val showDelConfDialog: Boolean = false,
-    val showDelCompDialog: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val isLoading: Boolean = false,
@@ -83,6 +81,8 @@ data class PersistedDataState(
 
 sealed interface DestinationEditDialog {
     data object DeleteNotAllowed : DestinationEditDialog
+    data object DeleteConfirm : DestinationEditDialog
+    data object DeleteCompletion : DestinationEditDialog
 }
 
 data class SourceLookupState(
@@ -290,18 +290,6 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDelConfDialogVisibility(show: Boolean) {
-        _uiLocalState.update {
-            it.copy(showDelConfDialog = show)
-        }
-    }
-
-    fun updateDelCompDialogVisibility(show: Boolean) {
-        _uiLocalState.update {
-            it.copy(showDelCompDialog = show)
-        }
-    }
-
     fun updateSourceListDialogType(type: SourceListDialogType?) {
         _uiLocalState.update {
             it.copy(sourceListDialogType = type)
@@ -428,7 +416,7 @@ class DestinationEditViewModel @Inject constructor(
             when (relatedDestCount) {
                 0 ->
                     _uiLocalState.update {
-                        it.copy(showDelConfDialog = true)
+                        it.copy(destinationEditDialog = DestinationEditDialog.DeleteConfirm)
                     }
 
                 in 1..Int.MAX_VALUE ->
@@ -452,7 +440,7 @@ class DestinationEditViewModel @Inject constructor(
                 // 削除に成功した場合
 
                 _uiLocalState.update {
-                    it.copy(showDelCompDialog = true)
+                    it.copy(destinationEditDialog = DestinationEditDialog.DeleteCompletion)
                 }
             } else {
                 // 削除に失敗した場合

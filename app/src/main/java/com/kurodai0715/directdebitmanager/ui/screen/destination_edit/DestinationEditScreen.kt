@@ -126,25 +126,25 @@ fun DestinationEditScreen(
                 )
             }
 
+            DestinationEditDialog.DeleteConfirm -> {
+                DeleteConfirmDialog(
+                    messageResId = R.string.del_conf_text_transfer_info,
+                    onDismissRequest = { viewModel.updateDialogState(null) },
+                    onClickNo = { /* 処理不要 */ },
+                    onClickYes = { viewModel.deleteData() },
+                )
+            }
+
+            DestinationEditDialog.DeleteCompletion -> {
+                DeleteCompletionDialog(
+                    onClickClose = {
+                        viewModel.updateDialogState(null)
+                        viewModel.requestNavigateUp()
+                    }
+                )
+            }
+
             null -> Unit
-        }
-
-        if (uiLocalState.showDelConfDialog) {
-            DeleteConfirmDialog(
-                messageResId = R.string.del_conf_text_transfer_info,
-                onDismissRequest = { viewModel.updateDelConfDialogVisibility(false) },
-                onClickNo = { /* 処理不要 */ },
-                onClickYes = { viewModel.deleteData() },
-            )
-        }
-
-        if (uiLocalState.showDelCompDialog) {
-            DeleteCompletionDialog(
-                onClickClose = {
-                    viewModel.updateDelCompDialogVisibility(false)
-                    viewModel.requestNavigateUp()
-                }
-            )
         }
 
         if (uiLocalState.sourceListDialogType != null) {
