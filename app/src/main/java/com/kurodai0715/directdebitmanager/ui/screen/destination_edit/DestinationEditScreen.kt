@@ -118,11 +118,15 @@ fun DestinationEditScreen(
             onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
         )
 
-        if (uiLocalState.showDelNotAllowedDialog) {
-            DeleteNotAllowedDialog(
-                messageResId = R.string.del_not_allowed_text_in_transfer_edit,
-                onDismissRequest = { viewModel.updateDelNotAllowedDialogVisibility(false) },
-            )
+        when (uiLocalState.destinationEditDialog) {
+            DestinationEditDialog.DeleteNotAllowed -> {
+                DeleteNotAllowedDialog(
+                    messageResId = R.string.del_not_allowed_text_in_transfer_edit,
+                    onDismissRequest = { viewModel.updateDialogState(null) },
+                )
+            }
+
+            null -> Unit
         }
 
         if (uiLocalState.showDelConfDialog) {

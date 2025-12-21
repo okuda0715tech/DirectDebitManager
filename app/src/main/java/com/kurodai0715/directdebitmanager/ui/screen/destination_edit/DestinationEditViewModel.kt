@@ -55,13 +55,13 @@ data class DestinationEditUiState(
  * 主に UI の見た目にのみ関わる状態を管理する。
  */
 data class UiLocalState(
-    val showDelNotAllowedDialog: Boolean = false,
     val showDelConfDialog: Boolean = false,
     val showDelCompDialog: Boolean = false,
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val isLoading: Boolean = false,
     val sourceListDialogType: SourceListDialogType? = null, // TODO 他のダイアログ表示用のプロパティと仕様を統一したいところ。
+    val destinationEditDialog: DestinationEditDialog? = null,
 )
 
 /**
@@ -80,6 +80,10 @@ data class FormUiState(
 data class PersistedDataState(
     val sourceLookup: SourceLookupState
 )
+
+sealed interface DestinationEditDialog {
+    data object DeleteNotAllowed : DestinationEditDialog
+}
 
 data class SourceLookupState(
     val sourceUiModels: List<SourceSelectionUiModel>,
@@ -280,9 +284,9 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateDelNotAllowedDialogVisibility(show: Boolean) {
+    fun updateDialogState(dialogState: DestinationEditDialog?) {
         _uiLocalState.update {
-            it.copy(showDelNotAllowedDialog = show)
+            it.copy(destinationEditDialog = dialogState)
         }
     }
 
@@ -429,7 +433,7 @@ class DestinationEditViewModel @Inject constructor(
 
                 in 1..Int.MAX_VALUE ->
                     _uiLocalState.update {
-                        it.copy(showDelNotAllowedDialog = true)
+                        it.copy(destinationEditDialog = DestinationEditDialog.DeleteNotAllowed)
                     }
 
                 -1 -> {
