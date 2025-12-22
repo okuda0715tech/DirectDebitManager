@@ -39,7 +39,6 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircu
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
-import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceListDialogType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionDialog
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
@@ -114,11 +113,11 @@ fun DestinationEditScreen(
             onClickDelete = { viewModel.checkRelatedDataExistence() },
             onClickNavigateUp = { viewModel.requestNavigateUp() },
             onClickSave = { viewModel.validate() },
-            onClickSource = { viewModel.updateSourceListDialogType(SourceListDialogType.Source) },
-            onClickDestSelectField = { viewModel.updateSourceListDialogType(SourceListDialogType.Destination) }
+            onClickSource = { viewModel.onClickSource() },
+            onClickDestSelectField = { viewModel.onClickDestSelectField() }
         )
 
-        when (uiLocalState.destinationEditDialog) {
+        when (val dialog = uiLocalState.destinationEditDialog) {
             DestinationEditDialog.DeleteNotAllowed -> {
                 DeleteNotAllowedDialog(
                     messageResId = R.string.del_not_allowed_text_in_transfer_edit,
@@ -144,44 +143,36 @@ fun DestinationEditScreen(
                 )
             }
 
-            null -> Unit
-        }
-
-        if (uiLocalState.sourceListDialogType != null) {
-
-            val type = uiLocalState.sourceListDialogType
-
-            if (uiState.sourceSelectionDialogItems.isNotEmpty()) {
+            is DestinationEditDialog.SourceSelection -> {
                 SourceSelectionDialog(
                     items = uiState.sourceSelectionDialogItems,
-                    onDismissRequest = { viewModel.updateSourceListDialogType(null) },
+                    onDismissRequest = { viewModel.updateDialogState(null) },
                     onClickItem = { sourceUiModel ->
-                        when (type) {
-                            SourceListDialogType.Source -> viewModel.updateSource(
-                                sourceId = sourceUiModel.sourceId
-                            )
-
-                            SourceListDialogType.Destination -> viewModel.updateDestFromDialog(
-                                destId = sourceUiModel.sourceId
-                            )
-                        }
+                        viewModel.onClickSourceItem(
+                            type = dialog.type,
+                            itemId = sourceUiModel.sourceId
+                        )
                     },
                     onClickAddEdit = {
-                        viewModel.updateSourceListDialogType(null)
+                        viewModel.updateDialogState(null)
                         viewModel.requestNavigateToSourceList()
                     }
                 )
-            } else {
+            }
+
+            DestinationEditDialog.NoSourceData -> {
                 NoSourceDataDialog(
                     onDismissRequest = {
-                        viewModel.updateSourceListDialogType(null)
+                        viewModel.updateDialogState(null)
                     },
                     onClickRegister = {
-                        viewModel.updateSourceListDialogType(null)
+                        viewModel.updateDialogState(null)
                         viewModel.requestNavigateToSourceEdit()
                     },
                 )
             }
+
+            null -> Unit
         }
 
         if (uiLocalState.isLoading) {

@@ -83,6 +83,14 @@ sealed interface DestinationEditDialog {
     data object DeleteNotAllowed : DestinationEditDialog
     data object DeleteConfirm : DestinationEditDialog
     data object DeleteCompletion : DestinationEditDialog
+
+    data class SourceSelection(val type: SourceSelectionDialogType) : DestinationEditDialog
+    data object NoSourceData : DestinationEditDialog
+}
+
+sealed interface SourceSelectionDialogType {
+    data object Source : SourceSelectionDialogType
+    data object Destination : SourceSelectionDialogType
 }
 
 data class SourceLookupState(
@@ -290,9 +298,26 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    fun updateSourceListDialogType(type: SourceListDialogType?) {
-        _uiLocalState.update {
-            it.copy(sourceListDialogType = type)
+    fun onClickSource() {
+        if (uiState.value.sourceSelectionDialogItems.isEmpty()) {
+            updateDialogState(DestinationEditDialog.NoSourceData)
+        } else {
+            updateDialogState(DestinationEditDialog.SourceSelection(SourceSelectionDialogType.Source))
+        }
+    }
+
+    fun onClickDestSelectField() {
+        if (uiState.value.sourceSelectionDialogItems.isEmpty()) {
+            updateDialogState(DestinationEditDialog.NoSourceData)
+        } else {
+            updateDialogState(DestinationEditDialog.SourceSelection(SourceSelectionDialogType.Destination))
+        }
+    }
+
+    fun onClickSourceItem(type: SourceSelectionDialogType, itemId: Int) {
+        when (type) {
+            SourceSelectionDialogType.Source -> updateSource(itemId)
+            SourceSelectionDialogType.Destination -> updateDestFromDialog(itemId)
         }
     }
 
