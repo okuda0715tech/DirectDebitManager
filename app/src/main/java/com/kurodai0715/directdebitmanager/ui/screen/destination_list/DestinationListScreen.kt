@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
@@ -46,6 +45,7 @@ import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -105,10 +105,28 @@ fun DestinationListContents(
     onChangeTab: (TabType) -> Unit,
     onNavigateToEdit: (Int?) -> Unit
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
+    ContentsWithBottomButton(
+        modifier = modifier,
+        contents = {
+            Contents(items, tabType, onChangeTab, onNavigateToEdit)
+        },
+        bottomButton = {
+            OneButton(
+                onClick = { debouncedClick { onNavigateToEdit(null) } },
+                text = stringResource(R.string.common_add)
+            )
+        }
+    )
+}
+
+@Composable
+private fun Contents(
+    items: List<DestWithSourceUiModel>,
+    tabType: TabType,
+    onChangeTab: (TabType) -> Unit,
+    onNavigateToEdit: (Int?) -> Unit
+) {
+    Column {
         if (items.isEmpty()) {
             WelcomeAnimation(modifier = Modifier.weight(1f))
         } else {
@@ -127,12 +145,6 @@ fun DestinationListContents(
             }
         }
 
-        HorizontalDivider()
-
-        OneButton(
-            onClick = { debouncedClick { onNavigateToEdit(null) } },
-            text = stringResource(R.string.common_add)
-        )
     }
 }
 
