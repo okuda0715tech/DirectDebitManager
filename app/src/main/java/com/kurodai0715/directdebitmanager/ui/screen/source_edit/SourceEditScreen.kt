@@ -30,7 +30,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFor
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
@@ -142,7 +142,7 @@ fun SourceEditContents(
     onClickSave: () -> Unit,
     onClickType: () -> Unit,
 ) {
-    ContentWithBottomButton(
+    ContentsWithBottomButton(
         modifier = modifier,
         contents = {
             Contents(source, onSourceChanged, sourceErrorMessage, sourceTypeStringRes, onClickType)

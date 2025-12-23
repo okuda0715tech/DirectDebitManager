@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun ContentWithBottomButton(
+fun ContentsWithBottomButton(
     modifier: Modifier = Modifier,
     contents: @Composable () -> Unit,
     bottomButton: @Composable () -> Unit,
@@ -30,7 +30,7 @@ fun ContentWithBottomButton(
 @Preview
 @Composable
 private fun ContentWithBottomButtonPreview() {
-    ContentWithBottomButton(
+    ContentsWithBottomButton(
         contents = { Text("コンテンツ") },
         bottomButton = {
             Button(onClick = {}) {
