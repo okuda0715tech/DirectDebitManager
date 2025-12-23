@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,6 +30,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFor
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
@@ -142,11 +142,52 @@ fun SourceEditContents(
     onClickSave: () -> Unit,
     onClickType: () -> Unit,
 ) {
-    Column(
+    ContentWithBottomButton(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+        contents = {
+            Contents(source, onSourceChanged, sourceErrorMessage, sourceTypeStringRes, onClickType)
+        },
+        bottomButton = {
+            BottomButton(itemId, onClickDelete, onNavigateUp, onClickSave)
+        }
+    )
+}
 
+@Composable
+private fun BottomButton(
+    itemId: Int,
+    onClickDelete: () -> Unit,
+    onNavigateUp: () -> Unit,
+    onClickSave: () -> Unit
+) {
+    if (itemId != 0) {
+        HorizontalThreeButton(
+            onClickLeft = { debouncedClick(onClickDelete) },
+            onClickCenter = { debouncedClick(onNavigateUp) },
+            onClickRight = { debouncedClick(onClickSave) },
+            leftText = stringResource(R.string.common_delete),
+            centerText = stringResource(R.string.common_back),
+            rightText = stringResource(R.string.common_update)
+        )
+    } else {
+        HorizontalTwoButton(
+            onClickLeft = { debouncedClick(onNavigateUp) },
+            onClickRight = { debouncedClick(onClickSave) },
+            leftText = stringResource(R.string.common_back),
+            rightText = stringResource(R.string.common_save)
+        )
+    }
+}
+
+@Composable
+private fun Contents(
+    source: String,
+    onSourceChanged: (String) -> Unit,
+    sourceErrorMessage: Int?,
+    sourceTypeStringRes: Int,
+    onClickType: () -> Unit
+) {
+    Column {
         KeyboardEditableFormField(
             labelText = stringResource(R.string.source_edit_text_label),
             text = source,
@@ -166,24 +207,6 @@ fun SourceEditContents(
             iconDescription = stringResource(id = R.string.open_source_type_dialog_icon_description),
             onClickIcon = onClickType,
         )
-
-        if (itemId != 0) {
-            HorizontalThreeButton(
-                onClickLeft = { debouncedClick(onClickDelete) },
-                onClickCenter = { debouncedClick(onNavigateUp) },
-                onClickRight = { debouncedClick(onClickSave) },
-                leftText = stringResource(R.string.common_delete),
-                centerText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_update)
-            )
-        } else {
-            HorizontalTwoButton(
-                onClickLeft = { debouncedClick(onNavigateUp) },
-                onClickRight = { debouncedClick(onClickSave) },
-                leftText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_save)
-            )
-        }
     }
 }
 
