@@ -220,7 +220,7 @@ fun DestinationEditContents(
 }
 
 @Composable
-fun Contents(
+private fun Contents(
     sourceName: String,
     onClickSource: () -> Unit,
     sourceErrorMessage: Int?,
