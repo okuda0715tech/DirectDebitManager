@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -25,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,10 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
-import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.getSourceTypeStringRes
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -86,32 +85,39 @@ fun SourceListContents(
     onNavigateToEdit: (Int?) -> Unit,
     onNavigateUp: () -> Unit,
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+    ContentsWithBottomButton(
         modifier = modifier,
-    ) {
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            itemsIndexed(items) { index, item ->
-                val itemModifier = when (index) {
-                    // 最初のアイテムは Bottom にのみパディング
-                    0 -> Modifier.padding(bottom = 8.dp)
-                    // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
-                    items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
-                    // それ以外のアイテムは Top と Bottom にパディング
-                    else -> Modifier.padding(vertical = 8.dp)
-                }
-                TransSourceItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.id) })
-            }
+        contents = {
+            Contents(items, onNavigateToEdit)
+        },
+        bottomButton = {
+            HorizontalTwoButton(
+                onClickLeft = { debouncedClick(onNavigateUp) },
+                onClickRight = { debouncedClick { onNavigateToEdit(null) } },
+                leftText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_add)
+            )
         }
+    )
+}
 
-        HorizontalDivider()
-
-        HorizontalTwoButton(
-            onClickLeft = { debouncedClick(onNavigateUp) },
-            onClickRight = { debouncedClick { onNavigateToEdit(null) } },
-            leftText = stringResource(R.string.common_back),
-            rightText = stringResource(R.string.common_add)
-        )
+@Composable
+private fun Contents(
+    items: List<SourceUiModel>,
+    onNavigateToEdit: (Int?) -> Unit
+) {
+    LazyColumn {
+        itemsIndexed(items) { index, item ->
+            val itemModifier = when (index) {
+                // 最初のアイテムは Bottom にのみパディング
+                0 -> Modifier.padding(bottom = 8.dp)
+                // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
+                items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
+                // それ以外のアイテムは Top と Bottom にパディング
+                else -> Modifier.padding(vertical = 8.dp)
+            }
+            TransSourceItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.id) })
+        }
     }
 }
 
