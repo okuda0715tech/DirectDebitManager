@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -36,6 +35,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoB
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
@@ -199,11 +199,40 @@ fun DestinationEditContents(
     onClickSource: () -> Unit,
     onClickDestSelectField: () -> Unit,
 ) {
-    Column(
+    ContentWithBottomButton(
         modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
+        contents = {
+            Contents(
+                sourceName,
+                onClickSource,
+                sourceErrorMessage,
+                selectedButton,
+                onSelectDestInputType,
+                keyboardInputDestName,
+                onDestChanged,
+                destErrorMessage,
+                dialogSelectionDestName,
+                onClickDestSelectField
+            )
+        },
+        bottomButton = { BottomButton(itemId, onClickDelete, onClickNavigateUp, onClickSave) }
+    )
+}
 
+@Composable
+fun Contents(
+    sourceName: String,
+    onClickSource: () -> Unit,
+    sourceErrorMessage: Int?,
+    selectedButton: DestInputType,
+    onSelectDestInputType: (DestInputType) -> Unit,
+    keyboardInputDestName: String,
+    onDestChanged: (String) -> Unit,
+    destErrorMessage: Int?,
+    dialogSelectionDestName: String,
+    onClickDestSelectField: () -> Unit
+) {
+    Column {
         DisplayTextFormField(
             labelText = stringResource(R.string.source_text_label),
             text = sourceName,
@@ -245,38 +274,33 @@ fun DestinationEditContents(
                 onClickIcon = onClickDestSelectField,
             )
         }
+    }
+}
 
-        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
-
-//        DatePickerText(onTextChanged = {
-//            viewModel.updateDate(it)
-//        })
-//        TextField(
-//            value = uiState.transferAmount.toString(),
-//            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-//            onValueChange = { viewModel.updateAmount(it) },
-//            label = { Text(stringResource(R.string.transfer_amount)) },
-//            modifier = Modifier.fillMaxWidth(),
-//        )
-
-        // TODO 振替先を振替元から選択すると新規登録でも削除ボタンが出てくる動作がいまいちなので、修正する。
-        if (itemId != 0 && itemId != null) {
-            HorizontalThreeButton(
-                onClickLeft = { debouncedClick(onClickDelete) },
-                onClickCenter = { debouncedClick(onClickNavigateUp) },
-                onClickRight = { debouncedClick(onClickSave) },
-                leftText = stringResource(R.string.common_delete),
-                centerText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_update)
-            )
-        } else {
-            HorizontalTwoButton(
-                onClickLeft = { debouncedClick(onClickNavigateUp) },
-                onClickRight = { debouncedClick(onClickSave) },
-                leftText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_save)
-            )
-        }
+@Composable
+private fun BottomButton(
+    itemId: Int?,
+    onClickDelete: () -> Unit,
+    onClickNavigateUp: () -> Unit,
+    onClickSave: () -> Unit
+) {
+    // TODO 振替先を振替元から選択すると新規登録でも削除ボタンが出てくる動作がいまいちなので、修正する。
+    if (itemId != 0 && itemId != null) {
+        HorizontalThreeButton(
+            onClickLeft = { debouncedClick(onClickDelete) },
+            onClickCenter = { debouncedClick(onClickNavigateUp) },
+            onClickRight = { debouncedClick(onClickSave) },
+            leftText = stringResource(R.string.common_delete),
+            centerText = stringResource(R.string.common_back),
+            rightText = stringResource(R.string.common_update)
+        )
+    } else {
+        HorizontalTwoButton(
+            onClickLeft = { debouncedClick(onClickNavigateUp) },
+            onClickRight = { debouncedClick(onClickSave) },
+            leftText = stringResource(R.string.common_back),
+            rightText = stringResource(R.string.common_save)
+        )
     }
 }
 
