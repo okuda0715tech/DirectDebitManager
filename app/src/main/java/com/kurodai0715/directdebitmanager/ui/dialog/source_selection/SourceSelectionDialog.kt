@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DialogSurfaceButton
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
-import com.kurodai0715.directdebitmanager.ui.theme.SPACE_SMALL
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.TAP_AREA_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -83,7 +83,7 @@ fun SourceSelectionDialog(
                     modifier = Modifier.size(ICON_LARGE_SIZE),
                     tint = MaterialTheme.colorScheme.primary,
                 )
-                Spacer(modifier = Modifier.size(SPACE_SMALL))
+                Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
                 Box(
                     modifier = Modifier.fillMaxHeight(),
                     contentAlignment = Alignment.Center

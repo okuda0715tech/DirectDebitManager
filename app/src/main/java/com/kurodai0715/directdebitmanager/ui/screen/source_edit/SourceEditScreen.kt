@@ -33,7 +33,6 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBotto
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
-import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -194,7 +193,7 @@ private fun Contents(
             onClickClear = { onSourceChanged("") }
         )
 
-        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
+        Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
 
         DisplayTextFormField(
             labelText = stringResource(R.string.source_type),

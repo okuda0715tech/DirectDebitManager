@@ -39,7 +39,6 @@ import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionDialog
-import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
@@ -241,7 +240,7 @@ private fun Contents(
             onClickIcon = onClickSource,
         )
 
-        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
+        Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
 
         SingleChoiceSegmentedButton(
             modifier = Modifier.fillMaxWidth(),
@@ -251,7 +250,7 @@ private fun Contents(
             onSelected = { index -> onSelectDestInputType(DestInputType.fromInt(index)) },
         )
 
-        Spacer(modifier = Modifier.height(LIST_ITEM_SPACE_DEF))
+        Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
 
         if (selectedButton == DestInputType.Keyboard) {
             KeyboardEditableFormField(

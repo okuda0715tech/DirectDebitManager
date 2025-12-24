@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kurodai0715.directdebitmanager.ui.theme.SPACE_EXTRA_SMALL
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 
 @Composable
 fun SingleChoiceSegmentedButton(
@@ -36,7 +36,7 @@ fun SingleChoiceSegmentedButton(
             modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
         )
 
-        Spacer(modifier = Modifier.Companion.size(SPACE_EXTRA_SMALL))
+        Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
 
         SingleChoiceSegmentedButtonRow(modifier = modifier) {
             buttonLabels.forEachIndexed { index, label ->

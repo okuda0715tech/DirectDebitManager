@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
-import com.kurodai0715.directdebitmanager.ui.theme.SPACE_EXTRA_SMALL
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -48,7 +48,7 @@ fun AppBaseFormField(
             modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
         )
 
-        Spacer(modifier = Modifier.Companion.size(SPACE_EXTRA_SMALL))
+        Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
 
         Row(
             verticalAlignment = Alignment.Companion.CenterVertically,
@@ -77,7 +77,7 @@ fun AppBaseFormField(
                 MaterialTheme.colorScheme.error
         )
 
-        Spacer(modifier = Modifier.Companion.size(SPACE_EXTRA_SMALL))
+        Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
 
         Text(
             text = if (supportingText != null) stringResource(supportingText) else "",
