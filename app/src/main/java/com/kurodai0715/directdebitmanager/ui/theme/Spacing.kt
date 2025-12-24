@@ -10,8 +10,8 @@ object Spacing {
     val xs: Dp
         @Composable get() = when (LocalDensityMode.current) {
             DensityMode.Dense -> 4.dp
-            DensityMode.Normal -> 8.dp
-            DensityMode.Spacious -> 12.dp
+            DensityMode.Normal -> 4.dp
+            DensityMode.Spacious -> 8.dp
         }
 
     // 同一グループ内（ListItem 内、Form 項目内）
