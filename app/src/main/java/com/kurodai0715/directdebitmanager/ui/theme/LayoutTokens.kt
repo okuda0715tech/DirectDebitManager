@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.elementSpacing
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.itemSpacing
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.screenPadding
 
 object LayoutTokens {
 
@@ -38,14 +39,22 @@ object LayoutTokens {
         @Composable get() = itemSpacing / 2
 
     /**
-     * セクションとセクションの間の余白.
+     * 大きめのセクションとセクションの間の余白.
+     *
+     * 具体例 : ヘッダーとボディの間、ボディとフッターの間など。
      */
     val sectionSpacing: Dp
-        @Composable get() = Spacing.m
+        @Composable get() = Spacing.l
 
     /**
      * 画面と画面の間の余白.
      */
     val screenPadding: Dp
-        @Composable get() = Spacing.l
+        @Composable get() = Spacing.xl
+
+    /**
+     * [screenPadding] の半分の余白.
+     */
+    val screenPaddingHalf: Dp
+        @Composable get() = screenPadding / 2
 }

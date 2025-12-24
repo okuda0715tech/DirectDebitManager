@@ -83,7 +83,7 @@ fun DestinationListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(LayoutTokens.screenPadding),
+                .padding(LayoutTokens.screenPaddingHalf),
             tabType = uiState.tabType,
             items = uiState.items,
             onChangeTab = { viewModel.updateTabType(it) },
@@ -275,7 +275,7 @@ private fun PreviewDestinationListListView() {
     DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
-            .padding(LayoutTokens.screenPadding),
+            .padding(LayoutTokens.screenPaddingHalf),
         tabType = TabType.ListView,
         items = listOf(
             DestWithSourceUiModel(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
@@ -294,7 +294,7 @@ private fun PreviewDestinationListTreeView() {
     DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
-            .padding(LayoutTokens.screenPadding),
+            .padding(LayoutTokens.screenPaddingHalf),
         tabType = TabType.TreeView,
         items = listOf(
             DestWithSourceUiModel(1, "横浜銀行", 0, ""),

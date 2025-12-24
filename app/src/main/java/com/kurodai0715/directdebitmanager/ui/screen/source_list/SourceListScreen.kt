@@ -64,7 +64,7 @@ fun SourceListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(LayoutTokens.screenPadding),
+                .padding(LayoutTokens.screenPaddingHalf),
             items = uiState.items,
             onNavigateToEdit = onClickSourceEdit,
             onNavigateUp = onClickNavigateUp,
@@ -150,7 +150,7 @@ private fun Preview() {
     SourceListContents(
         modifier = Modifier
             .fillMaxSize()
-            .padding(LayoutTokens.screenPadding),
+            .padding(LayoutTokens.screenPaddingHalf),
         items = listOf(
             SourceUiModel(1, "横浜銀行クレジットカード", TransferItemType.CreditCard),
             SourceUiModel(2, "横浜銀行", TransferItemType.Bank),

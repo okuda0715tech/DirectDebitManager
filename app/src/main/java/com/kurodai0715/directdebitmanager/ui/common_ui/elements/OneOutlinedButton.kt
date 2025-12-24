@@ -7,6 +7,7 @@ package com.kurodai0715.directdebitmanager.ui.common_ui.elements
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -14,8 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 
 @Composable
 fun OneOutlinedButton(
@@ -24,8 +25,10 @@ fun OneOutlinedButton(
 ) {
 
     Row(
-        modifier = Modifier.Companion.padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(LayoutTokens.sectionSpacing),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         OutlinedButton(onClick = { onClick() }) {
             Text(text)
@@ -38,6 +41,6 @@ fun OneOutlinedButton(
 private fun PreviewOneOutlinedButton() {
     OneOutlinedButton(
         onClick = {},
-        text = stringResource(R.string.common_edit)
+        text = stringResource(R.string.common_back)
     )
 }

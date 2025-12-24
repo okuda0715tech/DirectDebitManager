@@ -147,7 +147,7 @@ fun AppDrawerContent(
 
         Text(
             text = stringResource(R.string.header_label),
-            modifier = Modifier.padding(LayoutTokens.screenPadding)
+            modifier = Modifier.padding(LayoutTokens.screenPaddingHalf)
         )
 
         HorizontalDivider()

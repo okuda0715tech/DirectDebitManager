@@ -73,7 +73,7 @@ fun SourceEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(LayoutTokens.screenPadding),
+                .padding(LayoutTokens.screenPaddingHalf),
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,
@@ -211,6 +211,7 @@ private fun Contents(
 @Composable
 private fun PreviewUpdateContents() {
     SourceEditContents(
+        modifier = Modifier.padding(LayoutTokens.screenPaddingHalf),
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 1,
@@ -227,6 +228,7 @@ private fun PreviewUpdateContents() {
 @Composable
 private fun PreviewRegisterContents() {
     SourceEditContents(
+        modifier = Modifier.padding(LayoutTokens.screenPaddingHalf),
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 0,
@@ -243,6 +245,7 @@ private fun PreviewRegisterContents() {
 @Composable
 private fun PreviewValidationErrorContents() {
     SourceEditContents(
+        modifier = Modifier.padding(LayoutTokens.screenPaddingHalf),
         source = "横浜銀行",
         onSourceChanged = {},
         itemId = 0,

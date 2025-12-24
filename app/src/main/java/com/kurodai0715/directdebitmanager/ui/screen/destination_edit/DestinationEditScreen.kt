@@ -97,7 +97,7 @@ fun DestinationEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(LayoutTokens.screenPadding),
+                .padding(LayoutTokens.screenPaddingHalf),
             keyboardInputDestName = formUiState.destInput.name,
             dialogSelectionDestName = formUiState.destInput.name,
             onDestChanged = { viewModel.updateDest(it) },
@@ -314,6 +314,9 @@ private fun DestInputType.label(): String {
 @Composable
 private fun PreviewUpdateContents() {
     DestinationEditContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(LayoutTokens.screenPaddingHalf),
         keyboardInputDestName = "横浜銀行クレジットカード",
         dialogSelectionDestName = "",
         onDestChanged = {},
@@ -335,6 +338,9 @@ private fun PreviewUpdateContents() {
 @Composable
 private fun PreviewRegisterContents() {
     DestinationEditContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(LayoutTokens.screenPaddingHalf),
         keyboardInputDestName = "横浜銀行クレジットカード",
         dialogSelectionDestName = "",
         onDestChanged = {},
@@ -356,6 +362,9 @@ private fun PreviewRegisterContents() {
 @Composable
 private fun PreviewEmptyTextContents() {
     DestinationEditContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(LayoutTokens.screenPaddingHalf),
         keyboardInputDestName = "",
         dialogSelectionDestName = "",
         onDestChanged = {},
@@ -377,6 +386,9 @@ private fun PreviewEmptyTextContents() {
 @Composable
 private fun PreviewValidationErrorContents() {
     DestinationEditContents(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(LayoutTokens.screenPaddingHalf),
         keyboardInputDestName = "",
         dialogSelectionDestName = "",
         onDestChanged = {},
