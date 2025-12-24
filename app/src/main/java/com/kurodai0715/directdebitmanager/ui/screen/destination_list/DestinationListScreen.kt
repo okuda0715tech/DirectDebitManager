@@ -11,8 +11,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -130,6 +132,8 @@ private fun Contents(
         } else {
             ViewChangeTab(selectedTab = tabType, onChangeTab = onChangeTab)
 
+            Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
+
             if (tabType == TabType.ListView) {
                 ListView(items, onNavigateToEdit)
             } else {
@@ -141,6 +145,8 @@ private fun Contents(
                 val displayTree = flatTree.filterNot { it.destId == 0 }
                 TreeView(displayTree)
             }
+
+            Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
         }
 
     }
@@ -154,13 +160,15 @@ private fun ColumnScope.ListView(
     LazyColumn(modifier = Modifier.weight(1f)) {
         val itemsHasSource = items.filter { it.sourceId != 0 }
         itemsIndexed(itemsHasSource) { index, item ->
+            val spaceEmpty = 0.dp
+            val spaceHalf = LayoutTokens.itemSpacingHalf
             val itemModifier = when (index) {
-                // 最初のアイテムは Top に 2 倍のパディング、 Bottom に通常のパディング
-                0 -> Modifier.padding(top = 16.dp, bottom = 8.dp)
-                // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
-                items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
-                // それ以外のアイテムは Top と Bottom にパディング
-                else -> Modifier.padding(vertical = 8.dp)
+                // 最初のアイテムは Top のパディングなし、 Bottom はあり
+                0 -> Modifier.padding(top = spaceEmpty, bottom = spaceHalf)
+                // 最後のアイテムは Top のパディングあり、 Bottom はなし
+                items.size - 1 -> Modifier.padding(top = spaceHalf, bottom = spaceEmpty)
+                // それ以外のアイテムは Top と Bottom のパディングあり
+                else -> Modifier.padding(vertical = spaceHalf)
             }
             DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.destId) })
         }
@@ -175,9 +183,8 @@ private fun ColumnScope.TreeView(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 16.dp)
                 .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                .padding(8.dp)
+                .padding(LayoutTokens.elementSpacing)
         ) {
             items(flatTree) { item ->
                 Text("${"     ".repeat(item.depth - 1)}└ ${item.label}")
