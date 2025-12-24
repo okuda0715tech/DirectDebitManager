@@ -7,7 +7,6 @@ package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,7 +34,7 @@ import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
-import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
@@ -75,7 +74,7 @@ fun SourceEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(SCREEN_EDGE_PADDING_DEF),
+                .padding(LayoutTokens.screenPadding),
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,

@@ -47,7 +47,6 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircu
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
-import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 private const val TAG = "DestinationListScreen.kt"
@@ -269,7 +268,7 @@ private fun PreviewDestinationListListView() {
     DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SCREEN_EDGE_PADDING_DEF),
+            .padding(LayoutTokens.screenPadding),
         tabType = TabType.ListView,
         items = listOf(
             DestWithSourceUiModel(1, "横浜銀行クレジットカード", 1, "横浜銀行"),
@@ -288,7 +287,7 @@ private fun PreviewDestinationListTreeView() {
     DestinationListContents(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SCREEN_EDGE_PADDING_DEF),
+            .padding(LayoutTokens.screenPadding),
         tabType = TabType.TreeView,
         items = listOf(
             DestWithSourceUiModel(1, "横浜銀行", 0, ""),

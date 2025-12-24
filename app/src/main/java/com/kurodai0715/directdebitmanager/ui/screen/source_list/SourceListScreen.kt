@@ -9,7 +9,6 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,7 +36,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoB
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.getSourceTypeStringRes
-import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 private const val TAG = "SourceListScreen.kt"
@@ -65,7 +64,7 @@ fun SourceListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(SCREEN_EDGE_PADDING_DEF),
+                .padding(LayoutTokens.screenPadding),
             items = uiState.items,
             onNavigateToEdit = onClickSourceEdit,
             onNavigateUp = onClickNavigateUp,
@@ -151,7 +150,7 @@ private fun Preview() {
     SourceListContents(
         modifier = Modifier
             .fillMaxSize()
-            .padding(SCREEN_EDGE_PADDING_DEF),
+            .padding(LayoutTokens.screenPadding),
         items = listOf(
             SourceUiModel(1, "横浜銀行クレジットカード", TransferItemType.CreditCard),
             SourceUiModel(2, "横浜銀行", TransferItemType.Bank),

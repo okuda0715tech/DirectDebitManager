@@ -40,7 +40,7 @@ import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionDialog
 import com.kurodai0715.directdebitmanager.ui.theme.LIST_ITEM_SPACE_DEF
-import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -98,7 +98,7 @@ fun DestinationEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(SCREEN_EDGE_PADDING_DEF),
+                .padding(LayoutTokens.screenPadding),
             keyboardInputDestName = formUiState.destInput.name,
             dialogSelectionDestName = formUiState.destInput.name,
             onDestChanged = { viewModel.updateDest(it) },
