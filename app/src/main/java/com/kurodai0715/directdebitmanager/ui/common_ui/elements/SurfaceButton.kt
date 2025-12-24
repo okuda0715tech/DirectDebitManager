@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun SurfaceButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier.Companion,
+    modifier: Modifier = Modifier,
     enabled: Boolean = true,
     shape: Shape = RectangleShape,
     color: Color = MaterialTheme.colorScheme.surface,
@@ -53,7 +53,7 @@ fun SurfaceButton(
 
 @Composable
 fun DialogSurfaceButton(
-    modifier: Modifier = Modifier.Companion,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit,
     content: @Composable () -> Unit
 ) {
@@ -73,7 +73,7 @@ private fun PreviewSurfaceButton() {
         content = {
             Text(
                 text = "ボタン",
-                modifier = Modifier.Companion.padding(12.dp)
+                modifier = Modifier.padding(12.dp)
             )
         }
     )
