@@ -7,7 +7,6 @@ package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -99,7 +98,6 @@ fun DestinationEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
             keyboardInputDestName = formUiState.destInput.name,
             dialogSelectionDestName = formUiState.destInput.name,

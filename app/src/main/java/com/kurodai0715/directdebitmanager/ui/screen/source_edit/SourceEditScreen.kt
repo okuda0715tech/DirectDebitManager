@@ -75,7 +75,6 @@ fun SourceEditScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },

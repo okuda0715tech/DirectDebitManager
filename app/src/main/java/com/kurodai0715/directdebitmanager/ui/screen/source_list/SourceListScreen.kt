@@ -65,7 +65,6 @@ fun SourceListScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .consumeWindowInsets(paddingValues)
                 .padding(SCREEN_EDGE_PADDING_DEF),
             items = uiState.items,
             onNavigateToEdit = onClickSourceEdit,
