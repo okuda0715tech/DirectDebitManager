@@ -7,18 +7,18 @@ package com.kurodai0715.directdebitmanager.ui.common_ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ErrorButton
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 
 @Composable
 fun HorizontalThreeButton(
@@ -31,14 +31,13 @@ fun HorizontalThreeButton(
 ) {
 
     Row(
-        modifier = Modifier.padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(24.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(LayoutTokens.sectionSpacing),
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        TextButton(onClick = { onClickLeft() }) {
-            Text(
-                text = leftText,
-                color = MaterialTheme.colorScheme.error,
-            )
+        ErrorButton(onClick = { onClickLeft() }) {
+            Text(text = leftText)
         }
         OutlinedButton(onClick = { onClickCenter() }) {
             Text(centerText)
