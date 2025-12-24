@@ -30,7 +30,7 @@ fun NoSourceDataDialog(
             Icon(
                 painter = painterResource(id = R.drawable.baseline_info_outline_24),
                 contentDescription = stringResource(id = R.string.usage_rules_icon_description),
-                modifier = Modifier.Companion.size(ICON_EX_LARGE_SIZE),
+                modifier = Modifier.size(ICON_EX_LARGE_SIZE),
             )
         },
         title = {

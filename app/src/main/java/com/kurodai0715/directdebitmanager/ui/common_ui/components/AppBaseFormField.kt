@@ -39,7 +39,7 @@ fun AppBaseFormField(
     userInputComposable: @Composable (Modifier) -> Unit,
 ) {
     Column(
-        modifier = Modifier.Companion.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth()
     ) {
         Text(
             text = labelText,
@@ -47,7 +47,7 @@ fun AppBaseFormField(
             modifier = Modifier.padding(horizontal = LayoutTokens.itemSpacing)
         )
 
-        Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
+        Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -56,7 +56,7 @@ fun AppBaseFormField(
                 .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 .padding(horizontal = LayoutTokens.itemSpacing)
         ) {
-            userInputComposable(Modifier.Companion.weight(1f))
+            userInputComposable(Modifier.weight(1f))
 
             if (iconVisible && icon != null) {
                 Icon(

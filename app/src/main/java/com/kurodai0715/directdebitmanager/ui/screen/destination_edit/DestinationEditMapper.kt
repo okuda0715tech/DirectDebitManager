@@ -17,7 +17,7 @@ fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
     return SourceUiModel(
         id = id,
         name = label,
-        type = TransferItemType.Companion.fromInt(type),
+        type = TransferItemType.fromInt(type),
     )
 }
 

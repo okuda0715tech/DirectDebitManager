@@ -30,7 +30,7 @@ fun DeleteNotAllowedDialog(
             Icon(
                 painter = painterResource(id = R.drawable.baseline_block_24),
                 contentDescription = stringResource(id = R.string.del_not_allowed_icon_description),
-                modifier = Modifier.Companion.size(ICON_EX_LARGE_SIZE),
+                modifier = Modifier.size(ICON_EX_LARGE_SIZE),
             )
         },
         title = {

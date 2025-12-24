@@ -34,8 +34,8 @@ fun DefaultBasicTextField(
         decorationBox = { innerTextField ->
             // 中央に配置するために Box でラップ
             Box(
-                modifier = Modifier.Companion.fillMaxWidth(),
-                contentAlignment = Alignment.Companion.CenterStart // 左寄せ & 垂直中央
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.CenterStart // 左寄せ & 垂直中央
             ) {
                 innerTextField()
             }

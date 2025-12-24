@@ -31,6 +31,7 @@ fun DisplayTextFormField(
         iconDescription = iconDescription,
         userInputComposable = { modifier ->
             // TODO あまり見ない関数呼び出しの形になっていて、なんか気持ち悪い。書き直したい。
+            //  もしかしたら、このコンポーザブルのプレビューはもうひとつ中で行うべき？
             DefaultText(
                 modifier = modifier,
                 text = text,
