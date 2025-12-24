@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
@@ -45,17 +44,17 @@ fun AppBaseFormField(
         Text(
             text = labelText,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
+            modifier = Modifier.padding(horizontal = LayoutTokens.elementSpacing)
         )
 
         Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
 
         Row(
-            verticalAlignment = Alignment.Companion.CenterVertically,
-            modifier = Modifier.Companion
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
                 .heightIn(min = TEXT_FIELD_MIN_HEIGHT)
                 .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
-                .padding(start = 16.dp, end = 12.dp)
+                .padding(horizontal = LayoutTokens.elementSpacing)
         ) {
             userInputComposable(Modifier.Companion.weight(1f))
 
@@ -63,7 +62,7 @@ fun AppBaseFormField(
                 Icon(
                     painter = icon,
                     contentDescription = iconDescription,
-                    modifier = Modifier.Companion
+                    modifier = Modifier
                         .size(ICON_LARGE_SIZE)
                         .clickable(onClick = { debouncedClick(onClickIcon) }),
                     tint = MaterialTheme.colorScheme.primary,
@@ -77,13 +76,13 @@ fun AppBaseFormField(
                 MaterialTheme.colorScheme.error
         )
 
-        Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
+        Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
 
         Text(
             text = if (supportingText != null) stringResource(supportingText) else "",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
+            modifier = Modifier.padding(horizontal = LayoutTokens.elementSpacing)
         )
     }
 }

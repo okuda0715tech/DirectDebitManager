@@ -40,12 +40,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import com.kurodai0715.directdebitmanager.ui.navigation.DestList
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -145,7 +145,10 @@ fun AppDrawerContent(
 
         val uriHandler = LocalUriHandler.current
 
-        Text(stringResource(R.string.header_label), modifier = Modifier.padding(16.dp))
+        Text(
+            text = stringResource(R.string.header_label),
+            modifier = Modifier.padding(LayoutTokens.screenPadding)
+        )
 
         HorizontalDivider()
 
