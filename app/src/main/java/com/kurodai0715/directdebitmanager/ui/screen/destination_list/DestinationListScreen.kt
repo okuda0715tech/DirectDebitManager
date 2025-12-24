@@ -46,6 +46,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
 import com.kurodai0715.directdebitmanager.ui.theme.SCREEN_EDGE_PADDING_DEF
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -83,7 +84,7 @@ fun DestinationListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .consumeWindowInsets(paddingValues)
-                .padding(SCREEN_EDGE_PADDING_DEF),
+                .padding(LayoutTokens.screenPadding),
             tabType = uiState.tabType,
             items = uiState.items,
             onChangeTab = { viewModel.updateTabType(it) },
