@@ -261,7 +261,7 @@ fun DestinationItem(
                 Log.v(TAG, "list item is clicked.")
                 debouncedClick(onClickItem)
             })
-            .padding(8.dp)
+            .padding(LayoutTokens.elementSpacing)
     ) {
         Text(destWithSourceUiModel.sourceName)
         Text(stringResource(R.string.down_arrow))

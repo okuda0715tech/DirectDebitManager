@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.elementSpacing
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.itemSpacing
 
 object LayoutTokens {
@@ -12,6 +13,12 @@ object LayoutTokens {
      * 具体例 : アイコンとラベルの間、ラベルと入力欄の間など。
      */
     val elementSpacing: Dp
+        @Composable get() = Spacing.s
+
+    /**
+     * [elementSpacing] の半分の余白.
+     */
+    val elementSpacingHalf: Dp
         @Composable get() = Spacing.s
 
     /**
