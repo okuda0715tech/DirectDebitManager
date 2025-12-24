@@ -44,7 +44,7 @@ fun AppBaseFormField(
         Text(
             text = labelText,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(horizontal = LayoutTokens.elementSpacing)
+            modifier = Modifier.padding(horizontal = LayoutTokens.itemSpacing)
         )
 
         Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
@@ -54,7 +54,7 @@ fun AppBaseFormField(
             modifier = Modifier
                 .heightIn(min = TEXT_FIELD_MIN_HEIGHT)
                 .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
-                .padding(horizontal = LayoutTokens.elementSpacing)
+                .padding(horizontal = LayoutTokens.itemSpacing)
         ) {
             userInputComposable(Modifier.Companion.weight(1f))
 

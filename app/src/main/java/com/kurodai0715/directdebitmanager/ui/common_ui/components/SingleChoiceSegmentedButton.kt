@@ -7,8 +7,9 @@ package com.kurodai0715.directdebitmanager.ui.common_ui.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
@@ -33,12 +34,14 @@ fun SingleChoiceSegmentedButton(
         Text(
             text = label,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.Companion.padding(start = 16.dp, end = 16.dp)
+            modifier = Modifier.padding(horizontal = LayoutTokens.itemSpacing)
         )
 
-        Spacer(modifier = Modifier.Companion.size(LayoutTokens.elementSpacing))
+        Spacer(modifier = Modifier.height(LayoutTokens.elementSpacing))
 
-        SingleChoiceSegmentedButtonRow(modifier = modifier) {
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             buttonLabels.forEachIndexed { index, label ->
                 SegmentedButton(
                     shape = SegmentedButtonDefaults.itemShape(

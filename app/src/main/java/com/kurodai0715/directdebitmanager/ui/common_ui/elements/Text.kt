@@ -30,10 +30,10 @@ fun DefaultText(
     ) {
         Text(
             text = text,
-            modifier = Modifier.Companion.align(Alignment.Companion.CenterStart),
+            modifier = Modifier.align(Alignment.CenterStart),
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = MaterialTheme.typography.bodyLarge.fontSize,
-            textAlign = TextAlign.Companion.Start
+            textAlign = TextAlign.Start
         )
     }
 }

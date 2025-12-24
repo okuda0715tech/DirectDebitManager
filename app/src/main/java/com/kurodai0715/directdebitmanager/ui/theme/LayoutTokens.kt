@@ -14,13 +14,13 @@ object LayoutTokens {
      * 具体例 : アイコンとラベルの間、ラベルと入力欄の間など。
      */
     val elementSpacing: Dp
-        @Composable get() = Spacing.s
+        @Composable get() = Spacing.xs
 
     /**
      * [elementSpacing] の半分の余白.
      */
     val elementSpacingHalf: Dp
-        @Composable get() = Spacing.s
+        @Composable get() = elementSpacing / 2
 
     /**
      * コンポーネントとコンポーネントの間の余白.
