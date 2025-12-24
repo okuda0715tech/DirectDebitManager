@@ -82,7 +82,7 @@ fun AppBaseFormField(
             text = if (supportingText != null) stringResource(supportingText) else "",
             color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier.padding(horizontal = LayoutTokens.elementSpacing)
+            modifier = Modifier.padding(horizontal = LayoutTokens.itemSpacing)
         )
     }
 }
