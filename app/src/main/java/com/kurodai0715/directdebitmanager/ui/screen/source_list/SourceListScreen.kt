@@ -9,8 +9,10 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
@@ -108,11 +109,11 @@ private fun Contents(
         itemsIndexed(items) { index, item ->
             val itemModifier = when (index) {
                 // 最初のアイテムは Bottom にのみパディング
-                0 -> Modifier.padding(bottom = 8.dp)
+                0 -> Modifier.padding(bottom = LayoutTokens.itemSpacingHalf)
                 // 最後のアイテムは Top に通常のパディング、 Bottom に 2 倍のパディング
-                items.size - 1 -> Modifier.padding(top = 8.dp, bottom = 16.dp)
+                items.size - 1 -> Modifier.padding(top = LayoutTokens.itemSpacingHalf)
                 // それ以外のアイテムは Top と Bottom にパディング
-                else -> Modifier.padding(vertical = 8.dp)
+                else -> Modifier.padding(vertical = LayoutTokens.itemSpacingHalf)
             }
             TransSourceItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.id) })
         }
@@ -133,9 +134,12 @@ fun TransSourceItem(
                 Log.v(TAG, "list item is clicked.")
                 debouncedClick(onClickItem)
             })
-            .padding(8.dp)
+            .padding(LayoutTokens.elementSpacing)
     ) {
         Text(item.name)
+
+        Spacer(modifier = Modifier.height(LayoutTokens.elementSpacing))
+
         Text(
             text = stringResource(getSourceTypeStringRes(item.type)),
             style = MaterialTheme.typography.labelSmall,

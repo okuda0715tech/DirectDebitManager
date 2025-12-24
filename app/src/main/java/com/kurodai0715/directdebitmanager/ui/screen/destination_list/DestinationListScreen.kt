@@ -37,7 +37,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -160,15 +159,13 @@ private fun ColumnScope.ListView(
     LazyColumn(modifier = Modifier.weight(1f)) {
         val itemsHasSource = items.filter { it.sourceId != 0 }
         itemsIndexed(itemsHasSource) { index, item ->
-            val spaceEmpty = 0.dp
-            val spaceHalf = LayoutTokens.itemSpacingHalf
             val itemModifier = when (index) {
                 // 最初のアイテムは Top のパディングなし、 Bottom はあり
-                0 -> Modifier.padding(top = spaceEmpty, bottom = spaceHalf)
+                0 -> Modifier.padding(bottom = LayoutTokens.itemSpacingHalf)
                 // 最後のアイテムは Top のパディングあり、 Bottom はなし
-                items.size - 1 -> Modifier.padding(top = spaceHalf, bottom = spaceEmpty)
+                items.size - 1 -> Modifier.padding(top = LayoutTokens.itemSpacingHalf)
                 // それ以外のアイテムは Top と Bottom のパディングあり
-                else -> Modifier.padding(vertical = spaceHalf)
+                else -> Modifier.padding(vertical = LayoutTokens.itemSpacingHalf)
             }
             DestinationItem(item, itemModifier, onClickItem = { onNavigateToEdit(item.destId) })
         }
