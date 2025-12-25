@@ -28,7 +28,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
@@ -185,7 +185,7 @@ private fun Contents(
     onClickType: () -> Unit
 ) {
     Column {
-        KeyboardEditableFormField(
+        EditableFormField(
             labelText = stringResource(R.string.source_edit_text_label),
             text = source,
             onTextChanged = onSourceChanged,

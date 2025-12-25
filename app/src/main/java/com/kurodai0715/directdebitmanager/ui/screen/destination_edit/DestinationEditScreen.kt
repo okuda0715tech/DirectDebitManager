@@ -31,7 +31,7 @@ import com.kurodai0715.directdebitmanager.domain.model.DestInputType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.KeyboardEditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableFormField
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
@@ -253,7 +253,7 @@ private fun Contents(
         Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
 
         if (selectedButton == DestInputType.Keyboard) {
-            KeyboardEditableFormField(
+            EditableFormField(
                 labelText = stringResource(R.string.destination_text_label),
                 text = keyboardInputDestName,
                 onTextChanged = onDestChanged,
