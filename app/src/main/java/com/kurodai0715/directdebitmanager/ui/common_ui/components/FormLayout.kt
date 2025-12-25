@@ -34,7 +34,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun BaseFormField(
+fun FormLayout(
     labelText: String,
     supportingText: Int?,
     onClickIcon: () -> Unit = {},
@@ -98,7 +98,7 @@ fun BaseFormField(
 @Preview
 @Composable
 private fun PreviewNormal() {
-    BaseFormField(
+    FormLayout(
         labelText = "test",
         supportingText = null,
         icon = ColorPainter(Color.Gray),
@@ -110,7 +110,7 @@ private fun PreviewNormal() {
 @Preview
 @Composable
 private fun PreviewError() {
-    BaseFormField(
+    FormLayout(
         labelText = "test",
         // TODO コンポーザブル関数の引数でリソースそのものを渡すと不要な依存が発生するため、やめたい。
         supportingText = R.string.common_required_field,

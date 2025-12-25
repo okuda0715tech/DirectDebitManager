@@ -21,7 +21,7 @@ fun EditableForm(
     supportingText: Int?,
     onClickClear: () -> Unit = {},
 ) {
-    BaseFormField(
+    FormLayout(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickClear,

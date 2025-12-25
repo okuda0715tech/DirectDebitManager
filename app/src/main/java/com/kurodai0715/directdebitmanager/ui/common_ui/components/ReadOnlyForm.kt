@@ -23,7 +23,7 @@ fun ReadOnlyForm(
     iconDescription: String? = null,
     onClickIcon: (() -> Unit) = {},
 ) {
-    BaseFormField(
+    FormLayout(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickIcon,
