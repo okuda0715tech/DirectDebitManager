@@ -38,7 +38,6 @@ fun AppBaseFormField(
     labelText: String,
     supportingText: Int?,
     onClickIcon: () -> Unit = {},
-    iconVisible: Boolean,
     icon: Painter?,
     iconDescription: String?,
     userInputComposable: @Composable () -> Unit,
@@ -67,7 +66,7 @@ fun AppBaseFormField(
                 userInputComposable()
             }
 
-            if (iconVisible && icon != null) {
+            if (icon != null) {
                 Icon(
                     painter = icon,
                     contentDescription = iconDescription,
@@ -102,7 +101,6 @@ private fun PreviewNormal() {
     AppBaseFormField(
         labelText = "test",
         supportingText = null,
-        iconVisible = true,
         icon = ColorPainter(Color.Gray),
         iconDescription = null,
         userInputComposable = {
@@ -118,8 +116,7 @@ private fun PreviewError() {
         labelText = "test",
         // TODO コンポーザブル関数の引数でリソースそのものを渡すと不要な依存が発生するため、やめたい。
         supportingText = R.string.common_required_field,
-        iconVisible = true,
-        icon = null,
+        icon = ColorPainter(Color.Gray),
         iconDescription = null,
         userInputComposable = {
             Text(text = "test")

@@ -25,8 +25,7 @@ fun KeyboardEditableFormField(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickClear,
-        iconVisible = !text.isEmpty(),
-        icon = painterResource(id = R.drawable.cancel_24px),
+        icon = if(text.isEmpty()) null else painterResource(id = R.drawable.cancel_24px),
         iconDescription = stringResource(id = R.string.clear_text_icon_description),
         userInputComposable = {
             DefaultBasicTextField(

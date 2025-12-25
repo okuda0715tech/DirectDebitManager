@@ -7,6 +7,7 @@ package com.kurodai0715.directdebitmanager.ui.common_ui.components
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.R
@@ -18,7 +19,7 @@ fun DisplayTextFormField(
     text: String,
     onClickText: () -> Unit,
     supportingText: Int?,
-    icon: Painter? = null,
+    icon: Painter,
     iconDescription: String? = null,
     onClickIcon: (() -> Unit) = {},
 ) {
@@ -26,7 +27,6 @@ fun DisplayTextFormField(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickIcon,
-        iconVisible = true,
         icon = icon,
         iconDescription = iconDescription,
         userInputComposable = {
@@ -49,6 +49,7 @@ private fun PreviewDisplayTextFormFieldFilled() {
         onClickText = { },
         onClickIcon = { },
         supportingText = null,
+        icon = painterResource(R.drawable.outline_arrow_drop_down_circle_24),
     )
 }
 
@@ -61,5 +62,6 @@ private fun PreviewDisplayTextFormFieldEmpty() {
         onClickText = { },
         onClickIcon = { },
         supportingText = R.string.common_required_field,
+        icon = painterResource(R.drawable.outline_arrow_drop_down_circle_24),
     )
 }
