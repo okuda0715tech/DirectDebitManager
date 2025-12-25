@@ -23,7 +23,7 @@ fun DisplayTextFormField(
     iconDescription: String? = null,
     onClickIcon: (() -> Unit) = {},
 ) {
-    AppBaseFormField(
+    BaseFormField(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickIcon,

@@ -21,7 +21,7 @@ fun KeyboardEditableFormField(
     supportingText: Int?,
     onClickClear: () -> Unit = {},
 ) {
-    AppBaseFormField(
+    BaseFormField(
         labelText = labelText,
         supportingText = supportingText,
         onClickIcon = onClickClear,
