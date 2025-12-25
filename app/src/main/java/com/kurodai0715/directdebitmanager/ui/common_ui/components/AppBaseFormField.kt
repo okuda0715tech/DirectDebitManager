@@ -22,8 +22,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
@@ -90,4 +94,35 @@ fun AppBaseFormField(
             modifier = Modifier.padding(horizontal = LayoutTokens.itemSpacing)
         )
     }
+}
+
+@Preview
+@Composable
+private fun PreviewNormal() {
+    AppBaseFormField(
+        labelText = "test",
+        supportingText = null,
+        iconVisible = true,
+        icon = ColorPainter(Color.Gray),
+        iconDescription = null,
+        userInputComposable = {
+            Text(text = "test")
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun PreviewError() {
+    AppBaseFormField(
+        labelText = "test",
+        // TODO コンポーザブル関数の引数でリソースそのものを渡すと不要な依存が発生するため、やめたい。
+        supportingText = R.string.common_required_field,
+        iconVisible = true,
+        icon = null,
+        iconDescription = null,
+        userInputComposable = {
+            Text(text = "test")
+        }
+    )
 }
