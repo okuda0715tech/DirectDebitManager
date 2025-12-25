@@ -14,7 +14,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultBasicText
 
 
 @Composable
-fun EditableFormField(
+fun EditableForm(
     labelText: String,
     text: String,
     onTextChanged: (String) -> Unit,
@@ -39,7 +39,7 @@ fun EditableFormField(
 @Preview
 @Composable
 private fun PreviewFilled() {
-    EditableFormField(
+    EditableForm(
         labelText = stringResource(R.string.destination_text_label),
         text = "横浜銀行",
         onTextChanged = { },
@@ -50,7 +50,7 @@ private fun PreviewFilled() {
 @Preview
 @Composable
 private fun PreviewEmpty() {
-    EditableFormField(
+    EditableForm(
         labelText = stringResource(R.string.destination_text_label),
         text = "",
         onTextChanged = { },

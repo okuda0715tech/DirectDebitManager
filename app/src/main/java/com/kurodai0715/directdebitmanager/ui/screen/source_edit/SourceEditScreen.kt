@@ -25,10 +25,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
@@ -185,7 +185,7 @@ private fun Contents(
     onClickType: () -> Unit
 ) {
     Column {
-        EditableFormField(
+        EditableForm(
             labelText = stringResource(R.string.source_edit_text_label),
             text = source,
             onTextChanged = onSourceChanged,
@@ -195,7 +195,7 @@ private fun Contents(
 
         Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
 
-        DisplayTextFormField(
+        ReadOnlyForm(
             labelText = stringResource(R.string.source_type),
             text = stringResource(sourceTypeStringRes),
             onClickText = onClickType,

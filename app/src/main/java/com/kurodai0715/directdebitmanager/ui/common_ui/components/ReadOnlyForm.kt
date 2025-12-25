@@ -14,7 +14,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultText
 
 @Composable
-fun DisplayTextFormField(
+fun ReadOnlyForm(
     labelText: String,
     text: String,
     onClickText: () -> Unit,
@@ -42,8 +42,8 @@ fun DisplayTextFormField(
 
 @Preview
 @Composable
-private fun PreviewDisplayTextFormFieldFilled() {
-    DisplayTextFormField(
+private fun PreviewFilled() {
+    ReadOnlyForm(
         labelText = stringResource(R.string.source_text_label),
         text = "横浜銀行",
         onClickText = { },
@@ -55,8 +55,8 @@ private fun PreviewDisplayTextFormFieldFilled() {
 
 @Preview
 @Composable
-private fun PreviewDisplayTextFormFieldEmpty() {
-    DisplayTextFormField(
+private fun PreviewEmpty() {
+    ReadOnlyForm(
         labelText = stringResource(R.string.source_text_label),
         text = "",
         onClickText = { },

@@ -28,10 +28,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.DisplayTextFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableFormField
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
@@ -230,7 +230,7 @@ private fun Contents(
     onClickDestSelectField: () -> Unit
 ) {
     Column {
-        DisplayTextFormField(
+        ReadOnlyForm(
             labelText = stringResource(R.string.source_text_label),
             text = sourceName,
             onClickText = onClickSource,
@@ -253,7 +253,7 @@ private fun Contents(
         Spacer(modifier = Modifier.height(LayoutTokens.itemSpacing))
 
         if (selectedButton == DestInputType.Keyboard) {
-            EditableFormField(
+            EditableForm(
                 labelText = stringResource(R.string.destination_text_label),
                 text = keyboardInputDestName,
                 onTextChanged = onDestChanged,
@@ -261,7 +261,7 @@ private fun Contents(
                 onClickClear = { onDestChanged("") }
             )
         } else if (selectedButton == DestInputType.SourceList) {
-            DisplayTextFormField(
+            ReadOnlyForm(
                 labelText = stringResource(R.string.destination_text_label),
                 text = dialogSelectionDestName,
                 onClickText = onClickDestSelectField,
