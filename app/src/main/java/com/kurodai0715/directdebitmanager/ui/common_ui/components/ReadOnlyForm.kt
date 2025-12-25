@@ -29,7 +29,7 @@ fun ReadOnlyForm(
         onClickIcon = onClickIcon,
         icon = icon,
         iconDescription = iconDescription,
-        userInputComposable = {
+        contents = {
             // TODO あまり見ない関数呼び出しの形になっていて、なんか気持ち悪い。書き直したい。
             //  もしかしたら、このコンポーザブルのプレビューはもうひとつ中で行うべき？
             DefaultText(

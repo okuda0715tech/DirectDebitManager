@@ -40,7 +40,7 @@ fun FormLayout(
     onClickIcon: () -> Unit = {},
     icon: Painter?,
     iconDescription: String?,
-    userInputComposable: @Composable () -> Unit,
+    contents: @Composable () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -63,7 +63,7 @@ fun FormLayout(
             Box(
                 modifier = Modifier.weight(1f)
             ) {
-                userInputComposable()
+                contents()
             }
 
             if (icon != null) {
@@ -103,7 +103,7 @@ private fun PreviewNormal() {
         supportingText = null,
         icon = ColorPainter(Color.Gray),
         iconDescription = null,
-        userInputComposable = {}
+        contents = {}
     )
 }
 
@@ -116,6 +116,6 @@ private fun PreviewError() {
         supportingText = R.string.common_required_field,
         icon = ColorPainter(Color.Gray),
         iconDescription = null,
-        userInputComposable = {}
+        contents = {}
     )
 }

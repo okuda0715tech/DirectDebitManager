@@ -27,7 +27,7 @@ fun EditableForm(
         onClickIcon = onClickClear,
         icon = if(text.isEmpty()) null else painterResource(id = R.drawable.cancel_24px),
         iconDescription = stringResource(id = R.string.clear_text_icon_description),
-        userInputComposable = {
+        contents = {
             DefaultBasicTextField(
                 text = text,
                 onTextChanged = onTextChanged,
