@@ -19,7 +19,6 @@ import com.kurodai0715.directdebitmanager.ui.theme.TEXT_FIELD_MIN_HEIGHT
 
 @Composable
 fun DefaultBasicTextField(
-    modifier: Modifier,
     text: String,
     onTextChanged: (String) -> Unit,
 ) {
@@ -30,11 +29,12 @@ fun DefaultBasicTextField(
             color = MaterialTheme.colorScheme.onSurface,
             fontSize = MaterialTheme.typography.bodyLarge.fontSize
         ),
-        modifier = modifier.heightIn(min = TEXT_FIELD_MIN_HEIGHT),
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = TEXT_FIELD_MIN_HEIGHT),
         decorationBox = { innerTextField ->
             // 中央に配置するために Box でラップ
             Box(
-                modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.CenterStart // 左寄せ & 垂直中央
             ) {
                 innerTextField()
@@ -47,7 +47,6 @@ fun DefaultBasicTextField(
 @Composable
 private fun Preview() {
     DefaultBasicTextField(
-        modifier = Modifier,
         text = "test",
         onTextChanged = { },
     )

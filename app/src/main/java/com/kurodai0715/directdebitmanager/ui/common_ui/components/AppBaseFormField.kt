@@ -7,6 +7,7 @@ package com.kurodai0715.directdebitmanager.ui.common_ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +37,7 @@ fun AppBaseFormField(
     iconVisible: Boolean,
     icon: Painter?,
     iconDescription: String?,
-    userInputComposable: @Composable (Modifier) -> Unit,
+    userInputComposable: @Composable () -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -56,7 +57,11 @@ fun AppBaseFormField(
                 .background(color = MaterialTheme.colorScheme.surfaceContainerHighest)
                 .padding(horizontal = LayoutTokens.itemSpacing)
         ) {
-            userInputComposable(Modifier.weight(1f))
+            Box(
+                modifier = Modifier.weight(1f)
+            ) {
+                userInputComposable()
+            }
 
             if (iconVisible && icon != null) {
                 Icon(

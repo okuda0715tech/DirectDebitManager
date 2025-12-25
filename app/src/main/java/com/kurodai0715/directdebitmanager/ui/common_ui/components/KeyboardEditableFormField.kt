@@ -28,9 +28,8 @@ fun KeyboardEditableFormField(
         iconVisible = !text.isEmpty(),
         icon = painterResource(id = R.drawable.cancel_24px),
         iconDescription = stringResource(id = R.string.clear_text_icon_description),
-        userInputComposable = { modifier ->
+        userInputComposable = {
             DefaultBasicTextField(
-                modifier = modifier,
                 text = text,
                 onTextChanged = onTextChanged,
             )
