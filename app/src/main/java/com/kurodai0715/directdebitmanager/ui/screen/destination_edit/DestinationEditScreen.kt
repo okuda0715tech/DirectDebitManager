@@ -28,10 +28,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
@@ -98,7 +98,7 @@ fun DestinationEditScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(LayoutTokens.screenPaddingHalf),
-            keyboardInputDestName = formUiState.destInput.name,
+            keyboardDestName = formUiState.destInput.name,
             dialogSelectionDestName = formUiState.destInput.name,
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = formUiState.sourceName,
@@ -181,7 +181,7 @@ fun DestinationEditScreen(
 @Composable
 fun DestinationEditContents(
     modifier: Modifier = Modifier,
-    keyboardInputDestName: String,
+    keyboardDestName: String,
     dialogSelectionDestName: String,
     onDestChanged: (String) -> Unit,
     sourceName: String,
@@ -205,7 +205,7 @@ fun DestinationEditContents(
                 sourceErrorMessage,
                 selectedButton,
                 onSelectDestInputType,
-                keyboardInputDestName,
+                keyboardDestName,
                 onDestChanged,
                 destErrorMessage,
                 dialogSelectionDestName,
@@ -317,7 +317,7 @@ private fun PreviewUpdateContents() {
         modifier = Modifier
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
-        keyboardInputDestName = "横浜銀行クレジットカード",
+        keyboardDestName = "横浜銀行クレジットカード",
         dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "横浜銀行",
@@ -341,7 +341,7 @@ private fun PreviewRegisterContents() {
         modifier = Modifier
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
-        keyboardInputDestName = "横浜銀行クレジットカード",
+        keyboardDestName = "横浜銀行クレジットカード",
         dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "横浜銀行",
@@ -365,7 +365,7 @@ private fun PreviewEmptyTextContents() {
         modifier = Modifier
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
-        keyboardInputDestName = "",
+        keyboardDestName = "",
         dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "",
@@ -389,7 +389,7 @@ private fun PreviewValidationErrorContents() {
         modifier = Modifier
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
-        keyboardInputDestName = "",
+        keyboardDestName = "",
         dialogSelectionDestName = "",
         onDestChanged = {},
         sourceName = "",
