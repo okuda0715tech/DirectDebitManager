@@ -214,22 +214,19 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val item = directDebitDefRepo.loadTransferInfo(destId)
 
+            val destInput = if (item.inputType == DestInputType.SourceList) {
+                item.toDestInputSourceList()
+            } else {
+                item.toDestInputKeyboard()
+            }
+
             _formUiState.update {
-                if (item.inputType == DestInputType.SourceList) {
-                    it.copy(
-                        destInput = item.toDestInputSourceList(),
-                        inputType = item.inputType,
-                        sourceId = item.sourceId,
-                        sourceName = item.sourceName,
-                    )
-                } else {
-                    it.copy(
-                        destInput = item.toDestInputKeyboard(),
-                        inputType = item.inputType,
-                        sourceId = item.sourceId,
-                        sourceName = item.sourceName,
-                    )
-                }
+                it.copy(
+                    destInput = destInput,
+                    inputType = item.inputType,
+                    sourceId = item.sourceId,
+                    sourceName = item.sourceName,
+                )
             }
         }
     }
