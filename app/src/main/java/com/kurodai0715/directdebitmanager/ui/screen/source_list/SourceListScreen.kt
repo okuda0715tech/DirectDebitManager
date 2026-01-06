@@ -32,7 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
@@ -156,11 +156,11 @@ private fun Preview() {
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
         items = listOf(
-            SourceUiModel(1, "横浜銀行クレジットカード", TransferItemType.CreditCard),
-            SourceUiModel(2, "横浜銀行", TransferItemType.Bank),
-            SourceUiModel(3, "三菱UFJ銀行", TransferItemType.Bank),
-            SourceUiModel(4, "横浜銀行デビットカード", TransferItemType.DebitCard),
-            SourceUiModel(5, "PayPay", TransferItemType.Others),
+            SourceUiModel(1, "横浜銀行クレジットカード", ItemType.CreditCard),
+            SourceUiModel(2, "横浜銀行", ItemType.Bank),
+            SourceUiModel(3, "三菱UFJ銀行", ItemType.Bank),
+            SourceUiModel(4, "横浜銀行デビットカード", ItemType.DebitCard),
+            SourceUiModel(5, "PayPay", ItemType.Others),
         ),
         onNavigateUp = { },
         onNavigateToEdit = { },

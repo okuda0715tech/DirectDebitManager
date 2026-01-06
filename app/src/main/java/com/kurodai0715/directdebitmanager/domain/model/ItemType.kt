@@ -5,14 +5,15 @@
 
 package com.kurodai0715.directdebitmanager.domain.model
 
-enum class TransferItemType(val value: Int) {
+// TODO このクラスがいろいろなところから参照されすぎなので、分けた方がよさそう。
+enum class ItemType(val value: Int) {
     Bank(0),
     CreditCard(1),
     DebitCard(2),
     Others(3);
 
     companion object {
-        fun fromInt(value: Int): TransferItemType =
+        fun fromInt(value: Int): ItemType =
             entries.firstOrNull { it.value == value }
                 ?: throw IllegalArgumentException("Unexpected value: $value")
     }

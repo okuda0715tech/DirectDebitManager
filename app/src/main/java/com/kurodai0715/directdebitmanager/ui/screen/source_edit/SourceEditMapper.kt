@@ -6,15 +6,15 @@
 package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.ItemType
 
 
-fun getSourceTypeStringRes(type: TransferItemType): Int =
+fun getSourceTypeStringRes(type: ItemType): Int =
     when (type) {
-        TransferItemType.Bank -> R.string.bank
-        TransferItemType.CreditCard -> R.string.credit_card
-        TransferItemType.DebitCard -> R.string.debit_card
-        TransferItemType.Others -> R.string.others
+        ItemType.Bank -> R.string.bank
+        ItemType.CreditCard -> R.string.credit_card
+        ItemType.DebitCard -> R.string.debit_card
+        ItemType.Others -> R.string.others
     }
 
 

@@ -11,7 +11,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.data.source.local.toTransferInfo
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.model.TransferInfo
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -33,7 +33,7 @@ class DirectDebitDefaultRepository @Inject constructor(
         id: Int?,
         label: String,
         isSourceItem: Boolean,
-        type: TransferItemType?,
+        type: ItemType?,
         parentId: Int,
     ): Boolean {
         requireNotNull(id) { "id is null" }

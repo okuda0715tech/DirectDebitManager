@@ -11,7 +11,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -31,7 +31,7 @@ data class SourceEditUiState(
     val showSourceTypeListDialog: Boolean = false,
     val shouldNavigateUp: Boolean = false,
     val sourceErrorMessage: Int? = null,
-    val sourceType: TransferItemType = TransferItemType.Bank,
+    val sourceType: ItemType = ItemType.Bank,
 )
 
 @HiltViewModel
@@ -64,7 +64,7 @@ class SourceEditViewModel @Inject constructor(
                     it.copy(
                         sourceId = item.id,
                         sourceName = item.label,
-                        sourceType = TransferItemType.fromInt(item.type!!),
+                        sourceType = ItemType.fromInt(item.type!!),
                         parentId = item.parentId,
                     )
                 }
@@ -102,7 +102,7 @@ class SourceEditViewModel @Inject constructor(
         }
     }
 
-    fun updateSourceType(type: TransferItemType) {
+    fun updateSourceType(type: ItemType) {
         _uiState.update {
             it.copy(sourceType = type)
         }

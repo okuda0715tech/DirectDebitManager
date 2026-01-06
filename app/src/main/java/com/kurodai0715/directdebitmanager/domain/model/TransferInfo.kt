@@ -8,10 +8,10 @@ data class TransferInfo(
 
     val inputType: DestInputType,
 
-    val destAccountType: TransferItemType?,
+    val destAccountType: ItemType?,
 
     val sourceId: Int = 0,
 
     val sourceName: String = "",
 
-)
+    )

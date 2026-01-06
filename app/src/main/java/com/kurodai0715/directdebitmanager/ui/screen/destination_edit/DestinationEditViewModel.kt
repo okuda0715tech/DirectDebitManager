@@ -14,7 +14,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -108,7 +108,7 @@ sealed interface DestInput {
     data class Source(
         override val destId: Int?,
         override val name: String,
-        val type: TransferItemType?
+        val type: ItemType?
     ) : DestInput
 }
 
@@ -268,7 +268,7 @@ class DestinationEditViewModel @Inject constructor(
                 destInput = DestInput.Source(
                     destId = destId,
                     name = destination.label,
-                    type = TransferItemType.fromInt(destination.type)
+                    type = ItemType.fromInt(destination.type)
                 )
             )
         }

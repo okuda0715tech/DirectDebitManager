@@ -7,7 +7,7 @@ package com.kurodai0715.directdebitmanager.data.source.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
+import com.kurodai0715.directdebitmanager.domain.model.ItemType
 
 @Entity(tableName = "transfer_item")
 data class TransferItemEntity(
@@ -37,7 +37,7 @@ data class TransferItemEntity(
     /**
      * この [TransferItemEntity] の区分.
      *
-     * 具体的な区分の種類は、 [TransferItemType] を参照。
+     * 具体的な区分の種類は、 [ItemType] を参照。
      */
     val type: Int?,
 
