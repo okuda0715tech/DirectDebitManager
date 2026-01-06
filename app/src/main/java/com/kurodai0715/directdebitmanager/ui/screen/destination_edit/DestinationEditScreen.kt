@@ -99,7 +99,7 @@ fun DestinationEditScreen(
                 .padding(paddingValues)
                 .padding(LayoutTokens.screenPaddingHalf),
             keyboardDestName = formUiState.destInput.name,
-            dialogSelectionDestName = formUiState.destInput.name,
+            dialogDestName = formUiState.destInput.name,
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = formUiState.sourceName,
             itemId = viewModel.destId,
@@ -182,7 +182,7 @@ fun DestinationEditScreen(
 fun DestinationEditContents(
     modifier: Modifier = Modifier,
     keyboardDestName: String,
-    dialogSelectionDestName: String,
+    dialogDestName: String,
     onDestChanged: (String) -> Unit,
     sourceName: String,
     itemId: Int?,
@@ -208,7 +208,7 @@ fun DestinationEditContents(
                 keyboardDestName,
                 onDestChanged,
                 destErrorMessage,
-                dialogSelectionDestName,
+                dialogDestName,
                 onClickDestSelectField
             )
         },
@@ -318,7 +318,7 @@ private fun PreviewUpdateContents() {
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
         keyboardDestName = "横浜銀行クレジットカード",
-        dialogSelectionDestName = "",
+        dialogDestName = "",
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 1,
@@ -342,7 +342,7 @@ private fun PreviewRegisterContents() {
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
         keyboardDestName = "横浜銀行クレジットカード",
-        dialogSelectionDestName = "",
+        dialogDestName = "",
         onDestChanged = {},
         sourceName = "横浜銀行",
         itemId = 0,
@@ -366,7 +366,7 @@ private fun PreviewEmptyTextContents() {
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
         keyboardDestName = "",
-        dialogSelectionDestName = "",
+        dialogDestName = "",
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
@@ -390,7 +390,7 @@ private fun PreviewValidationErrorContents() {
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
         keyboardDestName = "",
-        dialogSelectionDestName = "",
+        dialogDestName = "",
         onDestChanged = {},
         sourceName = "",
         itemId = 0,
