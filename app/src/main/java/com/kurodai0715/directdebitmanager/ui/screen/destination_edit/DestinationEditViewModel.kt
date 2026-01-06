@@ -105,7 +105,7 @@ sealed interface DestInput {
         override val name: String
     ) : DestInput
 
-    data class SourceList(
+    data class Source(
         override val destId: Int?,
         override val name: String,
         val type: TransferItemType?
@@ -265,7 +265,7 @@ class DestinationEditViewModel @Inject constructor(
 
         _formUiState.update {
             it.copy(
-                destInput = DestInput.SourceList(
+                destInput = DestInput.Source(
                     destId = destId,
                     name = destination.label,
                     type = TransferItemType.fromInt(destination.type)
@@ -392,8 +392,8 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem = _formUiState.value.destInput is DestInput.SourceList
-            val type = (_formUiState.value.destInput as? DestInput.SourceList)?.type
+            val isSourceItem = _formUiState.value.destInput is DestInput.Source
+            val type = (_formUiState.value.destInput as? DestInput.Source)?.type
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,

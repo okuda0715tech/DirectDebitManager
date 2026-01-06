@@ -21,8 +21,8 @@ fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
     )
 }
 
-fun TransferInfo.toDestInputSourceList(): DestInput.SourceList {
-    return DestInput.SourceList(destId = destId, name = destName, type = destAccountType)
+fun TransferInfo.toDestInputSourceList(): DestInput.Source {
+    return DestInput.Source(destId = destId, name = destName, type = destAccountType)
 }
 
 fun TransferInfo.toDestInputKeyboard(): DestInput.Keyboard {
