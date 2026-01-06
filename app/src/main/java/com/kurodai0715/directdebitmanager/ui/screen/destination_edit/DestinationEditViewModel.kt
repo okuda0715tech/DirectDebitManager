@@ -84,13 +84,13 @@ sealed interface DestinationEditDialog {
     data object DeleteConfirm : DestinationEditDialog
     data object DeleteCompletion : DestinationEditDialog
 
-    data class SourceSelection(val type: SourceSelectionDialogType) : DestinationEditDialog
+    data class SourceSelection(val type: TargetType) : DestinationEditDialog
     data object NoSourceData : DestinationEditDialog
 }
 
-sealed interface SourceSelectionDialogType {
-    data object Source : SourceSelectionDialogType
-    data object Destination : SourceSelectionDialogType
+sealed interface TargetType {
+    data object Source : TargetType
+    data object Destination : TargetType
 }
 
 data class SourceLookupState(
@@ -302,7 +302,7 @@ class DestinationEditViewModel @Inject constructor(
         if (uiState.value.sourceSelectionDialogItems.isEmpty()) {
             updateDialogState(DestinationEditDialog.NoSourceData)
         } else {
-            updateDialogState(DestinationEditDialog.SourceSelection(SourceSelectionDialogType.Source))
+            updateDialogState(DestinationEditDialog.SourceSelection(TargetType.Source))
         }
     }
 
@@ -310,14 +310,14 @@ class DestinationEditViewModel @Inject constructor(
         if (uiState.value.sourceSelectionDialogItems.isEmpty()) {
             updateDialogState(DestinationEditDialog.NoSourceData)
         } else {
-            updateDialogState(DestinationEditDialog.SourceSelection(SourceSelectionDialogType.Destination))
+            updateDialogState(DestinationEditDialog.SourceSelection(TargetType.Destination))
         }
     }
 
-    fun onClickSourceItem(type: SourceSelectionDialogType, itemId: Int) {
+    fun onClickSourceItem(type: TargetType, itemId: Int) {
         when (type) {
-            SourceSelectionDialogType.Source -> updateSource(itemId)
-            SourceSelectionDialogType.Destination -> updateDestFromDialog(itemId)
+            TargetType.Source -> updateSource(itemId)
+            TargetType.Destination -> updateDestFromDialog(itemId)
         }
     }
 
