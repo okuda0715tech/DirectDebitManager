@@ -103,7 +103,7 @@ fun DestinationEditScreen(
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = formUiState.sourceName,
             itemId = viewModel.destId,
-            selectedButton = formUiState.selectedButton,
+            selectedButton = formUiState.inputType,
             onSelectDestInputType = { viewModel.updateDestInputType(it) },
             destErrorMessage = uiLocalState.destErrorMessage,
             sourceErrorMessage = uiLocalState.sourceErrorMessage,

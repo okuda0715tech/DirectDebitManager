@@ -66,7 +66,7 @@ data class UiLocalState(
 data class FormUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
-    val selectedButton: DestInputType = DestInputType.Keyboard,
+    val inputType: DestInputType = DestInputType.Keyboard,
     val destInput: DestInput = DestInput.Keyboard(destId = 0, name = ""),
 )
 
@@ -218,14 +218,14 @@ class DestinationEditViewModel @Inject constructor(
                 if (item.inputType == DestInputType.SourceList) {
                     it.copy(
                         destInput = item.toDestInputSourceList(),
-                        selectedButton = item.inputType,
+                        inputType = item.inputType,
                         sourceId = item.sourceId,
                         sourceName = item.sourceName,
                     )
                 } else {
                     it.copy(
                         destInput = item.toDestInputKeyboard(),
-                        selectedButton = item.inputType,
+                        inputType = item.inputType,
                         sourceId = item.sourceId,
                         sourceName = item.sourceName,
                     )
@@ -395,7 +395,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem = _formUiState.value.selectedButton == DestInputType.SourceList
+            val isSourceItem = _formUiState.value.inputType == DestInputType.SourceList
             val type = (_formUiState.value.destInput as? DestInput.SourceList)?.type
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
@@ -475,7 +475,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDestInputType(type: DestInputType) {
         _formUiState.update {
-            it.copy(selectedButton = type)
+            it.copy(inputType = type)
         }
     }
 
