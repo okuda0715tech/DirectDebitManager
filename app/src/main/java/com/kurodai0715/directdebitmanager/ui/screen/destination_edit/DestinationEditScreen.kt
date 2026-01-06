@@ -205,10 +205,10 @@ fun DestinationEditContents(
                 sourceErrorMessage = sourceErrorMessage,
                 selectedButton = selectedButton,
                 onSelectDestInputType = onSelectDestInputType,
-                keyboardInputDestName = keyboardDestName,
+                keyboardDestName = keyboardDestName,
                 onDestChanged = onDestChanged,
                 destErrorMessage = destErrorMessage,
-                dialogSelectionDestName = dialogDestName,
+                dialogDestName = dialogDestName,
                 onClickDestSelectField = onClickDestSelectField
             )
         },
@@ -223,10 +223,10 @@ private fun Contents(
     sourceErrorMessage: Int?,
     selectedButton: DestInputType,
     onSelectDestInputType: (DestInputType) -> Unit,
-    keyboardInputDestName: String,
+    keyboardDestName: String,
     onDestChanged: (String) -> Unit,
     destErrorMessage: Int?,
-    dialogSelectionDestName: String,
+    dialogDestName: String,
     onClickDestSelectField: () -> Unit
 ) {
     Column {
@@ -255,7 +255,7 @@ private fun Contents(
         if (selectedButton == DestInputType.Keyboard) {
             EditableForm(
                 labelText = stringResource(R.string.destination_text_label),
-                text = keyboardInputDestName,
+                text = keyboardDestName,
                 onTextChanged = onDestChanged,
                 supportingText = destErrorMessage,
                 onClickClear = { onDestChanged("") }
@@ -263,7 +263,7 @@ private fun Contents(
         } else if (selectedButton == DestInputType.SourceList) {
             ReadOnlyForm(
                 labelText = stringResource(R.string.destination_text_label),
-                text = dialogSelectionDestName,
+                text = dialogDestName,
                 onClickText = onClickDestSelectField,
                 supportingText = destErrorMessage,
                 icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
