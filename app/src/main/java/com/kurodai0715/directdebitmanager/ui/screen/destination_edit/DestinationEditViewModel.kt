@@ -15,7 +15,6 @@ import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
 import com.kurodai0715.directdebitmanager.domain.model.TransferItemType
-import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceListDialogType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -58,7 +57,7 @@ data class UiLocalState(
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val isLoading: Boolean = false,
-    val destinationEditDialog: DestinationEditDialog? = null,
+    val dialog: DestinationEditDialog? = null,
 )
 
 /**
@@ -293,7 +292,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDialogState(dialogState: DestinationEditDialog?) {
         _uiLocalState.update {
-            it.copy(destinationEditDialog = dialogState)
+            it.copy(dialog = dialogState)
         }
     }
 
@@ -440,12 +439,12 @@ class DestinationEditViewModel @Inject constructor(
             when (relatedDestCount) {
                 0 ->
                     _uiLocalState.update {
-                        it.copy(destinationEditDialog = DestinationEditDialog.DeleteConfirm)
+                        it.copy(dialog = DestinationEditDialog.DeleteConfirm)
                     }
 
                 in 1..Int.MAX_VALUE ->
                     _uiLocalState.update {
-                        it.copy(destinationEditDialog = DestinationEditDialog.DeleteNotAllowed)
+                        it.copy(dialog = DestinationEditDialog.DeleteNotAllowed)
                     }
 
                 -1 -> {
@@ -464,7 +463,7 @@ class DestinationEditViewModel @Inject constructor(
                 // 削除に成功した場合
 
                 _uiLocalState.update {
-                    it.copy(destinationEditDialog = DestinationEditDialog.DeleteCompletion)
+                    it.copy(dialog = DestinationEditDialog.DeleteCompletion)
                 }
             } else {
                 // 削除に失敗した場合

@@ -114,7 +114,7 @@ fun DestinationEditScreen(
             onClickDestSelectField = { viewModel.onClickDestSelectField() }
         )
 
-        when (val dialog = uiLocalState.destinationEditDialog) {
+        when (val dialog = uiLocalState.dialog) {
             DestinationEditDialog.DeleteNotAllowed -> {
                 DeleteNotAllowedDialog(
                     messageResId = R.string.del_not_allowed_text_in_transfer_edit,
