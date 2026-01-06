@@ -200,16 +200,16 @@ fun DestinationEditContents(
         modifier = modifier,
         contents = {
             Contents(
-                sourceName,
-                onClickSource,
-                sourceErrorMessage,
-                selectedButton,
-                onSelectDestInputType,
-                keyboardDestName,
-                onDestChanged,
-                destErrorMessage,
-                dialogDestName,
-                onClickDestSelectField
+                sourceName = sourceName,
+                onClickSource = onClickSource,
+                sourceErrorMessage = sourceErrorMessage,
+                selectedButton = selectedButton,
+                onSelectDestInputType = onSelectDestInputType,
+                keyboardInputDestName = keyboardDestName,
+                onDestChanged = onDestChanged,
+                destErrorMessage = destErrorMessage,
+                dialogSelectionDestName = dialogDestName,
+                onClickDestSelectField = onClickDestSelectField
             )
         },
         bottomButton = { BottomButton(itemId, onClickDelete, onClickNavigateUp, onClickSave) }
