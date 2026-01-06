@@ -58,7 +58,6 @@ data class UiLocalState(
     val destErrorMessage: Int? = null,
     val sourceErrorMessage: Int? = null,
     val isLoading: Boolean = false,
-    val sourceListDialogType: SourceListDialogType? = null, // TODO 他のダイアログ表示用のプロパティと仕様を統一したいところ。
     val destinationEditDialog: DestinationEditDialog? = null,
 )
 
