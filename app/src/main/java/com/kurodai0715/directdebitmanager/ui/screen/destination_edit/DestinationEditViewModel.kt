@@ -392,7 +392,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem = _formUiState.value.inputType == DestInputType.SourceList
+            val isSourceItem = _formUiState.value.destInput is DestInput.SourceList
             val type = (_formUiState.value.destInput as? DestInput.SourceList)?.type
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
