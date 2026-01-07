@@ -157,7 +157,7 @@ class DestinationEditViewModel @Inject constructor(
             .stateIn(
                 scope = viewModelScope,
                 started = WhileUiSubscribed,
-                Async.Loading
+                initialValue = Async.Loading
             )
 
     /**
