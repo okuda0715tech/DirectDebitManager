@@ -134,12 +134,12 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _formUiState = MutableStateFlow(FormUiState())
 
-    private var sourceIndexed = emptyMap<Int, TransferItemEntity>()
+    private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
 
     private fun observeSourcesSideEffect(): Flow<List<TransferItemEntity>> =
         directDebitDefRepo.loadSourcesStream()
             .onEach { sources ->
-                sourceIndexed = sources.associateBy(TransferItemEntity::id)
+                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
             }
 
     // Repository から複数の Flow を取得する場合は map() を combine() にすれば OK
@@ -277,7 +277,7 @@ class DestinationEditViewModel @Inject constructor(
             "persistedAsync must have been retrieved"
         }
 
-        return sourceIndexed[destId]
+        return sourceIndexedCache[destId]
     }
 
     fun updateDestFromDialog(destId: Int) {
