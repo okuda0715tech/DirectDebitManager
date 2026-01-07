@@ -21,11 +21,13 @@ import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -47,7 +49,6 @@ data class DestinationEditUiState(
     val persistedDataState: PersistedDataState = PersistedDataState(
         sourceLookup = SourceLookupState(
             sourceUiModels = emptyList(),
-            sourceIndex = emptyMap()
         )
     ),
 )
@@ -97,7 +98,6 @@ sealed interface TargetType {
 
 data class SourceLookupState(
     val sourceUiModels: List<SourceSelectionUiModel>,
-    val sourceIndex: Map<Int, TransferItemEntity>
 )
 
 sealed interface DestInput {
@@ -140,14 +140,43 @@ class DestinationEditViewModel @Inject constructor(
      */
     private val _formUiState = MutableStateFlow(FormUiState())
 
-    private val persistedAsync: StateFlow<Async<PersistedDataState>> =
-        // Repository から複数の Flow を取得する場合はここを combine にすれば OK
+    private var sourceIndexed = emptyMap<Int, TransferItemEntity>()
+
+    private fun observeSourcesSideEffect(): Flow<List<TransferItemEntity>> =
         directDebitDefRepo.loadSourcesStream()
+            .onEach { sources ->
+                sourceIndexed = sources.associateBy(TransferItemEntity::id)
+            }
+
+    // Repository から複数の Flow を取得する場合は map() を combine() にすれば OK
+    //
+    // 【例】
+    //
+    //  private val accountsFlow: Flow<List<Account>> =
+    //      directDebitDefRepo.loadAccountsStream()
+    //
+    //  private val persistedAsync: StateFlow<Async<PersistedDataState>> =
+    //      combine(
+    //          observeSourcesSideEffect(),
+    //          accountsFlow
+    //      ) { sources, accounts ->
+    //          PersistedDataState(
+    //              sourceLookup = SourceLookupState(
+    //                  sourceUiModels = sources.toSourceSelectionUiModel(),
+    //                  sourceIndex = sources.associateBy { it.id }
+    //              ),
+    //              accountLookup = AccountLookupState(
+    //                  accountUiModels = accounts.toUiModels(),
+    //                  accountIndex = accounts.associateBy { it.id }
+    //              )
+    //          )
+    //      }
+    private val persistedAsync: StateFlow<Async<PersistedDataState>> =
+        observeSourcesSideEffect()
             .map { sources ->
                 PersistedDataState(
                     sourceLookup = SourceLookupState(
                         sourceUiModels = sources.toSourceSelectionUiModel(),
-                        sourceIndex = sources.associateBy { it.id }
                     )
                 )
             }
@@ -256,9 +285,7 @@ class DestinationEditViewModel @Inject constructor(
             "persistedAsync must have been retrieved"
         }
 
-        val sourceIndex = asyncSuccess.data.sourceLookup.sourceIndex
-
-        return sourceIndex[destId]
+        return sourceIndexed[destId]
     }
 
     fun updateDestFromDialog(destId: Int) {
