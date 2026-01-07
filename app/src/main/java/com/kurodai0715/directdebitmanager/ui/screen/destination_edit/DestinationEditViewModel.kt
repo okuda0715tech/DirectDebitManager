@@ -40,12 +40,16 @@ const val TAG = "DestinationEditViewModel.kt"
  * 各上流 Flow のデータを加工した結果を状態として保持したい場合はここに定義する。
  */
 data class DestinationEditUiState(
-    val sourceSelectionDialogItems: List<SourceSelectionUiModel> = emptyList(),
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val uiLocalState: UiLocalState = UiLocalState(),
     val formUiState: FormUiState = FormUiState(),
-    val persistedAsyncState: Async<PersistedDataState> = Async.Loading,
+    val persistedDataState: PersistedDataState = PersistedDataState(
+        sourceLookup = SourceLookupState(
+            sourceUiModels = emptyList(),
+            sourceIndex = emptyMap()
+        )
+    ),
 )
 
 /**
@@ -181,9 +185,9 @@ class DestinationEditViewModel @Inject constructor(
 
                 is Async.Success -> {
                     DestinationEditUiState(
-                        sourceSelectionDialogItems = persistedAsync.data.sourceLookup.sourceUiModels,
                         uiLocalState = uiLocalState.copy(isLoading = false),
                         formUiState = formUiState,
+                        persistedDataState = persistedAsync.data
                     )
                 }
             }
@@ -293,8 +297,18 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    private fun getSourceUiModels(): List<SourceSelectionUiModel> {
+        return when (val async = persistedAsync.value) {
+            is Async.Success<PersistedDataState> ->
+                async.data.sourceLookup.sourceUiModels
+
+            else -> emptyList()
+        }
+
+    }
+
     fun onClickSource() {
-        if (uiState.value.sourceSelectionDialogItems.isEmpty()) {
+        if (getSourceUiModels().isEmpty()) {
             updateDialogState(DestinationEditDialog.NoSourceData)
         } else {
             updateDialogState(DestinationEditDialog.SourceSelection(TargetType.Source))
@@ -302,7 +316,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun onClickDestSelectField() {
-        if (uiState.value.sourceSelectionDialogItems.isEmpty()) {
+        if (getSourceUiModels().isEmpty()) {
             updateDialogState(DestinationEditDialog.NoSourceData)
         } else {
             updateDialogState(DestinationEditDialog.SourceSelection(TargetType.Destination))

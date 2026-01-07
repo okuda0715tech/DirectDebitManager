@@ -66,6 +66,7 @@ fun DestinationEditScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val uiLocalState = uiState.uiLocalState
         val formUiState = uiState.formUiState
+        val persistedDataState = uiState.persistedDataState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
         LaunchedEffect(destinationId) {
@@ -142,7 +143,7 @@ fun DestinationEditScreen(
 
             is DestinationEditDialog.SourceSelection -> {
                 SourceSelectionDialog(
-                    items = uiState.sourceSelectionDialogItems,
+                    items = persistedDataState.sourceLookup.sourceUiModels,
                     onDismissRequest = { viewModel.updateDialogState(null) },
                     onClickItem = { sourceUiModel ->
                         viewModel.onClickSourceItem(
