@@ -47,9 +47,7 @@ data class DestinationEditUiState(
     val uiLocalState: UiLocalState = UiLocalState(),
     val formUiState: FormUiState = FormUiState(),
     val persistedDataState: PersistedDataState = PersistedDataState(
-        sourceLookup = SourceLookupState(
-            sourceUiModels = emptyList(),
-        )
+        sourceUiModels = emptyList(),
     ),
 )
 
@@ -79,7 +77,7 @@ data class FormUiState(
  * データレイヤーから取得したデータ.
  */
 data class PersistedDataState(
-    val sourceLookup: SourceLookupState
+    val sourceUiModels: List<SourceSelectionUiModel>
 )
 
 sealed interface DestinationEditDialog {
@@ -95,10 +93,6 @@ sealed interface TargetType {
     data object Source : TargetType
     data object Destination : TargetType
 }
-
-data class SourceLookupState(
-    val sourceUiModels: List<SourceSelectionUiModel>,
-)
 
 sealed interface DestInput {
     val destId: Int?
@@ -175,9 +169,7 @@ class DestinationEditViewModel @Inject constructor(
         observeSourcesSideEffect()
             .map { sources ->
                 PersistedDataState(
-                    sourceLookup = SourceLookupState(
-                        sourceUiModels = sources.toSourceSelectionUiModel(),
-                    )
+                    sourceUiModels = sources.toSourceSelectionUiModel(),
                 )
             }
             .map<PersistedDataState, Async<PersistedDataState>> { state ->
@@ -327,7 +319,7 @@ class DestinationEditViewModel @Inject constructor(
     private fun getSourceUiModels(): List<SourceSelectionUiModel> {
         return when (val async = persistedAsync.value) {
             is Async.Success<PersistedDataState> ->
-                async.data.sourceLookup.sourceUiModels
+                async.data.sourceUiModels
 
             else -> emptyList()
         }

@@ -143,7 +143,7 @@ fun DestinationEditScreen(
 
             is DestinationEditDialog.SourceSelection -> {
                 SourceSelectionDialog(
-                    items = persistedDataState.sourceLookup.sourceUiModels,
+                    items = persistedDataState.sourceUiModels,
                     onDismissRequest = { viewModel.updateDialogState(null) },
                     onClickItem = { sourceUiModel ->
                         viewModel.onClickSourceItem(
