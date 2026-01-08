@@ -70,7 +70,7 @@ data class FormUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
     val inputType: DestInputType = DestInputType.Keyboard,
-    val destInput: DestInput = DestInput.Keyboard(destId = 0, name = ""),
+    val destInput: DestInput = DestInput.New(destId = 0, name = ""),
 )
 
 /**
@@ -98,12 +98,12 @@ sealed interface DestInput {
     val destId: Int?
     val name: String
 
-    data class Keyboard(
+    data class New(
         override val destId: Int,
         override val name: String
     ) : DestInput
 
-    data class Source(
+    data class Existing(
         override val destId: Int?,
         override val name: String,
         val type: ItemType?
@@ -262,7 +262,7 @@ class DestinationEditViewModel @Inject constructor(
             checkNotNull(destId) { "destId must not be null" }
 
             it.copy(
-                destInput = DestInput.Keyboard(
+                destInput = DestInput.New(
                     destId = destId,
                     name = dest
                 )
@@ -288,7 +288,7 @@ class DestinationEditViewModel @Inject constructor(
 
         _formUiState.update {
             it.copy(
-                destInput = DestInput.Source(
+                destInput = DestInput.Existing(
                     destId = destId,
                     name = destination.label,
                     type = ItemType.fromInt(destination.type)
@@ -425,13 +425,13 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isSourceItem = _formUiState.value.destInput is DestInput.Source
-            val type = (_formUiState.value.destInput as? DestInput.Source)?.type
+            val isExistingItem = _formUiState.value.destInput is DestInput.Existing
+            val type = (_formUiState.value.destInput as? DestInput.Existing)?.type
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
-                isSourceItem = isSourceItem,
+                isSourceItem = isExistingItem,
                 parentId = _formUiState.value.sourceId,
                 type = type,
             )

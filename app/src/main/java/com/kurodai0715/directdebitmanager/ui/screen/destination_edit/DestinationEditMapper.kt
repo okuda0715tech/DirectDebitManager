@@ -21,11 +21,11 @@ fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
     )
 }
 
-fun TransferInfo.toDestInputSourceList(): DestInput.Source {
-    return DestInput.Source(destId = destId, name = destName, type = destAccountType)
+fun TransferInfo.toDestInputSourceList(): DestInput.Existing {
+    return DestInput.Existing(destId = destId, name = destName, type = destAccountType)
 }
 
-fun TransferInfo.toDestInputKeyboard(): DestInput.Keyboard {
-    return DestInput.Keyboard(destId = destId, name = destName)
+fun TransferInfo.toDestInputKeyboard(): DestInput.New {
+    return DestInput.New(destId = destId, name = destName)
 }
 
