@@ -180,7 +180,7 @@ class DestinationEditViewModel @Inject constructor(
             )
 
     /**
-     * 読み取り専用.
+     * UI に渡す UI 状態.
      */
     val uiState: StateFlow<DestinationEditUiState> =
         combine(
