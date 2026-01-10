@@ -297,6 +297,9 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
+    // TODO ダイアログから選択した時しか画面に表示される振替先が更新されないため、
+    //  振替元編集画面から振替元の名前が変更された場合にも、
+    //  振替先編集画面の振替元の名前が変わるようにする。
     fun updateSource(sourceId: Int) {
         val source = getItemBy(sourceId)
 
