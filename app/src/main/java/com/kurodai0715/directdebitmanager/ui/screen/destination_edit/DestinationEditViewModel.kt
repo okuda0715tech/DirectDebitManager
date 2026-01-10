@@ -228,14 +228,11 @@ class DestinationEditViewModel @Inject constructor(
         if (initialized) return
         initialized = true
 
-        directDebitDefRepo.loadSourcesStream()
-            .onEach { sources ->
-                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
-            }
-            .launchIn(viewModelScope)
+        destId?.let { loadInitialDest(it) }
+        observeSources()
+    }
 
-        if (destId == null) return
-
+    private fun loadInitialDest(destId: Int) {
         viewModelScope.launch {
             val item = directDebitDefRepo.loadTransferInfo(destId)
 
@@ -254,6 +251,14 @@ class DestinationEditViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun observeSources() {
+        directDebitDefRepo.loadSourcesStream()
+            .onEach { sources ->
+                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
+            }
+            .launchIn(viewModelScope)
     }
 
     fun updateDest(dest: String) {
