@@ -65,7 +65,7 @@ fun DestinationEditScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val uiLocalState = uiState.uiLocalState
-        val formUiState = uiState.formUiState
+        val formUiState = uiState.formInputState
         val persistedDataState = uiState.persistedDataState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。

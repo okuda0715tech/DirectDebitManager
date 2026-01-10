@@ -45,7 +45,7 @@ data class DestinationEditUiState(
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val uiLocalState: UiLocalState = UiLocalState(),
-    val formUiState: FormUiState = FormUiState(),
+    val formInputState: FormInputState = FormInputState(),
     val persistedDataState: PersistedDataState = PersistedDataState(
         sourceUiModels = emptyList(),
     ),
@@ -66,7 +66,7 @@ data class UiLocalState(
 /**
  * 永続化の対象の UI 状態.
  */
-data class FormUiState(
+data class FormInputState(
     val sourceId: Int = 0,
     val sourceName: String = "",
     val inputType: DestInputType = DestInputType.Keyboard,
@@ -126,7 +126,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
-    private val _formUiState = MutableStateFlow(FormUiState())
+    private val _formInputState = MutableStateFlow(FormInputState())
 
     private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
 
@@ -176,7 +176,7 @@ class DestinationEditViewModel @Inject constructor(
     val uiState: StateFlow<DestinationEditUiState> =
         combine(
             _uiLocalState,
-            _formUiState,
+            _formInputState,
             persistedAsync,
         ) { uiLocalState, formUiState, persistedAsync ->
             when (persistedAsync) {
@@ -192,7 +192,7 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     DestinationEditUiState(
                         uiLocalState = uiLocalState.copy(isLoading = false),
-                        formUiState = formUiState,
+                        formInputState = formUiState,
                         persistedDataState = persistedAsync.data
                     )
                 }
@@ -233,7 +233,7 @@ class DestinationEditViewModel @Inject constructor(
                 item.toDestInputKeyboard()
             }
 
-            _formUiState.update {
+            _formInputState.update {
                 it.copy(
                     destInput = destInput,
                     inputType = item.inputType,
@@ -253,7 +253,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDest(dest: String) {
-        _formUiState.update {
+        _formInputState.update {
             val destId = it.destInput.destId
             checkNotNull(destId) { "destId must not be null" }
 
@@ -282,7 +282,7 @@ class DestinationEditViewModel @Inject constructor(
         checkNotNull(destination) { "There must be an item matching destId = $destId" }
         checkNotNull(destination.type) { "" }
 
-        _formUiState.update {
+        _formInputState.update {
             it.copy(
                 destInput = DestInput.Existing(
                     destId = destId,
@@ -301,7 +301,7 @@ class DestinationEditViewModel @Inject constructor(
 
         checkNotNull(source) { "There must be an item matching sourceId = $sourceId" }
 
-        _formUiState.update {
+        _formInputState.update {
             it.copy(
                 sourceId = sourceId,
                 sourceName = source.label,
@@ -389,17 +389,17 @@ class DestinationEditViewModel @Inject constructor(
         return validationResult == ValidationResult.Valid
     }
 
-    private fun getDestName(): String = _formUiState.value.destInput.name
+    private fun getDestName(): String = _formInputState.value.destInput.name
 
     val destId: Int?
         get() {
             // 【注意】 getter は必要です。
             // getter を使わずに直接代入してしまうと、 Int 型なので、データのコピーが保存されるだけになってしまう。
-            return _formUiState.value.destInput.destId
+            return _formInputState.value.destInput.destId
         }
 
     private fun sourceValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(_formUiState.value.sourceName)
+        val validationResult = BasicTextValidator.validate(_formInputState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
@@ -424,14 +424,14 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isExistingItem = _formUiState.value.destInput is DestInput.Existing
-            val type = (_formUiState.value.destInput as? DestInput.Existing)?.type
+            val isExistingItem = _formInputState.value.destInput is DestInput.Existing
+            val type = (_formInputState.value.destInput as? DestInput.Existing)?.type
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
                 isSourceItem = isExistingItem,
-                parentId = _formUiState.value.sourceId,
+                parentId = _formInputState.value.sourceId,
                 type = type,
             )
 
@@ -440,7 +440,7 @@ class DestinationEditViewModel @Inject constructor(
                 if (destId == 0) {
                     // 新規作成の場合
                     // 入力フォームを初期化
-                    _formUiState.update { FormUiState() }
+                    _formInputState.update { FormInputState() }
                 }
             }
 
@@ -503,7 +503,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestInputType(type: DestInputType) {
-        _formUiState.update {
+        _formInputState.update {
             it.copy(inputType = type)
         }
     }
