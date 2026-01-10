@@ -46,6 +46,7 @@ data class DestinationEditUiState(
 //    val transferAmount: String = "",
     val uiLocalState: UiLocalState = UiLocalState(),
     val formInputState: FormInputState = FormInputState(),
+    val derivedUiState: DerivedUiState = DerivedUiState(),
     val persistedDataState: PersistedDataState = PersistedDataState(
         sourceUiModels = emptyList(),
     ),
@@ -64,13 +65,21 @@ data class UiLocalState(
 )
 
 /**
- * 永続化の対象の UI 状態.
+ * ユーザーが入力し、永続化の対象となる UI 状態.
  */
 data class FormInputState(
     val sourceId: Int = 0,
-    val sourceName: String = "",
     val inputType: DestInputType = DestInputType.Keyboard,
     val destInput: DestInput = DestInput.New(destId = 0, name = ""),
+)
+
+/**
+ * 画面表示専用の派生状態.
+ *
+ * Read-Only の状態だけを扱う。
+ */
+data class DerivedUiState(
+    val sourceName: String = ""
 )
 
 /**
@@ -130,6 +139,24 @@ class DestinationEditViewModel @Inject constructor(
 
     private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
 
+    private var sourceIndexedCache2 = directDebitDefRepo.loadSourcesStream()
+        .map { sources ->
+            sources.associateBy(TransferItemEntity::id)
+        }
+
+    private val derivedUiState: StateFlow<DerivedUiState> = combine(
+        sourceIndexedCache2,
+        _formInputState
+    ) { sourceIndexedCache, formInputState ->
+        DerivedUiState(
+            sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: ""
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = WhileUiSubscribed,
+        initialValue = DerivedUiState(sourceName = "")
+    )
+
     // Repository から複数の Flow を取得する場合は map() を combine() にすれば OK
     //
     // 【例】
@@ -177,8 +204,9 @@ class DestinationEditViewModel @Inject constructor(
         combine(
             _uiLocalState,
             _formInputState,
+            derivedUiState,
             persistedAsync,
-        ) { uiLocalState, formUiState, persistedAsync ->
+        ) { uiLocalState, formUiState, derivedUiState, persistedAsync ->
             when (persistedAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(uiLocalState = UiLocalState(isLoading = true))
@@ -193,6 +221,7 @@ class DestinationEditViewModel @Inject constructor(
                     DestinationEditUiState(
                         uiLocalState = uiLocalState.copy(isLoading = false),
                         formInputState = formUiState,
+                        derivedUiState = derivedUiState,
                         persistedDataState = persistedAsync.data
                     )
                 }
@@ -238,7 +267,6 @@ class DestinationEditViewModel @Inject constructor(
                     destInput = destInput,
                     inputType = item.inputType,
                     sourceId = item.sourceId,
-                    sourceName = item.sourceName,
                 )
             }
         }
@@ -293,18 +321,10 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    // TODO ダイアログから選択した時しか画面に表示される振替先が更新されないため、
-    //  振替元編集画面から振替元の名前が変更された場合にも、
-    //  振替先編集画面の振替元の名前が変わるようにする。
     fun updateSource(sourceId: Int) {
-        val source = getItemBy(sourceId)
-
-        checkNotNull(source) { "There must be an item matching sourceId = $sourceId" }
-
         _formInputState.update {
             it.copy(
                 sourceId = sourceId,
-                sourceName = source.label,
             )
         }
     }
@@ -399,7 +419,7 @@ class DestinationEditViewModel @Inject constructor(
         }
 
     private fun sourceValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(_formInputState.value.sourceName)
+        val validationResult = BasicTextValidator.validate(derivedUiState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
