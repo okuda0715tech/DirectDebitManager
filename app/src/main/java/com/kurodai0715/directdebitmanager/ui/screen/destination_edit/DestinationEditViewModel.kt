@@ -228,6 +228,12 @@ class DestinationEditViewModel @Inject constructor(
         if (initialized) return
         initialized = true
 
+        directDebitDefRepo.loadSourcesStream()
+            .onEach { sources ->
+                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
+            }
+            .launchIn(viewModelScope)
+
         if (destId == null) return
 
         viewModelScope.launch {
@@ -248,12 +254,6 @@ class DestinationEditViewModel @Inject constructor(
                 )
             }
         }
-
-        directDebitDefRepo.loadSourcesStream()
-            .onEach { sources ->
-                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
-            }
-            .launchIn(viewModelScope)
     }
 
     fun updateDest(dest: String) {
