@@ -21,11 +21,11 @@ import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -136,12 +136,6 @@ class DestinationEditViewModel @Inject constructor(
 
     private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
 
-    private fun observeSourcesSideEffect(): Flow<List<TransferItemEntity>> =
-        directDebitDefRepo.loadSourcesStream()
-            .onEach { sources ->
-                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
-            }
-
     // Repository から複数の Flow を取得する場合は map() を combine() にすれば OK
     //
     // 【例】
@@ -166,7 +160,7 @@ class DestinationEditViewModel @Inject constructor(
     //          )
     //      }
     private val persistedAsync: StateFlow<Async<PersistedDataState>> =
-        observeSourcesSideEffect()
+        directDebitDefRepo.loadSourcesStream()
             .map { sources ->
                 PersistedDataState(
                     sourceUiModels = sources.toSourceSelectionUiModel(),
@@ -254,6 +248,12 @@ class DestinationEditViewModel @Inject constructor(
                 )
             }
         }
+
+        directDebitDefRepo.loadSourcesStream()
+            .onEach { sources ->
+                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
+            }
+            .launchIn(viewModelScope)
     }
 
     fun updateDest(dest: String) {
