@@ -124,14 +124,8 @@ class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
-    /**
-     * 更新用.
-     */
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
-    /**
-     * 更新用.
-     */
     private val _formUiState = MutableStateFlow(FormUiState())
 
     private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
@@ -179,9 +173,6 @@ class DestinationEditViewModel @Inject constructor(
                 initialValue = Async.Loading
             )
 
-    /**
-     * UI に渡す UI 状態.
-     */
     val uiState: StateFlow<DestinationEditUiState> =
         combine(
             _uiLocalState,
