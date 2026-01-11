@@ -79,7 +79,9 @@ data class FormInputState(
  * Read-Only の状態だけを扱う。
  */
 data class DerivedUiState(
-    val sourceName: String = ""
+    val sourceName: String = "",
+    val dialogDestName: String = "",
+    val dialogDestType: ItemType? = null,
 )
 
 /**
@@ -105,17 +107,14 @@ sealed interface TargetType {
 
 sealed interface DestInput {
     val destId: Int?
-    val name: String
 
     data class New(
         override val destId: Int,
-        override val name: String
+        val name: String
     ) : DestInput
 
     data class Existing(
-        override val destId: Int?,
-        override val name: String,
-        val type: ItemType?
+        override val destId: Int?
     ) : DestInput
 }
 
@@ -148,8 +147,21 @@ class DestinationEditViewModel @Inject constructor(
         sourceIndexedCache2,
         _formInputState
     ) { sourceIndexedCache, formInputState ->
+        val existingItem = when (formInputState.destInput) {
+            is DestInput.New -> null
+            is DestInput.Existing -> sourceIndexedCache[formInputState.destInput.destId]
+        }
+
         DerivedUiState(
-            sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: ""
+            sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
+            dialogDestName = existingItem?.label ?: "",
+            dialogDestType = existingItem?.let {
+                // TODO ドメインまで来たら、振替元はタイプを持っていることは明確なので、
+                //  タイプを non-null の型で定義し直す必要がある。
+                //  そうすれば、このチェックは削除できる。
+                checkNotNull(it.type) { "source item must have type, it should not be null." }
+                ItemType.fromInt(it.type)
+            },
         )
     }.stateIn(
         scope = viewModelScope,
@@ -305,17 +317,10 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestFromDialog(destId: Int) {
-        val destination = getItemBy(destId)
-
-        checkNotNull(destination) { "There must be an item matching destId = $destId" }
-        checkNotNull(destination.type) { "" }
-
         _formInputState.update {
             it.copy(
                 destInput = DestInput.Existing(
                     destId = destId,
-                    name = destination.label,
-                    type = ItemType.fromInt(destination.type)
                 )
             )
         }
@@ -409,7 +414,11 @@ class DestinationEditViewModel @Inject constructor(
         return validationResult == ValidationResult.Valid
     }
 
-    private fun getDestName(): String = _formInputState.value.destInput.name
+    fun getDestName(): String =
+        when (val destInput = _formInputState.value.destInput) {
+            is DestInput.New -> destInput.name
+            is DestInput.Existing -> derivedUiState.value.dialogDestName
+        }
 
     val destId: Int?
         get() {
@@ -445,7 +454,7 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val isExistingItem = _formInputState.value.destInput is DestInput.Existing
-            val type = (_formInputState.value.destInput as? DestInput.Existing)?.type
+            val type = if (isExistingItem) derivedUiState.value.dialogDestType else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
