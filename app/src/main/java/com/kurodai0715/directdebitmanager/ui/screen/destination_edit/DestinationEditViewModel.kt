@@ -70,8 +70,8 @@ data class UiLocalState(
 data class FormInputState(
     val sourceId: Int = 0,
     val inputType: DestInputType = DestInputType.Keyboard,
-    val destId: Int = 0,
-    val destName: String = "",
+    val keyboardDestId: Int = 0,
+    val keyboardDestName: String = "",
     val dialogDestId: Int = 0,
 )
 
@@ -260,8 +260,8 @@ class DestinationEditViewModel @Inject constructor(
                 when(item.inputType){
                     DestInputType.Keyboard -> it.copy(
                         sourceId = item.sourceId,
-                        destId = item.destId,
-                        destName = item.destName,
+                        keyboardDestId = item.destId,
+                        keyboardDestName = item.destName,
                         inputType = item.inputType,
                     )
                     DestInputType.SourceList -> it.copy(
@@ -285,7 +285,7 @@ class DestinationEditViewModel @Inject constructor(
     fun updateDest(dest: String) {
         _formInputState.update {
             it.copy(
-                destName = dest
+                keyboardDestName = dest
             )
         }
     }
@@ -398,7 +398,7 @@ class DestinationEditViewModel @Inject constructor(
 
     fun getDestName(): String =
         when (_formInputState.value.inputType) {
-            DestInputType.Keyboard -> _formInputState.value.destName
+            DestInputType.Keyboard -> _formInputState.value.keyboardDestName
             DestInputType.SourceList -> derivedUiState.value.dialogDestName
         }
 
@@ -408,7 +408,7 @@ class DestinationEditViewModel @Inject constructor(
             // getter を使わずに直接代入してしまうと、 destId にはデータの参照先が保持されます。
             // つまり、その後、 inputType が変化しても、この式が再評価されることはありません。
             return when (_formInputState.value.inputType) {
-                DestInputType.Keyboard -> _formInputState.value.destId
+                DestInputType.Keyboard -> _formInputState.value.keyboardDestId
                 DestInputType.SourceList -> _formInputState.value.dialogDestId
             }
         }
