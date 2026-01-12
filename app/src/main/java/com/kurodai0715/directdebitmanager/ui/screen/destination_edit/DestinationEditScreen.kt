@@ -100,10 +100,7 @@ fun DestinationEditScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(LayoutTokens.screenPaddingHalf),
-            // TODO ここで判断するのを辞めたい
-            //  そもそも formUiState.destInput が sealed class になっているため、
-            //  キーボード入力時の destId とダイアログ選択時の destId がどちらか一つしか保持できていない。
-            keyboardDestName = (formUiState.destInput as? DestInput.New)?.name ?: "",
+            keyboardDestName = formUiState.destName,
             dialogDestName = derivedUiState.dialogDestName,
             onDestChanged = { viewModel.updateDest(it) },
             sourceName = derivedUiState.sourceName,

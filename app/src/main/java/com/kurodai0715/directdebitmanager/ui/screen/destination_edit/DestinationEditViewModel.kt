@@ -70,7 +70,9 @@ data class UiLocalState(
 data class FormInputState(
     val sourceId: Int = 0,
     val inputType: DestInputType = DestInputType.Keyboard,
-    val destInput: DestInput = DestInput.New(destId = 0, name = ""),
+    val destId: Int = 0,
+    val destName: String = "",
+    val dialogDestId: Int = 0,
 )
 
 /**
@@ -105,20 +107,6 @@ sealed interface TargetType {
     data object Destination : TargetType
 }
 
-sealed interface DestInput {
-    val destId: Int?
-
-    data class New(
-        override val destId: Int,
-        val name: String
-    ) : DestInput
-
-    data class Existing(
-        override val destId: Int?
-    ) : DestInput
-}
-
-
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
 
@@ -147,9 +135,9 @@ class DestinationEditViewModel @Inject constructor(
         sourceIndexedCache2,
         _formInputState
     ) { sourceIndexedCache, formInputState ->
-        val existingItem = when (formInputState.destInput) {
-            is DestInput.New -> null
-            is DestInput.Existing -> sourceIndexedCache[formInputState.destInput.destId]
+        val existingItem = when (formInputState.inputType) {
+            DestInputType.SourceList -> sourceIndexedCache[formInputState.dialogDestId]
+            else -> null
         }
 
         DerivedUiState(
@@ -268,18 +256,20 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val item = directDebitDefRepo.loadTransferInfo(destId)
 
-            val destInput = if (item.inputType == DestInputType.SourceList) {
-                item.toDestInputSourceList()
-            } else {
-                item.toDestInputKeyboard()
-            }
-
             _formInputState.update {
-                it.copy(
-                    destInput = destInput,
-                    inputType = item.inputType,
-                    sourceId = item.sourceId,
-                )
+                when(item.inputType){
+                    DestInputType.Keyboard -> it.copy(
+                        sourceId = item.sourceId,
+                        destId = item.destId,
+                        destName = item.destName,
+                        inputType = item.inputType,
+                    )
+                    DestInputType.SourceList -> it.copy(
+                        sourceId = item.sourceId,
+                        dialogDestId = item.destId,
+                        inputType = item.inputType,
+                    )
+                }
             }
         }
     }
@@ -294,14 +284,8 @@ class DestinationEditViewModel @Inject constructor(
 
     fun updateDest(dest: String) {
         _formInputState.update {
-            val destId = it.destInput.destId
-            checkNotNull(destId) { "destId must not be null" }
-
             it.copy(
-                destInput = DestInput.New(
-                    destId = destId,
-                    name = dest
-                )
+                destName = dest
             )
         }
     }
@@ -319,9 +303,7 @@ class DestinationEditViewModel @Inject constructor(
     fun updateDestFromDialog(destId: Int) {
         _formInputState.update {
             it.copy(
-                destInput = DestInput.Existing(
-                    destId = destId,
-                )
+                dialogDestId = destId
             )
         }
     }
@@ -415,16 +397,20 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun getDestName(): String =
-        when (val destInput = _formInputState.value.destInput) {
-            is DestInput.New -> destInput.name
-            is DestInput.Existing -> derivedUiState.value.dialogDestName
+        when (_formInputState.value.inputType) {
+            DestInputType.Keyboard -> _formInputState.value.destName
+            DestInputType.SourceList -> derivedUiState.value.dialogDestName
         }
 
     val destId: Int?
         get() {
             // 【注意】 getter は必要です。
-            // getter を使わずに直接代入してしまうと、 Int 型なので、データのコピーが保存されるだけになってしまう。
-            return _formInputState.value.destInput.destId
+            // getter を使わずに直接代入してしまうと、 destId にはデータの参照先が保持されます。
+            // つまり、その後、 inputType が変化しても、この式が再評価されることはありません。
+            return when (_formInputState.value.inputType) {
+                DestInputType.Keyboard -> _formInputState.value.destId
+                DestInputType.SourceList -> _formInputState.value.dialogDestId
+            }
         }
 
     private fun sourceValidation(): Boolean {
@@ -453,7 +439,7 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isExistingItem = _formInputState.value.destInput is DestInput.Existing
+            val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
             val type = if (isExistingItem) derivedUiState.value.dialogDestType else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
