@@ -65,7 +65,8 @@ fun DestinationEditScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
         val uiLocalState = uiState.uiLocalState
-        val formUiState = uiState.formUiState
+        val formUiState = uiState.formInputState
+        val derivedUiState = uiState.derivedUiState
         val persistedDataState = uiState.persistedDataState
 
         // リスト画面から引き継いだパラメータで UI 状態を初期化する。
@@ -99,10 +100,10 @@ fun DestinationEditScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(LayoutTokens.screenPaddingHalf),
-            keyboardDestName = formUiState.destInput.name,
-            dialogDestName = formUiState.destInput.name,
+            keyboardDestName = formUiState.keyboardDestName,
+            dialogDestName = derivedUiState.dialogDestName,
             onDestChanged = { viewModel.updateDest(it) },
-            sourceName = formUiState.sourceName,
+            sourceName = derivedUiState.sourceName,
             itemId = viewModel.destId,
             selectedButton = formUiState.inputType,
             onSelectDestInputType = { viewModel.updateDestInputType(it) },

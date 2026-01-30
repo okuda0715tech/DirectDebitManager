@@ -45,7 +45,8 @@ data class DestinationEditUiState(
 //    val transferDate: String = "",
 //    val transferAmount: String = "",
     val uiLocalState: UiLocalState = UiLocalState(),
-    val formUiState: FormUiState = FormUiState(),
+    val formInputState: FormInputState = FormInputState(),
+    val derivedUiState: DerivedUiState = DerivedUiState(),
     val persistedDataState: PersistedDataState = PersistedDataState(
         sourceUiModels = emptyList(),
     ),
@@ -64,13 +65,25 @@ data class UiLocalState(
 )
 
 /**
- * 永続化の対象の UI 状態.
+ * ユーザーが入力し、永続化の対象となる UI 状態.
  */
-data class FormUiState(
+data class FormInputState(
     val sourceId: Int = 0,
-    val sourceName: String = "",
     val inputType: DestInputType = DestInputType.Keyboard,
-    val destInput: DestInput = DestInput.New(destId = 0, name = ""),
+    val keyboardDestId: Int = 0,
+    val keyboardDestName: String = "",
+    val dialogDestId: Int = 0,
+)
+
+/**
+ * 画面表示専用の派生状態.
+ *
+ * Read-Only の状態だけを扱う。
+ */
+data class DerivedUiState(
+    val sourceName: String = "",
+    val dialogDestName: String = "",
+    val dialogDestType: ItemType? = null,
 )
 
 /**
@@ -94,23 +107,6 @@ sealed interface TargetType {
     data object Destination : TargetType
 }
 
-sealed interface DestInput {
-    val destId: Int?
-    val name: String
-
-    data class New(
-        override val destId: Int,
-        override val name: String
-    ) : DestInput
-
-    data class Existing(
-        override val destId: Int?,
-        override val name: String,
-        val type: ItemType?
-    ) : DestInput
-}
-
-
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
 
@@ -126,9 +122,40 @@ class DestinationEditViewModel @Inject constructor(
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
-    private val _formUiState = MutableStateFlow(FormUiState())
+    private val _formInputState = MutableStateFlow(FormInputState())
 
     private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
+
+    private var sourceIndexedCache2 = directDebitDefRepo.loadSourcesStream()
+        .map { sources ->
+            sources.associateBy(TransferItemEntity::id)
+        }
+
+    private val derivedUiState: StateFlow<DerivedUiState> = combine(
+        sourceIndexedCache2,
+        _formInputState
+    ) { sourceIndexedCache, formInputState ->
+        val existingItem = when (formInputState.inputType) {
+            DestInputType.SourceList -> sourceIndexedCache[formInputState.dialogDestId]
+            else -> null
+        }
+
+        DerivedUiState(
+            sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
+            dialogDestName = existingItem?.label ?: "",
+            dialogDestType = existingItem?.let {
+                // TODO この時点、振替元はタイプを持っていることは明確なので、
+                //  タイプを non-null の型で定義し直す必要がある。
+                //  そうすれば、このチェックは削除できる。
+                checkNotNull(it.type) { "source item must have type, it should not be null." }
+                ItemType.fromInt(it.type)
+            },
+        )
+    }.stateIn(
+        scope = viewModelScope,
+        started = WhileUiSubscribed,
+        initialValue = DerivedUiState(sourceName = "")
+    )
 
     // Repository から複数の Flow を取得する場合は map() を combine() にすれば OK
     //
@@ -176,9 +203,10 @@ class DestinationEditViewModel @Inject constructor(
     val uiState: StateFlow<DestinationEditUiState> =
         combine(
             _uiLocalState,
-            _formUiState,
+            _formInputState,
+            derivedUiState,
             persistedAsync,
-        ) { uiLocalState, formUiState, persistedAsync ->
+        ) { uiLocalState, formUiState, derivedUiState, persistedAsync ->
             when (persistedAsync) {
                 is Async.Loading -> {
                     DestinationEditUiState(uiLocalState = UiLocalState(isLoading = true))
@@ -192,7 +220,8 @@ class DestinationEditViewModel @Inject constructor(
                 is Async.Success -> {
                     DestinationEditUiState(
                         uiLocalState = uiLocalState.copy(isLoading = false),
-                        formUiState = formUiState,
+                        formInputState = formUiState,
+                        derivedUiState = derivedUiState,
                         persistedDataState = persistedAsync.data
                     )
                 }
@@ -227,19 +256,20 @@ class DestinationEditViewModel @Inject constructor(
         viewModelScope.launch {
             val item = directDebitDefRepo.loadTransferInfo(destId)
 
-            val destInput = if (item.inputType == DestInputType.SourceList) {
-                item.toDestInputSourceList()
-            } else {
-                item.toDestInputKeyboard()
-            }
-
-            _formUiState.update {
-                it.copy(
-                    destInput = destInput,
-                    inputType = item.inputType,
-                    sourceId = item.sourceId,
-                    sourceName = item.sourceName,
-                )
+            _formInputState.update {
+                when(item.inputType){
+                    DestInputType.Keyboard -> it.copy(
+                        sourceId = item.sourceId,
+                        keyboardDestId = item.destId,
+                        keyboardDestName = item.destName,
+                        inputType = item.inputType,
+                    )
+                    DestInputType.SourceList -> it.copy(
+                        sourceId = item.sourceId,
+                        dialogDestId = item.destId,
+                        inputType = item.inputType,
+                    )
+                }
             }
         }
     }
@@ -253,15 +283,9 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDest(dest: String) {
-        _formUiState.update {
-            val destId = it.destInput.destId
-            checkNotNull(destId) { "destId must not be null" }
-
+        _formInputState.update {
             it.copy(
-                destInput = DestInput.New(
-                    destId = destId,
-                    name = dest
-                )
+                keyboardDestName = dest
             )
         }
     }
@@ -277,34 +301,17 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestFromDialog(destId: Int) {
-        val destination = getItemBy(destId)
-
-        checkNotNull(destination) { "There must be an item matching destId = $destId" }
-        checkNotNull(destination.type) { "" }
-
-        _formUiState.update {
+        _formInputState.update {
             it.copy(
-                destInput = DestInput.Existing(
-                    destId = destId,
-                    name = destination.label,
-                    type = ItemType.fromInt(destination.type)
-                )
+                dialogDestId = destId
             )
         }
     }
 
-    // TODO ダイアログから選択した時しか画面に表示される振替先が更新されないため、
-    //  振替元編集画面から振替元の名前が変更された場合にも、
-    //  振替先編集画面の振替元の名前が変わるようにする。
     fun updateSource(sourceId: Int) {
-        val source = getItemBy(sourceId)
-
-        checkNotNull(source) { "There must be an item matching sourceId = $sourceId" }
-
-        _formUiState.update {
+        _formInputState.update {
             it.copy(
                 sourceId = sourceId,
-                sourceName = source.label,
             )
         }
     }
@@ -389,17 +396,25 @@ class DestinationEditViewModel @Inject constructor(
         return validationResult == ValidationResult.Valid
     }
 
-    private fun getDestName(): String = _formUiState.value.destInput.name
+    fun getDestName(): String =
+        when (_formInputState.value.inputType) {
+            DestInputType.Keyboard -> _formInputState.value.keyboardDestName
+            DestInputType.SourceList -> derivedUiState.value.dialogDestName
+        }
 
     val destId: Int?
         get() {
             // 【注意】 getter は必要です。
-            // getter を使わずに直接代入してしまうと、 Int 型なので、データのコピーが保存されるだけになってしまう。
-            return _formUiState.value.destInput.destId
+            // getter を使わずに直接代入してしまうと、 destId にはデータの参照先が保持されます。
+            // つまり、その後、 inputType が変化しても、この式が再評価されることはありません。
+            return when (_formInputState.value.inputType) {
+                DestInputType.Keyboard -> _formInputState.value.keyboardDestId
+                DestInputType.SourceList -> _formInputState.value.dialogDestId
+            }
         }
 
     private fun sourceValidation(): Boolean {
-        val validationResult = BasicTextValidator.validate(_formUiState.value.sourceName)
+        val validationResult = BasicTextValidator.validate(derivedUiState.value.sourceName)
         val message = when (validationResult) {
             ValidationResult.EmptyError -> R.string.common_required_field
             ValidationResult.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
@@ -424,14 +439,14 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isExistingItem = _formUiState.value.destInput is DestInput.Existing
-            val type = (_formUiState.value.destInput as? DestInput.Existing)?.type
+            val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
+            val type = if (isExistingItem) derivedUiState.value.dialogDestType else null
 
             val resultSuccess = directDebitDefRepo.upsertDestination(
                 id = destId,
                 label = getDestName(),
                 isSourceItem = isExistingItem,
-                parentId = _formUiState.value.sourceId,
+                parentId = _formInputState.value.sourceId,
                 type = type,
             )
 
@@ -440,7 +455,7 @@ class DestinationEditViewModel @Inject constructor(
                 if (destId == 0) {
                     // 新規作成の場合
                     // 入力フォームを初期化
-                    _formUiState.update { FormUiState() }
+                    _formInputState.update { FormInputState() }
                 }
             }
 
@@ -503,7 +518,7 @@ class DestinationEditViewModel @Inject constructor(
     }
 
     fun updateDestInputType(type: DestInputType) {
-        _formUiState.update {
+        _formInputState.update {
             it.copy(inputType = type)
         }
     }
