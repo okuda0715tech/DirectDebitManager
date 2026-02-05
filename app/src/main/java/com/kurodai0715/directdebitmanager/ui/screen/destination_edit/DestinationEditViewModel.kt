@@ -144,8 +144,8 @@ class DestinationEditViewModel @Inject constructor(
             sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
             dialogDestName = existingItem?.label ?: "",
             dialogDestType = existingItem?.let {
-                checkNotNull(it.type) { "source item must have type, it should not be null." }
-                ItemType.fromInt(it.type)
+                checkNotNull(it.typeCode) { "source item must have type, it should not be null." }
+                ItemType.fromInt(it.typeCode)
             },
         )
     }.stateIn(

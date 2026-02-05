@@ -46,7 +46,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         id = id,
                         label = label,
                         isSourceItem = isSourceItem,
-                        type = type?.value,
+                        typeCode = type?.value,
                         parentId = parentId
                     )
                 )
@@ -72,7 +72,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         id = id,
                         label = name,
                         isSourceItem = true,
-                        type = type,
+                        typeCode = type,
                         parentId = parentId,
                     )
                 )

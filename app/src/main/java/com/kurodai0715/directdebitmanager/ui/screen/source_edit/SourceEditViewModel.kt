@@ -64,7 +64,7 @@ class SourceEditViewModel @Inject constructor(
                     it.copy(
                         sourceId = item.id,
                         sourceName = item.label,
-                        sourceType = ItemType.fromInt(item.type!!),
+                        sourceType = ItemType.fromInt(item.typeCode!!),
                         parentId = item.parentId,
                     )
                 }

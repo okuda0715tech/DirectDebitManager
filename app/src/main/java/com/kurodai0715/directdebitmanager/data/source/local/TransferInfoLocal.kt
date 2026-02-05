@@ -23,7 +23,7 @@ fun TransferInfoLocal.toTransferInfo(): TransferInfo {
     val inputType =
         if (destination.isSourceItem) DestInputType.SourceList else DestInputType.Keyboard
     val destAccountType = when (inputType) {
-        DestInputType.SourceList -> ItemType.fromInt(destination.type!!)
+        DestInputType.SourceList -> ItemType.fromInt(destination.typeCode!!)
         DestInputType.Keyboard -> null
     }
 
