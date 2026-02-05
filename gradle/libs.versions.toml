@@ -16,6 +16,7 @@ androidxLifecycle = "2.9.0"
 glideCompose = "1.0.0-beta01"
 kotlinPluginSerialization = "2.0.21"
 kotlinxSerializationJson = "1.7.3"
+kotlinxCoroutinesTest = "1.7.3"
 ksp = "2.1.0-1.0.29"
 hilt = "2.53.1"
 navVersion = "2.9.0"
@@ -53,6 +54,7 @@ glide-compose = { group = "com.github.bumptech.glide", name = "compose", version
 hilt-android-core = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+kotlinx-coroutines-test = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest"}
 moshi = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 moshi-converter = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "moshi-converter" }
 retrofit2 = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
