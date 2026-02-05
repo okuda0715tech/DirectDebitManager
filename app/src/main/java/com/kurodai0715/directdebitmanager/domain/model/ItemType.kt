@@ -5,8 +5,6 @@
 
 package com.kurodai0715.directdebitmanager.domain.model
 
-// TODO このクラスがいろいろなところから参照されすぎなので、分けた方がよさそう。
-//  ただし、このクラスはドメインルールそのものなので、ある程度までは仕方がない部分もある。
 enum class ItemType(val value: Int) {
     Bank(0),
     CreditCard(1),
