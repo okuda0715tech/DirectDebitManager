@@ -144,9 +144,6 @@ class DestinationEditViewModel @Inject constructor(
             sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
             dialogDestName = existingItem?.label ?: "",
             dialogDestType = existingItem?.let {
-                // TODO この時点、振替元はタイプを持っていることは明確なので、
-                //  タイプを non-null の型で定義し直す必要がある。
-                //  そうすれば、このチェックは削除できる。
                 checkNotNull(it.type) { "source item must have type, it should not be null." }
                 ItemType.fromInt(it.type)
             },
