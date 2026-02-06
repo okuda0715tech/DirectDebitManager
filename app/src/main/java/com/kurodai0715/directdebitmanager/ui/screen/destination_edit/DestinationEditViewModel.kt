@@ -124,8 +124,6 @@ class DestinationEditViewModel @Inject constructor(
 
     private val _formInputState = MutableStateFlow(FormInputState())
 
-    private var sourceIndexedCache = emptyMap<Int, TransferItemEntity>()
-
     private var sourceIndexedCache2 = directDebitDefRepo.loadSourcesStream()
         .map { sources ->
             sources.associateBy(TransferItemEntity::id)
@@ -246,7 +244,6 @@ class DestinationEditViewModel @Inject constructor(
         initialized = true
 
         destId?.let { loadInitialDest(it) }
-        observeSources()
     }
 
     private fun loadInitialDest(destId: Int) {
@@ -271,30 +268,12 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    private fun observeSources() {
-        directDebitDefRepo.loadSourcesStream()
-            .onEach { sources ->
-                sourceIndexedCache = sources.associateBy(TransferItemEntity::id)
-            }
-            .launchIn(viewModelScope)
-    }
-
     fun updateDest(dest: String) {
         _formInputState.update {
             it.copy(
                 keyboardDestName = dest
             )
         }
-    }
-
-    private fun getItemBy(destId: Int): TransferItemEntity? {
-        val asyncSuccess = persistedAsync.value
-
-        check(asyncSuccess is Async.Success<PersistedDataState>) {
-            "persistedAsync must have been retrieved"
-        }
-
-        return sourceIndexedCache[destId]
     }
 
     fun updateDestFromDialog(destId: Int) {
