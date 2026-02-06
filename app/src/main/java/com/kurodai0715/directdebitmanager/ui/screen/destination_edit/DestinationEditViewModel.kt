@@ -25,9 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -124,13 +122,13 @@ class DestinationEditViewModel @Inject constructor(
 
     private val _formInputState = MutableStateFlow(FormInputState())
 
-    private var sourceIndexedCache2 = directDebitDefRepo.loadSourcesStream()
+    private var sourceIndexedCache = directDebitDefRepo.loadSourcesStream()
         .map { sources ->
             sources.associateBy(TransferItemEntity::id)
         }
 
     private val derivedUiState: StateFlow<DerivedUiState> = combine(
-        sourceIndexedCache2,
+        sourceIndexedCache,
         _formInputState
     ) { sourceIndexedCache, formInputState ->
         val existingItem = when (formInputState.inputType) {
