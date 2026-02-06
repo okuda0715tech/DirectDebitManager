@@ -4,7 +4,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
 
-fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
+private fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
     val type = requireNotNull(typeCode) { "LocalTransferItem.type is null" }
 
     return SourceUiModel(
@@ -12,4 +12,8 @@ fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
         name = label,
         type = ItemType.fromInt(type),
     )
+}
+
+fun List<TransferItemEntity>.toSourceUiModels(): List<SourceUiModel> {
+    return map { it.toSourceUiModel() }
 }

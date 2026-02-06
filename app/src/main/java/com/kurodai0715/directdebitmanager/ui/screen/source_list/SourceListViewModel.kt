@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -32,8 +31,8 @@ class SourceListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
-        .map { Async.Success(it) }
-        .catch<Async<List<TransferItemEntity>>> {
+        .map { Async.Success(it.toSourceUiModels()) }
+        .catch<Async<List<SourceUiModel>>> {
             emit(Async.Error(R.string.load_error))
         }
 
@@ -49,7 +48,7 @@ class SourceListViewModel @Inject constructor(
 
             is Async.Success -> {
                 SourceListUiState(
-                    items = transSourcesAsync.data.map { it.toSourceUiModel() },
+                    items = transSourcesAsync.data,
                     isLoading = false,
                 )
             }
