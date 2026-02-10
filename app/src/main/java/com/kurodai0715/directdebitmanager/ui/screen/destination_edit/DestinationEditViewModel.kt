@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
+import com.kurodai0715.directdebitmanager.domain.usecase.LoadSourcesUseCase
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -113,30 +113,28 @@ sealed class UiEvent {
 
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
-    private val directDebitDefRepo: DirectDebitDefaultRepository
+    private val directDebitDefRepo: DirectDebitDefaultRepository,
+    loadSourcesUseCase: LoadSourcesUseCase,
 ) : ViewModel() {
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
     private val _formInputState = MutableStateFlow(FormInputState())
 
-    private var sourceIndexedCache = directDebitDefRepo.loadSourcesStream()
-        .map { sources ->
-            sources.associateBy(TransferItemEntity::id)
-        }
+    private var sourceLabelsById = loadSourcesUseCase.loadSourceLabelsById()
 
     private val derivedUiState: StateFlow<DerivedUiState> = combine(
-        sourceIndexedCache,
+        sourceLabelsById,
         _formInputState
-    ) { sourceIndexedCache, formInputState ->
-        val existingItem = when (formInputState.inputType) {
-            DestInputType.SourceList -> sourceIndexedCache[formInputState.dialogDestId]
+    ) { sourceLabelsById, formInputState ->
+        val dialogDestLabel = when (formInputState.inputType) {
+            DestInputType.SourceList -> sourceLabelsById[formInputState.dialogDestId]
             else -> null
         }
 
         DerivedUiState(
-            sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
-            dialogDestName = existingItem?.label ?: "",
+            sourceName = sourceLabelsById[formInputState.sourceId] ?: "",
+            dialogDestName = dialogDestLabel ?: "",
         )
     }.stateIn(
         scope = viewModelScope,
