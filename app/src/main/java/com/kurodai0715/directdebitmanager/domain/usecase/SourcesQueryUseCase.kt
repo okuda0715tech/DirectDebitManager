@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LoadSourcesUseCase @Inject constructor(
+class SourcesQueryUseCase @Inject constructor(
     private val repo: DirectDebitDefaultRepository
 ) {
 

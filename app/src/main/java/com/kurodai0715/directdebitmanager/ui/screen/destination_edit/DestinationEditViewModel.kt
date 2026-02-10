@@ -13,7 +13,7 @@ import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.domain.usecase.LoadSourcesUseCase
+import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -114,14 +114,14 @@ sealed class UiEvent {
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository,
-    loadSourcesUseCase: LoadSourcesUseCase,
+    sourcesQueryUseCase: SourcesQueryUseCase,
 ) : ViewModel() {
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
     private val _formInputState = MutableStateFlow(FormInputState())
 
-    private var sourceLabelsById = loadSourcesUseCase.loadSourceLabelsById()
+    private var sourceLabelsById = sourcesQueryUseCase.loadSourceLabelsById()
 
     private val derivedUiState: StateFlow<DerivedUiState> = combine(
         sourceLabelsById,
