@@ -14,7 +14,6 @@ import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -81,7 +80,6 @@ data class FormInputState(
 data class DerivedUiState(
     val sourceName: String = "",
     val dialogDestName: String = "",
-    val dialogDestType: ItemType? = null,
 )
 
 /**
@@ -139,10 +137,6 @@ class DestinationEditViewModel @Inject constructor(
         DerivedUiState(
             sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
             dialogDestName = existingItem?.label ?: "",
-            dialogDestType = existingItem?.let {
-                checkNotNull(it.typeCode) { "source item must have type, it should not be null." }
-                ItemType.fromInt(it.typeCode)
-            },
         )
     }.stateIn(
         scope = viewModelScope,
@@ -377,7 +371,7 @@ class DestinationEditViewModel @Inject constructor(
             DestInputType.SourceList -> derivedUiState.value.dialogDestName
         }
 
-    val destId: Int?
+    val destId: Int
         get() {
             // 【注意】 getter は必要です。
             // getter を使わずに直接代入してしまうと、 destId にはデータの参照先が保持されます。
@@ -415,37 +409,39 @@ class DestinationEditViewModel @Inject constructor(
     private fun saveData() {
         viewModelScope.launch {
             val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
-            val type = if (isExistingItem) derivedUiState.value.dialogDestType else null
 
-            val resultSuccess = directDebitDefRepo.upsertDestination(
-                id = destId,
-                label = getDestName(),
-                isSourceItem = isExistingItem,
-                parentId = _formInputState.value.sourceId,
-                type = type,
-            )
+            if (destId == 0) {
+                val resultSuccess = directDebitDefRepo.createDestination(
+                    label = getDestName(),
+                    isSourceItem = isExistingItem,
+                    parentId = _formInputState.value.sourceId,
+                )
 
-            if (resultSuccess) {
-                // 新規作成 or 更新が成功した場合
-                if (destId == 0) {
+                if (resultSuccess) {
                     // 新規作成の場合
                     // 入力フォームを初期化
                     _formInputState.update { FormInputState() }
-                }
-            }
 
-            if (resultSuccess) {
-                // 新規作成 or 更新が成功した場合
-                if (destId == 0) {
-                    // 新規作成の場合
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_register_successfully))
                 } else {
-                    // 更新の場合
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_update_successfully))
+                    // 失敗した場合
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
                 }
+
             } else {
-                // 新規作成 or 更新が失敗した場合
-                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+                val resultSuccess = directDebitDefRepo.updateDestination(
+                    id = destId,
+                    label = getDestName(),
+                    isSourceItem = isExistingItem,
+                    parentId = _formInputState.value.sourceId,
+                )
+
+                if (resultSuccess) {
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_update_successfully))
+                } else {
+                    // 失敗した場合
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+                }
             }
         }
     }

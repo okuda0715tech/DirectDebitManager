@@ -11,7 +11,6 @@ import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.data.source.local.toTransferInfo
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.model.TransferInfo
-import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -27,26 +26,22 @@ class DirectDebitDefaultRepository @Inject constructor(
 ) {
 
     /**
-     * 振替先情報を DB へ登録する.
+     * 振替先情報を新規に登録する.
      */
-    suspend fun upsertDestination(
-        id: Int?,
+    suspend fun createDestination(
         label: String,
         isSourceItem: Boolean,
-        type: ItemType?,
         parentId: Int,
     ): Boolean {
-        requireNotNull(id) { "id is null" }
 
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
                 localDataSource.upsertTransferItem(
                     TransferItemEntity(
-                        id = id,
                         label = label,
                         isSourceItem = isSourceItem,
-                        typeCode = type?.value,
+                        typeCode = null,
                         parentId = parentId
                     )
                 )
@@ -59,6 +54,40 @@ class DirectDebitDefaultRepository @Inject constructor(
         }
         return resultSuccess
     }
+
+    /**
+     * 振替先情報を更新する.
+     */
+    suspend fun updateDestination(
+        id: Int,
+        label: String,
+        isSourceItem: Boolean,
+        parentId: Int,
+    ): Boolean {
+
+        val item = localDataSource.getItem(id)
+
+        var resultSuccess: Boolean
+        withContext(ioDispatcher) {
+            resultSuccess = try {
+                localDataSource.upsertTransferItem(
+                    item.copy(
+                        id = id,
+                        label = label,
+                        isSourceItem = isSourceItem,
+                        parentId = parentId
+                    )
+                )
+                true
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                false
+            }
+            Log.d(TAG, "resultSuccess = $resultSuccess")
+        }
+        return resultSuccess
+    }
+
 
     /**
      * 振替元情報を DB へ登録する.
