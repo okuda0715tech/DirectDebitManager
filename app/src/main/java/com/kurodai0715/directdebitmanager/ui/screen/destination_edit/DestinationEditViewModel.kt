@@ -249,13 +249,14 @@ class DestinationEditViewModel @Inject constructor(
             val item = directDebitDefRepo.loadTransferInfo(destId)
 
             _formInputState.update {
-                when(item.inputType){
+                when (item.inputType) {
                     DestInputType.Keyboard -> it.copy(
                         sourceId = item.sourceId,
                         keyboardDestId = item.destId,
                         keyboardDestName = item.destName,
                         inputType = item.inputType,
                     )
+
                     DestInputType.SourceList -> it.copy(
                         sourceId = item.sourceId,
                         dialogDestId = item.destId,
