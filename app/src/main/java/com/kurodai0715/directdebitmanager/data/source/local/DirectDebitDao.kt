@@ -20,10 +20,10 @@ interface DirectDebitDao {
     suspend fun upsertTransferItem(destination: TransferItemEntity)
 
     /**
-     * 振替元として登録されているデータを全件取得.
+     * isSourceItem 列が指定した値に一致するレコードを取得.
      */
-    @Query("SELECT * FROM transfer_item WHERE isSourceItem = 1")
-    fun observeSources(): Flow<List<TransferItemEntity>>
+    @Query("SELECT * FROM transfer_item WHERE isSourceItem = :isSource")
+    fun observeByIsSource(isSource: Boolean): Flow<List<TransferItemEntity>>
 
     /**
      * 引数で指定した parentId を振替元として使用している振替先の件数を取得.
