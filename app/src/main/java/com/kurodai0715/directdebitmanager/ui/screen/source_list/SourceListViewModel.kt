@@ -8,8 +8,8 @@ package com.kurodai0715.directdebitmanager.ui.screen.source_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
+import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,10 +27,10 @@ data class SourceListUiState(
 
 @HiltViewModel
 class SourceListViewModel @Inject constructor(
-    directDebitDefRepo: DirectDebitDefaultRepository
+    sourcesQueryUseCase: SourcesQueryUseCase,
 ) : ViewModel() {
 
-    private val _sourcesAsync = directDebitDefRepo.observeByIsSource(isSource = true)
+    private val _sourcesAsync = sourcesQueryUseCase.loadSources()
         .map { Async.Success(it.toSourceUiModels()) }
         .catch<Async<List<SourceUiModel>>> {
             emit(Async.Error(R.string.load_error))

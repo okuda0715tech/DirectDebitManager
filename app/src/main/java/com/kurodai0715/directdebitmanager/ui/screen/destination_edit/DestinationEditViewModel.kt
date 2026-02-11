@@ -166,7 +166,7 @@ class DestinationEditViewModel @Inject constructor(
     //          )
     //      }
     private val persistedAsync: StateFlow<Async<PersistedDataState>> =
-        directDebitDefRepo.observeByIsSource(isSource = true)
+        sourcesQueryUseCase.loadSources()
             .map { sources ->
                 PersistedDataState(
                     sourceUiModels = sources.toSourceSelectionUiModel(),
