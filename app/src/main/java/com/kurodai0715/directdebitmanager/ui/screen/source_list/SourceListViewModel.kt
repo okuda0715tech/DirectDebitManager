@@ -30,7 +30,7 @@ class SourceListViewModel @Inject constructor(
     directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
-    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream(isSource = true)
+    private val _sourcesAsync = directDebitDefRepo.observeByIsSource(isSource = true)
         .map { Async.Success(it.toSourceUiModels()) }
         .catch<Async<List<SourceUiModel>>> {
             emit(Async.Error(R.string.load_error))

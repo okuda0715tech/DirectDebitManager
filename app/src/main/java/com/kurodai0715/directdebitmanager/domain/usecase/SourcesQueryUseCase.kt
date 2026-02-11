@@ -16,7 +16,7 @@ class SourcesQueryUseCase @Inject constructor(
 ) {
 
     fun loadSources(): Flow<List<TransferItemEntity>> {
-        return repo.loadSourcesStream(isSource = true)
+        return repo.observeByIsSource(isSource = true)
     }
 
     fun loadSourceLabelsById(): Flow<Map<Int, String>> {
