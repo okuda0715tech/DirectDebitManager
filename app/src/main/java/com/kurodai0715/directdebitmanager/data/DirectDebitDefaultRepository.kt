@@ -162,8 +162,8 @@ class DirectDebitDefaultRepository @Inject constructor(
     /**
      * 振替元情報を取得するストリーム.
      */
-    fun loadSourcesStream(): Flow<List<TransferItemEntity>> {
-        return localDataSource.observeByIsSource(isSource = true)
+    fun loadSourcesStream(isSource: Boolean): Flow<List<TransferItemEntity>> {
+        return localDataSource.observeByIsSource(isSource = isSource)
     }
 
     /**
