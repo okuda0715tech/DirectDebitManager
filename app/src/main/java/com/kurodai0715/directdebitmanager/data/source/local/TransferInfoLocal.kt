@@ -9,7 +9,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
 import com.kurodai0715.directdebitmanager.domain.model.TransferInfo
-import com.kurodai0715.directdebitmanager.domain.model.ItemType
 
 data class TransferInfoLocal(
     @Embedded
@@ -22,16 +21,11 @@ data class TransferInfoLocal(
 fun TransferInfoLocal.toTransferInfo(): TransferInfo {
     val inputType =
         if (destination.isSourceItem) DestInputType.SourceList else DestInputType.Keyboard
-    val destAccountType = when (inputType) {
-        DestInputType.SourceList -> ItemType.fromInt(destination.typeCode!!)
-        DestInputType.Keyboard -> null
-    }
 
     return TransferInfo(
         destId = destination.id,
         destName = destination.label,
         inputType = inputType,
-        destAccountType = destAccountType,
         sourceId = destination.parentId,
         sourceName = sourceName,
     )
