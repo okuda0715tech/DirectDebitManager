@@ -49,7 +49,13 @@ interface DirectDebitDao {
      * 振替先の ID をキーとして振替先情報を取得し、その振替元の [TransferItemEntity.label] も同時に取得する.
      */
     @Query(
-        "SELECT dest.id, dest.label, dest.isSourceItem, dest.typeCode, dest.parentId, source.label AS source_name " +
+        "SELECT " +
+                "dest.id, " +
+                "dest.label, " +
+                "dest.isSourceItem, " +
+                "dest.typeCode, " +
+                "dest.parentId, " +
+                "source.label AS source_name " +
                 "FROM transfer_item AS dest " +
                 "INNER JOIN transfer_item AS source " +
                 "ON dest.parentId = source.id " +
