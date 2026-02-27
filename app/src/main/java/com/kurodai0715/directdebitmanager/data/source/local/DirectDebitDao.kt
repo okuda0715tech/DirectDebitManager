@@ -46,22 +46,26 @@ interface DirectDebitDao {
     fun observeTransferItems(): Flow<List<TransferItemEntity>>
 
     /**
-     * 振替先の ID をキーとして振替先情報を取得し、その振替元の [TransferItemEntity.label] も同時に取得する.
+     * 与えられた ID のデータとその親のデータを取得する.
      */
     @Query(
         "SELECT " +
-                "dest.id, " +
-                "dest.label, " +
-                "dest.isSourceItem, " +
-                "dest.typeCode, " +
-                "dest.parentId, " +
-                "source.label AS source_name " +
+                "dest.id AS child_id, " +
+                "dest.label AS child_label, " +
+                "dest.isSourceItem AS child_isSourceItem, " +
+                "dest.typeCode AS child_typeCode, " +
+                "dest.parentId AS child_parentId, " +
+                "source.id AS parent_id, " +
+                "source.label AS parent_label, " +
+                "source.isSourceItem AS parent_isSourceItem, " +
+                "source.typeCode AS parent_typeCode, " +
+                "source.parentId AS parent_parentId " +
                 "FROM transfer_item AS dest " +
                 "INNER JOIN transfer_item AS source " +
                 "ON dest.parentId = source.id " +
                 "WHERE dest.id = :id"
     )
-    suspend fun getTransferInfo(id: Int): TransferInfoLocal
+    suspend fun getItemWithParent(id: Int): ChildWithParent
 
     /**
      * 指定した id のレコードを取得.

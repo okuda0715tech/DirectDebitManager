@@ -114,7 +114,7 @@ sealed class UiEvent {
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository,
-    sourcesQueryUseCase: SourcesQueryUseCase,
+    private val sourcesQueryUseCase: SourcesQueryUseCase,
 ) : ViewModel() {
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
@@ -238,21 +238,21 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun loadInitialDest(destId: Int) {
         viewModelScope.launch {
-            val item = directDebitDefRepo.loadTransferInfo(destId)
+            val item = sourcesQueryUseCase.loadDestWithSource(destId)
 
             _formInputState.update {
-                when (item.inputType) {
+                when (item.destInputType) {
                     DestInputType.Keyboard -> it.copy(
                         sourceId = item.sourceId,
                         keyboardDestId = item.destId,
                         keyboardDestName = item.destName,
-                        inputType = item.inputType,
+                        inputType = item.destInputType,
                     )
 
                     DestInputType.SourceList -> it.copy(
                         sourceId = item.sourceId,
                         dialogDestId = item.destId,
-                        inputType = item.inputType,
+                        inputType = item.destInputType,
                     )
                 }
             }
