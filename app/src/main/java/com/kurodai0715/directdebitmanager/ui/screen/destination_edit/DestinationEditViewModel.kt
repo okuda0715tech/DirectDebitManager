@@ -406,42 +406,50 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
 
-            if (destId == 0) {
-                val resultSuccess = directDebitDefRepo.createDestination(
+            val resultSuccess = saveDestination()
+
+            handleResult(resultSuccess)
+        }
+    }
+
+    private suspend fun handleResult(resultSuccess: Boolean) {
+        if (destId == 0) {
+            // 新規作成の場合
+            // 入力フォームを初期化
+            _formInputState.update { FormInputState() }
+        }
+
+        when (resultSuccess) {
+            true ->
+                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+
+            false ->
+                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+        }
+    }
+
+    private suspend fun saveDestination(): Boolean {
+
+        val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
+
+        return when (destId) {
+            0 ->
+                directDebitDefRepo.createDestination(
                     label = getDestName(),
                     isSourceItem = isExistingItem,
                     parentId = _formInputState.value.sourceId,
                 )
 
-                if (resultSuccess) {
-                    // 新規作成の場合
-                    // 入力フォームを初期化
-                    _formInputState.update { FormInputState() }
-
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
-                } else {
-                    // 失敗した場合
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
-                }
-
-            } else {
-                val resultSuccess = directDebitDefRepo.updateDestination(
+            else ->
+                directDebitDefRepo.updateDestination(
                     id = destId,
                     label = getDestName(),
                     isSourceItem = isExistingItem,
                     parentId = _formInputState.value.sourceId,
                 )
-
-                if (resultSuccess) {
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
-                } else {
-                    // 失敗した場合
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
-                }
-            }
         }
+
     }
 
     fun checkRelatedDataExistence() {
