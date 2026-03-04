@@ -13,6 +13,7 @@ import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
+import com.kurodai0715.directdebitmanager.domain.model.Destination
 import com.kurodai0715.directdebitmanager.domain.usecase.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
@@ -436,12 +437,14 @@ class DestinationEditViewModel @Inject constructor(
 
         val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
 
-        return sourcesCommandUseCase.saveDestination(
+        val dest = Destination.from(
             destId,
             getDestName(),
             isExistingItem,
             _formInputState.value.sourceId
         )
+
+        return sourcesCommandUseCase.saveDestination(dest)
     }
 
     fun checkRelatedDataExistence() {

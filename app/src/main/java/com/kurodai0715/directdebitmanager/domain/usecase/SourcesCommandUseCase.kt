@@ -6,6 +6,7 @@
 package com.kurodai0715.directdebitmanager.domain.usecase
 
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.domain.model.Destination
 import javax.inject.Inject
 
 sealed interface SaveResult {
@@ -19,17 +20,14 @@ class SourcesCommandUseCase @Inject constructor(
 ) {
 
     suspend fun saveDestination(
-        destId: Int,
-        label: String,
-        isSourceItem: Boolean,
-        parentId: Int
+        destination: Destination
     ): SaveResult {
-        return when (destId) {
-            0 -> {
+        return when (destination) {
+            is Destination.New -> {
                 val result = repo.createDestination(
-                    label = label,
-                    isSourceItem = isSourceItem,
-                    parentId = parentId,
+                    label = destination.label,
+                    isSourceItem = destination.isSourceItem,
+                    parentId = destination.parentId,
                 )
                 when (result) {
                     true -> SaveResult.Created
@@ -37,12 +35,12 @@ class SourcesCommandUseCase @Inject constructor(
                 }
             }
 
-            else -> {
+            is Destination.Existing -> {
                 val result = repo.updateDestination(
-                    id = destId,
-                    label = label,
-                    isSourceItem = isSourceItem,
-                    parentId = parentId,
+                    id = destination.id,
+                    label = destination.label,
+                    isSourceItem = destination.isSourceItem,
+                    parentId = destination.parentId,
                 )
                 when (result) {
                     true -> SaveResult.Updated
