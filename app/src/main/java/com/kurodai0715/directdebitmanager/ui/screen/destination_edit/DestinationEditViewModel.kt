@@ -411,7 +411,16 @@ class DestinationEditViewModel @Inject constructor(
     private fun save() {
         viewModelScope.launch {
 
-            val result = saveDestination()
+            val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
+
+            val dest = Destination.from(
+                destId,
+                getDestName(),
+                isExistingItem,
+                _formInputState.value.sourceId
+            )
+
+            val result = saveDestination(dest)
 
             handleResult(result)
         }
@@ -433,18 +442,8 @@ class DestinationEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun saveDestination(): SaveResult {
-
-        val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
-
-        val dest = Destination.from(
-            destId,
-            getDestName(),
-            isExistingItem,
-            _formInputState.value.sourceId
-        )
-
-        return sourcesCommandUseCase.saveDestination(dest)
+    private suspend fun saveDestination(destination: Destination): SaveResult {
+        return sourcesCommandUseCase.saveDestination(destination)
     }
 
     fun checkRelatedDataExistence() {
