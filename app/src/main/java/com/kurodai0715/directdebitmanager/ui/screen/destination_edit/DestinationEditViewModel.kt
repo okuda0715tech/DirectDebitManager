@@ -346,7 +346,7 @@ class DestinationEditViewModel @Inject constructor(
         if (!destValidationSuccess) return
         if (!sourceValidationSuccess) return
 
-        saveData()
+        save()
     }
 
     private fun destValidation(): Boolean {
@@ -404,7 +404,7 @@ class DestinationEditViewModel @Inject constructor(
 //        }
 //    }
 
-    private fun saveData() {
+    private fun save() {
         viewModelScope.launch {
 
             val resultSuccess = saveDestination()
