@@ -422,23 +422,18 @@ class DestinationEditViewModel @Inject constructor(
 
             val result = saveDestination(dest)
 
-            handleResult(result)
-        }
-    }
+            when (result) {
+                SaveResult.Succeeded -> {
+                    if (dest is Destination.New) {
+                        // 新規作成の場合は、入力フォームを初期化
+                        _formInputState.update { FormInputState() }
+                    }
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+                }
 
-    private suspend fun handleResult(result: SaveResult) {
-        when (result) {
-            SaveResult.Created -> {
-                // 入力フォームを初期化
-                _formInputState.update { FormInputState() }
-                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+                SaveResult.Failed ->
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
-
-            SaveResult.Updated ->
-                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
-
-            SaveResult.Failed ->
-                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
         }
     }
 

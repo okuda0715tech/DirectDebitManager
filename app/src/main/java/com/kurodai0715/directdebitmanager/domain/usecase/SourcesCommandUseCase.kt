@@ -10,8 +10,7 @@ import com.kurodai0715.directdebitmanager.domain.model.Destination
 import javax.inject.Inject
 
 sealed interface SaveResult {
-    data object Created : SaveResult
-    data object Updated : SaveResult
+    data object Succeeded : SaveResult
     data object Failed : SaveResult
 }
 
@@ -30,7 +29,7 @@ class SourcesCommandUseCase @Inject constructor(
                     parentId = destination.parentId,
                 )
                 when (result) {
-                    true -> SaveResult.Created
+                    true -> SaveResult.Succeeded
                     false -> SaveResult.Failed
                 }
             }
@@ -43,7 +42,7 @@ class SourcesCommandUseCase @Inject constructor(
                     parentId = destination.parentId,
                 )
                 when (result) {
-                    true -> SaveResult.Updated
+                    true -> SaveResult.Succeeded
                     false -> SaveResult.Failed
                 }
             }
