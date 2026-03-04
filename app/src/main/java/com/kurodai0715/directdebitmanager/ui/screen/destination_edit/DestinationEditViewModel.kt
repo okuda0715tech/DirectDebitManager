@@ -13,6 +13,7 @@ import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
+import com.kurodai0715.directdebitmanager.domain.usecase.SourcesCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
@@ -115,6 +116,7 @@ sealed class UiEvent {
 class DestinationEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository,
     private val sourcesQueryUseCase: SourcesQueryUseCase,
+    private val sourcesCommandUseCase: SourcesCommandUseCase,
 ) : ViewModel() {
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
@@ -433,23 +435,12 @@ class DestinationEditViewModel @Inject constructor(
 
         val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
 
-        return when (destId) {
-            0 ->
-                directDebitDefRepo.createDestination(
-                    label = getDestName(),
-                    isSourceItem = isExistingItem,
-                    parentId = _formInputState.value.sourceId,
-                )
-
-            else ->
-                directDebitDefRepo.updateDestination(
-                    id = destId,
-                    label = getDestName(),
-                    isSourceItem = isExistingItem,
-                    parentId = _formInputState.value.sourceId,
-                )
-        }
-
+        return sourcesCommandUseCase.saveDestination(
+            destId,
+            getDestName(),
+            isExistingItem,
+            _formInputState.value.sourceId
+        )
     }
 
     fun checkRelatedDataExistence() {
