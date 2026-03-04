@@ -420,7 +420,7 @@ class DestinationEditViewModel @Inject constructor(
                     // 入力フォームを初期化
                     _formInputState.update { FormInputState() }
 
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_register_successfully))
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
                 } else {
                     // 失敗した場合
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
@@ -435,7 +435,7 @@ class DestinationEditViewModel @Inject constructor(
                 )
 
                 if (resultSuccess) {
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_update_successfully))
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
                 } else {
                     // 失敗した場合
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
