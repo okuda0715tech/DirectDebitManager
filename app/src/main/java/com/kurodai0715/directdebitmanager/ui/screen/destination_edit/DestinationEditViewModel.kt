@@ -13,6 +13,7 @@ import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
+import com.kurodai0715.directdebitmanager.domain.usecase.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
@@ -409,29 +410,29 @@ class DestinationEditViewModel @Inject constructor(
     private fun save() {
         viewModelScope.launch {
 
-            val resultSuccess = saveDestination()
+            val result = saveDestination()
 
-            handleResult(resultSuccess)
+            handleResult(result)
         }
     }
 
-    private suspend fun handleResult(resultSuccess: Boolean) {
-        if (destId == 0) {
-            // 新規作成の場合
-            // 入力フォームを初期化
-            _formInputState.update { FormInputState() }
-        }
+    private suspend fun handleResult(result: SaveResult) {
+        when (result) {
+            SaveResult.Created -> {
+                // 入力フォームを初期化
+                _formInputState.update { FormInputState() }
+                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+            }
 
-        when (resultSuccess) {
-            true ->
+            SaveResult.Updated ->
                 _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
 
-            false ->
+            SaveResult.Failed ->
                 _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
         }
     }
 
-    private suspend fun saveDestination(): Boolean {
+    private suspend fun saveDestination(): SaveResult {
 
         val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
 
