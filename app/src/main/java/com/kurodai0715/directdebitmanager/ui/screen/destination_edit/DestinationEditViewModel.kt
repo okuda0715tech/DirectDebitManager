@@ -10,11 +10,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
-import com.kurodai0715.directdebitmanager.domain.model.ItemType
+import com.kurodai0715.directdebitmanager.domain.model.Destination
+import com.kurodai0715.directdebitmanager.domain.usecase.SaveResult
+import com.kurodai0715.directdebitmanager.domain.usecase.SourcesCommandUseCase
+import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.toSourceSelectionUiModel
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -81,7 +83,6 @@ data class FormInputState(
 data class DerivedUiState(
     val sourceName: String = "",
     val dialogDestName: String = "",
-    val dialogDestType: ItemType? = null,
 )
 
 /**
@@ -115,34 +116,29 @@ sealed class UiEvent {
 
 @HiltViewModel
 class DestinationEditViewModel @Inject constructor(
-    private val directDebitDefRepo: DirectDebitDefaultRepository
+    private val directDebitDefRepo: DirectDebitDefaultRepository,
+    private val sourcesQueryUseCase: SourcesQueryUseCase,
+    private val sourcesCommandUseCase: SourcesCommandUseCase,
 ) : ViewModel() {
 
     private val _uiLocalState = MutableStateFlow(UiLocalState())
 
     private val _formInputState = MutableStateFlow(FormInputState())
 
-    private var sourceIndexedCache = directDebitDefRepo.loadSourcesStream()
-        .map { sources ->
-            sources.associateBy(TransferItemEntity::id)
-        }
+    private var sourceLabelsById = sourcesQueryUseCase.loadSourceLabelsById()
 
     private val derivedUiState: StateFlow<DerivedUiState> = combine(
-        sourceIndexedCache,
+        sourceLabelsById,
         _formInputState
-    ) { sourceIndexedCache, formInputState ->
-        val existingItem = when (formInputState.inputType) {
-            DestInputType.SourceList -> sourceIndexedCache[formInputState.dialogDestId]
+    ) { sourceLabelsById, formInputState ->
+        val dialogDestLabel = when (formInputState.inputType) {
+            DestInputType.SourceList -> sourceLabelsById[formInputState.dialogDestId]
             else -> null
         }
 
         DerivedUiState(
-            sourceName = sourceIndexedCache[formInputState.sourceId]?.label ?: "",
-            dialogDestName = existingItem?.label ?: "",
-            dialogDestType = existingItem?.let {
-                checkNotNull(it.typeCode) { "source item must have type, it should not be null." }
-                ItemType.fromInt(it.typeCode)
-            },
+            sourceName = sourceLabelsById[formInputState.sourceId] ?: "",
+            dialogDestName = dialogDestLabel ?: "",
         )
     }.stateIn(
         scope = viewModelScope,
@@ -174,7 +170,7 @@ class DestinationEditViewModel @Inject constructor(
     //          )
     //      }
     private val persistedAsync: StateFlow<Async<PersistedDataState>> =
-        directDebitDefRepo.loadSourcesStream()
+        sourcesQueryUseCase.loadSources()
             .map { sources ->
                 PersistedDataState(
                     sourceUiModels = sources.toSourceSelectionUiModel(),
@@ -246,20 +242,21 @@ class DestinationEditViewModel @Inject constructor(
 
     private fun loadInitialDest(destId: Int) {
         viewModelScope.launch {
-            val item = directDebitDefRepo.loadTransferInfo(destId)
+            val item = sourcesQueryUseCase.loadDestWithSource(destId)
 
             _formInputState.update {
-                when(item.inputType){
+                when (item.destInputType) {
                     DestInputType.Keyboard -> it.copy(
                         sourceId = item.sourceId,
                         keyboardDestId = item.destId,
                         keyboardDestName = item.destName,
-                        inputType = item.inputType,
+                        inputType = item.destInputType,
                     )
+
                     DestInputType.SourceList -> it.copy(
                         sourceId = item.sourceId,
                         dialogDestId = item.destId,
-                        inputType = item.inputType,
+                        inputType = item.destInputType,
                     )
                 }
             }
@@ -353,7 +350,7 @@ class DestinationEditViewModel @Inject constructor(
         if (!destValidationSuccess) return
         if (!sourceValidationSuccess) return
 
-        saveData()
+        save()
     }
 
     private fun destValidation(): Boolean {
@@ -376,7 +373,7 @@ class DestinationEditViewModel @Inject constructor(
             DestInputType.SourceList -> derivedUiState.value.dialogDestName
         }
 
-    val destId: Int?
+    val destId: Int
         get() {
             // 【注意】 getter は必要です。
             // getter を使わずに直接代入してしまうと、 destId にはデータの参照先が保持されます。
@@ -411,42 +408,37 @@ class DestinationEditViewModel @Inject constructor(
 //        }
 //    }
 
-    private fun saveData() {
+    private fun save() {
         viewModelScope.launch {
-            val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
-            val type = if (isExistingItem) derivedUiState.value.dialogDestType else null
 
-            val resultSuccess = directDebitDefRepo.upsertDestination(
-                id = destId,
-                label = getDestName(),
-                isSourceItem = isExistingItem,
-                parentId = _formInputState.value.sourceId,
-                type = type,
+            val isExistingItem = _formInputState.value.inputType == DestInputType.SourceList
+
+            val dest = Destination.from(
+                destId,
+                getDestName(),
+                isExistingItem,
+                _formInputState.value.sourceId
             )
 
-            if (resultSuccess) {
-                // 新規作成 or 更新が成功した場合
-                if (destId == 0) {
-                    // 新規作成の場合
-                    // 入力フォームを初期化
-                    _formInputState.update { FormInputState() }
-                }
-            }
+            val result = saveDestination(dest)
 
-            if (resultSuccess) {
-                // 新規作成 or 更新が成功した場合
-                if (destId == 0) {
-                    // 新規作成の場合
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_register_successfully))
-                } else {
-                    // 更新の場合
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_update_successfully))
+            when (result) {
+                SaveResult.Succeeded -> {
+                    if (dest is Destination.New) {
+                        // 新規作成の場合は、入力フォームを初期化
+                        _formInputState.update { FormInputState() }
+                    }
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
                 }
-            } else {
-                // 新規作成 or 更新が失敗した場合
-                _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+
+                SaveResult.Failed ->
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
+    }
+
+    private suspend fun saveDestination(destination: Destination): SaveResult {
+        return sourcesCommandUseCase.saveDestination(destination)
     }
 
     fun checkRelatedDataExistence() {
