@@ -99,7 +99,11 @@ fun AppBaseScreen() {
                 modifier = Modifier
                     .padding(contentPadding)
                     .consumeWindowInsets(contentPadding),
-                onChangeTitle = { screenHeaderTitle = it },
+                onChangeTitle = {
+                    // この警告 [Assigned value is never read] は無視して OK。
+                    // 正しいのにコンパイラが正しく認識できていないため。
+                    screenHeaderTitle = it
+                },
                 startDestination = navDest,
             )
         }
