@@ -66,6 +66,8 @@ fun AppBaseScreen() {
             AppDrawerContent(
                 currentDest = navDest,
                 onClickItem = { navDestination ->
+                    // この警告 [Assigned value is never read] は無視して OK。
+                    // 正しいのにコンパイラが正しく認識できていないため。
                     navDest = navDestination
                     scope.launch {
                         drawerState.close()
