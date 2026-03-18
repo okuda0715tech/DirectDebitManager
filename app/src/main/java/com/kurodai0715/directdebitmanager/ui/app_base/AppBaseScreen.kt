@@ -65,8 +65,8 @@ fun AppBaseScreen() {
         drawerContent = {
             AppDrawerContent(
                 selectedItem = selectedDrawerItem,
-                onClickItem = { selectedItem ->
-                    selectedDrawerItem = selectedItem
+                onClickItem = { navDestination ->
+                    selectedDrawerItem = navDestination
                     scope.launch {
                         drawerState.close()
                     }
