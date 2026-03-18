@@ -44,6 +44,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import com.kurodai0715.directdebitmanager.ui.navigation.DestList
+import com.kurodai0715.directdebitmanager.ui.navigation.NavDestination
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -57,7 +58,7 @@ fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var selectedDrawerItem: Any by remember { mutableStateOf(DestList) }
+    var selectedDrawerItem: NavDestination by remember { mutableStateOf(DestList) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -138,8 +139,8 @@ fun AppTopBar(
 
 @Composable
 fun AppDrawerContent(
-    selectedItem: Any,
-    onClickItem: (Any) -> Unit
+    selectedItem: NavDestination,
+    onClickItem: (NavDestination) -> Unit
 ) {
     ModalDrawerSheet {
 

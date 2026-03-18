@@ -10,20 +10,23 @@ import kotlinx.serialization.Serializable
 //private const val TAG = "NavigationDestinations.kt"
 
 @Serializable
-data object DestList
+sealed interface NavDestination
+
+@Serializable
+data object DestList : NavDestination
 
 @Serializable
 data class DestEdit(
     val destId: Int? = null,
-)
+) : NavDestination
 
 @Serializable
-data object SourceList
+data object SourceList : NavDestination
 
 @Serializable
 data class SourceEdit(
     val sourceId: Int? = null,
-)
+) : NavDestination
 
 
 
