@@ -58,15 +58,15 @@ fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var selectedDrawerItem: NavDestination by remember { mutableStateOf(DestList) }
+    var navDest: NavDestination by remember { mutableStateOf(DestList) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
         drawerContent = {
             AppDrawerContent(
-                selectedItem = selectedDrawerItem,
+                currentDest = navDest,
                 onClickItem = { navDestination ->
-                    selectedDrawerItem = navDestination
+                    navDest = navDestination
                     scope.launch {
                         drawerState.close()
                     }
@@ -98,7 +98,7 @@ fun AppBaseScreen() {
                     .padding(contentPadding)
                     .consumeWindowInsets(contentPadding),
                 onChangeTitle = { screenHeaderTitle = it },
-                startDestination = selectedDrawerItem,
+                startDestination = navDest,
             )
         }
     }
@@ -139,7 +139,7 @@ fun AppTopBar(
 
 @Composable
 fun AppDrawerContent(
-    selectedItem: NavDestination,
+    currentDest: NavDestination,
     onClickItem: (NavDestination) -> Unit
 ) {
     ModalDrawerSheet {
@@ -155,7 +155,7 @@ fun AppDrawerContent(
 
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.direct_debit_info)) },
-            selected = selectedItem is DestList,
+            selected = currentDest is DestList,
             onClick = { debouncedClick { onClickItem(DestList) } }
         )
 
@@ -192,7 +192,7 @@ fun PreviewOpenedAppDrawer() {
     ModalNavigationDrawer(
         drawerContent = {
             AppDrawerContent(
-                selectedItem = DestList,
+                currentDest = DestList,
                 onClickItem = {},
             )
         },
