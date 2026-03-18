@@ -13,20 +13,26 @@ import kotlinx.serialization.Serializable
 sealed interface NavDestination
 
 @Serializable
-data object DestList : NavDestination
+sealed interface DestBase : NavDestination
+
+@Serializable
+data object DestList : DestBase
 
 @Serializable
 data class DestEdit(
     val destId: Int? = null,
-) : NavDestination
+) : DestBase
 
 @Serializable
-data object SourceList : NavDestination
+sealed interface SourceBase : NavDestination
+
+@Serializable
+data object SourceList : SourceBase
 
 @Serializable
 data class SourceEdit(
     val sourceId: Int? = null,
-) : NavDestination
+) : SourceBase
 
 
 
