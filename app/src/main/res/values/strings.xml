@@ -19,6 +19,11 @@
     <string name="source_registration_title">振替元 / 登録</string>
     <string name="source_update_title">振替元 / 変更</string>
 
+    <!-- ホーム 画面 -->
+    <string name="payer_list_label">支払元　一覧</string>
+    <string name="payee_list_label">支払先　一覧</string>
+    <string name="relation_list_label">振替関係　一覧</string>
+
     <!-- 振替情報 一覧 画面 -->
     <string name="list_view_tab_label">個別表示</string>
     <string name="tree_view_tab_label">ツリー表示</string>
