@@ -33,13 +33,12 @@ data class TransferItemEntity(
      */
     val isSourceItem: Boolean,
 
-    // TODO type ではなく、 typeCode という名前に変更する。
     /**
      * この [TransferItemEntity] の区分.
      *
      * 具体的な区分の種類は、 [ItemType] を参照。
      */
-    val type: Int?,
+    val typeCode: Int?,
 
     /**
      * この [TransferItemEntity] の振替元の [TransferItemEntity] の ID .

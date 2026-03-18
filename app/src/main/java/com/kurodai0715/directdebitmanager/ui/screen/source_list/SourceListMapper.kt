@@ -1,17 +1,11 @@
-/*
- * Copyright (c) 2025 Okuda Tomohiro
- * Licensed under the MIT License.
- */
-
-package com.kurodai0715.directdebitmanager.ui.screen.destination_edit
+package com.kurodai0715.directdebitmanager.ui.screen.source_list
 
 import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
 
-
-fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
-    val type = requireNotNull(type) { "LocalTransferItem.type is null" }
+private fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
+    val type = requireNotNull(typeCode) { "LocalTransferItem.type is null" }
 
     return SourceUiModel(
         id = id,
@@ -20,3 +14,6 @@ fun TransferItemEntity.toSourceUiModel(): SourceUiModel {
     )
 }
 
+fun List<TransferItemEntity>.toSourceUiModels(): List<SourceUiModel> {
+    return map { it.toSourceUiModel() }
+}

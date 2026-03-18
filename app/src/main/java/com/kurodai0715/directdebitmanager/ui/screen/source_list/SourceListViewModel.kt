@@ -8,10 +8,8 @@ package com.kurodai0715.directdebitmanager.ui.screen.source_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
-import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
-import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.toSourceUiModel
+import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,12 +27,14 @@ data class SourceListUiState(
 
 @HiltViewModel
 class SourceListViewModel @Inject constructor(
-    directDebitDefRepo: DirectDebitDefaultRepository
+    sourcesQueryUseCase: SourcesQueryUseCase,
 ) : ViewModel() {
 
-    private val _sourcesAsync = directDebitDefRepo.loadSourcesStream()
-        .map { Async.Success(it) }
-        .catch<Async<List<TransferItemEntity>>> { emit(Async.Error(R.string.load_error)) }
+    private val _sourcesAsync = sourcesQueryUseCase.loadSources()
+        .map { Async.Success(it.toSourceUiModels()) }
+        .catch<Async<List<SourceUiModel>>> {
+            emit(Async.Error(R.string.load_error))
+        }
 
     val uiState: StateFlow<SourceListUiState> = _sourcesAsync.map { transSourcesAsync ->
         when (transSourcesAsync) {
@@ -48,7 +48,7 @@ class SourceListViewModel @Inject constructor(
 
             is Async.Success -> {
                 SourceListUiState(
-                    items = transSourcesAsync.data.map { it.toSourceUiModel() },
+                    items = transSourcesAsync.data,
                     isLoading = false,
                 )
             }
