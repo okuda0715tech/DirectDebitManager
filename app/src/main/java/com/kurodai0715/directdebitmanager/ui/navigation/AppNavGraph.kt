@@ -14,11 +14,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.R.string.edit_screen_title
-import com.kurodai0715.directdebitmanager.R.string.register_screen_title
-import com.kurodai0715.directdebitmanager.R.string.source_list_title
-import com.kurodai0715.directdebitmanager.R.string.source_registration_title
-import com.kurodai0715.directdebitmanager.R.string.source_update_title
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
@@ -64,9 +59,9 @@ fun AppNavGraph(
 
             onChangeTitle(
                 if (destEdit.destId == null)
-                    register_screen_title
+                    R.string.register_screen_title
                 else
-                    edit_screen_title
+                    R.string.edit_screen_title
             )
         }
 
@@ -75,7 +70,7 @@ fun AppNavGraph(
                 onClickNavigateUp = { navController.navigateUp() },
                 onClickSourceEdit = { navController.navigateToSourceEdit(it) }
             )
-            onChangeTitle(source_list_title)
+            onChangeTitle(R.string.source_list_title)
         }
 
         composable<SourceEdit> { backStackEntry ->
@@ -90,9 +85,9 @@ fun AppNavGraph(
 
             onChangeTitle(
                 if (sourceEdit.sourceId == null)
-                    source_registration_title
+                    R.string.source_registration_title
                 else
-                    source_update_title
+                    R.string.source_update_title
             )
         }
     }
