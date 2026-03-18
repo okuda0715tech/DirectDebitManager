@@ -3,6 +3,7 @@
 
     <!-- ドロワーメニュー -->
     <string name="header_label">メニュー</string>
+    <string name="home">ホーム</string>
     <string name="direct_debit_info">口座振替情報</string>
     <string name="source_info">振替元情報</string>
     <string name="privacy_policy">プライバシーポリシー</string>
@@ -10,6 +11,7 @@
 
     <!-- 画面名 -->
     <string name="no_title"> </string>
+    <string name="home_screen_title">ホーム</string>
     <string name="list_screen_title">振替情報 / 一覧</string>
     <string name="register_screen_title">振替情報 / 登録</string>
     <string name="edit_screen_title">振替情報 / 変更</string>

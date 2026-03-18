@@ -21,6 +21,7 @@ import com.kurodai0715.directdebitmanager.R.string.source_registration_title
 import com.kurodai0715.directdebitmanager.R.string.source_update_title
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 
@@ -38,6 +39,10 @@ fun AppNavGraph(
         startDestination = startDestination,
         modifier = modifier,
     ) {
+        composable<Home> {
+            HomeScreen()
+            onChangeTitle(R.string.home_screen_title)
+        }
 
         composable<DestList> {
             DestinationListScreen(

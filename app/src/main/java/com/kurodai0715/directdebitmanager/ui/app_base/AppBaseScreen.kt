@@ -44,6 +44,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import com.kurodai0715.directdebitmanager.ui.navigation.DestList
+import com.kurodai0715.directdebitmanager.ui.navigation.Home
 import com.kurodai0715.directdebitmanager.ui.navigation.NavDestination
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
@@ -58,7 +59,7 @@ fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var navDest: NavDestination by remember { mutableStateOf(DestList) }
+    var navDest: NavDestination by remember { mutableStateOf(Home) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -158,6 +159,12 @@ fun AppDrawerContent(
         )
 
         HorizontalDivider()
+
+        NavigationDrawerItem(
+            label = { Text(text = stringResource(R.string.home)) },
+            selected = currentDest is Home,
+            onClick = { debouncedClick { onClickItem(Home) } }
+        )
 
         NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.direct_debit_info)) },
