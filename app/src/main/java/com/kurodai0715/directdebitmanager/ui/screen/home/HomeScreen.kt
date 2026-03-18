@@ -11,26 +11,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier) {
-    HomeScreenContents(modifier)
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onClickPayerList: () -> Unit,
+    onClickPayeeList: () -> Unit,
+    onClickRelationList: () -> Unit,
+) {
+    HomeScreenContents(
+        modifier,
+        onClickPayerList,
+        onClickPayeeList,
+        onClickRelationList
+    )
 }
 
 @Composable
-fun HomeScreenContents(modifier: Modifier = Modifier) {
+fun HomeScreenContents(
+    modifier: Modifier = Modifier,
+    onClickPayerList: () -> Unit,
+    onClickPayeeList: () -> Unit,
+    onClickRelationList: () -> Unit,
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Button(onClick = {}) {
+        Button(onClick = { debouncedClick { onClickPayerList() } }) {
             Text(text = stringResource(R.string.payer_list_label))
         }
-        Button(onClick = {}) {
+        Button(onClick = { debouncedClick { onClickPayeeList() } }) {
             Text(text = stringResource(R.string.payee_list_label))
         }
-        Button(onClick = {}) {
+        Button(onClick = { debouncedClick { onClickRelationList() } }) {
             Text(text = stringResource(R.string.relation_list_label))
         }
     }
@@ -39,5 +55,9 @@ fun HomeScreenContents(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun PreviewHomeScreenContents() {
-    HomeScreenContents()
+    HomeScreenContents(
+        onClickPayerList = {},
+        onClickPayeeList = {},
+        onClickRelationList = {},
+    )
 }

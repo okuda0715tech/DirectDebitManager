@@ -35,7 +35,11 @@ fun AppNavGraph(
         modifier = modifier,
     ) {
         composable<Home> {
-            HomeScreen()
+            HomeScreen(
+                onClickPayerList = { navController.navigateToSourceList() },
+                onClickPayeeList = { TODO() },
+                onClickRelationList = { TODO() },
+            )
             onChangeTitle(R.string.home_screen_title)
         }
 
