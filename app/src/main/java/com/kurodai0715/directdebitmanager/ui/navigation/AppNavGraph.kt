@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.payee_list.PayeeListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen

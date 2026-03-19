@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.payee_list
+package com.kurodai0715.directdebitmanager.ui.screen.payee_list
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
