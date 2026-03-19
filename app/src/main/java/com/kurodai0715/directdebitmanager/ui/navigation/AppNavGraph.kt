@@ -14,6 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
@@ -37,10 +38,15 @@ fun AppNavGraph(
         composable<Home> {
             HomeScreen(
                 onClickPayerList = { navController.navigateToSourceList() },
-                onClickPayeeList = { TODO() },
+                onClickPayeeList = { navController.navigateToPayeeList() },
                 onClickRelationList = { TODO() },
             )
             onChangeTitle(R.string.home_screen_title)
+        }
+
+        composable<PayeeList> {
+            PayeeListScreen()
+            onChangeTitle(R.string.payee_list_screen_title)
         }
 
         composable<DestList> {

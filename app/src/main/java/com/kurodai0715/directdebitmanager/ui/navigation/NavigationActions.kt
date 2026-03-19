@@ -27,3 +27,7 @@ fun NavController.navigateToSourceEdit(sourceId: Int?) {
 fun NavController.navigateToSourceList() {
     navigate(SourceList)
 }
+
+fun NavController.navigateToPayeeList() {
+    navigate(PayeeList)
+}

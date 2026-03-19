@@ -13,7 +13,13 @@ import kotlinx.serialization.Serializable
 sealed interface NavDestination
 
 @Serializable
-data object Home: NavDestination
+data object Home : NavDestination
+
+@Serializable
+sealed interface PayeeBase : NavDestination
+
+@Serializable
+data object PayeeList : PayeeBase
 
 @Serializable
 sealed interface DestBase : NavDestination
