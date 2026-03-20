@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payee_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -61,7 +63,13 @@ fun PayeeListContents(
         verticalArrangement = Arrangement.spacedBy(LayoutTokens.itemSpacing)
     ) {
         items(items) { item ->
-            Text(text = item.name)
+            Text(
+                text = item.name,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surfaceContainerLow)
+                    .padding(LayoutTokens.elementSpacing)
+            )
         }
     }
 }
