@@ -185,5 +185,9 @@ class DirectDebitDefaultRepository @Inject constructor(
     suspend fun loadItem(id: Int): TransferItemEntity {
         return localDataSource.getItem(id)
     }
+
+    fun observePayees(): Flow<List<TransferItemEntity>> {
+        return localDataSource.observePayees()
+    }
 }
 
