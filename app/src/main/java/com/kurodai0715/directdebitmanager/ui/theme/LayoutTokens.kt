@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.Dp
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.elementSpacing
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.itemSpacing
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.screenPadding
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.sectionSpacing
 
 object LayoutTokens {
 
@@ -45,6 +46,12 @@ object LayoutTokens {
      */
     val sectionSpacing: Dp
         @Composable get() = Spacing.l
+
+    /**
+     * [sectionSpacing] の半分の余白.
+     */
+    val sectionSpacingHalf: Dp
+        @Composable get() = sectionSpacing / 2
 
     /**
      * 画面と画面の間の余白.
