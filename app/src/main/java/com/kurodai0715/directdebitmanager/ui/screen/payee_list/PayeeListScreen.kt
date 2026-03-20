@@ -17,11 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PayeeListScreen(
@@ -41,7 +46,9 @@ fun PayeeListScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         PayeeListContents(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier
+                .padding(paddingValues)
+                .padding(LayoutTokens.screenPaddingHalf),
             items = uiState.items
         )
 
@@ -54,6 +61,28 @@ fun PayeeListScreen(
 
 @Composable
 fun PayeeListContents(
+    modifier: Modifier = Modifier,
+    items: List<PayeeUiModel>
+) {
+
+    ContentsWithBottomButton(
+        modifier = modifier,
+        contents = {
+            Contents(Modifier, items)
+        },
+        bottomButton = {
+            HorizontalTwoButton(
+                onClickLeft = { debouncedClick(TODO()) },
+                onClickRight = { debouncedClick { TODO() } },
+                leftText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_add)
+            )
+        }
+    )
+}
+
+@Composable
+fun Contents(
     modifier: Modifier = Modifier,
     items: List<PayeeUiModel>
 ) {
