@@ -32,6 +32,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 fun PayeeListScreen(
     modifier: Modifier = Modifier,
     viewModel: PayeeListViewModel = hiltViewModel(),
+    onClickNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -49,7 +50,8 @@ fun PayeeListScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(LayoutTokens.screenPaddingHalf),
-            items = uiState.items
+            items = uiState.items,
+            onNavigateUp = onClickNavigateUp,
         )
 
         if (uiState.isLoading) {
@@ -62,7 +64,8 @@ fun PayeeListScreen(
 @Composable
 fun PayeeListContents(
     modifier: Modifier = Modifier,
-    items: List<PayeeUiModel>
+    items: List<PayeeUiModel>,
+    onNavigateUp: () -> Unit,
 ) {
 
     ContentsWithBottomButton(
@@ -72,7 +75,7 @@ fun PayeeListContents(
         },
         bottomButton = {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick(TODO()) },
+                onClickLeft = { debouncedClick(onNavigateUp) },
                 onClickRight = { debouncedClick { TODO() } },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_add)
@@ -110,6 +113,7 @@ private fun PreviewPayeeListContents() {
         items = listOf(
             PayeeUiModel(1, "横浜銀行クレジットカード"),
             PayeeUiModel(2, "電気料金"),
-        )
+        ),
+        onNavigateUp = {},
     )
 }
