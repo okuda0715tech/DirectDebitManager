@@ -5,7 +5,7 @@ import com.kurodai0715.directdebitmanager.domain.model.Payee
 fun Payee.toPayeeUiModel(): PayeeUiModel {
     return PayeeUiModel(
         id = id,
-        name = name,
+        name = name.value,
     )
 }
 

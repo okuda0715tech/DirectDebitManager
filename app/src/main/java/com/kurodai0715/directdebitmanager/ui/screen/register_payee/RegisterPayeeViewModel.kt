@@ -6,6 +6,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.Payee
+import com.kurodai0715.directdebitmanager.domain.model.PayeeName
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PayeeCommandUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -90,9 +91,9 @@ class RegisterPayeeViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val payee = Payee.create(
+            val payee = Payee(
                 id = uiState.value.id,
-                label = uiState.value.payeeName,
+                name = PayeeName(uiState.value.payeeName),
             )
 
             val result = savePayee(payee)

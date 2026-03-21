@@ -13,7 +13,7 @@ class PayeeCommandUseCase @Inject constructor(
     ): SaveResult {
 
         val result = repo.createPayee(
-            label = payee.name,
+            label = payee.name.value,
         )
 
         return when (result) {
