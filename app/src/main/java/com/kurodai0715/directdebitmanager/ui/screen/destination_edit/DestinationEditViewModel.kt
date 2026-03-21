@@ -106,6 +106,7 @@ sealed interface TargetType {
     data object Destination : TargetType
 }
 
+// TODO クラス名を DestinationEditUiEvent にする
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
 
