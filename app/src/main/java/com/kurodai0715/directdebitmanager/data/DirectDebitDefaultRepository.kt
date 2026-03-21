@@ -87,6 +87,33 @@ class DirectDebitDefaultRepository @Inject constructor(
         return resultSuccess
     }
 
+    /**
+     * 支払先を新規に登録する.
+     */
+    suspend fun createPayee(
+        label: String,
+    ): Boolean {
+
+        var resultSuccess: Boolean
+        withContext(ioDispatcher) {
+            resultSuccess = try {
+                localDataSource.upsertTransferItem(
+                    TransferItemEntity(
+                        label = label,
+                        isSourceItem = false,
+                        typeCode = null,
+                    )
+                )
+                true
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                false
+            }
+            Log.d(TAG, "resultSuccess = $resultSuccess")
+        }
+        return resultSuccess
+    }
+
 
     /**
      * 振替元情報を DB へ登録する.
