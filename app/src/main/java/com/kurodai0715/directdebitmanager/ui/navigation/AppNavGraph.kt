@@ -18,6 +18,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.Destination
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.register_payee.RegisterPayeeScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 
@@ -47,8 +48,14 @@ fun AppNavGraph(
         composable<PayeeList> {
             PayeeListScreen(
                 onClickNavigateUp = { navController.navigateUp() },
+                onNavigateToRegister = { navController.navigateToRegisterPayee() }
             )
             onChangeTitle(R.string.payee_list_screen_title)
+        }
+
+        composable<RegisterPayee> {
+            RegisterPayeeScreen()
+            onChangeTitle(R.string.register_payee_screen_title)
         }
 
         composable<DestList> {

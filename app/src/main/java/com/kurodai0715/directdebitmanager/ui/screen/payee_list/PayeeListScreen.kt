@@ -33,6 +33,7 @@ fun PayeeListScreen(
     modifier: Modifier = Modifier,
     viewModel: PayeeListViewModel = hiltViewModel(),
     onClickNavigateUp: () -> Unit,
+    onNavigateToRegister: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -52,6 +53,7 @@ fun PayeeListScreen(
                 .padding(LayoutTokens.screenPaddingHalf),
             items = uiState.items,
             onNavigateUp = onClickNavigateUp,
+            onNavigateToRegister = onNavigateToRegister,
         )
 
         if (uiState.isLoading) {
@@ -66,6 +68,7 @@ fun PayeeListContents(
     modifier: Modifier = Modifier,
     items: List<PayeeUiModel>,
     onNavigateUp: () -> Unit,
+    onNavigateToRegister: () -> Unit,
 ) {
 
     ContentsWithBottomButton(
@@ -76,7 +79,7 @@ fun PayeeListContents(
         bottomButton = {
             HorizontalTwoButton(
                 onClickLeft = { debouncedClick(onNavigateUp) },
-                onClickRight = { debouncedClick { TODO() } },
+                onClickRight = { debouncedClick { onNavigateToRegister() } },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_add)
             )
@@ -115,5 +118,6 @@ private fun PreviewPayeeListContents() {
             PayeeUiModel(2, "電気料金"),
         ),
         onNavigateUp = {},
+        onNavigateToRegister = {},
     )
 }
