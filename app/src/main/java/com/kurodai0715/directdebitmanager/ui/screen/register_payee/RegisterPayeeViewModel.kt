@@ -1,14 +1,21 @@
 package com.kurodai0715.directdebitmanager.ui.screen.register_payee
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
+import com.kurodai0715.directdebitmanager.domain.model.Payee
+import com.kurodai0715.directdebitmanager.domain.model.SaveResult
+import com.kurodai0715.directdebitmanager.domain.usecase.PayeeCommandUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class RegisterPayeeUiState(
@@ -17,8 +24,14 @@ data class RegisterPayeeUiState(
     val payeeErrorMessage: Int? = null,
 )
 
+sealed class RegisterPayeeUiEvent {
+    data class ShowSnackbar(val messageRes: Int) : RegisterPayeeUiEvent()
+}
+
 @HiltViewModel
-class RegisterPayeeViewModel @Inject constructor() : ViewModel() {
+class RegisterPayeeViewModel @Inject constructor(
+    private val payeeCommandUseCase: PayeeCommandUseCase,
+) : ViewModel() {
 
     /**
      * 更新用.
@@ -29,6 +42,16 @@ class RegisterPayeeViewModel @Inject constructor() : ViewModel() {
      * 読み取り専用.
      */
     val uiState: StateFlow<RegisterPayeeUiState> = _uiState.asStateFlow()
+
+    /**
+     * 更新用.
+     */
+    private val _eventChannel = Channel<RegisterPayeeUiEvent>(Channel.BUFFERED)
+
+    /**
+     * 参照用.
+     */
+    val eventFlow = _eventChannel.receiveAsFlow()
 
     fun updatePayeeName(payeeName: String) {
         _uiState.update {
@@ -41,7 +64,7 @@ class RegisterPayeeViewModel @Inject constructor() : ViewModel() {
 
         if (!sourceValidationSuccess) return
 
-//        saveData()
+        saveData()
     }
 
     private fun sourceValidation(): Boolean {
@@ -66,6 +89,26 @@ class RegisterPayeeViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun saveData() {
-        TODO()
+        viewModelScope.launch {
+            val payee = Payee.create(
+                id = uiState.value.id,
+                label = uiState.value.payeeName,
+            )
+
+            val result = savePayee(payee)
+
+            when (result) {
+                SaveResult.Succeeded -> {
+                    _eventChannel.send(RegisterPayeeUiEvent.ShowSnackbar(R.string.common_save_successfully))
+                }
+
+                SaveResult.Failed ->
+                    _eventChannel.send(RegisterPayeeUiEvent.ShowSnackbar(R.string.common_save_failed))
+            }
+        }
+    }
+
+    private suspend fun savePayee(payee: Payee): SaveResult {
+        return payeeCommandUseCase.savePayee(payee)
     }
 }
