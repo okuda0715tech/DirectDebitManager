@@ -7,12 +7,8 @@ package com.kurodai0715.directdebitmanager.domain.usecase
 
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.model.Destination
+import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import javax.inject.Inject
-
-sealed interface SaveResult {
-    data object Succeeded : SaveResult
-    data object Failed : SaveResult
-}
 
 class SourcesCommandUseCase @Inject constructor(
     private val repo: DirectDebitDefaultRepository

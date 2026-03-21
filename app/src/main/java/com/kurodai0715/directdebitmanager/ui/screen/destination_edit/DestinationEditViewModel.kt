@@ -14,7 +14,7 @@ import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
 import com.kurodai0715.directdebitmanager.domain.model.Destination
-import com.kurodai0715.directdebitmanager.domain.usecase.SaveResult
+import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.SourcesQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.dialog.source_selection.SourceSelectionUiModel
