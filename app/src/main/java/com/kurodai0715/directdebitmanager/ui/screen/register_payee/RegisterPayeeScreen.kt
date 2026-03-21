@@ -24,6 +24,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun RegisterPayeeScreen(
     viewModel: RegisterPayeeViewModel = hiltViewModel(),
+    onClickNavigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -45,6 +46,7 @@ fun RegisterPayeeScreen(
             payeeName = uiState.payeeName,
             onPayeeNameChanged = { viewModel.updatePayeeName(it) },
             onClickSave = { viewModel.validate() },
+            onNavigateUp = onClickNavigateUp,
             supportingTextRes = uiState.payeeErrorMessage
         )
     }
@@ -56,6 +58,7 @@ fun RegisterPayeeContents(
     payeeName: String,
     onPayeeNameChanged: (String) -> Unit,
     onClickSave: () -> Unit,
+    onNavigateUp: () -> Unit,
     supportingTextRes: Int?
 ) {
     ContentsWithBottomButton(
@@ -69,7 +72,7 @@ fun RegisterPayeeContents(
         },
         bottomButton = {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick(TODO()) },
+                onClickLeft = { debouncedClick(onNavigateUp) },
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)

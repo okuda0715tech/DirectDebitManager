@@ -54,7 +54,9 @@ fun AppNavGraph(
         }
 
         composable<RegisterPayee> {
-            RegisterPayeeScreen()
+            RegisterPayeeScreen(
+                onClickNavigateUp = { navController.navigateUp() }
+            )
             onChangeTitle(R.string.register_payee_screen_title)
         }
 
