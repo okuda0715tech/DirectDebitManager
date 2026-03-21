@@ -44,7 +44,8 @@ fun RegisterPayeeScreen(
                 .padding(LayoutTokens.screenPaddingHalf),
             payeeName = uiState.payeeName,
             onPayeeNameChanged = { viewModel.updatePayeeName(it) },
-            supportingTextRes = null
+            onClickSave = { viewModel.validate() },
+            supportingTextRes = uiState.payeeErrorMessage
         )
     }
 }
@@ -54,6 +55,7 @@ fun RegisterPayeeContents(
     modifier: Modifier = Modifier,
     payeeName: String,
     onPayeeNameChanged: (String) -> Unit,
+    onClickSave: () -> Unit,
     supportingTextRes: Int?
 ) {
     ContentsWithBottomButton(
@@ -68,7 +70,7 @@ fun RegisterPayeeContents(
         bottomButton = {
             HorizontalTwoButton(
                 onClickLeft = { debouncedClick(TODO()) },
-                onClickRight = { debouncedClick(TODO()) },
+                onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)
             )
