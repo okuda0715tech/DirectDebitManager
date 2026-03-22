@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payee_list
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,7 +34,8 @@ fun PayeeListScreen(
     modifier: Modifier = Modifier,
     viewModel: PayeeListViewModel = hiltViewModel(),
     onClickNavigateUp: () -> Unit,
-    onNavigateToRegister: () -> Unit,
+    onClickAdd: () -> Unit,
+    onClickItem: (Int) -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -53,7 +55,8 @@ fun PayeeListScreen(
                 .padding(LayoutTokens.screenPaddingHalf),
             items = uiState.items,
             onNavigateUp = onClickNavigateUp,
-            onNavigateToRegister = onNavigateToRegister,
+            onClickAdd = onClickAdd,
+            onClickItem = onClickItem,
         )
 
         if (uiState.isLoading) {
@@ -68,18 +71,19 @@ fun PayeeListContents(
     modifier: Modifier = Modifier,
     items: List<PayeeUiModel>,
     onNavigateUp: () -> Unit,
-    onNavigateToRegister: () -> Unit,
+    onClickAdd: () -> Unit,
+    onClickItem: (Int) -> Unit,
 ) {
 
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(Modifier, items)
+            Contents(modifier = Modifier, items = items, onClickItem = onClickItem)
         },
         bottomButton = {
             HorizontalTwoButton(
                 onClickLeft = { debouncedClick(onNavigateUp) },
-                onClickRight = { debouncedClick { onNavigateToRegister() } },
+                onClickRight = { debouncedClick(onClickAdd) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_add)
             )
@@ -90,7 +94,8 @@ fun PayeeListContents(
 @Composable
 fun Contents(
     modifier: Modifier = Modifier,
-    items: List<PayeeUiModel>
+    items: List<PayeeUiModel>,
+    onClickItem: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxWidth(),
@@ -103,7 +108,8 @@ fun Contents(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.surfaceContainerLow)
-                    .padding(LayoutTokens.elementSpacing)
+                    .clickable(onClick = { debouncedClick { onClickItem(item.id) } })
+                    .padding(LayoutTokens.elementSpacing),
             )
         }
     }
@@ -119,6 +125,7 @@ private fun PreviewPayeeListContents() {
             PayeeUiModel(3, "水道料金"),
         ),
         onNavigateUp = {},
-        onNavigateToRegister = {},
+        onClickAdd = {},
+        onClickItem = {}
     )
 }

@@ -48,14 +48,22 @@ fun AppNavGraph(
         composable<PayeeList> {
             PayeeListScreen(
                 onClickNavigateUp = { navController.navigateUp() },
-                onNavigateToRegister = { navController.navigateToRegisterPayee() }
+                onClickAdd = {
+                    navController.navigateToRegisterPayeeByAddMode()
+                },
+                onClickItem = { itemId ->
+                    navController.navigateToRegisterPayeeByEditMode(itemId)
+                }
             )
             onChangeTitle(R.string.payee_list_screen_title)
         }
 
-        composable<RegisterPayee> {
+        composable<RegisterPayee> { backStackEntry ->
+            val registerPayee: RegisterPayee = backStackEntry.toRoute()
+
             RegisterPayeeScreen(
-                onClickNavigateUp = { navController.navigateUp() }
+                onClickNavigateUp = { navController.navigateUp() },
+                payeeId = registerPayee.id
             )
             onChangeTitle(R.string.register_payee_screen_title)
         }

@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 fun RegisterPayeeScreen(
     viewModel: RegisterPayeeViewModel = hiltViewModel(),
     onClickNavigateUp: () -> Unit,
+    payeeId: Int?,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
