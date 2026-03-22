@@ -116,6 +116,7 @@ private fun PreviewPayeeListContents() {
         items = listOf(
             PayeeUiModel(1, "横浜銀行クレジットカード"),
             PayeeUiModel(2, "電気料金"),
+            PayeeUiModel(3, "水道料金"),
         ),
         onNavigateUp = {},
         onNavigateToRegister = {},
