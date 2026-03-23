@@ -12,7 +12,6 @@ class PayeeCommandUseCase @Inject constructor(
         payee: Payee
     ): SaveResult {
 
-        // TODO 判定を型で実施するように変更する。
         val result = when (payee) {
             is Payee.InMemory -> {
                 repo.createPayee(
