@@ -6,18 +6,17 @@ import com.kurodai0715.directdebitmanager.domain.model.PayeeName
 fun RegisterPayeeUiState.toDomain(): Payee2 {
     val name = PayeeName(payeeName)
 
-    return when (id) {
-        // TODO 条件判定を型で表現する。
-        0 -> {
+    return when (val mode = editMode) {
+        is PayeeEditMode.Add -> {
             Payee2.InMemory(
                 name = name
             )
         }
 
-        else -> {
+        is PayeeEditMode.Edit -> {
             Payee2.Persisted(
                 name = name,
-                id = id
+                id = mode.id
             )
         }
     }

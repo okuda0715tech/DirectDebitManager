@@ -22,7 +22,7 @@ import javax.inject.Inject
 const val TAG = "RegisterPayeeViewModel.kt"
 
 data class RegisterPayeeUiState(
-    val id: Int = 0,
+    val editMode: PayeeEditMode = PayeeEditMode.Add,
     val payeeName: String = "",
     val payeeErrorMessage: Int? = null,
 )
@@ -72,7 +72,7 @@ class RegisterPayeeViewModel @Inject constructor(
 
             _uiState.update {
                 it.copy(
-                    id = item.id,
+                    editMode = PayeeEditMode.Edit(item.id),
                     payeeName = item.name.value
                 )
             }
