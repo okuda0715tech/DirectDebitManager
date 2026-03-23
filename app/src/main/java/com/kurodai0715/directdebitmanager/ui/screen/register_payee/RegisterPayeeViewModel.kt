@@ -20,6 +20,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+const val TAG = "RegisterPayeeViewModel.kt"
+
 data class RegisterPayeeUiState(
     val id: Int = 0,
     val payeeName: String = "",

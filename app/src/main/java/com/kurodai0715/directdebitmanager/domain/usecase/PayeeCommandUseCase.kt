@@ -12,9 +12,20 @@ class PayeeCommandUseCase @Inject constructor(
         payee: Payee
     ): SaveResult {
 
-        val result = repo.createPayee(
-            label = payee.name.value,
-        )
+        // TODO 判定を型で実施するように変更する。
+        val result = when (payee.id) {
+            0 -> {
+                repo.createPayee(
+                    label = payee.name.value,
+                )
+            }
+            else -> {
+                repo.updatePayee(
+                    payeeId = payee.id,
+                    label = payee.name.value,
+                )
+            }
+        }
 
         return when (result) {
             true -> SaveResult.Succeeded
