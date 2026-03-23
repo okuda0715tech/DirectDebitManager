@@ -44,6 +44,11 @@ fun RegisterPayeeScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+        // リスト画面から引き継いだパラメータで UI 状態を初期化する。
+        LaunchedEffect(payeeId) {
+            viewModel.initialize(payeeId)
+        }
+
         LaunchedEffect(Unit) {
             viewModel.eventFlow.collect { event ->
                 when (event) {

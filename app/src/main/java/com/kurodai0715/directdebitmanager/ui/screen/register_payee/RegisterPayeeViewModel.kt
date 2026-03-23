@@ -9,6 +9,7 @@ import com.kurodai0715.directdebitmanager.domain.model.Payee
 import com.kurodai0715.directdebitmanager.domain.model.PayeeName
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PayeeCommandUseCase
+import com.kurodai0715.directdebitmanager.domain.usecase.PayeeQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +32,7 @@ sealed class RegisterPayeeUiEvent {
 
 @HiltViewModel
 class RegisterPayeeViewModel @Inject constructor(
+    private val payeeQueryUseCase: PayeeQueryUseCase,
     private val payeeCommandUseCase: PayeeCommandUseCase,
 ) : ViewModel() {
 
@@ -53,6 +55,28 @@ class RegisterPayeeViewModel @Inject constructor(
      * 参照用.
      */
     val eventFlow = _eventChannel.receiveAsFlow()
+
+    private var initialized = false
+
+    fun initialize(payeeId: Int?) {
+        if (initialized) return
+        initialized = true
+
+        payeeId?.let { loadPayeeBy(it) }
+    }
+
+    private fun loadPayeeBy(payeeId: Int) {
+        viewModelScope.launch {
+            val item = payeeQueryUseCase.loadPayeeBy(payeeId)
+
+            _uiState.update {
+                it.copy(
+                    id = item.id,
+                    payeeName = item.name.value
+                )
+            }
+        }
+    }
 
     fun updatePayeeName(payeeName: String) {
         _uiState.update {
@@ -81,7 +105,7 @@ class RegisterPayeeViewModel @Inject constructor(
         return validationResult == ValidationResult.Valid
     }
 
-    private fun updatePayeeNameMessage(message: Int?){
+    private fun updatePayeeNameMessage(message: Int?) {
         _uiState.update {
             it.copy(
                 payeeErrorMessage = message

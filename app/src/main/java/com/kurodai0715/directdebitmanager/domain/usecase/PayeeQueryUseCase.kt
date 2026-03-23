@@ -17,4 +17,8 @@ class PayeeQueryUseCase @Inject constructor(
         }
     }
 
+    suspend fun loadPayeeBy(payeeId: Int): Payee {
+        return repo.loadItem(payeeId).toPayee()
+    }
+
 }
