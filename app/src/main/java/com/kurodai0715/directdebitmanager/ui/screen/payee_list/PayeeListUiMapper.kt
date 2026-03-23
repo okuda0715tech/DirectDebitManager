@@ -1,14 +1,14 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payee_list
 
-import com.kurodai0715.directdebitmanager.domain.model.Payee2
+import com.kurodai0715.directdebitmanager.domain.model.Payee
 
-fun Payee2.Persisted.toPayeeUiModel(): PayeeUiModel {
+fun Payee.Persisted.toPayeeUiModel(): PayeeUiModel {
     return PayeeUiModel(
         id = id,
         name = name.value,
     )
 }
 
-fun List<Payee2.Persisted>.toPayeeUiModels(): List<PayeeUiModel>{
+fun List<Payee.Persisted>.toPayeeUiModels(): List<PayeeUiModel>{
     return map { it.toPayeeUiModel() }
 }

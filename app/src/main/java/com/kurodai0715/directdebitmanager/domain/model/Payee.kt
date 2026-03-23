@@ -7,17 +7,17 @@ value class PayeeName(val value: String) {
     }
 }
 
-sealed interface Payee2{
+sealed interface Payee{
 
     val name: PayeeName
 
     data class Persisted(
         override val name: PayeeName,
         val id: Int,
-    ): Payee2
+    ): Payee
 
     data class InMemory(
         override val name: PayeeName,
-    ): Payee2
+    ): Payee
 
 }

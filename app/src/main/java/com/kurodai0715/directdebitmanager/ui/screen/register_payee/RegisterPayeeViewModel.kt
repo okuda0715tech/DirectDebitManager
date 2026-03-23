@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
-import com.kurodai0715.directdebitmanager.domain.model.Payee2
+import com.kurodai0715.directdebitmanager.domain.model.Payee
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PayeeCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PayeeQueryUseCase
@@ -131,7 +131,7 @@ class RegisterPayeeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun savePayee(payee: Payee2): SaveResult {
+    private suspend fun savePayee(payee: Payee): SaveResult {
         return payeeCommandUseCase.savePayee(payee)
     }
 }
