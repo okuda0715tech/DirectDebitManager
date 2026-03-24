@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 const val TAG = "RegisterPayeeViewModel.kt"
 
-data class RegisterPayeeUiState(
+data class PayeeEditUiState(
     val editMode: PayeeEditMode = PayeeEditMode.Add,
     val payeeName: String = "",
     val payeeErrorMessage: Int? = null,
@@ -40,12 +40,12 @@ class PayeeEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(RegisterPayeeUiState())
+    private val _uiState = MutableStateFlow(PayeeEditUiState())
 
     /**
      * 読み取り専用.
      */
-    val uiState: StateFlow<RegisterPayeeUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<PayeeEditUiState> = _uiState.asStateFlow()
 
     /**
      * 更新用.
