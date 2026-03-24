@@ -48,5 +48,11 @@ data class SourceEdit(
     val sourceId: Int? = null,
 ) : SourceBase
 
+@Serializable
+sealed interface PayerBase : NavDestination
+
+@Serializable
+data object PayerList : PayerBase
+
 
 

@@ -38,7 +38,7 @@ fun AppNavGraph(
     ) {
         composable<Home> {
             HomeScreen(
-                onClickPayerList = { navController.navigateToSourceList() },
+                onClickPayerList = { navController.navigateToPayerList() },
                 onClickPayeeList = { navController.navigateToPayeeList() },
                 onClickRelationList = { TODO() },
             )
@@ -95,6 +95,14 @@ fun AppNavGraph(
         }
 
         composable<SourceList> {
+            SourceListScreen(
+                onClickNavigateUp = { navController.navigateUp() },
+                onClickSourceEdit = { navController.navigateToSourceEdit(it) }
+            )
+            onChangeTitle(R.string.source_list_title)
+        }
+
+        composable<PayerList> {
             SourceListScreen(
                 onClickNavigateUp = { navController.navigateUp() },
                 onClickSourceEdit = { navController.navigateToSourceEdit(it) }

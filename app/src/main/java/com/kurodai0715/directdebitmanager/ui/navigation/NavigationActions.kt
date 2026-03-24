@@ -43,3 +43,8 @@ fun NavController.navigateToSourceList() {
 fun NavController.navigateToPayeeList() {
     navigate(PayeeList)
 }
+
+fun NavController.navigateToPayerList() {
+    navigate(PayerList)
+}
+
