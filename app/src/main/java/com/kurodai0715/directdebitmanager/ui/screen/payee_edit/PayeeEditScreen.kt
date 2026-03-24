@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
@@ -73,6 +74,7 @@ fun PayeeEditScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(LayoutTokens.screenPaddingHalf),
+            mode = uiState.editMode,
             payeeName = uiState.payeeName,
             onPayeeNameChanged = { viewModel.updatePayeeName(it) },
             onClickSave = { viewModel.validate() },
@@ -85,6 +87,7 @@ fun PayeeEditScreen(
 @Composable
 fun PayeeEditContents(
     modifier: Modifier = Modifier,
+    mode: PayeeEditMode,
     payeeName: String,
     onPayeeNameChanged: (String) -> Unit,
     onClickSave: () -> Unit,
@@ -100,21 +103,39 @@ fun PayeeEditContents(
                 supportingTextRes = supportingTextRes
             )
         },
-        bottomButton = { BottomButton(onNavigateUp, onClickSave) }
+        bottomButton = {
+            BottomButton(mode, onNavigateUp, onClickSave)
+        }
     )
 }
 
 @Composable
 private fun BottomButton(
+    mode: PayeeEditMode,
     onNavigateUp: () -> Unit,
     onClickSave: () -> Unit
 ) {
-    HorizontalTwoButton(
-        onClickLeft = { debouncedClick(onNavigateUp) },
-        onClickRight = { debouncedClick(onClickSave) },
-        leftText = stringResource(R.string.common_back),
-        rightText = stringResource(R.string.common_save)
-    )
+    when (mode) {
+        is PayeeEditMode.Add -> {
+            HorizontalTwoButton(
+                onClickLeft = { debouncedClick(onNavigateUp) },
+                onClickRight = { debouncedClick(onClickSave) },
+                leftText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_save)
+            )
+        }
+
+        is PayeeEditMode.Edit -> {
+            HorizontalThreeButton(
+                onClickLeft = { debouncedClick(TODO()) },
+                onClickCenter = { debouncedClick(onNavigateUp) },
+                onClickRight = { debouncedClick(onClickSave) },
+                leftText = stringResource(R.string.common_delete),
+                centerText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_update)
+            )
+        }
+    }
 }
 
 @Composable
