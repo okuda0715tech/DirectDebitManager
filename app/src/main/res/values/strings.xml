@@ -18,6 +18,7 @@
     <string name="register_screen_title">振替情報 / 登録</string>
     <string name="edit_screen_title">振替情報 / 変更</string>
     <string name="source_list_title">振替元 / 一覧</string>
+    <string name="payer_list_screen_title">支払元 / 一覧</string>
     <string name="source_registration_title">振替元 / 登録</string>
     <string name="source_update_title">振替元 / 変更</string>
 

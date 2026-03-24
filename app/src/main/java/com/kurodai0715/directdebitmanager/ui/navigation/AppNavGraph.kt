@@ -107,7 +107,7 @@ fun AppNavGraph(
                 onClickNavigateUp = { navController.navigateUp() },
                 onClickSourceEdit = { navController.navigateToSourceEdit(it) }
             )
-            onChangeTitle(R.string.source_list_title)
+            onChangeTitle(R.string.payer_list_screen_title)
         }
 
         composable<SourceEdit> { backStackEntry ->
