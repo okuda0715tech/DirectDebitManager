@@ -18,7 +18,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.Destination
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
-import com.kurodai0715.directdebitmanager.ui.screen.payee_edit.RegisterPayeeScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payee_edit.PayeeEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 
@@ -61,7 +61,7 @@ fun AppNavGraph(
         composable<RegisterPayee> { backStackEntry ->
             val registerPayee: RegisterPayee = backStackEntry.toRoute()
 
-            RegisterPayeeScreen(
+            PayeeEditScreen(
                 onClickNavigateUp = { navController.navigateUp() },
                 payeeId = registerPayee.id
             )

@@ -25,7 +25,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
 @Composable
-fun RegisterPayeeScreen(
+fun PayeeEditScreen(
     viewModel: RegisterPayeeViewModel = hiltViewModel(),
     onClickNavigateUp: () -> Unit,
     payeeId: Int?,
