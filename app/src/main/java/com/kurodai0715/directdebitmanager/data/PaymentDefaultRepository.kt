@@ -2,9 +2,9 @@ package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.ChildWithParent
-import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentDao
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentItemEntity
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentRole
-import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -16,7 +16,7 @@ private const val TAG = "PaymentDefaultRepository.kt"
 
 @Singleton
 class PaymentDefaultRepository @Inject constructor(
-    private val localDataSource: DirectDebitDao,
+    private val localDataSource: PaymentDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
 
@@ -37,8 +37,8 @@ class PaymentDefaultRepository @Inject constructor(
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
-                localDataSource.upsertTransferItem(
-                    TransferItemEntity(
+                localDataSource.upsertPaymentItem(
+                    PaymentItemEntity(
                         label = label,
                         isSourceItem = isSourceItem,
                         typeCode = null,
@@ -76,7 +76,7 @@ class PaymentDefaultRepository @Inject constructor(
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
-                localDataSource.upsertTransferItem(
+                localDataSource.upsertPaymentItem(
                     item.copy(
                         id = id,
                         label = label,
@@ -105,8 +105,8 @@ class PaymentDefaultRepository @Inject constructor(
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
-                localDataSource.upsertTransferItem(
-                    TransferItemEntity(
+                localDataSource.upsertPaymentItem(
+                    PaymentItemEntity(
                         label = label,
                         isSourceItem = false,
                         typeCode = null,
@@ -136,7 +136,7 @@ class PaymentDefaultRepository @Inject constructor(
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
-                localDataSource.upsertTransferItem(
+                localDataSource.upsertPaymentItem(
                     item.copy(
                         id = payeeId,
                         label = label,
@@ -159,8 +159,8 @@ class PaymentDefaultRepository @Inject constructor(
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
-                localDataSource.upsertTransferItem(
-                    TransferItemEntity(
+                localDataSource.upsertPaymentItem(
+                    PaymentItemEntity(
                         id = id,
                         label = name,
                         isSourceItem = true,
@@ -226,15 +226,15 @@ class PaymentDefaultRepository @Inject constructor(
     /**
      * 振替元情報を取得するストリーム.
      */
-    fun observeByIsSource(isSource: Boolean): Flow<List<TransferItemEntity>> {
+    fun observeByIsSource(isSource: Boolean): Flow<List<PaymentItemEntity>> {
         return localDataSource.observeByIsSource(isSource = isSource)
     }
 
     /**
      * 振替先と振替元の一覧を取得するストリーム.
      */
-    fun loadTransferItemsStream(): Flow<List<TransferItemEntity>> {
-        return localDataSource.observeTransferItems()
+    fun loadTransferItemsStream(): Flow<List<PaymentItemEntity>> {
+        return localDataSource.observePaymentItems()
     }
 
     /**
@@ -247,14 +247,14 @@ class PaymentDefaultRepository @Inject constructor(
     /**
      * 指定した id のレコードを取得.
      */
-    suspend fun loadItem(id: Int): TransferItemEntity {
+    suspend fun loadItem(id: Int): PaymentItemEntity {
         return localDataSource.getItem(id)
     }
 
     /**
      * 支払先の一覧を取得するストリーム.
      */
-    fun observePayees(): Flow<List<TransferItemEntity>> {
+    fun observePayees(): Flow<List<PaymentItemEntity>> {
         return localDataSource.observeByRoles(listOf(PaymentRole.Payee, PaymentRole.Both))
     }
 }
