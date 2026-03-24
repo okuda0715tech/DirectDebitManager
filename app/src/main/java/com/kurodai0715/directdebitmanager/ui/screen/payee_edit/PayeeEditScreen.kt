@@ -156,9 +156,9 @@ fun Contents(
     }
 }
 
-@Preview
+@Preview(name = "PayeeEditContents")
 @Composable
-private fun PreviewPayeeEditContents() {
+private fun PreviewAddModeContents() {
     PayeeEditContents(
         mode = PayeeEditMode.Add,
         payeeName = "",
@@ -167,5 +167,17 @@ private fun PreviewPayeeEditContents() {
         onClickSave = {},
         supportingTextRes = null,
     )
-    
+}
+
+@Preview(name = "PayeeEditContents")
+@Composable
+private fun PreviewEditModeContents() {
+    PayeeEditContents(
+        mode = PayeeEditMode.Edit(1),
+        payeeName = "",
+        onPayeeNameChanged = {},
+        onClickBack = {},
+        onClickSave = {},
+        supportingTextRes = null,
+    )
 }
