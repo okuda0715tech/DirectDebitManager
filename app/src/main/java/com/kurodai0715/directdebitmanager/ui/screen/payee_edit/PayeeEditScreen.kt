@@ -174,7 +174,7 @@ private fun PreviewAddModeContents() {
 private fun PreviewEditModeContents() {
     PayeeEditContents(
         mode = PayeeEditMode.Edit(1),
-        payeeName = "",
+        payeeName = "電気料金",
         onPayeeNameChanged = {},
         onClickBack = {},
         onClickSave = {},
