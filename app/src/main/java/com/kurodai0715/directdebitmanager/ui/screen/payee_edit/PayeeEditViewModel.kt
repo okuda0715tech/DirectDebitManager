@@ -27,8 +27,8 @@ data class PayeeEditUiState(
     val payeeErrorMessage: Int? = null,
 )
 
-sealed class RegisterPayeeUiEvent {
-    data class ShowSnackbar(val messageRes: Int) : RegisterPayeeUiEvent()
+sealed class PayeeEditUiEvent {
+    data class ShowSnackbar(val messageRes: Int) : PayeeEditUiEvent()
 }
 
 @HiltViewModel
@@ -50,7 +50,7 @@ class PayeeEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _eventChannel = Channel<RegisterPayeeUiEvent>(Channel.BUFFERED)
+    private val _eventChannel = Channel<PayeeEditUiEvent>(Channel.BUFFERED)
 
     /**
      * 参照用.
@@ -122,11 +122,11 @@ class PayeeEditViewModel @Inject constructor(
 
             when (result) {
                 SaveResult.Succeeded -> {
-                    _eventChannel.send(RegisterPayeeUiEvent.ShowSnackbar(R.string.common_save_successfully))
+                    _eventChannel.send(PayeeEditUiEvent.ShowSnackbar(R.string.common_save_successfully))
                 }
 
                 SaveResult.Failed ->
-                    _eventChannel.send(RegisterPayeeUiEvent.ShowSnackbar(R.string.common_save_failed))
+                    _eventChannel.send(PayeeEditUiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
     }
