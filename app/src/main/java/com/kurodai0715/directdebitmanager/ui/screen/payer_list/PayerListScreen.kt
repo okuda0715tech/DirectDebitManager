@@ -61,7 +61,7 @@ fun PayerListScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        SourceListContents(
+        PayerListContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -78,7 +78,7 @@ fun PayerListScreen(
 }
 
 @Composable
-fun SourceListContents(
+fun PayerListContents(
     modifier: Modifier = Modifier,
     items: List<SourceUiModel>,
     onNavigateToEdit: (Int?) -> Unit,
@@ -151,7 +151,7 @@ fun TransSourceItem(
 @Preview
 @Composable
 private fun Preview() {
-    SourceListContents(
+    PayerListContents(
         modifier = Modifier
             .fillMaxSize()
             .padding(LayoutTokens.screenPaddingHalf),
