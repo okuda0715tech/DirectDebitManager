@@ -21,6 +21,8 @@
     <string name="payer_list_screen_title">支払元 / 一覧</string>
     <string name="source_registration_title">振替元 / 登録</string>
     <string name="source_update_title">振替元 / 変更</string>
+    <string name="payer_registration_title">支払元 / 登録</string>
+    <string name="payer_update_title">支払元 / 変更</string>
 
     <!-- ホーム 画面 -->
     <string name="payer_list_label">支払元　一覧</string>

@@ -142,9 +142,9 @@ fun AppNavGraph(
 
             onChangeTitle(
                 if (payerEdit.sourceId == null)
-                    R.string.source_registration_title
+                    R.string.payer_registration_title
                 else
-                    R.string.source_update_title
+                    R.string.payer_update_title
             )
         }
     }
