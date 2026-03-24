@@ -25,10 +25,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
@@ -37,8 +37,8 @@ import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun SourceEditScreen(
-    viewModel: SourceEditViewModel = hiltViewModel(),
+fun PayerEditScreen(
+    viewModel: PayerEditViewModel = hiltViewModel(),
     sourceId: Int?,
     onClickNavigateUp: () -> Unit,
 ) {
@@ -69,7 +69,7 @@ fun SourceEditScreen(
             }
         }
 
-        SourceEditContents(
+        PayerEditContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -118,7 +118,7 @@ fun SourceEditScreen(
         }
 
         if (uiState.showSourceTypeListDialog) {
-            SourceTypeListDialog(
+            PayerTypeListDialog(
                 onDismissRequest = { viewModel.updateSourceTypeListDialogVisibility(false) },
                 onClickItem = { viewModel.updateSourceType(it) },
             )
@@ -127,7 +127,7 @@ fun SourceEditScreen(
 }
 
 @Composable
-fun SourceEditContents(
+fun PayerEditContents(
     modifier: Modifier = Modifier,
     source: String,
     onSourceChanged: (String) -> Unit,
@@ -210,7 +210,7 @@ private fun Contents(
 @Preview
 @Composable
 private fun PreviewUpdateContents() {
-    SourceEditContents(
+    PayerEditContents(
         modifier = Modifier.padding(LayoutTokens.screenPaddingHalf),
         source = "横浜銀行",
         onSourceChanged = {},
@@ -227,7 +227,7 @@ private fun PreviewUpdateContents() {
 @Preview
 @Composable
 private fun PreviewRegisterContents() {
-    SourceEditContents(
+    PayerEditContents(
         modifier = Modifier.padding(LayoutTokens.screenPaddingHalf),
         source = "横浜銀行",
         onSourceChanged = {},
@@ -244,7 +244,7 @@ private fun PreviewRegisterContents() {
 @Preview
 @Composable
 private fun PreviewValidationErrorContents() {
-    SourceEditContents(
+    PayerEditContents(
         modifier = Modifier.padding(LayoutTokens.screenPaddingHalf),
         source = "横浜銀行",
         onSourceChanged = {},

@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class SourceEditUiState(
+data class PayerEditUiState(
     val sourceId: Int = 0,
     val sourceName: String = "",
     val parentId: Int = 0,
@@ -35,19 +35,19 @@ data class SourceEditUiState(
 )
 
 @HiltViewModel
-class SourceEditViewModel @Inject constructor(
+class PayerEditViewModel @Inject constructor(
     private val directDebitDefRepo: DirectDebitDefaultRepository
 ) : ViewModel() {
 
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(SourceEditUiState())
+    private val _uiState = MutableStateFlow(PayerEditUiState())
 
     /**
      * 読み取り専用.
      */
-    val uiState: StateFlow<SourceEditUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<PayerEditUiState> = _uiState.asStateFlow()
 
     fun updateSource(source: String) {
         _uiState.update {

@@ -24,7 +24,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
 @Composable
-fun SourceTypeListDialog(
+fun PayerTypeListDialog(
     onDismissRequest: () -> Unit,
     onClickItem: (ItemType) -> Unit,
 ) {
@@ -67,8 +67,8 @@ fun SourceTypeListDialog(
 
 @Preview
 @Composable
-private fun PreviewSourceTypeListDialog() {
-    SourceTypeListDialog(
+private fun PreviewPayerTypeListDialog() {
+    PayerTypeListDialog(
         onDismissRequest = {},
         onClickItem = {},
     )
