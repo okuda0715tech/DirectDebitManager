@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PayeeEditScreen(
     viewModel: PayeeEditViewModel = hiltViewModel(),
-    onClickNavigateUp: () -> Unit,
+    onClickBack: () -> Unit,
     payeeId: Int?,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -78,7 +78,7 @@ fun PayeeEditScreen(
             payeeName = uiState.payeeName,
             onPayeeNameChanged = { viewModel.updatePayeeName(it) },
             onClickSave = { viewModel.validate() },
-            onNavigateUp = onClickNavigateUp,
+            onClickBack = onClickBack,
             supportingTextRes = uiState.payeeErrorMessage
         )
     }
@@ -91,7 +91,7 @@ fun PayeeEditContents(
     payeeName: String,
     onPayeeNameChanged: (String) -> Unit,
     onClickSave: () -> Unit,
-    onNavigateUp: () -> Unit,
+    onClickBack: () -> Unit,
     supportingTextRes: Int?
 ) {
     ContentsWithBottomButton(
@@ -104,7 +104,7 @@ fun PayeeEditContents(
             )
         },
         bottomButton = {
-            BottomButton(mode, onNavigateUp, onClickSave)
+            BottomButton(mode, onClickBack, onClickSave)
         }
     )
 }
@@ -112,13 +112,13 @@ fun PayeeEditContents(
 @Composable
 private fun BottomButton(
     mode: PayeeEditMode,
-    onNavigateUp: () -> Unit,
+    onClickBack: () -> Unit,
     onClickSave: () -> Unit
 ) {
     when (mode) {
         is PayeeEditMode.Add -> {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick(onNavigateUp) },
+                onClickLeft = { debouncedClick(onClickBack) },
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)
@@ -128,7 +128,7 @@ private fun BottomButton(
         is PayeeEditMode.Edit -> {
             HorizontalThreeButton(
                 onClickLeft = { debouncedClick(TODO()) },
-                onClickCenter = { debouncedClick(onNavigateUp) },
+                onClickCenter = { debouncedClick(onClickBack) },
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_delete),
                 centerText = stringResource(R.string.common_back),

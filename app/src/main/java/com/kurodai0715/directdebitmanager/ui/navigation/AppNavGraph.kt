@@ -62,7 +62,7 @@ fun AppNavGraph(
             val payeeEdit: PayeeEdit = backStackEntry.toRoute()
 
             PayeeEditScreen(
-                onClickNavigateUp = { navController.navigateUp() },
+                onClickBack = { navController.navigateUp() },
                 payeeId = payeeEdit.id
             )
             onChangeTitle(R.string.payee_edit_screen_title)
