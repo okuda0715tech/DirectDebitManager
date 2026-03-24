@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.screen.register_payee
+package com.kurodai0715.directdebitmanager.ui.screen.payee_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
