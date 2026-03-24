@@ -22,4 +22,6 @@ import androidx.room.TypeConverters
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun directDebitDao(): DirectDebitDao
+
+    abstract fun paymentDao(): PaymentDao
 }

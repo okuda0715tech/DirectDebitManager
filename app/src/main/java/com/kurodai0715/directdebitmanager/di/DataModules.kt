@@ -9,6 +9,7 @@ import android.content.Context
 import androidx.room.Room
 import com.kurodai0715.directdebitmanager.data.source.local.AppDatabase
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +34,8 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDirectDebitDao(database: AppDatabase): DirectDebitDao = database.directDebitDao()
+
+    @Singleton
+    @Provides
+    fun providePaymentDao(database: AppDatabase): PaymentDao = database.paymentDao()
 }
