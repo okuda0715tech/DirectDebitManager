@@ -31,19 +31,19 @@ class PayerListViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<PayerListUiState> = _payersAsync.map { transSourcesAsync ->
-        when (transSourcesAsync) {
+    val uiState: StateFlow<PayerListUiState> = _payersAsync.map { payersAsync ->
+        when (payersAsync) {
             is Async.Loading -> {
                 PayerListUiState(isLoading = true)
             }
 
             is Async.Error -> {
-                PayerListUiState(userMessage = transSourcesAsync.errorMessage)
+                PayerListUiState(userMessage = payersAsync.errorMessage)
             }
 
             is Async.Success -> {
                 PayerListUiState(
-                    items = transSourcesAsync.data,
+                    items = payersAsync.data,
                     isLoading = false,
                 )
             }
