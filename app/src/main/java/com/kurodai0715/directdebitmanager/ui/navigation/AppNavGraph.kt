@@ -17,8 +17,8 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.destination_list.DestinationListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
-import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_edit.PayeeEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 
@@ -49,21 +49,21 @@ fun AppNavGraph(
             PayeeListScreen(
                 onClickNavigateUp = { navController.navigateUp() },
                 onClickAdd = {
-                    navController.navigateToRegisterPayeeByAddMode()
+                    navController.navigateToPayeeEditByAddMode()
                 },
                 onClickItem = { itemId ->
-                    navController.navigateToRegisterPayeeByEditMode(itemId)
+                    navController.navigateToPayeeEditByEditMode(itemId)
                 }
             )
             onChangeTitle(R.string.payee_list_screen_title)
         }
 
-        composable<RegisterPayee> { backStackEntry ->
-            val registerPayee: RegisterPayee = backStackEntry.toRoute()
+        composable<PayeeEdit> { backStackEntry ->
+            val payeeEdit: PayeeEdit = backStackEntry.toRoute()
 
             PayeeEditScreen(
                 onClickNavigateUp = { navController.navigateUp() },
-                payeeId = registerPayee.id
+                payeeId = payeeEdit.id
             )
             onChangeTitle(R.string.payee_edit_screen_title)
         }

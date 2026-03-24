@@ -22,7 +22,7 @@ sealed interface PayeeBase : NavDestination
 data object PayeeList : PayeeBase
 
 @Serializable
-data class RegisterPayee(
+data class PayeeEdit(
     val id: Int?
 ) : PayeeBase
 

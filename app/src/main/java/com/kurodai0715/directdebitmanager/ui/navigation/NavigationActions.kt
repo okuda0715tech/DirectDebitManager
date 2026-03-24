@@ -24,15 +24,15 @@ fun NavController.navigateToSourceEdit(sourceId: Int?) {
     )
 }
 
-fun NavController.navigateToRegisterPayeeByAddMode() {
+fun NavController.navigateToPayeeEditByAddMode() {
     navigate(
-        RegisterPayee(id = null)
+        PayeeEdit(id = null)
     )
 }
 
-fun NavController.navigateToRegisterPayeeByEditMode(id: Int) {
+fun NavController.navigateToPayeeEditByEditMode(id: Int) {
     navigate(
-        RegisterPayee(id = id)
+        PayeeEdit(id = id)
     )
 }
 
