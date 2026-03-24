@@ -54,5 +54,10 @@ sealed interface PayerBase : NavDestination
 @Serializable
 data object PayerList : PayerBase
 
+@Serializable
+data class PayerEdit(
+    val sourceId: Int? = null,
+) : PayerBase
+
 
 

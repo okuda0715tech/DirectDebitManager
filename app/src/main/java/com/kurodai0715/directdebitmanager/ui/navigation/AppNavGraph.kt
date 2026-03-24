@@ -19,6 +19,8 @@ import com.kurodai0715.directdebitmanager.ui.screen.destination_list.Destination
 import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_edit.PayeeEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payer_edit.PayerEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payer_list.PayerListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 
@@ -103,9 +105,9 @@ fun AppNavGraph(
         }
 
         composable<PayerList> {
-            SourceListScreen(
+            PayerListScreen(
                 onClickNavigateUp = { navController.navigateUp() },
-                onClickSourceEdit = { navController.navigateToSourceEdit(it) }
+                onClickSourceEdit = { navController.navigateToPayerEdit(it) }
             )
             onChangeTitle(R.string.payer_list_screen_title)
         }
@@ -122,6 +124,24 @@ fun AppNavGraph(
 
             onChangeTitle(
                 if (sourceEdit.sourceId == null)
+                    R.string.source_registration_title
+                else
+                    R.string.source_update_title
+            )
+        }
+
+        composable<PayerEdit> { backStackEntry ->
+            val payerEdit: PayerEdit = backStackEntry.toRoute()
+
+            PayerEditScreen(
+                sourceId = payerEdit.sourceId,
+                onClickNavigateUp = { navController.navigateUp() },
+            )
+
+            Log.d(TAG, "sourceEdit.id = ${payerEdit.sourceId}")
+
+            onChangeTitle(
+                if (payerEdit.sourceId == null)
                     R.string.source_registration_title
                 else
                     R.string.source_update_title
