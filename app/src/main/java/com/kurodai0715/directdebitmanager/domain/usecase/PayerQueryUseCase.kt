@@ -29,7 +29,7 @@ class PayerQueryUseCase @Inject constructor(
 ) {
 
     fun loadPayers(): Flow<List<PaymentItemEntity>> {
-        return repo.observeByIsSource(isSource = true)
+        return repo.observePayers()
     }
 
     fun loadPayerLabelsById(): Flow<Map<Int, String>> {

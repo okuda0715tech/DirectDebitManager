@@ -257,5 +257,13 @@ class PaymentDefaultRepository @Inject constructor(
     fun observePayees(): Flow<List<PaymentItemEntity>> {
         return localDataSource.observeByRoles(listOf(PaymentRole.Payee, PaymentRole.Both))
     }
+
+    /**
+     * 支払元の一覧を取得するストリーム.
+     */
+    fun observePayers(): Flow<List<PaymentItemEntity>> {
+        return localDataSource.observeByRoles(listOf(PaymentRole.Payer, PaymentRole.Both))
+    }
+
 }
 
