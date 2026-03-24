@@ -100,14 +100,20 @@ fun PayeeEditContents(
                 supportingTextRes = supportingTextRes
             )
         },
-        bottomButton = {
-            HorizontalTwoButton(
-                onClickLeft = { debouncedClick(onNavigateUp) },
-                onClickRight = { debouncedClick(onClickSave) },
-                leftText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_save)
-            )
-        }
+        bottomButton = { BottomButton(onNavigateUp, onClickSave) }
+    )
+}
+
+@Composable
+private fun BottomButton(
+    onNavigateUp: () -> Unit,
+    onClickSave: () -> Unit
+) {
+    HorizontalTwoButton(
+        onClickLeft = { debouncedClick(onNavigateUp) },
+        onClickRight = { debouncedClick(onClickSave) },
+        leftText = stringResource(R.string.common_back),
+        rightText = stringResource(R.string.common_save)
     )
 }
 
