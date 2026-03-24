@@ -43,7 +43,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 private const val TAG = "SourceListScreen.kt"
 
 @Composable
-fun SourceListScreen(
+fun PayerListScreen(
     viewModel: PayerListViewModel = hiltViewModel(),
     onClickSourceEdit: (Int?) -> Unit,
     onClickNavigateUp: () -> Unit,
