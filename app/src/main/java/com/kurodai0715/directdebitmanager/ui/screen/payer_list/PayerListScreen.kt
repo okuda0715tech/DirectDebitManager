@@ -148,7 +148,7 @@ fun TransSourceItem(
     }
 }
 
-@Preview
+@Preview(name = "PayerListContents")
 @Composable
 private fun Preview() {
     PayerListContents(
