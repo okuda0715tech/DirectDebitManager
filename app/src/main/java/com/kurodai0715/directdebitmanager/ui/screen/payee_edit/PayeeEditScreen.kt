@@ -68,7 +68,7 @@ fun PayeeEditScreen(
             }
         }
 
-        RegisterPayeeContents(
+        PayeeEditContents(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
@@ -83,7 +83,7 @@ fun PayeeEditScreen(
 }
 
 @Composable
-fun RegisterPayeeContents(
+fun PayeeEditContents(
     modifier: Modifier = Modifier,
     payeeName: String,
     onPayeeNameChanged: (String) -> Unit,
