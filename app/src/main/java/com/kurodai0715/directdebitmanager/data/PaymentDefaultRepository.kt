@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2025 Okuda Tomohiro
- * Licensed under the MIT License.
- */
-
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
@@ -17,10 +12,10 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val TAG = "DirectDebitDefaultRepository.kt"
+private const val TAG = "PaymentDefaultRepository.kt"
 
 @Singleton
-class DirectDebitDefaultRepository @Inject constructor(
+class PaymentDefaultRepository @Inject constructor(
     private val localDataSource: DirectDebitDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) {
