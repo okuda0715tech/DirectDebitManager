@@ -11,7 +11,7 @@ import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PaymentItemDao {
+interface PaymentDao {
 
     /**
      * transfer_item テーブルに対する Insert or Update.
