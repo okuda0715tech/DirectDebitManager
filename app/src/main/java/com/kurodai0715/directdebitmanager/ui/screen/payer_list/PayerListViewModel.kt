@@ -25,13 +25,13 @@ class PayerListViewModel @Inject constructor(
     payerQueryUseCase: PayerQueryUseCase,
 ) : ViewModel() {
 
-    private val _sourcesAsync = payerQueryUseCase.loadSources()
+    private val _payersAsync = payerQueryUseCase.loadSources()
         .map { Async.Success(it.toSourceUiModels()) }
         .catch<Async<List<SourceUiModel>>> {
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<PayerListUiState> = _sourcesAsync.map { transSourcesAsync ->
+    val uiState: StateFlow<PayerListUiState> = _payersAsync.map { transSourcesAsync ->
         when (transSourcesAsync) {
             is Async.Loading -> {
                 PayerListUiState(isLoading = true)
