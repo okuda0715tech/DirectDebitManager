@@ -25,7 +25,7 @@ class PayerListViewModel @Inject constructor(
     payerQueryUseCase: PayerQueryUseCase,
 ) : ViewModel() {
 
-    private val _payersAsync = payerQueryUseCase.loadSources()
+    private val _payersAsync = payerQueryUseCase.loadPayers()
         .map { Async.Success(it.toSourceUiModels()) }
         .catch<Async<List<SourceUiModel>>> {
             emit(Async.Error(R.string.load_error))

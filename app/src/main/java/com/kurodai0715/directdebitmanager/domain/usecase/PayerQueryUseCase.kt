@@ -28,12 +28,12 @@ class PayerQueryUseCase @Inject constructor(
     private val repo: DirectDebitDefaultRepository
 ) {
 
-    fun loadSources(): Flow<List<TransferItemEntity>> {
+    fun loadPayers(): Flow<List<TransferItemEntity>> {
         return repo.observeByIsSource(isSource = true)
     }
 
-    fun loadSourceLabelsById(): Flow<Map<Int, String>> {
-        return loadSources()
+    fun loadPayerLabelsById(): Flow<Map<Int, String>> {
+        return loadPayers()
             .map { list ->
                 list.associate { it.id to it.label }
             }
