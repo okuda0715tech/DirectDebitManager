@@ -13,7 +13,7 @@
     <string name="no_title"> </string>
     <string name="home_screen_title">ホーム</string>
     <string name="payee_list_screen_title">支払先 / 一覧</string>
-    <string name="register_payee_screen_title">支払先 / 登録"</string>
+    <string name="payee_edit_screen_title">支払先 / 登録"</string>
     <string name="list_screen_title">振替情報 / 一覧</string>
     <string name="register_screen_title">振替情報 / 登録</string>
     <string name="edit_screen_title">振替情報 / 変更</string>

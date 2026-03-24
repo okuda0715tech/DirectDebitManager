@@ -65,7 +65,7 @@ fun AppNavGraph(
                 onClickNavigateUp = { navController.navigateUp() },
                 payeeId = registerPayee.id
             )
-            onChangeTitle(R.string.register_payee_screen_title)
+            onChangeTitle(R.string.payee_edit_screen_title)
         }
 
         composable<DestList> {
