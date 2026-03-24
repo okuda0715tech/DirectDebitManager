@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PayeeEditScreen(
-    viewModel: RegisterPayeeViewModel = hiltViewModel(),
+    viewModel: PayeeEditViewModel = hiltViewModel(),
     onClickNavigateUp: () -> Unit,
     payeeId: Int?,
 ) {

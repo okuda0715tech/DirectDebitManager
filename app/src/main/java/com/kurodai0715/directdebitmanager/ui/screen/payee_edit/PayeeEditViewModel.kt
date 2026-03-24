@@ -32,7 +32,7 @@ sealed class RegisterPayeeUiEvent {
 }
 
 @HiltViewModel
-class RegisterPayeeViewModel @Inject constructor(
+class PayeeEditViewModel @Inject constructor(
     private val payeeQueryUseCase: PayeeQueryUseCase,
     private val payeeCommandUseCase: PayeeCommandUseCase,
 ) : ViewModel() {
