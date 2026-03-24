@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-data class SourceListUiState(
+data class PayerListUiState(
     val items: List<SourceUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val userMessage: Int? = null
@@ -36,18 +36,18 @@ class SourceListViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<SourceListUiState> = _sourcesAsync.map { transSourcesAsync ->
+    val uiState: StateFlow<PayerListUiState> = _sourcesAsync.map { transSourcesAsync ->
         when (transSourcesAsync) {
             is Async.Loading -> {
-                SourceListUiState(isLoading = true)
+                PayerListUiState(isLoading = true)
             }
 
             is Async.Error -> {
-                SourceListUiState(userMessage = transSourcesAsync.errorMessage)
+                PayerListUiState(userMessage = transSourcesAsync.errorMessage)
             }
 
             is Async.Success -> {
-                SourceListUiState(
+                PayerListUiState(
                     items = transSourcesAsync.data,
                     isLoading = false,
                 )
@@ -56,7 +56,7 @@ class SourceListViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
-        initialValue = SourceListUiState(isLoading = true)
+        initialValue = PayerListUiState(isLoading = true)
     )
 
 }
