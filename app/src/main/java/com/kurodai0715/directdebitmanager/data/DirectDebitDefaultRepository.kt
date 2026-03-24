@@ -8,6 +8,7 @@ package com.kurodai0715.directdebitmanager.data
 import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.ChildWithParent
 import com.kurodai0715.directdebitmanager.data.source.local.DirectDebitDao
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentRole
 import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -33,6 +34,11 @@ class DirectDebitDefaultRepository @Inject constructor(
         parentId: Int,
     ): Boolean {
 
+        val role = when (isSourceItem) {
+            true -> PaymentRole.Both
+            false -> PaymentRole.Payee
+        }
+
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
@@ -41,7 +47,8 @@ class DirectDebitDefaultRepository @Inject constructor(
                         label = label,
                         isSourceItem = isSourceItem,
                         typeCode = null,
-                        parentId = parentId
+                        parentId = parentId,
+                        role = role,
                     )
                 )
                 true
@@ -64,6 +71,11 @@ class DirectDebitDefaultRepository @Inject constructor(
         parentId: Int,
     ): Boolean {
 
+        val role = when (isSourceItem) {
+            true -> PaymentRole.Both
+            false -> PaymentRole.Payee
+        }
+
         val item = localDataSource.getItem(id)
 
         var resultSuccess: Boolean
@@ -74,7 +86,8 @@ class DirectDebitDefaultRepository @Inject constructor(
                         id = id,
                         label = label,
                         isSourceItem = isSourceItem,
-                        parentId = parentId
+                        parentId = parentId,
+                        role = role
                     )
                 )
                 true
@@ -102,6 +115,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         label = label,
                         isSourceItem = false,
                         typeCode = null,
+                        role = PaymentRole.Payee,
                     )
                 )
                 true
@@ -131,6 +145,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         label = label,
                         isSourceItem = false,
                         typeCode = null,
+                        role = PaymentRole.Payee,
                     )
                 )
                 true
@@ -157,6 +172,7 @@ class DirectDebitDefaultRepository @Inject constructor(
                         isSourceItem = true,
                         typeCode = type,
                         parentId = parentId,
+                        role = PaymentRole.Payer
                     )
                 )
                 true

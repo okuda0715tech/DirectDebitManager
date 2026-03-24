@@ -55,11 +55,13 @@ interface DirectDebitDao {
                 "dest.isSourceItem AS child_isSourceItem, " +
                 "dest.typeCode AS child_typeCode, " +
                 "dest.parentId AS child_parentId, " +
+                "dest.role AS child_role, " +
                 "source.id AS parent_id, " +
                 "source.label AS parent_label, " +
                 "source.isSourceItem AS parent_isSourceItem, " +
                 "source.typeCode AS parent_typeCode, " +
-                "source.parentId AS parent_parentId " +
+                "source.parentId AS parent_parentId, " +
+                "source.role AS parent_role " +
                 "FROM transfer_item AS dest " +
                 "INNER JOIN transfer_item AS source " +
                 "ON dest.parentId = source.id " +

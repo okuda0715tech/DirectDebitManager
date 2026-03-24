@@ -7,12 +7,14 @@ package com.kurodai0715.directdebitmanager.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 /**
  * Note exportSchema は、リリース前に true に変更してください。
  */
 
 @Database(entities = [TransferItemEntity::class], version = 1, exportSchema = false)
+@TypeConverters(TransferItemConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun directDebitDao(): DirectDebitDao

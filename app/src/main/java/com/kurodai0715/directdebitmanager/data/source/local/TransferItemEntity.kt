@@ -47,6 +47,8 @@ data class TransferItemEntity(
      */
     val parentId: Int = 0,
 
+    val role: PaymentRole,
+
 //    val date: String,
 //    val amount: Int,
 
