@@ -26,7 +26,7 @@ data class PayerListUiState(
 )
 
 @HiltViewModel
-class SourceListViewModel @Inject constructor(
+class PayerListViewModel @Inject constructor(
     sourcesQueryUseCase: SourcesQueryUseCase,
 ) : ViewModel() {
 

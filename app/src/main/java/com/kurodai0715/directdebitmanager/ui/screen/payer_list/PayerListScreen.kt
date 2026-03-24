@@ -44,7 +44,7 @@ private const val TAG = "SourceListScreen.kt"
 
 @Composable
 fun SourceListScreen(
-    viewModel: SourceListViewModel = hiltViewModel(),
+    viewModel: PayerListViewModel = hiltViewModel(),
     onClickSourceEdit: (Int?) -> Unit,
     onClickNavigateUp: () -> Unit,
 ) {
