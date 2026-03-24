@@ -14,21 +14,21 @@ import kotlinx.coroutines.flow.Flow
 interface PaymentDao {
 
     /**
-     * transfer_item テーブルに対する Insert or Update.
+     * payment_item テーブルに対する Insert or Update.
      */
     @Upsert
-    suspend fun upsertTransferItem(destination: TransferItemEntity)
+    suspend fun upsertPaymentItem(destination: PaymentItemEntity)
 
     /**
      * isSourceItem 列が指定した値に一致するレコードを取得.
      */
-    @Query("SELECT * FROM transfer_item WHERE isSourceItem = :isSource")
-    fun observeByIsSource(isSource: Boolean): Flow<List<TransferItemEntity>>
+    @Query("SELECT * FROM payment_item WHERE isSourceItem = :isSource")
+    fun observeByIsSource(isSource: Boolean): Flow<List<PaymentItemEntity>>
 
     /**
      * 引数で指定した parentId を振替元として使用している振替先の件数を取得.
      */
-    @Query("SELECT COUNT(*) FROM transfer_item WHERE parentId = :parentId")
+    @Query("SELECT COUNT(*) FROM payment_item WHERE parentId = :parentId")
     suspend fun countDestinationsReferencing(parentId: Int): Int
 
     /**
@@ -36,14 +36,14 @@ interface PaymentDao {
      *
      * @return 削除したレコードの件数
      */
-    @Query("DELETE FROM transfer_item WHERE id = :id")
+    @Query("DELETE FROM payment_item WHERE id = :id")
     fun deleteItem(id: Int): Int
 
     /**
      * 振替元と振替先のデータを全件取得.
      */
-    @Query("SELECT * FROM transfer_item")
-    fun observeTransferItems(): Flow<List<TransferItemEntity>>
+    @Query("SELECT * FROM payment_item")
+    fun observePaymentItems(): Flow<List<PaymentItemEntity>>
 
     /**
      * 与えられた ID のデータとその親のデータを取得する.
@@ -62,8 +62,8 @@ interface PaymentDao {
                 "source.typeCode AS parent_typeCode, " +
                 "source.parentId AS parent_parentId, " +
                 "source.role AS parent_role " +
-                "FROM transfer_item AS dest " +
-                "INNER JOIN transfer_item AS source " +
+                "FROM payment_item AS dest " +
+                "INNER JOIN payment_item AS source " +
                 "ON dest.parentId = source.id " +
                 "WHERE dest.id = :id"
     )
@@ -72,13 +72,13 @@ interface PaymentDao {
     /**
      * 指定した id のレコードを取得.
      */
-    @Query("SELECT * FROM transfer_item WHERE id = :id")
-    suspend fun getItem(id: Int): TransferItemEntity
+    @Query("SELECT * FROM payment_item WHERE id = :id")
+    suspend fun getItem(id: Int): PaymentItemEntity
 
     /**
      * 指定した role のレコードを取得.
      */
-    @Query("SELECT * FROM transfer_item WHERE role IN (:roles)")
-    fun observeByRoles(roles: List<PaymentRole>): Flow<List<TransferItemEntity>>
+    @Query("SELECT * FROM payment_item WHERE role IN (:roles)")
+    fun observeByRoles(roles: List<PaymentRole>): Flow<List<PaymentItemEntity>>
 
 }
