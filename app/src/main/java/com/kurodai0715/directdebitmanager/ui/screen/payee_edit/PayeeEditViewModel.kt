@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-const val TAG = "RegisterPayeeViewModel.kt"
+const val TAG = "PayeeEditViewModel.kt"
 
 data class PayeeEditUiState(
     val editMode: PayeeEditMode = PayeeEditMode.Add,
