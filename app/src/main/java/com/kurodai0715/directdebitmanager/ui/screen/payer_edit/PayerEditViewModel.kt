@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.data.PaymentDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
 import com.kurodai0715.directdebitmanager.domain.model.ItemType
@@ -36,7 +37,7 @@ data class PayerEditUiState(
 
 @HiltViewModel
 class PayerEditViewModel @Inject constructor(
-    private val directDebitDefRepo: DirectDebitDefaultRepository
+    private val paymentDefRepo: PaymentDefaultRepository,
 ) : ViewModel() {
 
     /**
@@ -58,7 +59,7 @@ class PayerEditViewModel @Inject constructor(
     fun initialize(sourceId: Int?) {
         viewModelScope.launch {
             if (sourceId != null) {
-                val item = directDebitDefRepo.loadItem(sourceId)
+                val item = paymentDefRepo.loadItem(sourceId)
 
                 _uiState.update {
                     it.copy(
@@ -135,7 +136,7 @@ class PayerEditViewModel @Inject constructor(
 
     private fun saveData() {
         viewModelScope.launch {
-            val resultSuccess = directDebitDefRepo.upsertSource(
+            val resultSuccess = paymentDefRepo.upsertSource(
                 id = uiState.value.sourceId,
                 name = uiState.value.sourceName,
                 type = uiState.value.sourceType.value,
@@ -175,7 +176,7 @@ class PayerEditViewModel @Inject constructor(
     fun checkRelatedDataExistence(sourceId: Int) {
         viewModelScope.launch {
             // sourceId を振替元として使用している振替先データの件数
-            val relatedDestCount = directDebitDefRepo.countDestinationsReferencing(sourceId)
+            val relatedDestCount = paymentDefRepo.countDestinationsReferencing(sourceId)
 
             _uiState.update {
                 when (relatedDestCount) {
@@ -197,7 +198,7 @@ class PayerEditViewModel @Inject constructor(
 
     fun deleteData() {
         viewModelScope.launch {
-            val deletedSourceCount = directDebitDefRepo.deleteItemBy(id = uiState.value.sourceId)
+            val deletedSourceCount = paymentDefRepo.deleteItemBy(id = uiState.value.sourceId)
 
             val resultFailure = deletedSourceCount == -1
 
