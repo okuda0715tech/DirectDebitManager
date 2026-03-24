@@ -127,7 +127,7 @@ private fun BottomButton(
 
         is PayeeEditMode.Edit -> {
             HorizontalThreeButton(
-                onClickLeft = { debouncedClick(TODO()) },
+                onClickLeft = { debouncedClick(TODO("削除するには振替関係を考慮する必要があるが、振替関係のモデルが未実装のため、後で実装する")) },
                 onClickCenter = { debouncedClick(onClickBack) },
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_delete),
