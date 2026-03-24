@@ -27,7 +27,7 @@ fun NavController.navigateToSourceEdit(sourceId: Int?) {
 fun NavController.navigateToPayerEdit(sourceId: Int?) {
     navigate(
         PayerEdit(
-            sourceId = sourceId,
+            payerId = sourceId,
         )
     )
 }

@@ -56,7 +56,7 @@ data object PayerList : PayerBase
 
 @Serializable
 data class PayerEdit(
-    val sourceId: Int? = null,
+    val payerId: Int? = null,
 ) : PayerBase
 
 

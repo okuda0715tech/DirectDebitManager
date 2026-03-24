@@ -134,14 +134,14 @@ fun AppNavGraph(
             val payerEdit: PayerEdit = backStackEntry.toRoute()
 
             PayerEditScreen(
-                sourceId = payerEdit.sourceId,
+                sourceId = payerEdit.payerId,
                 onClickNavigateUp = { navController.navigateUp() },
             )
 
-            Log.d(TAG, "sourceEdit.id = ${payerEdit.sourceId}")
+            Log.d(TAG, "sourceEdit.id = ${payerEdit.payerId}")
 
             onChangeTitle(
-                if (payerEdit.sourceId == null)
+                if (payerEdit.payerId == null)
                     R.string.payer_registration_title
                 else
                     R.string.payer_update_title
