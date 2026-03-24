@@ -5,9 +5,9 @@
 
 package com.kurodai0715.directdebitmanager.domain.usecase
 
-import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.data.PaymentDefaultRepository
 import com.kurodai0715.directdebitmanager.data.source.local.ChildWithParent
-import com.kurodai0715.directdebitmanager.data.source.local.TransferItemEntity
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentItemEntity
 import com.kurodai0715.directdebitmanager.domain.model.DestInputType
 import com.kurodai0715.directdebitmanager.domain.model.DestWithSource
 import kotlinx.coroutines.flow.Flow
@@ -25,10 +25,10 @@ private fun ChildWithParent.toDestWithSource(): DestWithSource {
 }
 
 class PayerQueryUseCase @Inject constructor(
-    private val repo: DirectDebitDefaultRepository
+    private val repo: PaymentDefaultRepository
 ) {
 
-    fun loadPayers(): Flow<List<TransferItemEntity>> {
+    fun loadPayers(): Flow<List<PaymentItemEntity>> {
         return repo.observeByIsSource(isSource = true)
     }
 
