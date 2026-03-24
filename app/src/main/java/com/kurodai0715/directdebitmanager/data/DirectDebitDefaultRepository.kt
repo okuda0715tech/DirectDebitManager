@@ -129,23 +129,22 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 支払先を新規に登録する.
+     * 支払先を更新する.
      */
     suspend fun updatePayee(
         payeeId: Int,
         label: String,
     ): Boolean {
 
+        val item = localDataSource.getItem(payeeId)
+
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
                 localDataSource.upsertTransferItem(
-                    TransferItemEntity(
+                    item.copy(
                         id = payeeId,
                         label = label,
-                        isSourceItem = false,
-                        typeCode = null,
-                        role = PaymentRole.Payee,
                     )
                 )
                 true
