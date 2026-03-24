@@ -9,8 +9,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.kurodai0715.directdebitmanager.domain.model.ItemType
 
-@Entity(tableName = "transfer_item")
-data class PaymentEntity(
+@Entity(tableName = "payment_item")
+data class PaymentItemEntity(
 
     /**
      * ID.
