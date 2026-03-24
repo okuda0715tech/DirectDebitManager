@@ -75,8 +75,10 @@ interface DirectDebitDao {
     @Query("SELECT * FROM transfer_item WHERE id = :id")
     suspend fun getItem(id: Int): TransferItemEntity
 
-    // TODO : Payee のみを抽出できるように条件を見直す。
-    @Query("SELECT * FROM transfer_item")
-    fun observePayees(): Flow<List<TransferItemEntity>>
+    /**
+     * 指定した role のレコードを取得.
+     */
+    @Query("SELECT * FROM transfer_item WHERE role IN (:roles)")
+    fun observeByRoles(roles: List<PaymentRole>): Flow<List<TransferItemEntity>>
 
 }

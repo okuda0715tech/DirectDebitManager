@@ -257,8 +257,11 @@ class DirectDebitDefaultRepository @Inject constructor(
         return localDataSource.getItem(id)
     }
 
+    /**
+     * 支払先の一覧を取得するストリーム.
+     */
     fun observePayees(): Flow<List<TransferItemEntity>> {
-        return localDataSource.observePayees()
+        return localDataSource.observeByRoles(listOf(PaymentRole.Payee, PaymentRole.Both))
     }
 }
 
