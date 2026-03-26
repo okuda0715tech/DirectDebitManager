@@ -31,7 +31,6 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PayeeListScreen(
-    modifier: Modifier = Modifier,
     viewModel: PayeeListViewModel = hiltViewModel(),
     onClickNavigateUp: () -> Unit,
     onClickAdd: () -> Unit,
