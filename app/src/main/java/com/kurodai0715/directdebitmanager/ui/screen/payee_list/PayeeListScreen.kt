@@ -49,9 +49,7 @@ fun PayeeListScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         PayeeListContents(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             items = uiState.items,
             onNavigateUp = onClickNavigateUp,
             onClickAdd = onClickAdd,

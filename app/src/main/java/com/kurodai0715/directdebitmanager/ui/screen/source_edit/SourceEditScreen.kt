@@ -7,7 +7,6 @@ package com.kurodai0715.directdebitmanager.ui.screen.source_edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -25,10 +24,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
@@ -70,10 +69,7 @@ fun SourceEditScreen(
         }
 
         SourceEditContents(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,

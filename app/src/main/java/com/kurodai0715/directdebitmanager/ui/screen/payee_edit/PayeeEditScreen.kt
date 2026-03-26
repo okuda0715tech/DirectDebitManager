@@ -1,7 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payee_edit
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
@@ -22,7 +21,6 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
-import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -71,10 +69,7 @@ fun PayeeEditScreen(
         }
 
         PayeeEditContents(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             mode = uiState.editMode,
             payeeName = uiState.payeeName,
             onPayeeNameChanged = { viewModel.updatePayeeName(it) },

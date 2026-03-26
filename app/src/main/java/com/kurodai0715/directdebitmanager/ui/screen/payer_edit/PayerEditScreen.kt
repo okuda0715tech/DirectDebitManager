@@ -7,7 +7,6 @@ package com.kurodai0715.directdebitmanager.ui.screen.payer_edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
@@ -70,10 +69,7 @@ fun PayerEditScreen(
         }
 
         PayerEditContents(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             source = uiState.sourceName,
             onSourceChanged = { viewModel.updateSource(it) },
             itemId = uiState.sourceId,

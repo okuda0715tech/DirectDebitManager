@@ -79,10 +79,7 @@ fun DestinationListScreen(
         }
 
         DestinationListContents(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             tabType = uiState.tabType,
             items = uiState.items,
             onChangeTab = { viewModel.updateTabType(it) },

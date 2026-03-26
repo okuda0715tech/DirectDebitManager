@@ -96,10 +96,7 @@ fun DestinationEditScreen(
         }
 
         DestinationEditContents(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             keyboardDestName = formUiState.keyboardDestName,
             dialogDestName = derivedUiState.dialogDestName,
             onDestChanged = { viewModel.updateDest(it) },

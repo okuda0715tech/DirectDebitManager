@@ -62,10 +62,7 @@ fun PayerListScreen(
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
         PayerListContents(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-                .padding(LayoutTokens.screenPaddingHalf),
+            modifier = Modifier.padding(paddingValues),
             items = uiState.items,
             onNavigateToEdit = onClickSourceEdit,
             onNavigateUp = onClickNavigateUp,
