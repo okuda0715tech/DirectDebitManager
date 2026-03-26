@@ -10,12 +10,21 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBotto
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun TransferRelationListScreen(modifier: Modifier = Modifier) {
-    TransferRelationListContents(modifier)
+fun TransferRelationListScreen(
+    modifier: Modifier = Modifier,
+    onClickBack: () -> Unit,
+) {
+    TransferRelationListContents(
+        modifier,
+        onClickBack
+    )
 }
 
 @Composable
-fun TransferRelationListContents(modifier: Modifier = Modifier) {
+fun TransferRelationListContents(
+    modifier: Modifier = Modifier,
+    onClickBack: () -> Unit,
+) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
@@ -23,7 +32,7 @@ fun TransferRelationListContents(modifier: Modifier = Modifier) {
         },
         bottomButton = {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick { TODO() } },
+                onClickLeft = { debouncedClick(onClickBack) },
                 onClickRight = { debouncedClick { TODO() } },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_add)

@@ -150,7 +150,9 @@ fun AppNavGraph(
         }
 
         composable<TransferRelationList> {
-            TransferRelationListScreen()
+            TransferRelationListScreen(
+                onClickBack = { navController.navigateUp() }
+            )
 
             onChangeTitle(R.string.transfer_relation_list_screen_title)
         }
