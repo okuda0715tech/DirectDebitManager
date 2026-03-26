@@ -1,12 +1,12 @@
 package com.kurodai0715.directdebitmanager.domain.usecase
 
-import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
+import com.kurodai0715.directdebitmanager.data.PaymentDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.model.Payee
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import javax.inject.Inject
 
 class PayeeCommandUseCase @Inject constructor(
-    private val repo: DirectDebitDefaultRepository
+    private val repo: PaymentDefaultRepository
 ) {
     suspend fun savePayee(
         payee: Payee
