@@ -101,63 +101,6 @@ class DirectDebitDefaultRepository @Inject constructor(
     }
 
     /**
-     * 支払先を新規に登録する.
-     */
-    suspend fun createPayee(
-        label: String,
-    ): Boolean {
-
-        var resultSuccess: Boolean
-        withContext(ioDispatcher) {
-            resultSuccess = try {
-                localDataSource.upsertTransferItem(
-                    TransferItemEntity(
-                        label = label,
-                        isSourceItem = false,
-                        typeCode = null,
-                        role = PaymentRole.Payee,
-                    )
-                )
-                true
-            } catch (e: Exception) {
-                Log.e(TAG, "$e")
-                false
-            }
-            Log.d(TAG, "resultSuccess = $resultSuccess")
-        }
-        return resultSuccess
-    }
-
-    /**
-     * 支払先を更新する.
-     */
-    suspend fun updatePayee(
-        payeeId: Int,
-        label: String,
-    ): Boolean {
-
-        val item = localDataSource.getItem(payeeId)
-
-        var resultSuccess: Boolean
-        withContext(ioDispatcher) {
-            resultSuccess = try {
-                localDataSource.upsertTransferItem(
-                    item.copy(
-                        id = payeeId,
-                        label = label,
-                    )
-                )
-                true
-            } catch (e: Exception) {
-                Log.e(TAG, "$e")
-                false
-            }
-            Log.d(TAG, "resultSuccess = $resultSuccess")
-        }
-        return resultSuccess
-    }
-
-    /**
      * 振替元情報を DB へ登録する.
      */
     suspend fun upsertSource(id: Int, name: String, type: Int, parentId: Int): Boolean {
