@@ -51,6 +51,9 @@
     <!-- 支払先 編集 画面 -->
     <string name="payee_name_label">支払先の名称</string>
 
+    <!-- 振替関係 一覧 画面 -->
+    <string name="transfer_relation_list_screen_title">振替関係 一覧</string>
+
     <!-- 振替元 編集 画面 -->
     <string name="source_edit_text_label">振替元の名称</string>
     <string name="source_type">区分</string>

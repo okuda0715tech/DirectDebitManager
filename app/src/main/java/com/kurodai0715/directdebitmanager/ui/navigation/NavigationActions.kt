@@ -56,3 +56,6 @@ fun NavController.navigateToPayerList() {
     navigate(PayerList)
 }
 
+fun NavController.navigateToTransferRelationList() {
+    navigate(TransferRelationList)
+}
