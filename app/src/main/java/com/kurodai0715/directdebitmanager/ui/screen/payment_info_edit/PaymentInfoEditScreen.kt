@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -11,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -27,6 +29,9 @@ fun PaymentInfoEditScreen(
         paymentName = uiState.paymentName,
         onPaymentNameChanged = { viewModel.updatePaymentName(it) },
         supportingTextRes = uiState.paymentNameErrorMessage,
+        payerName = uiState.payerName,
+        onClickPayer = { /* TODO */ },
+        payerNameMessage = uiState.payerNameMessage,
     )
 }
 
@@ -36,7 +41,10 @@ fun TransferRelationEditContents(
     onClickBack: () -> Unit,
     paymentName: String,
     onPaymentNameChanged: (String) -> Unit,
-    supportingTextRes: Int?
+    supportingTextRes: Int?,
+    payerName: String,
+    onClickPayer: () -> Unit,
+    payerNameMessage: Int?,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
@@ -45,6 +53,9 @@ fun TransferRelationEditContents(
                 paymentName = paymentName,
                 onPaymentNameChanged = onPaymentNameChanged,
                 supportingTextRes = supportingTextRes,
+                payerName = payerName,
+                onClickPayer = onClickPayer,
+                payerNameMessage = payerNameMessage,
             )
         },
         bottomButton = {
@@ -63,7 +74,10 @@ fun TransferRelationEditContents(
 fun Contents(
     paymentName: String,
     onPaymentNameChanged: (String) -> Unit,
-    supportingTextRes: Int?
+    supportingTextRes: Int?,
+    payerName: String,
+    onClickPayer: () -> Unit,
+    payerNameMessage: Int?,
 ) {
     Column {
         EditableForm(
@@ -72,6 +86,16 @@ fun Contents(
             onTextChanged = onPaymentNameChanged,
             supportingText = supportingTextRes,
             onClickClear = { onPaymentNameChanged("") }
+        )
+
+        ReadOnlyForm(
+            labelText = stringResource(R.string.payer_name_label),
+            text = payerName,
+            onClickText = onClickPayer,
+            supportingText = payerNameMessage,
+            icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
+            iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
+            onClickIcon = onClickPayer,
         )
     }
 }
@@ -84,5 +108,8 @@ private fun Preview() {
         paymentName = "三井住友銀行",
         onPaymentNameChanged = {},
         supportingTextRes = null,
+        payerName = "",
+        onClickPayer = {},
+        payerNameMessage = null,
     )
 }
