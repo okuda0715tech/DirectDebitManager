@@ -13,13 +13,19 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PaymentInfoEditScreen(
-    viewModel: PaymentInfoEditViewModel = hiltViewModel()
+    viewModel: PaymentInfoEditViewModel = hiltViewModel(),
+    onClickBack: () -> Unit,
 ) {
-    TransferRelationEditContents()
+    TransferRelationEditContents(
+        onClickBack = onClickBack
+    )
 }
 
 @Composable
-fun TransferRelationEditContents(modifier: Modifier = Modifier) {
+fun TransferRelationEditContents(
+    modifier: Modifier = Modifier,
+    onClickBack: () -> Unit,
+) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
@@ -27,7 +33,7 @@ fun TransferRelationEditContents(modifier: Modifier = Modifier) {
         },
         bottomButton = {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick(TODO()) },
+                onClickLeft = { debouncedClick(onClickBack) },
                 onClickRight = { debouncedClick(TODO()) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)
@@ -45,5 +51,7 @@ fun Contents() {
 @Preview(name = "TransferRelationEditContents")
 @Composable
 private fun Preview() {
-    TransferRelationEditContents()
+    TransferRelationEditContents(
+        onClickBack = {}
+    )
 }
