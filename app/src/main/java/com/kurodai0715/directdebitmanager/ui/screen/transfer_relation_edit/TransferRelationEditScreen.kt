@@ -3,9 +3,13 @@ package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun TransferRelationEditScreen(modifier: Modifier = Modifier) {
+fun TransferRelationEditScreen(
+    modifier: Modifier = Modifier,
+    viewModel: TransferRelationEditViewModel = hiltViewModel()
+) {
     TransferRelationEditContents(modifier)
 }
 
