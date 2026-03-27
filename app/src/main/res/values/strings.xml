@@ -53,6 +53,9 @@
     <!-- 支払先 編集 画面 -->
     <string name="payee_name_label">支払先の名称</string>
 
+    <!-- 支払情報 編集 画面 -->
+    <string name="payment_name_label">支払情報の名称</string>
+
     <!-- 振替元 編集 画面 -->
     <string name="source_edit_text_label">振替元の名称</string>
     <string name="source_type">区分</string>
