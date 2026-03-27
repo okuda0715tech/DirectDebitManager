@@ -23,6 +23,7 @@
     <string name="source_update_title">振替元 / 変更</string>
     <string name="payer_registration_title">支払元 / 登録</string>
     <string name="payer_update_title">支払元 / 変更</string>
+    <string name="transfer_relation_list_screen_title">振替関係 / 一覧</string>
 
     <!-- ホーム 画面 -->
     <string name="payer_list_label">支払元　一覧</string>
@@ -50,9 +51,6 @@
 
     <!-- 支払先 編集 画面 -->
     <string name="payee_name_label">支払先の名称</string>
-
-    <!-- 振替関係 一覧 画面 -->
-    <string name="transfer_relation_list_screen_title">振替関係 一覧</string>
 
     <!-- 振替元 編集 画面 -->
     <string name="source_edit_text_label">振替元の名称</string>
