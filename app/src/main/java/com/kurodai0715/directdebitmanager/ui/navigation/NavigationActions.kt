@@ -60,6 +60,6 @@ fun NavController.navigateToTransferRelationList() {
     navigate(TransferRelationList)
 }
 
-fun NavController.navigateToTransferRelationEdit() {
-    navigate(TransferRelationEdit)
+fun NavController.navigateToPaymentInfoEdit() {
+    navigate(PaymentInfoEdit)
 }
