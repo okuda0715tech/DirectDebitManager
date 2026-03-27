@@ -28,7 +28,7 @@ fun PaymentInfoEditScreen(
         onClickBack = onClickBack,
         paymentName = uiState.paymentName,
         onPaymentNameChanged = { viewModel.updatePaymentName(it) },
-        supportingTextRes = uiState.paymentNameErrorMessage,
+        paymentNameMessage = uiState.paymentNameMessage,
         payerName = uiState.payerName,
         onClickPayer = { /* TODO */ },
         payerNameMessage = uiState.payerNameMessage,
@@ -41,7 +41,7 @@ fun TransferRelationEditContents(
     onClickBack: () -> Unit,
     paymentName: String,
     onPaymentNameChanged: (String) -> Unit,
-    supportingTextRes: Int?,
+    paymentNameMessage: Int?,
     payerName: String,
     onClickPayer: () -> Unit,
     payerNameMessage: Int?,
@@ -52,7 +52,7 @@ fun TransferRelationEditContents(
             Contents(
                 paymentName = paymentName,
                 onPaymentNameChanged = onPaymentNameChanged,
-                supportingTextRes = supportingTextRes,
+                paymentNameMessage = paymentNameMessage,
                 payerName = payerName,
                 onClickPayer = onClickPayer,
                 payerNameMessage = payerNameMessage,
@@ -74,7 +74,7 @@ fun TransferRelationEditContents(
 fun Contents(
     paymentName: String,
     onPaymentNameChanged: (String) -> Unit,
-    supportingTextRes: Int?,
+    paymentNameMessage: Int?,
     payerName: String,
     onClickPayer: () -> Unit,
     payerNameMessage: Int?,
@@ -84,7 +84,7 @@ fun Contents(
             labelText = stringResource(R.string.payment_name_label),
             text = paymentName,
             onTextChanged = onPaymentNameChanged,
-            supportingText = supportingTextRes,
+            supportingText = paymentNameMessage,
             onClickClear = { onPaymentNameChanged("") }
         )
 
@@ -107,7 +107,7 @@ private fun Preview() {
         onClickBack = {},
         paymentName = "三井住友銀行",
         onPaymentNameChanged = {},
-        supportingTextRes = null,
+        paymentNameMessage = null,
         payerName = "",
         onClickPayer = {},
         payerNameMessage = null,

@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 data class PaymentInfoEditUiState(
     val paymentName: String = "",
-    val paymentNameErrorMessage: Int? = null,
+    val paymentNameMessage: Int? = null,
     val payerName: String = "",
     val payerNameMessage: Int? = null,
 )
