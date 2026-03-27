@@ -7,9 +7,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
-fun TransferRelationEditScreen(
+fun PaymentInfoEditScreen(
     modifier: Modifier = Modifier,
-    viewModel: TransferRelationEditViewModel = hiltViewModel()
+    viewModel: PaymentInfoEditViewModel = hiltViewModel()
 ) {
     TransferRelationEditContents(modifier)
 }
