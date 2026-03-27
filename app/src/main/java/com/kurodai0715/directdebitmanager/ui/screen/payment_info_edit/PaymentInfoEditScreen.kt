@@ -93,7 +93,7 @@ fun Contents(
             text = payerName,
             onClickText = onClickPayer,
             supportingText = payerNameMessage,
-            icon = painterResource(id = R.drawable.outline_arrow_drop_down_circle_24),
+            icon = painterResource(id = R.drawable.outline_arrow_right_24),
             iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
             onClickIcon = onClickPayer,
         )
