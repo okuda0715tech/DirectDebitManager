@@ -59,3 +59,7 @@ fun NavController.navigateToPayerList() {
 fun NavController.navigateToTransferRelationList() {
     navigate(TransferRelationList)
 }
+
+fun NavController.navigateToTransferRelationEdit() {
+    navigate(TransferRelationEdit)
+}

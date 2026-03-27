@@ -23,6 +23,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.payer_edit.PayerEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_list.PayerListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.TransferRelationListScreen
 
 private const val TAG = "AppNavGraph.kt"
@@ -151,10 +152,17 @@ fun AppNavGraph(
 
         composable<TransferRelationList> {
             TransferRelationListScreen(
-                onClickBack = { navController.navigateUp() }
+                onClickBack = { navController.navigateUp() },
+                onClickAdd = { navController.navigateToTransferRelationEdit() }
             )
 
             onChangeTitle(R.string.transfer_relation_list_screen_title)
+        }
+
+        composable<TransferRelationEdit> {
+            TransferRelationEditScreen()
+
+            onChangeTitle(R.string.transfer_relation_edit_screen_title)
         }
     }
 }
