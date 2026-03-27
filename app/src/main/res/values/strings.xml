@@ -24,7 +24,7 @@
     <string name="payer_registration_title">支払元 / 登録</string>
     <string name="payer_update_title">支払元 / 変更</string>
     <string name="transfer_relation_list_screen_title">振替関係 / 一覧</string>
-    <string name="transfer_relation_edit_screen_title">振替関係 / 編集</string>
+    <string name="payment_info_edit_screen_title">支払情報 / 編集</string>
 
     <!-- ホーム 画面 -->
     <string name="payer_list_label">支払元　一覧</string>

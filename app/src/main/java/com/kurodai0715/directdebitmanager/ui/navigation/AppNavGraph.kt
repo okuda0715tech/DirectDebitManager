@@ -162,7 +162,7 @@ fun AppNavGraph(
         composable<PaymentInfoEdit> {
             PaymentInfoEditScreen()
 
-            onChangeTitle(R.string.transfer_relation_edit_screen_title)
+            onChangeTitle(R.string.payment_info_edit_screen_title)
         }
     }
 }
