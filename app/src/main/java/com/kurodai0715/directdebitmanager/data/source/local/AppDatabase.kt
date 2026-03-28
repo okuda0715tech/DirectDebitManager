@@ -14,10 +14,11 @@ import androidx.room.TypeConverters
  */
 
 @Database(
-    entities = [TransferItemEntity::class, PaymentItemEntity::class],
+    entities = [TransferItemEntity::class, PaymentItemEntity::class, PaymentEntityV2::class],
     version = 1,
     exportSchema = false
 )
+
 @TypeConverters(TransferItemConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
