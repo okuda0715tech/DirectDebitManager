@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_info_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
@@ -64,6 +65,15 @@ class PaymentEditViewModel @Inject constructor(
             val payment = uiState.value.toDomain()
 
             val result = savePayment(payment)
+
+            when (result) {
+                SaveResult.Succeeded -> {
+                    _eventChannel.send(PaymentEditUiEvent.ShowSnackbar(R.string.common_save_successfully))
+                }
+
+                SaveResult.Failed ->
+                    _eventChannel.send(PaymentEditUiEvent.ShowSnackbar(R.string.common_save_failed))
+            }
         }
     }
 
