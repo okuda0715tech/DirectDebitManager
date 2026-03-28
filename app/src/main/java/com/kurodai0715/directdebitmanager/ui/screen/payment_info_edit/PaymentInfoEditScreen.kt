@@ -27,6 +27,7 @@ fun PaymentInfoEditScreen(
 
     TransferRelationEditContents(
         onClickBack = onClickBack,
+        onClickSave = { viewModel.save() },
         paymentName = uiState.paymentName,
         onPaymentNameChanged = { viewModel.updatePaymentName(it) },
         paymentNameMessage = uiState.paymentNameMessage,
@@ -40,6 +41,7 @@ fun PaymentInfoEditScreen(
 fun TransferRelationEditContents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
+    onClickSave: () -> Unit,
     paymentName: String,
     onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?,
@@ -62,7 +64,7 @@ fun TransferRelationEditContents(
         bottomButton = {
             HorizontalTwoButton(
                 onClickLeft = { debouncedClick(onClickBack) },
-                onClickRight = { debouncedClick(TODO()) },
+                onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save)
             )
@@ -106,6 +108,7 @@ fun Contents(
 private fun Preview() {
     TransferRelationEditContents(
         onClickBack = {},
+        onClickSave = {},
         paymentName = "三井住友銀行",
         onPaymentNameChanged = {},
         paymentNameMessage = null,
