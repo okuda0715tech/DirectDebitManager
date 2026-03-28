@@ -2,13 +2,18 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun PaymentSelectScreen(
     viewModel: PaymentSelectViewModel = hiltViewModel(),
 ) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     PaymentSelectContents()
 }
 
