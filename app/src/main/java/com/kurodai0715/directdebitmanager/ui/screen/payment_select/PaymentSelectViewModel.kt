@@ -8,12 +8,12 @@ import javax.inject.Inject
 
 data class PaymentSelectUiState(
     val payments: List<PaymentSelectUiModel> = emptyList(),
-)
-
-data class PaymentSelectUiModel(
-    val name: String,
-    val selected: Boolean,
-)
+) {
+    data class PaymentSelectUiModel(
+        val name: String,
+        val selected: Boolean,
+    )
+}
 
 class PaymentSelectViewModel @Inject constructor(
 
@@ -29,7 +29,7 @@ class PaymentSelectViewModel @Inject constructor(
      */
     val uiState: StateFlow<PaymentSelectUiState> = _uiState.asStateFlow()
 
-    fun onClickItem(payment: PaymentSelectUiModel) {
+    fun onClickItem(payment: PaymentSelectUiState.PaymentSelectUiModel) {
         TODO()
     }
 }
