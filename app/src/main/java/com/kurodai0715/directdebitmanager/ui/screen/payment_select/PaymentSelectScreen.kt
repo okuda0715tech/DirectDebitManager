@@ -5,10 +5,16 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultListItemFrame
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PaymentSelectScreen(
@@ -25,10 +31,24 @@ fun PaymentSelectScreen(
 
 @Composable
 fun PaymentSelectContents(
+    modifier: Modifier = Modifier,
     payments: List<Payment>,
     onClickItem: (Payment) -> Unit,
 ) {
-    Contents(payments, onClickItem)
+    ContentsWithBottomButton(
+        modifier = modifier,
+        contents = {
+            Contents(payments, onClickItem)
+        },
+        bottomButton = {
+            HorizontalTwoButton(
+                onClickLeft = { debouncedClick(TODO()) },
+                onClickRight = { debouncedClick { TODO() } },
+                leftText = stringResource(R.string.common_back),
+                rightText = stringResource(R.string.common_select)
+            )
+        }
+    )
 }
 
 @Composable

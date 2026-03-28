@@ -111,6 +111,7 @@
     <string name="common_edit">変更</string>
     <!-- 「更新」はデータを実際に保存する際に使用 -->
     <string name="common_update">更新</string>
+    <string name="common_select">選択</string>
     <string name="common_register_successfully">登録しました。</string>
     <string name="common_update_successfully">更新しました。</string>
     <string name="common_save_successfully">保存しました。</string>
