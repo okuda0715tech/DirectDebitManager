@@ -80,3 +80,5 @@ data object TransferRelationList : TransferBase
 @Serializable
 data object PaymentInfoEdit : TransferBase
 
+@Serializable
+data object PaymentSelect : TransferBase

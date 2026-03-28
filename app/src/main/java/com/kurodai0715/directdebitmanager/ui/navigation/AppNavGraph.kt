@@ -22,6 +22,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_edit.PayerEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_list.PayerListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_info_edit.PaymentInfoEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.select_payment.SelectPaymentScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.TransferRelationListScreen
@@ -161,10 +162,17 @@ fun AppNavGraph(
 
         composable<PaymentInfoEdit> {
             PaymentInfoEditScreen(
-                onClickBack = { navController.navigateUp() }
+                onClickBack = { navController.navigateUp() },
+                onClickPayer = { navController.navigateToPaymentSelect() }
             )
 
             onChangeTitle(R.string.payment_info_edit_screen_title)
+        }
+
+        composable<PaymentSelect> {
+            SelectPaymentScreen()
+
+            onChangeTitle(R.string.payment_select_screen_title)
         }
     }
 }
