@@ -7,7 +7,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-data object TransferRelationListUiState
+data class TransferRelationListUiState(
+    val items: List<Item> = emptyList(),
+) {
+    data class Item(
+        val name: String,
+    )
+}
+
 
 @HiltViewModel
 class TransferRelationListViewModel @Inject constructor() : ViewModel() {
@@ -15,7 +22,7 @@ class TransferRelationListViewModel @Inject constructor() : ViewModel() {
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(TransferRelationListUiState)
+    private val _uiState = MutableStateFlow(TransferRelationListUiState())
 
     /**
      * 読み取り専用.
