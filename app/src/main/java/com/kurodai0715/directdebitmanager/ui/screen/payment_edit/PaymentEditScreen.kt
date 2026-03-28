@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.screen.payment_info_edit
+package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
