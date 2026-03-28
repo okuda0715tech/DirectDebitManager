@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 data class TransferRelationListUiState(
-    val items: List<Item> = emptyList(),
+    val payments: List<Item> = emptyList(),
 ) {
     data class Item(
         val name: String,
