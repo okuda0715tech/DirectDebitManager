@@ -1,4 +1,13 @@
 package com.kurodai0715.directdebitmanager.data
 
-class PaymentV2DefaultRepository : PaymentV2Repository {
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
+import com.kurodai0715.directdebitmanager.di.IoDispatcher
+import kotlinx.coroutines.CoroutineDispatcher
+import javax.inject.Inject
+
+class PaymentV2DefaultRepository @Inject constructor(
+    private val localDataSource: PaymentV2Dao,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+) : PaymentV2Repository {
+
 }
