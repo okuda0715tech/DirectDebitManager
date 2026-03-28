@@ -160,7 +160,7 @@ fun AppNavGraph(
             onChangeTitle(R.string.transfer_relation_list_screen_title)
         }
 
-        composable<PaymentInfoEdit> {
+        composable<PaymentEdit> {
             PaymentEditScreen(
                 onClickBack = { navController.navigateUp() },
                 onClickPayer = { navController.navigateToPaymentSelect() }

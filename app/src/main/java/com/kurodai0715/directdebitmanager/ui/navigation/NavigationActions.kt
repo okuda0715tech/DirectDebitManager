@@ -61,7 +61,7 @@ fun NavController.navigateToTransferRelationList() {
 }
 
 fun NavController.navigateToPaymentInfoEdit() {
-    navigate(PaymentInfoEdit)
+    navigate(PaymentEdit)
 }
 
 fun NavController.navigateToPaymentSelect() {
