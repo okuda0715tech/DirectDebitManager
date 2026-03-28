@@ -1,9 +1,17 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_info_edit
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -15,6 +23,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoB
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
+import kotlinx.coroutines.launch
 
 @Composable
 fun PaymentEditScreen(
@@ -22,19 +31,51 @@ fun PaymentEditScreen(
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
-    TransferRelationEditContents(
-        onClickBack = onClickBack,
-        onClickSave = { viewModel.save() },
-        paymentName = uiState.paymentName,
-        onPaymentNameChanged = { viewModel.updatePaymentName(it) },
-        paymentNameMessage = uiState.paymentNameMessage,
-        payerName = uiState.payerName,
-        onClickPayer = onClickPayer,
-        payerNameMessage = uiState.payerNameMessage,
-    )
+    Scaffold(snackbarHost = {
+        SnackbarHost(
+            hostState = snackbarHostState,
+            // Snackbar がキーボードで隠れないようにする。
+            modifier = Modifier.safeDrawingPadding()
+        )
+    }) { paddingValues ->
+
+        val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        LaunchedEffect(Unit) {
+            viewModel.eventFlow.collect { event ->
+                when (event) {
+                    is PaymentEditUiEvent.ShowSnackbar -> launch {
+                        // showSnackbar() 関数は suspend 関数であるため、スナックバーが消えるまで
+                        // 次の命令に進めない。そのため、 launch{} ブロック内で実行することにより、
+                        // 別の子ルーチン化することにより、すぐに後続のコルーチンを開始している。
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(event.messageRes)
+                        )
+                    }
+
+                    // TODO
+                    // 画面遷移もイベントとして扱い、ここで実装する。
+
+                }
+            }
+        }
+
+        TransferRelationEditContents(
+            modifier = Modifier.padding(paddingValues),
+            onClickBack = onClickBack,
+            onClickSave = { viewModel.save() },
+            paymentName = uiState.paymentName,
+            onPaymentNameChanged = { viewModel.updatePaymentName(it) },
+            paymentNameMessage = uiState.paymentNameMessage,
+            payerName = uiState.payerName,
+            onClickPayer = onClickPayer,
+            payerNameMessage = uiState.payerNameMessage,
+        )
+    }
 }
 
 @Composable

@@ -6,9 +6,11 @@ import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +22,9 @@ data class PaymentEditUiState(
     val payerNameMessage: Int? = null,
 )
 
+sealed class PaymentEditUiEvent {
+    data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
+}
 
 @HiltViewModel
 class PaymentEditViewModel @Inject constructor(
@@ -35,6 +40,16 @@ class PaymentEditViewModel @Inject constructor(
      * 読み取り専用.
      */
     val uiState: StateFlow<PaymentEditUiState> = _uiState.asStateFlow()
+
+    /**
+     * 更新用.
+     */
+    private val _eventChannel = Channel<PaymentEditUiEvent>(Channel.BUFFERED)
+
+    /**
+     * 参照用.
+     */
+    val eventFlow = _eventChannel.receiveAsFlow()
 
     fun updatePaymentName(paymentName: String) {
         _uiState.update {
