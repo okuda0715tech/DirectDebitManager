@@ -28,6 +28,14 @@ fun PaymentSelectContents(
     payments: List<Payment>,
     onClickItem: (Payment) -> Unit,
 ) {
+    Contents(payments, onClickItem)
+}
+
+@Composable
+private fun Contents(
+    payments: List<Payment>,
+    onClickItem: (Payment) -> Unit
+) {
     LazyColumn {
         items(payments) { item ->
             ListItem(item, onClickItem = { onClickItem(item) })
