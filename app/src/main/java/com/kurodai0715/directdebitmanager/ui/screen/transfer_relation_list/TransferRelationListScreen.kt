@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
@@ -12,6 +13,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun TransferRelationListScreen(
     modifier: Modifier = Modifier,
+    viewModel: TransferRelationListViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
 ) {
