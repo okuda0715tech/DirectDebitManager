@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class PaymentInfoEditUiState(
+data class PaymentEditUiState(
     val paymentName: String = "",
     val paymentNameMessage: Int? = null,
     val payerName: String = "",
@@ -29,12 +29,12 @@ class PaymentInfoEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(PaymentInfoEditUiState())
+    private val _uiState = MutableStateFlow(PaymentEditUiState())
 
     /**
      * 読み取り専用.
      */
-    val uiState: StateFlow<PaymentInfoEditUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<PaymentEditUiState> = _uiState.asStateFlow()
 
     fun updatePaymentName(paymentName: String) {
         _uiState.update {
