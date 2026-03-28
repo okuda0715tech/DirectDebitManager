@@ -22,7 +22,7 @@ data class PaymentEditUiState(
 
 
 @HiltViewModel
-class PaymentInfoEditViewModel @Inject constructor(
+class PaymentEditViewModel @Inject constructor(
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 

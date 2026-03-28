@@ -18,7 +18,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PaymentInfoEditScreen(
-    viewModel: PaymentInfoEditViewModel = hiltViewModel(),
+    viewModel: PaymentEditViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
 ) {
