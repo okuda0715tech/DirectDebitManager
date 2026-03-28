@@ -2,21 +2,20 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
-fun SelectPaymentScreen(modifier: Modifier = Modifier) {
-    SelectPaymentContents()
+fun PaymentSelectScreen() {
+    PaymentSelectContents()
 }
 
 @Composable
-fun SelectPaymentContents() {
-    Text(text = "SelectPaymentContents")
+fun PaymentSelectContents() {
+    Text(text = "PaymentSelectContents")
 }
 
-@Preview(name = "SelectPaymentScreen")
+@Preview(name = "PaymentSelectContents")
 @Composable
 private fun Preview() {
-    SelectPaymentContents()
+    PaymentSelectContents()
 }
