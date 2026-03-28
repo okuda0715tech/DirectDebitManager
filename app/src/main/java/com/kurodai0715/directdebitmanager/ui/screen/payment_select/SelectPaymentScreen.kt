@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.screen.select_payment
+package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
