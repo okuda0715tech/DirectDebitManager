@@ -19,13 +19,15 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun PaymentSelectScreen(
     viewModel: PaymentSelectViewModel = hiltViewModel(),
+    onClickBack: () -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     PaymentSelectContents(
         payments = uiState.payments,
-        onClickItem = { viewModel.onClickItem(it) }
+        onClickItem = { viewModel.onClickItem(it) },
+        onClickBack = onClickBack,
     )
 }
 
@@ -34,6 +36,7 @@ fun PaymentSelectContents(
     modifier: Modifier = Modifier,
     payments: List<Payment>,
     onClickItem: (Payment) -> Unit,
+    onClickBack: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
@@ -42,7 +45,7 @@ fun PaymentSelectContents(
         },
         bottomButton = {
             HorizontalTwoButton(
-                onClickLeft = { debouncedClick(TODO()) },
+                onClickLeft = { debouncedClick(onClickBack) },
                 onClickRight = { debouncedClick { TODO() } },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_select)
@@ -84,6 +87,7 @@ private fun Preview() {
             Payment("楽天銀行", false),
             Payment("電気料金", false),
         ),
-        onClickItem = { }
+        onClickItem = { },
+        onClickBack = { },
     )
 }

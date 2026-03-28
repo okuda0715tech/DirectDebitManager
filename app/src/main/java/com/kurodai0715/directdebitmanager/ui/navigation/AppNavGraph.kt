@@ -170,7 +170,9 @@ fun AppNavGraph(
         }
 
         composable<PaymentSelect> {
-            PaymentSelectScreen()
+            PaymentSelectScreen(
+                onClickBack = { navController.navigateUp() }
+            )
 
             onChangeTitle(R.string.payment_select_screen_title)
         }
