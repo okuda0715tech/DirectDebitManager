@@ -12,7 +12,7 @@ class PaymentV2DefaultRepository @Inject constructor(
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : PaymentV2Repository {
 
-    fun loadPayments(): Flow<List<PaymentEntityV2>> {
+    override fun loadPayments(): Flow<List<PaymentEntityV2>> {
         return localDataSource.observePayments()
     }
 
