@@ -1,11 +1,15 @@
 package com.kurodai0715.directdebitmanager.data
 
+import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+private const val TAG = "PaymentV2DefaultRepository.kt"
 
 class PaymentV2DefaultRepository @Inject constructor(
     private val localDataSource: PaymentV2Dao,
@@ -15,5 +19,25 @@ class PaymentV2DefaultRepository @Inject constructor(
     override fun loadPayments(): Flow<List<PaymentEntityV2>> {
         return localDataSource.observePayments()
     }
+
+    override suspend fun createPayment(label: String): Boolean {
+        var resultSuccess: Boolean
+        withContext(ioDispatcher) {
+            resultSuccess = try {
+                localDataSource.upsertPayment(
+                    PaymentEntityV2(
+                        label = label,
+                    )
+                )
+                true
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                false
+            }
+            Log.d(TAG, "resultSuccess = $resultSuccess")
+        }
+        return resultSuccess
+    }
+
 
 }
