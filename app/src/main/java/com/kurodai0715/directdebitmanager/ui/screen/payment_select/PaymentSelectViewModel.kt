@@ -6,20 +6,30 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-data object PaymentSelectUiState
+data class PaymentSelectUiState(
+    val payments: List<Payment> = emptyList(),
+)
+
+data class Payment(
+    val name: String,
+    val selected: Boolean,
+)
 
 class PaymentSelectViewModel @Inject constructor(
 
-) : ViewModel(){
+) : ViewModel() {
 
     /**
      * 更新用.
      */
-    private val _uiState = MutableStateFlow(PaymentSelectUiState)
+    private val _uiState = MutableStateFlow(PaymentSelectUiState())
 
     /**
      * 読み取り専用.
      */
     val uiState: StateFlow<PaymentSelectUiState> = _uiState.asStateFlow()
 
+    fun onClickItem(payment: Payment) {
+        TODO()
+    }
 }
