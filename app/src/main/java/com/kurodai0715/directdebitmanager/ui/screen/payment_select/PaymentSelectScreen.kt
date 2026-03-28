@@ -34,8 +34,8 @@ fun PaymentSelectScreen(
 @Composable
 fun PaymentSelectContents(
     modifier: Modifier = Modifier,
-    payments: List<Payment>,
-    onClickItem: (Payment) -> Unit,
+    payments: List<PaymentSelectUiModel>,
+    onClickItem: (PaymentSelectUiModel) -> Unit,
     onClickBack: () -> Unit,
 ) {
     ContentsWithBottomButton(
@@ -56,8 +56,8 @@ fun PaymentSelectContents(
 
 @Composable
 private fun Contents(
-    payments: List<Payment>,
-    onClickItem: (Payment) -> Unit
+    payments: List<PaymentSelectUiModel>,
+    onClickItem: (PaymentSelectUiModel) -> Unit
 ) {
     LazyColumn {
         items(payments) { item ->
@@ -68,7 +68,7 @@ private fun Contents(
 
 @Composable
 fun ListItem(
-    item: Payment,
+    item: PaymentSelectUiModel,
     onClickItem: () -> Unit
 ) {
     DefaultListItemFrame(onClickItem = onClickItem) {
@@ -81,11 +81,11 @@ fun ListItem(
 private fun Preview() {
     PaymentSelectContents(
         payments = listOf(
-            Payment("三井住友銀行", true),
-            Payment("リクルートカードプラス", false),
-            Payment("横浜銀行", false),
-            Payment("楽天銀行", false),
-            Payment("電気料金", false),
+            PaymentSelectUiModel("三井住友銀行", true),
+            PaymentSelectUiModel("リクルートカードプラス", false),
+            PaymentSelectUiModel("横浜銀行", false),
+            PaymentSelectUiModel("楽天銀行", false),
+            PaymentSelectUiModel("電気料金", false),
         ),
         onClickItem = { },
         onClickBack = { },

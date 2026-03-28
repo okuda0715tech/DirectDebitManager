@@ -7,10 +7,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 data class PaymentSelectUiState(
-    val payments: List<Payment> = emptyList(),
+    val payments: List<PaymentSelectUiModel> = emptyList(),
 )
 
-data class Payment(
+data class PaymentSelectUiModel(
     val name: String,
     val selected: Boolean,
 )
@@ -29,7 +29,7 @@ class PaymentSelectViewModel @Inject constructor(
      */
     val uiState: StateFlow<PaymentSelectUiState> = _uiState.asStateFlow()
 
-    fun onClickItem(payment: Payment) {
+    fun onClickItem(payment: PaymentSelectUiModel) {
         TODO()
     }
 }
