@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_info_edit
 
 import androidx.lifecycle.ViewModel
+import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,7 @@ data class PaymentInfoEditUiState(
 
 @HiltViewModel
 class PaymentInfoEditViewModel @Inject constructor(
-
+    private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
     /**
