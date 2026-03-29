@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
-import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.UiEvent
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +24,9 @@ data class TransferRelationListUiState(
     )
 }
 
+sealed class TransferRelationListUiEvent {
+    data class ShowSnackbar(val messageRes: Int) : TransferRelationListUiEvent()
+}
 
 @HiltViewModel
 class TransferRelationListViewModel @Inject constructor(
@@ -44,7 +46,11 @@ class TransferRelationListViewModel @Inject constructor(
             }
 
             is Async.Error -> {
-                // TODO エラーメッセージをキューに追加する
+                _eventChannel.send(
+                    TransferRelationListUiEvent.ShowSnackbar(
+                        paymentsAsync.errorMessage
+                    )
+                )
                 TransferRelationListUiState()
             }
 
@@ -63,13 +69,12 @@ class TransferRelationListViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _eventChannel = Channel<UiEvent>(Channel.BUFFERED)
+    private val _eventChannel = Channel<TransferRelationListUiEvent>(Channel.BUFFERED)
 
     /**
      * 参照用.
      */
     val eventFlow = _eventChannel.receiveAsFlow()
-
 
 
 }
