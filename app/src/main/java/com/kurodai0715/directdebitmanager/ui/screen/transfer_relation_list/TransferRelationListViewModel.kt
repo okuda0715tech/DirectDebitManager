@@ -7,7 +7,6 @@ import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -34,11 +33,6 @@ class TransferRelationListViewModel @Inject constructor(
         .catch<Async<List<TransferRelationListUiState.Item>>> {
             emit(Async.Error(R.string.load_error))
         }
-
-    /**
-     * 更新用.
-     */
-    private val _uiState = MutableStateFlow(TransferRelationListUiState())
 
     /**
      * 読み取り専用.
