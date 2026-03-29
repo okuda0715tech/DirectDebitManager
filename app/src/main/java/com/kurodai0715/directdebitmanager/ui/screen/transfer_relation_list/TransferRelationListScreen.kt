@@ -15,7 +15,6 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun TransferRelationListScreen(
-    modifier: Modifier = Modifier,
     viewModel: TransferRelationListViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
@@ -24,9 +23,8 @@ fun TransferRelationListScreen(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     TransferRelationListContents(
-        modifier,
-        onClickBack,
-        onClickAdd,
+        onClickBack = onClickBack,
+        onClickAdd = onClickAdd,
     )
 }
 
