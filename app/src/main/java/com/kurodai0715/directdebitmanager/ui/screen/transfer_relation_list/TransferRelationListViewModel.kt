@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
+import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.UiEvent
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -34,9 +37,6 @@ class TransferRelationListViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
-    /**
-     * 読み取り専用.
-     */
     val uiState: StateFlow<TransferRelationListUiState> = paymentsAsync.map { paymentsAsync ->
         when (paymentsAsync) {
             is Async.Loading -> {
@@ -59,6 +59,17 @@ class TransferRelationListViewModel @Inject constructor(
         started = WhileUiSubscribed,
         initialValue = TransferRelationListUiState(isLoading = true)
     )
+
+    /**
+     * 更新用.
+     */
+    private val _eventChannel = Channel<UiEvent>(Channel.BUFFERED)
+
+    /**
+     * 参照用.
+     */
+    val eventFlow = _eventChannel.receiveAsFlow()
+
 
 
 }
