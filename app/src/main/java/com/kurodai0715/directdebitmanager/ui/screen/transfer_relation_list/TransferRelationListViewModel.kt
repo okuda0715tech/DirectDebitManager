@@ -7,25 +7,26 @@ import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 data class TransferRelationListUiState(
-    val payments: List<Item> = emptyList(),
-    val isLoading: Boolean = false,
+    val screenState: ScreenState = ScreenState.Loading,
 ) {
     data class Item(
         val name: String,
     )
 }
 
-sealed class TransferRelationListUiEvent {
-    data class ShowSnackbar(val messageRes: Int) : TransferRelationListUiEvent()
+sealed interface ScreenState {
+    object Loading : ScreenState
+    data class Error(val errorMessageRes: Int) : ScreenState
+    data class Success(
+        val payments: List<TransferRelationListUiState.Item> = emptyList(),
+    ) : ScreenState
 }
 
 @HiltViewModel
@@ -42,39 +43,25 @@ class TransferRelationListViewModel @Inject constructor(
     val uiState: StateFlow<TransferRelationListUiState> = paymentsAsync.map { paymentsAsync ->
         when (paymentsAsync) {
             is Async.Loading -> {
-                TransferRelationListUiState(isLoading = true)
+                TransferRelationListUiState(screenState = ScreenState.Loading)
             }
 
             is Async.Error -> {
-                _eventChannel.send(
-                    TransferRelationListUiEvent.ShowSnackbar(
-                        paymentsAsync.errorMessage
-                    )
+                TransferRelationListUiState(
+                    screenState = ScreenState.Error(paymentsAsync.errorMessage)
                 )
-                TransferRelationListUiState()
             }
 
             is Async.Success -> {
                 TransferRelationListUiState(
-                    payments = paymentsAsync.data
+                    screenState = ScreenState.Success(paymentsAsync.data),
                 )
             }
         }
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
-        initialValue = TransferRelationListUiState(isLoading = true)
+        initialValue = TransferRelationListUiState(screenState = ScreenState.Loading)
     )
-
-    /**
-     * 更新用.
-     */
-    private val _eventChannel = Channel<TransferRelationListUiEvent>(Channel.BUFFERED)
-
-    /**
-     * 参照用.
-     */
-    val eventFlow = _eventChannel.receiveAsFlow()
-
 
 }

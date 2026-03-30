@@ -37,8 +37,8 @@ fun TransferRelationListScreen(
     TransferRelationListContents(
         onClickBack = onClickBack,
         onClickAdd = onClickAdd,
-        payments = uiState.payments,
-        onClickItem = { TODO() }
+        onClickItem = { TODO() },
+        screenState = uiState.screenState
     )
 }
 
@@ -47,13 +47,13 @@ fun TransferRelationListContents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
-    payments: List<TransferRelationListUiState.Item>,
-    onClickItem: (TransferRelationListUiState.Item) -> Unit
+    onClickItem: (TransferRelationListUiState.Item) -> Unit,
+    screenState: ScreenState,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(payments, onClickItem)
+            Contents(onClickItem, screenState)
         },
         bottomButton = {
             HorizontalTwoButton(
@@ -68,12 +68,25 @@ fun TransferRelationListContents(
 
 @Composable
 fun Contents(
-    payments: List<TransferRelationListUiState.Item>,
-    onClickItem: (TransferRelationListUiState.Item) -> Unit
+    onClickItem: (TransferRelationListUiState.Item) -> Unit,
+    screenState: ScreenState,
 ) {
-    LazyColumn {
-        items(payments) { item ->
-            ListItem(item, onClickItem = { onClickItem(item) })
+    when (screenState) {
+        is ScreenState.Loading -> {
+            // ローディング表示
+        }
+
+        is ScreenState.Error -> {
+            // エラー表示
+            Text(text = stringResource(screenState.errorMessageRes))
+        }
+
+        is ScreenState.Success -> {
+            LazyColumn {
+                items(screenState.payments) { item ->
+                    ListItem(item, onClickItem = { onClickItem(item) })
+                }
+            }
         }
     }
 }
@@ -104,14 +117,16 @@ private fun Preview() {
     TransferRelationListContents(
         onClickBack = { },
         onClickAdd = { },
-        payments = listOf(
-            TransferRelationListUiState.Item("テスト1"),
-            TransferRelationListUiState.Item("テスト2"),
-            TransferRelationListUiState.Item("テスト3"),
-            TransferRelationListUiState.Item("テスト4"),
-            TransferRelationListUiState.Item("テスト5"),
-            TransferRelationListUiState.Item("テスト6"),
-        ),
-        onClickItem = { }
+        onClickItem = { },
+        screenState = ScreenState.Success(
+            payments = listOf(
+                TransferRelationListUiState.Item("テスト1"),
+                TransferRelationListUiState.Item("テスト2"),
+                TransferRelationListUiState.Item("テスト3"),
+                TransferRelationListUiState.Item("テスト4"),
+                TransferRelationListUiState.Item("テスト5"),
+                TransferRelationListUiState.Item("テスト6"),
+            )
+        )
     )
 }
