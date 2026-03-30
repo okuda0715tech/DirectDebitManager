@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PaymentEditScreen(
+    paymentId: Int?,
     viewModel: PaymentEditViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,

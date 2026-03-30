@@ -161,8 +161,11 @@ fun AppNavGraph(
             onChangeTitle(R.string.transfer_relation_list_screen_title)
         }
 
-        composable<PaymentEdit> {
+        composable<PaymentEdit> { backStackEntry ->
+            val paymentEdit: PaymentEdit = backStackEntry.toRoute()
+
             PaymentEditScreen(
+                paymentId = paymentEdit.paymentId,
                 onClickBack = { navController.navigateUp() },
                 onClickPayer = { navController.navigateToPaymentSelect() }
             )
