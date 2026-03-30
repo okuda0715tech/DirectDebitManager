@@ -38,7 +38,7 @@ fun TransferRelationListScreen(
         onClickBack = onClickBack,
         onClickAdd = onClickAdd,
         onClickItem = { TODO() },
-        screenState = uiState
+        uiState = uiState
     )
 }
 
@@ -48,12 +48,12 @@ fun TransferRelationListContents(
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
     onClickItem: (ScreenState.Success.Item) -> Unit,
-    screenState: ScreenState,
+    uiState: ScreenState,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(onClickItem, screenState)
+            Contents(onClickItem, uiState)
         },
         bottomButton = {
             HorizontalTwoButton(
@@ -69,21 +69,21 @@ fun TransferRelationListContents(
 @Composable
 fun Contents(
     onClickItem: (ScreenState.Success.Item) -> Unit,
-    screenState: ScreenState,
+    uiState: ScreenState,
 ) {
-    when (screenState) {
+    when (uiState) {
         is ScreenState.Loading -> {
             // ローディング表示
         }
 
         is ScreenState.Error -> {
             // エラー表示
-            Text(text = stringResource(screenState.errorMessageRes))
+            Text(text = stringResource(uiState.errorMessageRes))
         }
 
         is ScreenState.Success -> {
             LazyColumn {
-                items(screenState.payments) { item ->
+                items(uiState.payments) { item ->
                     ListItem(item, onClickItem = { onClickItem(item) })
                 }
             }
@@ -118,7 +118,7 @@ private fun Preview() {
         onClickBack = { },
         onClickAdd = { },
         onClickItem = { },
-        screenState = ScreenState.Success(
+        uiState = ScreenState.Success(
             payments = listOf(
                 ScreenState.Success.Item("テスト1"),
                 ScreenState.Success.Item("テスト2"),
