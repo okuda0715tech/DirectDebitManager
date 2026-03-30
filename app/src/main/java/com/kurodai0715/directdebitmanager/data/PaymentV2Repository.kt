@@ -11,4 +11,6 @@ interface PaymentV2Repository {
 
     suspend fun createPayment(label: String): Boolean
 
+    suspend fun updatePayment(id: Int, label: String): Boolean
+
 }

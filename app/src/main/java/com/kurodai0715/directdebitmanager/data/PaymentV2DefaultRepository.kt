@@ -43,5 +43,25 @@ class PaymentV2DefaultRepository @Inject constructor(
         return resultSuccess
     }
 
-
+    override suspend fun updatePayment(id: Int, label: String): Boolean {
+        var resultSuccess: Boolean
+        withContext(ioDispatcher) {
+            resultSuccess = try {
+                localDataSource.upsertPayment(
+                    // TODO 既存パラメータへの影響を避けるために、新規インスタンス生成ではなく、
+                    //  既存インスタンスを取得して、それをコピーする。
+                    PaymentEntityV2(
+                        id = id,
+                        label = label,
+                    )
+                )
+                true
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                false
+            }
+            Log.d(TAG, "resultSuccess = $resultSuccess")
+        }
+        return resultSuccess
+    }
 }
