@@ -13,10 +13,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-data class TransferRelationListUiState(
-    val screenState: ScreenState = ScreenState.Loading,
-)
-
 sealed interface ScreenState {
     object Loading : ScreenState
     data class Error(val errorMessageRes: Int) : ScreenState
@@ -40,28 +36,24 @@ class TransferRelationListViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<TransferRelationListUiState> = paymentsAsync.map { paymentsAsync ->
+    val uiState: StateFlow<ScreenState> = paymentsAsync.map { paymentsAsync ->
         when (paymentsAsync) {
             is Async.Loading -> {
-                TransferRelationListUiState(screenState = ScreenState.Loading)
+                ScreenState.Loading
             }
 
             is Async.Error -> {
-                TransferRelationListUiState(
-                    screenState = ScreenState.Error(paymentsAsync.errorMessage)
-                )
+                ScreenState.Error(paymentsAsync.errorMessage)
             }
 
             is Async.Success -> {
-                TransferRelationListUiState(
-                    screenState = ScreenState.Success(paymentsAsync.data),
-                )
+                ScreenState.Success(paymentsAsync.data)
             }
         }
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
-        initialValue = TransferRelationListUiState(screenState = ScreenState.Loading)
+        initialValue = ScreenState.Loading
     )
 
 }

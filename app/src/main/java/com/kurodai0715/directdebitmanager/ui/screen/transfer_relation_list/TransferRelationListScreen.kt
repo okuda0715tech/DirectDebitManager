@@ -38,7 +38,7 @@ fun TransferRelationListScreen(
         onClickBack = onClickBack,
         onClickAdd = onClickAdd,
         onClickItem = { TODO() },
-        screenState = uiState.screenState
+        screenState = uiState
     )
 }
 
