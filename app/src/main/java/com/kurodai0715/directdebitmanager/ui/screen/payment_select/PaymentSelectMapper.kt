@@ -6,7 +6,6 @@ fun PaymentEntityV2.toPaymentSelect(): PaymentSelectUiState.Success.Item {
     return PaymentSelectUiState.Success.Item(
         id = id,
         name = label,
-        selected = false,
     )
 }
 

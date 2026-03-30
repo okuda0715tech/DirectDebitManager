@@ -23,7 +23,6 @@ sealed interface PaymentSelectUiState {
         data class Item(
             val id: Int,
             val name: String,
-            val selected: Boolean,
         )
     }
 }
@@ -50,7 +49,7 @@ class PaymentSelectViewModel @Inject constructor(
             }
 
             is Async.Success -> {
-                PaymentSelectUiState.Success(asyncPayments.data)
+                PaymentSelectUiState.Success(payments = asyncPayments.data)
             }
         }
     }.stateIn(
