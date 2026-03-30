@@ -22,10 +22,10 @@ fun PaymentSelectScreen(
     onClickBack: () -> Unit,
 ) {
 
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiStateV2 by viewModel.uiStateV2.collectAsStateWithLifecycle()
 
     PaymentSelectContents(
-        payments = uiState.payments,
+        uiStateV2 = uiStateV2,
         onClickItem = { viewModel.onClickItem(it) },
         onClickBack = onClickBack,
     )
@@ -34,14 +34,14 @@ fun PaymentSelectScreen(
 @Composable
 fun PaymentSelectContents(
     modifier: Modifier = Modifier,
-    payments: List<PaymentSelectUiState.Item>,
-    onClickItem: (PaymentSelectUiState.Item) -> Unit,
+    uiStateV2: UiStateV2,
+    onClickItem: (UiStateV2.Success.Item) -> Unit,
     onClickBack: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(payments, onClickItem)
+            Contents(uiStateV2, onClickItem)
         },
         bottomButton = {
             HorizontalTwoButton(
@@ -56,19 +56,32 @@ fun PaymentSelectContents(
 
 @Composable
 private fun Contents(
-    payments: List<PaymentSelectUiState.Item>,
-    onClickItem: (PaymentSelectUiState.Item) -> Unit
+    uiStateV2: UiStateV2,
+    onClickItem: (UiStateV2.Success.Item) -> Unit
 ) {
-    LazyColumn {
-        items(payments) { item ->
-            ListItem(item, onClickItem = { onClickItem(item) })
+    when (uiStateV2) {
+        is UiStateV2.Error -> {
+            // エラー表示
+            Text(text = stringResource(uiStateV2.errorMessageRes))
+        }
+
+        UiStateV2.Loading -> {
+            // ローディング表示
+        }
+
+        is UiStateV2.Success -> {
+            LazyColumn {
+                items(uiStateV2.payments) { item ->
+                    ListItem(item, onClickItem = { onClickItem(item) })
+                }
+            }
         }
     }
 }
 
 @Composable
 fun ListItem(
-    item: PaymentSelectUiState.Item,
+    item: UiStateV2.Success.Item,
     onClickItem: () -> Unit
 ) {
     DefaultListItemFrame(onClickItem = onClickItem) {
@@ -80,12 +93,14 @@ fun ListItem(
 @Composable
 private fun Preview() {
     PaymentSelectContents(
-        payments = listOf(
-            PaymentSelectUiState.Item("三井住友銀行", true),
-            PaymentSelectUiState.Item("リクルートカードプラス", false),
-            PaymentSelectUiState.Item("横浜銀行", false),
-            PaymentSelectUiState.Item("楽天銀行", false),
-            PaymentSelectUiState.Item("電気料金", false),
+        uiStateV2 = UiStateV2.Success(
+            payments = listOf(
+                UiStateV2.Success.Item(1, "三井住友銀行", true),
+                UiStateV2.Success.Item(2, "リクルートカードプラス", false),
+                UiStateV2.Success.Item(3, "横浜銀行", false),
+                UiStateV2.Success.Item(4, "楽天銀行", false),
+                UiStateV2.Success.Item(5, "電気料金", false),
+            ),
         ),
         onClickItem = { },
         onClickBack = { },

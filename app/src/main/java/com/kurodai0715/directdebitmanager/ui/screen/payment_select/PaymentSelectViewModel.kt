@@ -1,35 +1,30 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-data class PaymentSelectUiState(
-    val payments: List<Item> = emptyList(),
-) {
-    data class Item(
-        val name: String,
-        val selected: Boolean,
-    )
+sealed interface UiStateV2 {
+    object Loading : UiStateV2
+    data class Error(val errorMessageRes: Int) : UiStateV2
+    data class Success(
+        val payments: List<Item> = emptyList(),
+    ) : UiStateV2 {
+        data class Item(
+            val id: Int,
+            val name: String,
+            val selected: Boolean,
+        )
+    }
 }
 
 class PaymentSelectViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    /**
-     * 更新用.
-     */
-    private val _uiState = MutableStateFlow(PaymentSelectUiState())
+    val uiStateV2: StateFlow<UiStateV2> = TODO()
 
-    /**
-     * 読み取り専用.
-     */
-    val uiState: StateFlow<PaymentSelectUiState> = _uiState.asStateFlow()
-
-    fun onClickItem(payment: PaymentSelectUiState.Item) {
+    fun onClickItem(payment: UiStateV2.Success.Item) {
         TODO()
     }
 }
