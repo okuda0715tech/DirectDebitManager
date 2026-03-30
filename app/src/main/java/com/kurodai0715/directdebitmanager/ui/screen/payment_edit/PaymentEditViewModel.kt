@@ -52,6 +52,21 @@ class PaymentEditViewModel @Inject constructor(
      */
     val eventFlow = _eventChannel.receiveAsFlow()
 
+    private var initialized = false
+
+    fun initialize(paymentId: Int?) {
+        if (initialized) return
+        initialized = true
+
+        paymentId?.let { loadPaymentBy(it) }
+    }
+
+    private fun loadPaymentBy(paymentId: Int) {
+        viewModelScope.launch {
+            TODO()
+        }
+    }
+
     fun updatePaymentName(paymentName: String) {
         _uiState.update {
             it.copy(
