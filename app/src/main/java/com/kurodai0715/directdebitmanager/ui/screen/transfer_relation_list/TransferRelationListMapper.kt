@@ -4,6 +4,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 
 fun PaymentEntityV2.toTransferRelationListItem(): TransferRelationListUiState.Success.Item {
     return TransferRelationListUiState.Success.Item(
+        id = id,
         name = label,
     )
 }
