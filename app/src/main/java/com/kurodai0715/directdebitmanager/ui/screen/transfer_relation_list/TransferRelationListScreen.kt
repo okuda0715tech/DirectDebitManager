@@ -47,8 +47,8 @@ fun TransferRelationListContents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
-    onClickItem: (ScreenState.Success.Item) -> Unit,
-    uiState: ScreenState,
+    onClickItem: (TransferRelationListUiState.Success.Item) -> Unit,
+    uiState: TransferRelationListUiState,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
@@ -68,20 +68,20 @@ fun TransferRelationListContents(
 
 @Composable
 fun Contents(
-    onClickItem: (ScreenState.Success.Item) -> Unit,
-    uiState: ScreenState,
+    onClickItem: (TransferRelationListUiState.Success.Item) -> Unit,
+    uiState: TransferRelationListUiState,
 ) {
     when (uiState) {
-        is ScreenState.Loading -> {
+        is TransferRelationListUiState.Loading -> {
             // ローディング表示
         }
 
-        is ScreenState.Error -> {
+        is TransferRelationListUiState.Error -> {
             // エラー表示
             Text(text = stringResource(uiState.errorMessageRes))
         }
 
-        is ScreenState.Success -> {
+        is TransferRelationListUiState.Success -> {
             LazyColumn {
                 items(uiState.payments) { item ->
                     ListItem(item, onClickItem = { onClickItem(item) })
@@ -93,7 +93,7 @@ fun Contents(
 
 @Composable
 fun ListItem(
-    item: ScreenState.Success.Item,
+    item: TransferRelationListUiState.Success.Item,
     onClickItem: () -> Unit
 ) {
     Box(
@@ -118,14 +118,14 @@ private fun Preview() {
         onClickBack = { },
         onClickAdd = { },
         onClickItem = { },
-        uiState = ScreenState.Success(
+        uiState = TransferRelationListUiState.Success(
             payments = listOf(
-                ScreenState.Success.Item("テスト1"),
-                ScreenState.Success.Item("テスト2"),
-                ScreenState.Success.Item("テスト3"),
-                ScreenState.Success.Item("テスト4"),
-                ScreenState.Success.Item("テスト5"),
-                ScreenState.Success.Item("テスト6"),
+                TransferRelationListUiState.Success.Item("テスト1"),
+                TransferRelationListUiState.Success.Item("テスト2"),
+                TransferRelationListUiState.Success.Item("テスト3"),
+                TransferRelationListUiState.Success.Item("テスト4"),
+                TransferRelationListUiState.Success.Item("テスト5"),
+                TransferRelationListUiState.Success.Item("テスト6"),
             )
         )
     )

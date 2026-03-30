@@ -13,12 +13,12 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-sealed interface ScreenState {
-    object Loading : ScreenState
-    data class Error(val errorMessageRes: Int) : ScreenState
+sealed interface TransferRelationListUiState {
+    object Loading : TransferRelationListUiState
+    data class Error(val errorMessageRes: Int) : TransferRelationListUiState
     data class Success(
         val payments: List<Item> = emptyList(),
-    ) : ScreenState {
+    ) : TransferRelationListUiState {
         data class Item(
             val name: String,
         )
@@ -32,28 +32,28 @@ class TransferRelationListViewModel @Inject constructor(
 
     private val paymentsAsync = paymentQueryUseCase.loadPayments()
         .map { Async.Success(it.toTransferRelationList()) }
-        .catch<Async<List<ScreenState.Success.Item>>> {
+        .catch<Async<List<TransferRelationListUiState.Success.Item>>> {
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<ScreenState> = paymentsAsync.map { paymentsAsync ->
+    val uiState: StateFlow<TransferRelationListUiState> = paymentsAsync.map { paymentsAsync ->
         when (paymentsAsync) {
             is Async.Loading -> {
-                ScreenState.Loading
+                TransferRelationListUiState.Loading
             }
 
             is Async.Error -> {
-                ScreenState.Error(paymentsAsync.errorMessage)
+                TransferRelationListUiState.Error(paymentsAsync.errorMessage)
             }
 
             is Async.Success -> {
-                ScreenState.Success(paymentsAsync.data)
+                TransferRelationListUiState.Success(paymentsAsync.data)
             }
         }
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
-        initialValue = ScreenState.Loading
+        initialValue = TransferRelationListUiState.Loading
     )
 
 }
