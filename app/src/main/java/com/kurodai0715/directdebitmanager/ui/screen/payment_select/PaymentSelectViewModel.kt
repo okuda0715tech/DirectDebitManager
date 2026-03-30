@@ -7,10 +7,13 @@ import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 sealed interface PaymentSelectUiState {
@@ -32,33 +35,41 @@ class PaymentSelectViewModel @Inject constructor(
     paymentQueryUseCase: PaymentQueryUseCase,
 ) : ViewModel() {
 
+    private val selectedId: MutableStateFlow<Int?> = MutableStateFlow(null)
+
     private val asyncPayments = paymentQueryUseCase.loadPayments()
         .map { Async.Success(it.toPaymentSelect()) }
         .catch<Async<List<PaymentSelectUiState.Success.Item>>> {
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<PaymentSelectUiState> = asyncPayments.map { asyncPayments ->
-        when (asyncPayments) {
-            is Async.Loading -> {
-                PaymentSelectUiState.Loading
-            }
+    val uiState: StateFlow<PaymentSelectUiState> =
+        combine(asyncPayments, selectedId) { asyncPayments, selectedId ->
+            when (asyncPayments) {
+                is Async.Loading -> {
+                    PaymentSelectUiState.Loading
+                }
 
-            is Async.Error -> {
-                PaymentSelectUiState.Error(asyncPayments.errorMessage)
-            }
+                is Async.Error -> {
+                    PaymentSelectUiState.Error(asyncPayments.errorMessage)
+                }
 
-            is Async.Success -> {
-                PaymentSelectUiState.Success(payments = asyncPayments.data)
+                is Async.Success -> {
+                    PaymentSelectUiState.Success(
+                        selectedId = selectedId,
+                        payments = asyncPayments.data
+                    )
+                }
             }
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = WhileUiSubscribed,
-        initialValue = PaymentSelectUiState.Loading
-    )
+        }.stateIn(
+            scope = viewModelScope,
+            started = WhileUiSubscribed,
+            initialValue = PaymentSelectUiState.Loading
+        )
 
     fun onClickItem(payment: PaymentSelectUiState.Success.Item) {
-        TODO()
+        selectedId.update { current ->
+            if (current == payment.id) null else payment.id
+        }
     }
 }
