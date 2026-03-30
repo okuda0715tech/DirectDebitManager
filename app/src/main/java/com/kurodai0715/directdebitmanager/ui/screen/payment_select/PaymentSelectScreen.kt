@@ -124,11 +124,11 @@ private fun Preview() {
     PaymentSelectContents(
         uiState = PaymentSelectUiState.Success(
             payments = listOf(
-                PaymentSelectUiState.Success.Item(1, "三井住友銀行", true),
-                PaymentSelectUiState.Success.Item(2, "リクルートカードプラス", false),
-                PaymentSelectUiState.Success.Item(3, "横浜銀行", false),
-                PaymentSelectUiState.Success.Item(4, "楽天銀行", false),
-                PaymentSelectUiState.Success.Item(5, "電気料金", false),
+                PaymentSelectUiState.Success.Item(1, "三井住友銀行"),
+                PaymentSelectUiState.Success.Item(2, "リクルートカードプラス"),
+                PaymentSelectUiState.Success.Item(3, "横浜銀行"),
+                PaymentSelectUiState.Success.Item(4, "楽天銀行"),
+                PaymentSelectUiState.Success.Item(5, "電気料金"),
             ),
         ),
         onClickItem = { },
