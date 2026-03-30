@@ -30,6 +30,7 @@ fun TransferRelationListScreen(
     viewModel: TransferRelationListViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
+    onClickItem: (Int) -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -37,7 +38,7 @@ fun TransferRelationListScreen(
     TransferRelationListContents(
         onClickBack = onClickBack,
         onClickAdd = onClickAdd,
-        onClickItem = { TODO() },
+        onClickItem = onClickItem,
         uiState = uiState
     )
 }

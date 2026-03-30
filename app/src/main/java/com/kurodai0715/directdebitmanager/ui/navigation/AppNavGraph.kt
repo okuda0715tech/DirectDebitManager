@@ -154,7 +154,8 @@ fun AppNavGraph(
         composable<TransferRelationList> {
             TransferRelationListScreen(
                 onClickBack = { navController.navigateUp() },
-                onClickAdd = { navController.navigateToPaymentEdit() }
+                onClickAdd = { navController.navigateToPaymentEdit() },
+                onClickItem = { navController.navigateToPaymentEdit() }
             )
 
             onChangeTitle(R.string.transfer_relation_list_screen_title)
