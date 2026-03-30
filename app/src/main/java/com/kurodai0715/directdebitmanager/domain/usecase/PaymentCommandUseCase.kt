@@ -11,9 +11,19 @@ class PaymentCommandUseCase @Inject constructor(
     suspend fun savePayment(
         payment: Payment
     ): SaveResult {
-        val result = repo.createPayment(
-            label = payment.name.value,
-        )
+        val result = when(payment.id.value) {
+            0 -> {
+                repo.createPayment(
+                    label = payment.name.value,
+                )
+            }
+            else -> {
+                repo.updatePayment(
+                    id = payment.id.value,
+                    label = payment.name.value,
+                )
+            }
+        }
 
         return when (result) {
             true -> SaveResult.Succeeded
