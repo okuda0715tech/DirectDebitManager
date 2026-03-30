@@ -13,4 +13,8 @@ class PaymentQueryUseCase @Inject constructor(
         return repo.loadPayments()
     }
 
+    suspend fun loadPaymentBy(paymentId: Int): PaymentEntityV2 {
+        return repo.loadItemBy(paymentId)
+    }
+
 }
