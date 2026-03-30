@@ -1,9 +1,17 @@
 package com.kurodai0715.directdebitmanager.domain.model
 
-data class Payment(
-    val id: PaymentId,
-    val name: PaymentName,
-)
+sealed interface PaymentV2{
+    val name: PaymentName
+
+    data class Persisted(
+        override val name: PaymentName,
+        val id: PaymentId,
+    ): PaymentV2
+
+    data class InMemory(
+        override val name: PaymentName,
+    ): PaymentV2
+}
 
 @JvmInline
 value class PaymentId(val value: Int)

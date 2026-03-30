@@ -3,7 +3,7 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentV2
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
@@ -107,7 +107,7 @@ class PaymentEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun savePayment(payment: Payment): SaveResult {
+    private suspend fun savePayment(payment: PaymentV2): SaveResult {
         return paymentCommandUseCase.savePayment(payment)
     }
 
