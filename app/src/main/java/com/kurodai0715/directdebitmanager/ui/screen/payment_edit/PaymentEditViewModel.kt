@@ -18,11 +18,17 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class PaymentEditUiState(
+    val editMode: EditMode = EditMode.Add,
     val paymentName: String = "",
     val paymentNameMessage: Int? = null,
     val payerName: String = "",
     val payerNameMessage: Int? = null,
-)
+) {
+    sealed interface EditMode {
+        data object Add : EditMode
+        data class Edit(val id: Int) : EditMode
+    }
+}
 
 sealed class PaymentEditUiEvent {
     data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
@@ -69,6 +75,7 @@ class PaymentEditViewModel @Inject constructor(
 
             _uiState.update {
                 it.copy(
+                    editMode = PaymentEditUiState.EditMode.Edit(item.id),
                     paymentName = item.label
                 )
             }
