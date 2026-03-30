@@ -44,13 +44,14 @@ class PaymentV2DefaultRepository @Inject constructor(
     }
 
     override suspend fun updatePayment(id: Int, label: String): Boolean {
+
+        val item = localDataSource.loadItemBy(id)
+
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
             resultSuccess = try {
                 localDataSource.upsertPayment(
-                    // TODO 既存パラメータへの影響を避けるために、新規インスタンス生成ではなく、
-                    //  既存インスタンスを取得して、それをコピーする。
-                    PaymentEntityV2(
+                    item.copy(
                         id = id,
                         label = label,
                     )
