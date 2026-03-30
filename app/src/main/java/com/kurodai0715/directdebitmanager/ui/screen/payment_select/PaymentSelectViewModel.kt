@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ sealed interface UiStateV2 {
     }
 }
 
+@HiltViewModel
 class PaymentSelectViewModel @Inject constructor(
 
 ) : ViewModel() {
