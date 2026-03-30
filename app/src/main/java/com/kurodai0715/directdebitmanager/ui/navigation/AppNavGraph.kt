@@ -155,7 +155,7 @@ fun AppNavGraph(
             TransferRelationListScreen(
                 onClickBack = { navController.navigateUp() },
                 onClickAdd = { navController.navigateToPaymentEdit() },
-                onClickItem = { navController.navigateToPaymentEdit() }
+                onClickItem = { navController.navigateToPaymentEdit(it) }
             )
 
             onChangeTitle(R.string.transfer_relation_list_screen_title)

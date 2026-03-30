@@ -78,7 +78,9 @@ sealed interface TransferBase : NavDestination
 data object TransferRelationList : TransferBase
 
 @Serializable
-data object PaymentEdit : TransferBase
+data class PaymentEdit(
+    val paymentId: Int?,
+) : TransferBase
 
 @Serializable
 data object PaymentSelect : TransferBase

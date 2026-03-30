@@ -60,8 +60,8 @@ fun NavController.navigateToTransferRelationList() {
     navigate(TransferRelationList)
 }
 
-fun NavController.navigateToPaymentEdit() {
-    navigate(PaymentEdit)
+fun NavController.navigateToPaymentEdit(paymentId: Int? = null) {
+    navigate(PaymentEdit(paymentId))
 }
 
 fun NavController.navigateToPaymentSelect() {
