@@ -47,7 +47,7 @@ fun TransferRelationListContents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
-    onClickItem: (TransferRelationListUiState.Success.Item) -> Unit,
+    onClickItem: (Int) -> Unit,
     uiState: TransferRelationListUiState,
 ) {
     ContentsWithBottomButton(
@@ -68,7 +68,7 @@ fun TransferRelationListContents(
 
 @Composable
 fun Contents(
-    onClickItem: (TransferRelationListUiState.Success.Item) -> Unit,
+    onClickItem: (Int) -> Unit,
     uiState: TransferRelationListUiState,
 ) {
     when (uiState) {
@@ -84,7 +84,7 @@ fun Contents(
         is TransferRelationListUiState.Success -> {
             LazyColumn {
                 items(uiState.payments) { item ->
-                    ListItem(item, onClickItem = { onClickItem(item) })
+                    ListItem(item, onClickItem = { onClickItem(item.id) })
                 }
             }
         }
