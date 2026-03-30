@@ -25,7 +25,7 @@ fun PaymentSelectScreen(
     val uiStateV2 by viewModel.uiState.collectAsStateWithLifecycle()
 
     PaymentSelectContents(
-        uiStateV2 = uiStateV2,
+        uiState = uiStateV2,
         onClickItem = { viewModel.onClickItem(it) },
         onClickBack = onClickBack,
     )
@@ -34,14 +34,14 @@ fun PaymentSelectScreen(
 @Composable
 fun PaymentSelectContents(
     modifier: Modifier = Modifier,
-    uiStateV2: PaymentSelectUiState,
+    uiState: PaymentSelectUiState,
     onClickItem: (PaymentSelectUiState.Success.Item) -> Unit,
     onClickBack: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(uiStateV2, onClickItem)
+            Contents(uiState, onClickItem)
         },
         bottomButton = {
             HorizontalTwoButton(
@@ -56,13 +56,13 @@ fun PaymentSelectContents(
 
 @Composable
 private fun Contents(
-    uiStateV2: PaymentSelectUiState,
+    uiState: PaymentSelectUiState,
     onClickItem: (PaymentSelectUiState.Success.Item) -> Unit
 ) {
-    when (uiStateV2) {
+    when (uiState) {
         is PaymentSelectUiState.Error -> {
             // エラー表示
-            Text(text = stringResource(uiStateV2.errorMessageRes))
+            Text(text = stringResource(uiState.errorMessageRes))
         }
 
         PaymentSelectUiState.Loading -> {
@@ -71,7 +71,7 @@ private fun Contents(
 
         is PaymentSelectUiState.Success -> {
             LazyColumn {
-                items(uiStateV2.payments) { item ->
+                items(uiState.payments) { item ->
                     ListItem(item, onClickItem = { onClickItem(item) })
                 }
             }
@@ -93,7 +93,7 @@ fun ListItem(
 @Composable
 private fun Preview() {
     PaymentSelectContents(
-        uiStateV2 = PaymentSelectUiState.Success(
+        uiState = PaymentSelectUiState.Success(
             payments = listOf(
                 PaymentSelectUiState.Success.Item(1, "三井住友銀行", true),
                 PaymentSelectUiState.Success.Item(2, "リクルートカードプラス", false),
