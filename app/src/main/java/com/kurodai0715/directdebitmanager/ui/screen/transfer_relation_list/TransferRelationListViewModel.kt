@@ -20,6 +20,7 @@ sealed interface TransferRelationListUiState {
         val payments: List<Item> = emptyList(),
     ) : TransferRelationListUiState {
         data class Item(
+            val id: Int,
             val name: String,
         )
     }
