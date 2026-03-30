@@ -2,19 +2,19 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentName
-import com.kurodai0715.directdebitmanager.domain.model.PaymentV2
+import com.kurodai0715.directdebitmanager.domain.model.Payment
 
-fun PaymentEditUiState.toDomain(): PaymentV2 {
+fun PaymentEditUiState.toDomain(): Payment {
 
     return when (val mode = editMode) {
         is PaymentEditUiState.EditMode.Add -> {
-            PaymentV2.InMemory(
+            Payment.InMemory(
                 name = PaymentName(paymentName)
             )
         }
 
         is PaymentEditUiState.EditMode.Edit -> {
-            PaymentV2.Persisted(
+            Payment.Persisted(
                 id = PaymentId(mode.id),
                 name = PaymentName(paymentName)
             )
