@@ -7,6 +7,8 @@ interface PaymentV2Repository {
 
     fun loadPayments(): Flow<List<PaymentEntityV2>>
 
+    suspend fun loadItemBy(id: Int): PaymentEntityV2
+
     suspend fun createPayment(label: String): Boolean
 
 }

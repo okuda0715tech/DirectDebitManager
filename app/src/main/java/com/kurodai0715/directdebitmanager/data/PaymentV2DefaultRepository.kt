@@ -20,6 +20,10 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.observePayments()
     }
 
+    override suspend fun loadItemBy(id: Int): PaymentEntityV2 {
+        return localDataSource.loadItemBy(id)
+    }
+
     override suspend fun createPayment(label: String): Boolean {
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
