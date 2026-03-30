@@ -24,7 +24,7 @@ class PaymentSelectViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    val uiStateV2: StateFlow<PaymentSelectUiState> = TODO()
+    val uiState: StateFlow<PaymentSelectUiState> = TODO()
 
     fun onClickItem(payment: PaymentSelectUiState.Success.Item) {
         TODO()

@@ -22,7 +22,7 @@ fun PaymentSelectScreen(
     onClickBack: () -> Unit,
 ) {
 
-    val uiStateV2 by viewModel.uiStateV2.collectAsStateWithLifecycle()
+    val uiStateV2 by viewModel.uiState.collectAsStateWithLifecycle()
 
     PaymentSelectContents(
         uiStateV2 = uiStateV2,
