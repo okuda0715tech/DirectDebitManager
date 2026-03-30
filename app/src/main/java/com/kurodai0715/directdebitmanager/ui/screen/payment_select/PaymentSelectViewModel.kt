@@ -17,6 +17,7 @@ sealed interface PaymentSelectUiState {
     object Loading : PaymentSelectUiState
     data class Error(val errorMessageRes: Int) : PaymentSelectUiState
     data class Success(
+        val selectedId: Int? = null,
         val payments: List<Item> = emptyList(),
     ) : PaymentSelectUiState {
         data class Item(

@@ -59,6 +59,9 @@
     <string name="payer_name_label">上記支払情報の支払元</string>
     <string name="open_payment_list_screen_icon_description">支払情報選択画面を開くアイコン</string>
 
+    <!-- 支払情報 選択 画面 -->
+    <string name="selected_icon_description">選択中アイコン</string>
+
     <!-- 振替元 編集 画面 -->
     <string name="source_edit_text_label">振替元の名称</string>
     <string name="source_type">区分</string>
