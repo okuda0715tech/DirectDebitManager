@@ -46,6 +46,11 @@ fun PaymentEditScreen(
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+        // リスト画面から引き継いだパラメータで UI 状態を初期化する。
+        LaunchedEffect(paymentId) {
+            viewModel.initialize(paymentId)
+        }
+
         LaunchedEffect(Unit) {
             viewModel.eventFlow.collect { event ->
                 when (event) {

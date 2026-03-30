@@ -6,6 +6,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
+import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +30,7 @@ sealed class PaymentEditUiEvent {
 
 @HiltViewModel
 class PaymentEditViewModel @Inject constructor(
+    private val paymentQueryUseCase: PaymentQueryUseCase,
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
@@ -63,7 +65,13 @@ class PaymentEditViewModel @Inject constructor(
 
     private fun loadPaymentBy(paymentId: Int) {
         viewModelScope.launch {
-            TODO()
+            val item = paymentQueryUseCase.loadPaymentBy(paymentId)
+
+            _uiState.update {
+                it.copy(
+                    paymentName = item.label
+                )
+            }
         }
     }
 
