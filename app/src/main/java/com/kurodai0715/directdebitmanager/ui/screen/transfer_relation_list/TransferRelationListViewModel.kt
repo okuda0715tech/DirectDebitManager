@@ -15,18 +15,18 @@ import javax.inject.Inject
 
 data class TransferRelationListUiState(
     val screenState: ScreenState = ScreenState.Loading,
-) {
-    data class Item(
-        val name: String,
-    )
-}
+)
 
 sealed interface ScreenState {
     object Loading : ScreenState
     data class Error(val errorMessageRes: Int) : ScreenState
     data class Success(
-        val payments: List<TransferRelationListUiState.Item> = emptyList(),
-    ) : ScreenState
+        val payments: List<Item> = emptyList(),
+    ) : ScreenState {
+        data class Item(
+            val name: String,
+        )
+    }
 }
 
 @HiltViewModel
@@ -36,7 +36,7 @@ class TransferRelationListViewModel @Inject constructor(
 
     private val paymentsAsync = paymentQueryUseCase.loadPayments()
         .map { Async.Success(it.toTransferRelationList()) }
-        .catch<Async<List<TransferRelationListUiState.Item>>> {
+        .catch<Async<List<ScreenState.Success.Item>>> {
             emit(Async.Error(R.string.load_error))
         }
 

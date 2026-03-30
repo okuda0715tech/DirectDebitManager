@@ -47,7 +47,7 @@ fun TransferRelationListContents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
-    onClickItem: (TransferRelationListUiState.Item) -> Unit,
+    onClickItem: (ScreenState.Success.Item) -> Unit,
     screenState: ScreenState,
 ) {
     ContentsWithBottomButton(
@@ -68,7 +68,7 @@ fun TransferRelationListContents(
 
 @Composable
 fun Contents(
-    onClickItem: (TransferRelationListUiState.Item) -> Unit,
+    onClickItem: (ScreenState.Success.Item) -> Unit,
     screenState: ScreenState,
 ) {
     when (screenState) {
@@ -93,7 +93,7 @@ fun Contents(
 
 @Composable
 fun ListItem(
-    item: TransferRelationListUiState.Item,
+    item: ScreenState.Success.Item,
     onClickItem: () -> Unit
 ) {
     Box(
@@ -120,12 +120,12 @@ private fun Preview() {
         onClickItem = { },
         screenState = ScreenState.Success(
             payments = listOf(
-                TransferRelationListUiState.Item("テスト1"),
-                TransferRelationListUiState.Item("テスト2"),
-                TransferRelationListUiState.Item("テスト3"),
-                TransferRelationListUiState.Item("テスト4"),
-                TransferRelationListUiState.Item("テスト5"),
-                TransferRelationListUiState.Item("テスト6"),
+                ScreenState.Success.Item("テスト1"),
+                ScreenState.Success.Item("テスト2"),
+                ScreenState.Success.Item("テスト3"),
+                ScreenState.Success.Item("テスト4"),
+                ScreenState.Success.Item("テスト5"),
+                ScreenState.Success.Item("テスト6"),
             )
         )
     )
