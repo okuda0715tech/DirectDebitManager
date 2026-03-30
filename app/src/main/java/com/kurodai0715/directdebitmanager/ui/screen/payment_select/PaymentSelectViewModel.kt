@@ -5,12 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-sealed interface UiStateV2 {
-    object Loading : UiStateV2
-    data class Error(val errorMessageRes: Int) : UiStateV2
+sealed interface PaymentSelectUiState {
+    object Loading : PaymentSelectUiState
+    data class Error(val errorMessageRes: Int) : PaymentSelectUiState
     data class Success(
         val payments: List<Item> = emptyList(),
-    ) : UiStateV2 {
+    ) : PaymentSelectUiState {
         data class Item(
             val id: Int,
             val name: String,
@@ -24,9 +24,9 @@ class PaymentSelectViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    val uiStateV2: StateFlow<UiStateV2> = TODO()
+    val uiStateV2: StateFlow<PaymentSelectUiState> = TODO()
 
-    fun onClickItem(payment: UiStateV2.Success.Item) {
+    fun onClickItem(payment: PaymentSelectUiState.Success.Item) {
         TODO()
     }
 }

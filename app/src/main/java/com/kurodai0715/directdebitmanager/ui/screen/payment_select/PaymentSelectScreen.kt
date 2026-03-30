@@ -34,8 +34,8 @@ fun PaymentSelectScreen(
 @Composable
 fun PaymentSelectContents(
     modifier: Modifier = Modifier,
-    uiStateV2: UiStateV2,
-    onClickItem: (UiStateV2.Success.Item) -> Unit,
+    uiStateV2: PaymentSelectUiState,
+    onClickItem: (PaymentSelectUiState.Success.Item) -> Unit,
     onClickBack: () -> Unit,
 ) {
     ContentsWithBottomButton(
@@ -56,20 +56,20 @@ fun PaymentSelectContents(
 
 @Composable
 private fun Contents(
-    uiStateV2: UiStateV2,
-    onClickItem: (UiStateV2.Success.Item) -> Unit
+    uiStateV2: PaymentSelectUiState,
+    onClickItem: (PaymentSelectUiState.Success.Item) -> Unit
 ) {
     when (uiStateV2) {
-        is UiStateV2.Error -> {
+        is PaymentSelectUiState.Error -> {
             // エラー表示
             Text(text = stringResource(uiStateV2.errorMessageRes))
         }
 
-        UiStateV2.Loading -> {
+        PaymentSelectUiState.Loading -> {
             // ローディング表示
         }
 
-        is UiStateV2.Success -> {
+        is PaymentSelectUiState.Success -> {
             LazyColumn {
                 items(uiStateV2.payments) { item ->
                     ListItem(item, onClickItem = { onClickItem(item) })
@@ -81,7 +81,7 @@ private fun Contents(
 
 @Composable
 fun ListItem(
-    item: UiStateV2.Success.Item,
+    item: PaymentSelectUiState.Success.Item,
     onClickItem: () -> Unit
 ) {
     DefaultListItemFrame(onClickItem = onClickItem) {
@@ -93,13 +93,13 @@ fun ListItem(
 @Composable
 private fun Preview() {
     PaymentSelectContents(
-        uiStateV2 = UiStateV2.Success(
+        uiStateV2 = PaymentSelectUiState.Success(
             payments = listOf(
-                UiStateV2.Success.Item(1, "三井住友銀行", true),
-                UiStateV2.Success.Item(2, "リクルートカードプラス", false),
-                UiStateV2.Success.Item(3, "横浜銀行", false),
-                UiStateV2.Success.Item(4, "楽天銀行", false),
-                UiStateV2.Success.Item(5, "電気料金", false),
+                PaymentSelectUiState.Success.Item(1, "三井住友銀行", true),
+                PaymentSelectUiState.Success.Item(2, "リクルートカードプラス", false),
+                PaymentSelectUiState.Success.Item(3, "横浜銀行", false),
+                PaymentSelectUiState.Success.Item(4, "楽天銀行", false),
+                PaymentSelectUiState.Success.Item(5, "電気料金", false),
             ),
         ),
         onClickItem = { },
