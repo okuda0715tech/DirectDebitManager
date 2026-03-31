@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
@@ -161,24 +162,35 @@ fun AppNavGraph(
             onChangeTitle(R.string.transfer_relation_list_screen_title)
         }
 
-        composable<PaymentEdit> { backStackEntry ->
-            val paymentEdit: PaymentEdit = backStackEntry.toRoute()
+        navigation<PaymentEditGraph>(
+            startDestination = PaymentEdit(null),
+        ) {
 
-            PaymentEditScreen(
-                paymentId = paymentEdit.paymentId,
-                onClickBack = { navController.navigateUp() },
-                onClickPayer = { navController.navigateToPaymentSelect() }
-            )
+            composable<PaymentEdit> { backStackEntry ->
+                val paymentEdit: PaymentEdit = backStackEntry.toRoute()
 
-            onChangeTitle(R.string.payment_info_edit_screen_title)
-        }
+                PaymentEditScreen(
+                    paymentId = paymentEdit.paymentId,
+                    onClickBack = {
+                        // PaymentEdit と TransferRelationList の間に PaymentEditGraph が
+                        // 存在しているはずなので、それも含めて破棄するため、
+                        // navController.navigateUp() ではなく、 popBackStack() を使う。
+                        navController.popToTransferRelationList()
+                    },
+                    onClickPayer = { navController.navigateToPaymentSelect() }
+                )
 
-        composable<PaymentSelect> {
-            PaymentSelectScreen(
-                onClickBack = { navController.navigateUp() }
-            )
+                onChangeTitle(R.string.payment_info_edit_screen_title)
+            }
 
-            onChangeTitle(R.string.payment_select_screen_title)
+            composable<PaymentSelect> {
+                PaymentSelectScreen(
+                    onClickBack = { navController.navigateUp() }
+                )
+
+                onChangeTitle(R.string.payment_select_screen_title)
+            }
+
         }
     }
 }
