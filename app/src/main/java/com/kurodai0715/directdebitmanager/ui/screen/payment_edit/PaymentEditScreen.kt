@@ -15,7 +15,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
@@ -28,7 +27,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PaymentEditScreen(
     paymentId: Int?,
-    viewModel: PaymentEditViewModel = hiltViewModel(),
+    viewModel: PaymentEditViewModel,
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
 ) {

@@ -7,7 +7,9 @@ package com.kurodai0715.directdebitmanager.ui.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +25,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_edit.PayerEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_list.PayerListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.PaymentEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.PaymentEditViewModel
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.PaymentSelectScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
@@ -167,10 +170,18 @@ fun AppNavGraph(
         ) {
 
             composable<PaymentEdit> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry<PaymentEditGraph>()
+                }
+
+                val viewModel: PaymentEditViewModel =
+                    hiltViewModel(parentEntry)
+
                 val paymentEdit: PaymentEdit = backStackEntry.toRoute()
 
                 PaymentEditScreen(
                     paymentId = paymentEdit.paymentId,
+                    viewModel = viewModel,
                     onClickBack = {
                         // PaymentEdit と TransferRelationList の間に PaymentEditGraph が
                         // 存在しているはずなので、それも含めて破棄するため、
@@ -183,8 +194,16 @@ fun AppNavGraph(
                 onChangeTitle(R.string.payment_info_edit_screen_title)
             }
 
-            composable<PaymentSelect> {
+            composable<PaymentSelect> { backStackEntry ->
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry<PaymentEditGraph>()
+                }
+
+                val viewModel: PaymentEditViewModel =
+                    hiltViewModel(parentEntry)
+
                 PaymentSelectScreen(
+                    sharedViewModel = viewModel,
                     onClickBack = { navController.navigateUp() }
                 )
 
