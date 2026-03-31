@@ -20,14 +20,26 @@ sealed interface PaymentSelectUiState {
     object Loading : PaymentSelectUiState
     data class Error(val errorMessageRes: Int) : PaymentSelectUiState
     data class Success(
-        val selectedId: Int? = null,
+        val selectionState: SelectionState = SelectionState.None,
         val payments: List<Item> = emptyList(),
     ) : PaymentSelectUiState {
         data class Item(
             val id: Int,
             val name: String,
         )
+
+        fun isSelected(itemId: Int): Boolean {
+            return when (val state = selectionState) {
+                SelectionState.None -> false
+                is SelectionState.Selected -> state.id == itemId
+            }
+        }
     }
+}
+
+sealed interface SelectionState {
+    data object None : SelectionState
+    data class Selected(val id: Int) : SelectionState
 }
 
 @HiltViewModel
@@ -55,8 +67,12 @@ class PaymentSelectViewModel @Inject constructor(
                 }
 
                 is Async.Success -> {
+                    val selectionState =
+                        selectedId?.let { SelectionState.Selected(it) }
+                            ?: SelectionState.None
+
                     PaymentSelectUiState.Success(
-                        selectedId = selectedId,
+                        selectionState = selectionState,
                         payments = asyncPayments.data
                     )
                 }

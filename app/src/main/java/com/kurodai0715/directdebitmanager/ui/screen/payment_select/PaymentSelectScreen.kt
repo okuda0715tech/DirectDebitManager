@@ -84,7 +84,7 @@ private fun Contents(
             LazyColumn {
                 items(uiState.payments) { item ->
                     ListItem(
-                        isSelected = uiState.selectedId == item.id,
+                        isSelected = uiState.isSelected(item.id),
                         item = item,
                         onClickItem = { onClickItem(item) })
                 }
