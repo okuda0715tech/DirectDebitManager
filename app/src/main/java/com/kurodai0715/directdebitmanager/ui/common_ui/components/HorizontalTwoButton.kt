@@ -25,6 +25,8 @@ fun HorizontalTwoButton(
     onClickRight: () -> Unit,
     leftText: String,
     rightText: String,
+    leftEnabled: Boolean = true,
+    rightEnabled: Boolean = true,
 ) {
 
     Row(
@@ -33,10 +35,10 @@ fun HorizontalTwoButton(
             .padding(LayoutTokens.sectionSpacing),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
-        OutlinedButton(onClick = { onClickLeft() }) {
+        OutlinedButton(onClick = { onClickLeft() }, enabled = leftEnabled) {
             Text(leftText)
         }
-        Button(onClick = { onClickRight() }) {
+        Button(onClick = { onClickRight() }, enabled = rightEnabled) {
             Text(rightText)
         }
     }
