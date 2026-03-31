@@ -16,13 +16,13 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
-sealed interface PaymentSelectUiState {
-    object Loading : PaymentSelectUiState
-    data class Error(val errorMessageRes: Int) : PaymentSelectUiState
+sealed class PaymentSelectUiState {
+    object Loading : PaymentSelectUiState()
+    data class Error(val errorMessageRes: Int) : PaymentSelectUiState()
     data class Success(
         val selectionState: SelectionState = SelectionState.None,
         val payments: List<Item> = emptyList(),
-    ) : PaymentSelectUiState {
+    ) : PaymentSelectUiState() {
         data class Item(
             val id: Int,
             val name: String,
@@ -35,6 +35,16 @@ sealed interface PaymentSelectUiState {
             }
         }
     }
+
+    val canSelect: Boolean
+        get() {
+            return (this is Success)
+                    &&
+                    when (selectionState) {
+                        SelectionState.None -> false
+                        is SelectionState.Selected -> true
+                    }
+        }
 }
 
 sealed interface SelectionState {
