@@ -1,16 +1,16 @@
 package com.kurodai0715.directdebitmanager.domain.model
 
-sealed interface Payment{
+sealed interface Payment {
     val name: PaymentName
 
     data class Persisted(
         override val name: PaymentName,
         val id: PaymentId,
-    ): Payment
+    ) : Payment
 
     data class InMemory(
         override val name: PaymentName,
-    ): Payment
+    ) : Payment
 }
 
 @JvmInline
