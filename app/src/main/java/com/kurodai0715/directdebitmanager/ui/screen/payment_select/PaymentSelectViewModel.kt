@@ -88,4 +88,19 @@ class PaymentSelectViewModel @Inject constructor(
             if (current == payment.id) null else payment.id
         }
     }
+
+    /**
+     * 選択ボタンタップ時に、選択されたアイテムの ID を返す.
+     */
+    fun onClickSelect(): Int? {
+        return when (uiState.value) {
+            is PaymentSelectUiState.Success -> {
+                selectedId.value
+            }
+
+            else -> {
+                null
+            }
+        }
+    }
 }

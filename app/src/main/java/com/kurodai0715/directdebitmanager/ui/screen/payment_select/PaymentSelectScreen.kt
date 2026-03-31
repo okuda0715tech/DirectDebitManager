@@ -39,6 +39,12 @@ fun PaymentSelectScreen(
         uiState = uiStateV2,
         onClickItem = { viewModel.onClickItem(it) },
         onClickBack = onClickBack,
+        onClickSelect = {
+            viewModel.onClickSelect()?.let {
+                sharedViewModel.onPaymentSelected(it)
+                onClickBack()
+            }
+        }
     )
 }
 
@@ -48,6 +54,7 @@ fun PaymentSelectContents(
     uiState: PaymentSelectUiState,
     onClickItem: (PaymentSelectUiState.Success.Item) -> Unit,
     onClickBack: () -> Unit,
+    onClickSelect: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
@@ -57,7 +64,7 @@ fun PaymentSelectContents(
         bottomButton = {
             HorizontalTwoButton(
                 onClickLeft = { debouncedClick(onClickBack) },
-                onClickRight = { debouncedClick { TODO() } },
+                onClickRight = { debouncedClick(onClickSelect) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_select)
             )
@@ -135,5 +142,6 @@ private fun Preview() {
         ),
         onClickItem = { },
         onClickBack = { },
+        onClickSelect = { },
     )
 }

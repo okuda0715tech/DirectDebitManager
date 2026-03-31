@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
@@ -16,6 +17,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "PaymentEditViewModel.kt"
 
 data class PaymentEditUiState(
     val editMode: EditMode = EditMode.Add,
@@ -112,6 +115,8 @@ class PaymentEditViewModel @Inject constructor(
     }
 
     fun onPaymentSelected(id: Int) {
-        TODO("後から実装する")
+        // TODO 画面を更新する処理を実装する。
+
+        Log.d(TAG, "onPaymentSelected.id = $id")
     }
 }
