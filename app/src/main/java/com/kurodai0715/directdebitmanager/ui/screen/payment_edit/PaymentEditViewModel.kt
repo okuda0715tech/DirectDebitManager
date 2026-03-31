@@ -111,4 +111,7 @@ class PaymentEditViewModel @Inject constructor(
         return paymentCommandUseCase.savePayment(payment)
     }
 
+    fun onPaymentSelected(id: Int) {
+        TODO("後から実装する")
+    }
 }
