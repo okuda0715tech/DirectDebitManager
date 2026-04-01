@@ -7,12 +7,14 @@ import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
+import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,8 +22,7 @@ import javax.inject.Inject
 private const val TAG = "PaymentEditViewModel.kt"
 
 data class PaymentEditUiState(
-    val editMode: EditMode = EditMode.Add,
-    val paymentName: String = "",
+    val payment: Payment = Payment(),
     val paymentNameMessage: Int? = null,
     val payerName: String = "",
     val payerNameMessage: Int? = null,
@@ -30,6 +31,11 @@ data class PaymentEditUiState(
         data object Add : EditMode
         data class Edit(val id: Int) : EditMode
     }
+
+    data class Payment(
+        val editMode: EditMode = EditMode.Add,
+        val paymentName: String = "",
+    )
 }
 
 sealed class PaymentEditUiEvent {
@@ -43,14 +49,21 @@ class PaymentEditViewModel @Inject constructor(
 ) : ViewModel() {
 
     /**
-     * 更新用.
+     * ユーザーが支払情報編集画面に直接入力した値.
      */
-    private val _uiState = MutableStateFlow(PaymentEditUiState())
+    private val payment = MutableStateFlow(PaymentEditUiState.Payment())
 
     /**
-     * 読み取り専用.
+     * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<PaymentEditUiState> = payment.map {
+        PaymentEditUiState(payment = it)
+    }.stateIn(
+        scope = viewModelScope,
+        started = WhileUiSubscribed,
+        initialValue = PaymentEditUiState()
+    )
+
 
     /**
      * 更新用.
@@ -77,7 +90,7 @@ class PaymentEditViewModel @Inject constructor(
         viewModelScope.launch {
             val item = paymentQueryUseCase.loadPaymentBy(paymentId)
 
-            _uiState.update {
+            payment.update {
                 it.copy(
                     editMode = PaymentEditUiState.EditMode.Edit(item.id),
                     paymentName = item.label
@@ -87,7 +100,7 @@ class PaymentEditViewModel @Inject constructor(
     }
 
     fun updatePaymentName(paymentName: String) {
-        _uiState.update {
+        payment.update {
             it.copy(
                 paymentName = paymentName
             )
@@ -96,7 +109,7 @@ class PaymentEditViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            val payment = uiState.value.toDomain()
+            val payment = payment.value.toDomain()
 
             val result = savePayment(payment)
 
