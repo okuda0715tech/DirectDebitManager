@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
@@ -63,6 +62,8 @@ class PaymentEditViewModel @Inject constructor(
      */
     val eventFlow = _eventChannel.receiveAsFlow()
 
+    private val payerId: MutableStateFlow<Int?> = MutableStateFlow(null)
+
     private var initialized = false
 
     fun initialize(paymentId: Int?) {
@@ -115,8 +116,6 @@ class PaymentEditViewModel @Inject constructor(
     }
 
     fun onPaymentSelected(id: Int) {
-        // TODO 画面を更新する処理を実装する。
-
-        Log.d(TAG, "onPaymentSelected.id = $id")
+        payerId.update { id }
     }
 }
