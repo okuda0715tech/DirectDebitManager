@@ -11,11 +11,8 @@ import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -40,6 +37,7 @@ data class PaymentEditUiState(
     )
 
     data class Payer(
+        val id: Int? = null,
         val name: String = "",
         val messageRes: Int? = null,
     )
@@ -60,27 +58,29 @@ class PaymentEditViewModel @Inject constructor(
      */
     private val payment = MutableStateFlow(PaymentEditUiState.Payment())
 
-    private val payerId: MutableStateFlow<Int?> = MutableStateFlow(null)
+//    private val payerId: MutableStateFlow<Int?> = MutableStateFlow(null)
+//
+//    private val payer: StateFlow<PaymentEditUiState.Payer> = payerId
+//        .filterNotNull()
+//        .map {
+//            val payerName = paymentQueryUseCase.loadPayerNameBy(it)
+//
+//            PaymentEditUiState.Payer(
+//                name = payerName,
+//            )
+//        }
+//        .stateIn(
+//            scope = viewModelScope,
+//            started = WhileSubscribed(),
+//            initialValue = PaymentEditUiState.Payer()
+//        )
 
-    private val payer: StateFlow<PaymentEditUiState.Payer> = payerId
-        .filterNotNull()
-        .map {
-            val payerName = paymentQueryUseCase.loadPayerNameBy(it)
-
-            PaymentEditUiState.Payer(
-                name = payerName,
-            )
-        }
-        .stateIn(
-            scope = viewModelScope,
-            started = WhileSubscribed(),
-            initialValue = PaymentEditUiState.Payer()
-        )
+    private val payerV2 = MutableStateFlow(PaymentEditUiState.Payer())
 
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer)
+    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payerV2)
     { payment, payer ->
         PaymentEditUiState(payment = payment, payer = payer)
     }.stateIn(
@@ -151,6 +151,18 @@ class PaymentEditViewModel @Inject constructor(
     }
 
     fun onPaymentSelected(id: Int) {
-        payerId.update { id }
+//        payerId.update { id }
+
+        viewModelScope.launch {
+            val payerName = paymentQueryUseCase.loadPayerNameBy(id)
+
+            payerV2.update {
+                PaymentEditUiState.Payer(
+                    id = id,
+                    name = payerName,
+                )
+            }
+        }
+
     }
 }
