@@ -58,23 +58,6 @@ class PaymentEditViewModel @Inject constructor(
      */
     private val payment = MutableStateFlow(PaymentEditUiState.Payment())
 
-//    private val payerId: MutableStateFlow<Int?> = MutableStateFlow(null)
-//
-//    private val payer: StateFlow<PaymentEditUiState.Payer> = payerId
-//        .filterNotNull()
-//        .map {
-//            val payerName = paymentQueryUseCase.loadPayerNameBy(it)
-//
-//            PaymentEditUiState.Payer(
-//                name = payerName,
-//            )
-//        }
-//        .stateIn(
-//            scope = viewModelScope,
-//            started = WhileSubscribed(),
-//            initialValue = PaymentEditUiState.Payer()
-//        )
-
     private val payerV2 = MutableStateFlow(PaymentEditUiState.Payer())
 
     /**
@@ -151,8 +134,6 @@ class PaymentEditViewModel @Inject constructor(
     }
 
     fun onPaymentSelected(id: Int) {
-//        payerId.update { id }
-
         viewModelScope.launch {
             val payerName = paymentQueryUseCase.loadPayerNameBy(id)
 
@@ -163,6 +144,5 @@ class PaymentEditViewModel @Inject constructor(
                 )
             }
         }
-
     }
 }
