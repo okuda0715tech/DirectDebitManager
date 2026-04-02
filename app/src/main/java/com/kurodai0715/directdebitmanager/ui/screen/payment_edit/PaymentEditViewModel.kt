@@ -93,12 +93,12 @@ class PaymentEditViewModel @Inject constructor(
 
     private fun loadPaymentBy(paymentId: Int) {
         viewModelScope.launch {
-            val item = paymentQueryUseCase.loadPaymentBy(paymentId)
+            val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
 
             payment.update {
                 it.copy(
-                    editMode = PaymentEditUiState.EditMode.Edit(item.id),
-                    name = item.label
+                    editMode = PaymentEditUiState.EditMode.Edit(loadedPayment.id),
+                    name = loadedPayment.label
                 )
             }
         }
