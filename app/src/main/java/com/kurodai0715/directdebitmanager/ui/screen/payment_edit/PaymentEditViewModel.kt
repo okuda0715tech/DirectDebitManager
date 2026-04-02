@@ -134,6 +134,10 @@ class PaymentEditViewModel @Inject constructor(
     }
 
     fun onPaymentSelected(id: Int) {
+        loadPayer(id)
+    }
+
+    private fun loadPayer(id: Int) {
         viewModelScope.launch {
             val payerName = paymentQueryUseCase.loadPayerNameBy(id)
 
