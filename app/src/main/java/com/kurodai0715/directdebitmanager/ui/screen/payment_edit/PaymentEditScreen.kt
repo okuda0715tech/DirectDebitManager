@@ -75,7 +75,7 @@ fun PaymentEditScreen(
             onClickSave = { viewModel.save() },
             paymentName = uiState.payment.paymentName,
             onPaymentNameChanged = { viewModel.updatePaymentName(it) },
-            paymentNameMessage = uiState.paymentNameMessage,
+            paymentNameMessage = uiState.payment.messageRes,
             payerName = uiState.payerName,
             onClickPayer = onClickPayer,
             payerNameMessage = uiState.payerNameMessage,

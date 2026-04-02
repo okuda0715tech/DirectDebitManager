@@ -26,7 +26,6 @@ private const val TAG = "PaymentEditViewModel.kt"
 
 data class PaymentEditUiState(
     val payment: Payment = Payment(),
-    val paymentNameMessage: Int? = null,
     val payerName: String = "",
     val payerNameMessage: Int? = null,
 ) {
@@ -38,6 +37,7 @@ data class PaymentEditUiState(
     data class Payment(
         val editMode: EditMode = EditMode.Add,
         val paymentName: String = "",
+        val messageRes: Int? = null,
     )
 }
 
