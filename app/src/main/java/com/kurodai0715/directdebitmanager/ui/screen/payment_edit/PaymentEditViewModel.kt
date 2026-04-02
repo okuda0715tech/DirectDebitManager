@@ -58,7 +58,7 @@ class PaymentEditViewModel @Inject constructor(
 
     private val payerId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
-    private val payerName: StateFlow<String> = payerId
+    private val payer: StateFlow<String> = payerId
         .filterNotNull()
         .map {
             paymentQueryUseCase.loadPayerNameBy(it)
@@ -72,7 +72,7 @@ class PaymentEditViewModel @Inject constructor(
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payerName)
+    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer)
     { payment, payerName ->
         PaymentEditUiState(payment = payment, payerName = payerName)
     }.stateIn(
