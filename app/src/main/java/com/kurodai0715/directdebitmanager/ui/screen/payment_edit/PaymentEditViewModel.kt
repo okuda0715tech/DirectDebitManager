@@ -101,6 +101,8 @@ class PaymentEditViewModel @Inject constructor(
                     name = loadedPayment.label
                 )
             }
+
+            loadedPayment.parentId?.let { loadPayer(it) }
         }
     }
 
