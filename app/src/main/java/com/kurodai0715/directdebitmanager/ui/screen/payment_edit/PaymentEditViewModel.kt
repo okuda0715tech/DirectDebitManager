@@ -26,8 +26,7 @@ private const val TAG = "PaymentEditViewModel.kt"
 
 data class PaymentEditUiState(
     val payment: Payment = Payment(),
-    val payerName: String = "",
-    val payerNameMessage: Int? = null,
+    val payer: Payer = Payer(),
 ) {
     sealed interface EditMode {
         data object Add : EditMode
@@ -36,6 +35,11 @@ data class PaymentEditUiState(
 
     data class Payment(
         val editMode: EditMode = EditMode.Add,
+        val name: String = "",
+        val messageRes: Int? = null,
+    )
+
+    data class Payer(
         val name: String = "",
         val messageRes: Int? = null,
     )
@@ -58,23 +62,27 @@ class PaymentEditViewModel @Inject constructor(
 
     private val payerId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
-    private val payer: StateFlow<String> = payerId
+    private val payer: StateFlow<PaymentEditUiState.Payer> = payerId
         .filterNotNull()
         .map {
-            paymentQueryUseCase.loadPayerNameBy(it)
+            val payerName = paymentQueryUseCase.loadPayerNameBy(it)
+
+            PaymentEditUiState.Payer(
+                name = payerName,
+            )
         }
         .stateIn(
             scope = viewModelScope,
             started = WhileSubscribed(),
-            initialValue = ""
+            initialValue = PaymentEditUiState.Payer()
         )
 
     /**
      * UI で必要となる全ての状態.
      */
     val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer)
-    { payment, payerName ->
-        PaymentEditUiState(payment = payment, payerName = payerName)
+    { payment, payer ->
+        PaymentEditUiState(payment = payment, payer = payer)
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,

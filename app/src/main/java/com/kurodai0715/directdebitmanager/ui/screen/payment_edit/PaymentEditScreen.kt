@@ -76,9 +76,9 @@ fun PaymentEditScreen(
             paymentName = uiState.payment.name,
             onPaymentNameChanged = { viewModel.updatePaymentName(it) },
             paymentNameMessage = uiState.payment.messageRes,
-            payerName = uiState.payerName,
+            payerName = uiState.payer.name,
             onClickPayer = onClickPayer,
-            payerNameMessage = uiState.payerNameMessage,
+            payerNameMessage = uiState.payer.messageRes,
         )
     }
 }
