@@ -73,7 +73,7 @@ fun PaymentEditScreen(
             modifier = Modifier.padding(paddingValues),
             onClickBack = onClickBack,
             onClickSave = { viewModel.save() },
-            paymentName = uiState.payment.paymentName,
+            paymentName = uiState.payment.name,
             onPaymentNameChanged = { viewModel.updatePaymentName(it) },
             paymentNameMessage = uiState.payment.messageRes,
             payerName = uiState.payerName,

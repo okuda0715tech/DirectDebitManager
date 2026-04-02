@@ -9,14 +9,14 @@ fun PaymentEditUiState.Payment.toDomain(): Payment {
     return when (val mode = editMode) {
         is PaymentEditUiState.EditMode.Add -> {
             Payment.InMemory(
-                name = PaymentName(paymentName)
+                name = PaymentName(name)
             )
         }
 
         is PaymentEditUiState.EditMode.Edit -> {
             Payment.Persisted(
                 id = PaymentId(mode.id),
-                name = PaymentName(paymentName)
+                name = PaymentName(name)
             )
         }
     }

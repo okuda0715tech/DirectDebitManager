@@ -36,7 +36,7 @@ data class PaymentEditUiState(
 
     data class Payment(
         val editMode: EditMode = EditMode.Add,
-        val paymentName: String = "",
+        val name: String = "",
         val messageRes: Int? = null,
     )
 }
@@ -107,7 +107,7 @@ class PaymentEditViewModel @Inject constructor(
             payment.update {
                 it.copy(
                     editMode = PaymentEditUiState.EditMode.Edit(item.id),
-                    paymentName = item.label
+                    name = item.label
                 )
             }
         }
@@ -116,7 +116,7 @@ class PaymentEditViewModel @Inject constructor(
     fun updatePaymentName(paymentName: String) {
         payment.update {
             it.copy(
-                paymentName = paymentName
+                name = paymentName
             )
         }
     }
