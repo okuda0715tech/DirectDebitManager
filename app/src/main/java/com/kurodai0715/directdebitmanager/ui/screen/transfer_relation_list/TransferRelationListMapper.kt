@@ -6,6 +6,7 @@ fun PaymentEntityV2.toTransferRelationListItem(): TransferRelationListUiState.Su
     return TransferRelationListUiState.Success.Item(
         id = id,
         name = label,
+        payerId = parentId,
     )
 }
 
