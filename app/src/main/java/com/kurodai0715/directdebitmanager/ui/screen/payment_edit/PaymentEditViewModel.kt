@@ -114,7 +114,7 @@ class PaymentEditViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            val payment = payment.value.toDomain()
+            val payment = uiState.value.toDomain()
 
             val result = savePayment(payment)
 

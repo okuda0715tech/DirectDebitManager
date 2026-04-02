@@ -15,6 +15,7 @@ class PaymentCommandUseCase @Inject constructor(
             is Payment.InMemory -> {
                 repo.createPayment(
                     label = payment.name.value,
+                    parentId = payment.payerId.valueOrNull,
                 )
             }
 
@@ -22,6 +23,7 @@ class PaymentCommandUseCase @Inject constructor(
                 repo.updatePayment(
                     id = payment.id.value,
                     label = payment.name.value,
+                    parentId = payment.payerId.valueOrNull,
                 )
             }
         }

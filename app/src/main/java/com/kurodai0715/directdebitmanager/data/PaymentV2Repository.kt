@@ -9,8 +9,8 @@ interface PaymentV2Repository {
 
     suspend fun loadItemBy(id: Int): PaymentEntityV2
 
-    suspend fun createPayment(label: String): Boolean
+    suspend fun createPayment(label: String, parentId: Int? = null): Boolean
 
-    suspend fun updatePayment(id: Int, label: String): Boolean
+    suspend fun updatePayment(id: Int, label: String, parentId: Int? = null): Boolean
 
 }
