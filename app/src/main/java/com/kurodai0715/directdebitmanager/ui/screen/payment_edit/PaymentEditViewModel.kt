@@ -58,12 +58,12 @@ class PaymentEditViewModel @Inject constructor(
      */
     private val payment = MutableStateFlow(PaymentEditUiState.Payment())
 
-    private val payerV2 = MutableStateFlow(PaymentEditUiState.Payer())
+    private val payer = MutableStateFlow(PaymentEditUiState.Payer())
 
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payerV2)
+    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer)
     { payment, payer ->
         PaymentEditUiState(payment = payment, payer = payer)
     }.stateIn(
@@ -137,7 +137,7 @@ class PaymentEditViewModel @Inject constructor(
         viewModelScope.launch {
             val payerName = paymentQueryUseCase.loadPayerNameBy(id)
 
-            payerV2.update {
+            payer.update {
                 PaymentEditUiState.Payer(
                     id = id,
                     name = payerName,
