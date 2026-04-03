@@ -74,7 +74,7 @@ fun NestedTreeItem.flattenTree(): List<FlattenedTreeItem> {
      * @param depth このアイテムの深さ ( 0 がルート)
      */
     fun addToListCyclically(item: NestedTreeItem, depth: Int) {
-        result.add(FlattenedTreeItem(id, label, Depth(depth)))
+        result.add(FlattenedTreeItem(item.id, item.label, Depth(depth)))
         item.childList.forEach { addToListCyclically(it, depth + 1) }
     }
 
