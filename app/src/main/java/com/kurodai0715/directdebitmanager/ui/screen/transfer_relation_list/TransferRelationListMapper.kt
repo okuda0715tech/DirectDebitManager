@@ -72,7 +72,6 @@ fun PaymentEntityV2.toNestedTreeItem(): NestedTreeItem {
 /**
  * ネスト型のツリーを深さ情報を持ったフラット型のリストへ展開する.
  *
- * @param nestedTreeRoot 変換前のツリーのルート
  * @return 変換後のフラットツリー
  */
 fun NestedTreeItem.flattenTree(): List<FlattenedTreeItem> {
