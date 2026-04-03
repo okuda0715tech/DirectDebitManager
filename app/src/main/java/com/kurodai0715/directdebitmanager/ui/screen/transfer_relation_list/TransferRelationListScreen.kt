@@ -121,12 +121,12 @@ private fun Preview() {
         onClickItem = { },
         uiState = TransferRelationListUiState.Success(
             payments = listOf(
-                FlattenedTreeItem(1, "テスト1", depth = 0),
-                FlattenedTreeItem(2, "テスト2", depth = 1),
-                FlattenedTreeItem(3, "テスト3", depth = 2),
-                FlattenedTreeItem(4, "テスト4", depth = 2),
-                FlattenedTreeItem(5, "テスト5", depth = 0),
-                FlattenedTreeItem(6, "テスト6", depth = 1),
+                FlattenedTreeItem(1, "テスト1", depth = Depth(0)),
+                FlattenedTreeItem(2, "テスト2", depth = Depth(1)),
+                FlattenedTreeItem(3, "テスト3", depth = Depth(2)),
+                FlattenedTreeItem(4, "テスト4", depth = Depth(2)),
+                FlattenedTreeItem(5, "テスト5", depth = Depth(0)),
+                FlattenedTreeItem(6, "テスト6", depth = Depth(1)),
             )
         )
     )
