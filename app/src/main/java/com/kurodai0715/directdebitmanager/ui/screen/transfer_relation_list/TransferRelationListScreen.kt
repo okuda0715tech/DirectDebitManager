@@ -94,7 +94,7 @@ fun Contents(
 
 @Composable
 fun ListItem(
-    item: TransferRelationListUiState.Success.Item,
+    item: FlattenedTreeItem,
     onClickItem: () -> Unit
 ) {
     Box(
@@ -107,7 +107,7 @@ fun ListItem(
             })
             .padding(LayoutTokens.elementSpacing)
     ) {
-        Text(text = item.name)
+        Text(text = item.label)
     }
 }
 
@@ -121,12 +121,12 @@ private fun Preview() {
         onClickItem = { },
         uiState = TransferRelationListUiState.Success(
             payments = listOf(
-                TransferRelationListUiState.Success.Item(1, "テスト1"),
-                TransferRelationListUiState.Success.Item(2, "テスト2"),
-                TransferRelationListUiState.Success.Item(3, "テスト3"),
-                TransferRelationListUiState.Success.Item(4, "テスト4"),
-                TransferRelationListUiState.Success.Item(5, "テスト5"),
-                TransferRelationListUiState.Success.Item(6, "テスト6"),
+                FlattenedTreeItem(1, "テスト1", depth = 0),
+                FlattenedTreeItem(2, "テスト2", depth = 1),
+                FlattenedTreeItem(3, "テスト3", depth = 2),
+                FlattenedTreeItem(4, "テスト4", depth = 2),
+                FlattenedTreeItem(5, "テスト5", depth = 0),
+                FlattenedTreeItem(6, "テスト6", depth = 1),
             )
         )
     )

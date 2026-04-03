@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
@@ -13,11 +14,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
+private const val TAG = "TransferRelationListViewModel.kt"
+
 sealed interface TransferRelationListUiState {
     object Loading : TransferRelationListUiState
     data class Error(val errorMessageRes: Int) : TransferRelationListUiState
     data class Success(
-        val payments: List<Item> = emptyList(),
+        val payments: List<FlattenedTreeItem> = emptyList(),
     ) : TransferRelationListUiState {
         data class Item(
             val id: Int,
@@ -33,8 +36,8 @@ class TransferRelationListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val paymentsAsync = paymentQueryUseCase.loadPayments()
-        .map { Async.Success(it.toTransferRelationList()) }
-        .catch<Async<List<TransferRelationListUiState.Success.Item>>> {
+        .map { Async.Success(it.buildNestedTree().flattenTree()) }
+        .catch<Async<List<FlattenedTreeItem>>> {
             emit(Async.Error(R.string.load_error))
         }
 
@@ -49,6 +52,7 @@ class TransferRelationListViewModel @Inject constructor(
             }
 
             is Async.Success -> {
+                Log.d(TAG, "paymentsAsync.data: ${paymentsAsync.data}")
                 TransferRelationListUiState.Success(paymentsAsync.data)
             }
         }

@@ -29,10 +29,10 @@ value class PaymentName(val value: String) {
 @JvmInline
 value class PayerId private constructor(val value: Int) {
     companion object {
-        val NONE = PayerId(-1)
+        val NONE = PayerId(0)
 
         fun of(value: Int): PayerId {
-            require(value >= 0) { "PayerId must be >= 0" }
+            require(value > 0) { "PayerId must be > 0" }
             return PayerId(value)
         }
     }
@@ -43,6 +43,6 @@ value class PayerId private constructor(val value: Int) {
     val isValid: Boolean
         get() = this != NONE
 
-    val valueOrNull: Int?
-        get() = if (this == NONE) null else value
+    val valueOrZero: Int?
+        get() = if (this == NONE) 0 else value
 }

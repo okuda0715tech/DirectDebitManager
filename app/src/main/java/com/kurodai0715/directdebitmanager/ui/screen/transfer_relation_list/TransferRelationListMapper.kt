@@ -1,6 +1,9 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list
 
+import android.util.Log
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+
+private const val TAG = "TransferRelationListMapper.kt"
 
 fun PaymentEntityV2.toTransferRelationListItem(): TransferRelationListUiState.Success.Item {
     return TransferRelationListUiState.Success.Item(
@@ -16,10 +19,8 @@ fun List<PaymentEntityV2>.toTransferRelationList(): List<TransferRelationListUiS
 
 /**
  * 要素の親子関係を解析し、ツリー構造に変換する.
- *
- * @param list 変換前のリスト
  */
-fun buildNestedTree(list: List<TransferRelationListUiState.Success.Item>): NestedTreeItem {
+fun List<PaymentEntityV2>.buildNestedTree(): NestedTreeItem {
 
     /**
      * レシーバーオブジェクトを親として、ツリー型になるように、その子を追加する.
@@ -29,9 +30,9 @@ fun buildNestedTree(list: List<TransferRelationListUiState.Success.Item>): Neste
      *
      * @param list 変換前のリスト
      */
-    fun NestedTreeItem.buildSubTree(list: List<TransferRelationListUiState.Success.Item>) {
+    fun NestedTreeItem.buildSubTree(list: List<PaymentEntityV2>) {
         list.forEach {
-            if (this.id == it.payerId) {
+            if (this.id == it.parentId) {
                 val child = it.toNestedTreeItem()
                 this.childList.add(child)
                 child.buildSubTree(list)
@@ -46,7 +47,9 @@ fun buildNestedTree(list: List<TransferRelationListUiState.Success.Item>): Neste
         childList = mutableListOf()
     )
 
-    root.buildSubTree(list)
+    root.buildSubTree(this)
+
+    Log.d(TAG, "root: $root")
 
     return root
 }
@@ -58,11 +61,11 @@ data class NestedTreeItem(
     val childList: MutableList<NestedTreeItem> = mutableListOf(),
 )
 
-fun TransferRelationListUiState.Success.Item.toNestedTreeItem(): NestedTreeItem {
+fun PaymentEntityV2.toNestedTreeItem(): NestedTreeItem {
     return NestedTreeItem(
         id = id,
-        label = name,
-        parentId = payerId ?: 0,
+        label = label,
+        parentId = parentId ?: 0,
     )
 }
 
@@ -72,7 +75,7 @@ fun TransferRelationListUiState.Success.Item.toNestedTreeItem(): NestedTreeItem 
  * @param nestedTreeRoot 変換前のツリーのルート
  * @return 変換後のフラットツリー
  */
-fun flattenTree(nestedTreeRoot: NestedTreeItem): List<FlattenedTreeItem> {
+fun NestedTreeItem.flattenTree(): List<FlattenedTreeItem> {
 
     val result = mutableListOf<FlattenedTreeItem>()
 
@@ -81,15 +84,22 @@ fun flattenTree(nestedTreeRoot: NestedTreeItem): List<FlattenedTreeItem> {
      * <p>
      * 深さ優先探索 ( Depth-First Search ) で、再起呼び出しする。
      *
-     * @param nestedTreeNode 変換前のツリーのノード
-     * @param depth [nestedTreeNode] の深さ ( 0 がルート)
+     * @param depth このアイテムの深さ ( 0 がルート)
      */
     fun NestedTreeItem.flattenChild(depth: Int) {
-        result.add(FlattenedTreeItem(id, label, depth))
+        val repeat = depth - 1
+        val indexedLabel =
+            if (repeat >= 0)
+                "     ".repeat(repeat) + "└ " + label
+            else
+                label
+        result.add(FlattenedTreeItem(id, indexedLabel, depth))
         childList.forEach { it.flattenChild(depth + 1) }
     }
 
-    nestedTreeRoot.flattenChild(0)
+    flattenChild(0)
+
+    Log.d(TAG, "result: $result")
 
     return result
 }
