@@ -74,13 +74,7 @@ fun NestedTreeItem.flattenTree(): List<FlattenedTreeItem> {
      * @param depth このアイテムの深さ ( 0 がルート)
      */
     fun NestedTreeItem.flattenChild(depth: Int) {
-        val repeat = depth - 1
-        val indexedLabel =
-            if (repeat >= 0)
-                "     ".repeat(repeat) + "└ " + label
-            else
-                label
-        result.add(FlattenedTreeItem(id, indexedLabel, depth))
+        result.add(FlattenedTreeItem(id, label, depth))
         childList.forEach { it.flattenChild(depth + 1) }
     }
 
@@ -96,3 +90,20 @@ data class FlattenedTreeItem(
     val label: String,
     val depth: Int,
 )
+
+fun List<FlattenedTreeItem>.addPrefix(): List<FlattenedTreeItem> {
+    return map {
+        val repeat = it.depth - 1
+        val indexedLabel =
+            if (repeat >= 0)
+                "     ".repeat(repeat) + "└ " + it.label
+            else
+                it.label
+
+        FlattenedTreeItem(
+            id = it.id,
+            label = indexedLabel,
+            depth = it.depth
+        )
+    }
+}
