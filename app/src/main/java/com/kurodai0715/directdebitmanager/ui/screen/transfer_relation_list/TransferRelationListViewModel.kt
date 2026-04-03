@@ -36,7 +36,15 @@ class TransferRelationListViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val paymentsAsync = paymentQueryUseCase.loadPayments()
-        .map { Async.Success(it.buildNestedTree().flattenTree()) }
+        .map { payments ->
+            Async.Success(
+                payments
+                    .buildNestedTree()
+                    .flattenTree()
+                    // root のノードは表示しない
+                    .filterNot { it.id == 0 }
+            )
+        }
         .catch<Async<List<FlattenedTreeItem>>> {
             emit(Async.Error(R.string.load_error))
         }
