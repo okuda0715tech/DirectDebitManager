@@ -43,7 +43,6 @@ class TransferRelationListViewModel @Inject constructor(
                     .flattenTree()
                     // root のノードは表示しない
                     .filterNot { it.id == 0 }
-                    .addPrefix()
             )
         }
         .catch<Async<List<FlattenedTreeItem>>> {

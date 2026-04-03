@@ -101,16 +101,6 @@ data class FlattenedTreeItem(
         get() = index + connector + label
 }
 
-fun List<FlattenedTreeItem>.addPrefix(): List<FlattenedTreeItem> {
-    return map {
-        FlattenedTreeItem(
-            id = it.id,
-            label = it.prefixedLabel,
-            depth = it.depth
-        )
-    }
-}
-
 /**
  * アイテムの深さ.
  *

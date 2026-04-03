@@ -107,7 +107,7 @@ fun ListItem(
             })
             .padding(LayoutTokens.elementSpacing)
     ) {
-        Text(text = item.label)
+        Text(text = item.prefixedLabel)
     }
 }
 
