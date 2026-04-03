@@ -107,3 +107,18 @@ fun List<FlattenedTreeItem>.addPrefix(): List<FlattenedTreeItem> {
         )
     }
 }
+
+/**
+ * アイテムの深さ.
+ *
+ * @param value 深さの値.
+ * 0 : ルート(画面に表示されない)
+ * 1 : 一階層下(銀行など支払元を持たないもの)
+ * 2 : 二階層下(クレジットカードや電気料金などの支払元を持つもの)
+ * ...
+ */
+@JvmInline
+value class Depth(val value: Int) {
+    fun toIndexCount(): Int = (value - 1).coerceAtLeast(0)
+}
+
