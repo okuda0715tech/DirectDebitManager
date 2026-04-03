@@ -89,20 +89,23 @@ data class FlattenedTreeItem(
     val id: Int,
     val label: String,
     val depth: Depth,
-)
+) {
+    val index: String
+        get() = "     ".repeat(depth.toIndexCount())
+
+    // ├ を使った表示もできたらやりたい。
+    val connector: String
+        get() = if (depth.needConnector()) "└ " else ""
+
+    val prefixedLabel: String
+        get() = index + connector + label
+}
 
 fun List<FlattenedTreeItem>.addPrefix(): List<FlattenedTreeItem> {
     return map {
-        val repeat = it.depth.value - 1
-        val indexedLabel =
-            if (repeat >= 0)
-                "     ".repeat(repeat) + "└ " + it.label
-            else
-                it.label
-
         FlattenedTreeItem(
             id = it.id,
-            label = indexedLabel,
+            label = it.prefixedLabel,
             depth = it.depth
         )
     }
@@ -120,5 +123,6 @@ fun List<FlattenedTreeItem>.addPrefix(): List<FlattenedTreeItem> {
 @JvmInline
 value class Depth(val value: Int) {
     fun toIndexCount(): Int = (value - 1).coerceAtLeast(0)
+    fun needConnector(): Boolean = value >= 2
 }
 
