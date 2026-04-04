@@ -32,7 +32,7 @@ value class PayerId private constructor(val value: Int) {
         val NONE = PayerId(0)
 
         fun of(value: Int): PayerId {
-            require(value > 0) { "PayerId must be > 0" }
+            require(value >= 0) { "PayerId must be >= 0" }
             return PayerId(value)
         }
     }
