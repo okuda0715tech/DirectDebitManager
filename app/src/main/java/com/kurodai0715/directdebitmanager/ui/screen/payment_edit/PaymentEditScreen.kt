@@ -111,15 +111,20 @@ fun TransferRelationEditContents(
             )
         },
         bottomButton = {
-            HorizontalTwoButton(
-                onClickLeft = { debouncedClick(onClickBack) },
-                onClickRight = { debouncedClick(onClickSave) },
-                leftText = stringResource(R.string.common_back),
-                rightText = stringResource(R.string.common_save)
-            )
+            BottomButton(onClickBack, onClickSave)
         }
     )
 
+}
+
+@Composable
+private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
+    HorizontalTwoButton(
+        onClickLeft = { debouncedClick(onClickBack) },
+        onClickRight = { debouncedClick(onClickSave) },
+        leftText = stringResource(R.string.common_back),
+        rightText = stringResource(R.string.common_save)
+    )
 }
 
 @Composable
