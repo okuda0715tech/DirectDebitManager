@@ -50,6 +50,9 @@ fun PaymentEditScreen(
             viewModel.initialize(paymentId)
         }
 
+        // 画面遷移もイベントに含める理由は、 ViewModel を経由したいため。
+        // ViewModel を経由することで、今後、画面遷移前になんらかの処理が必要になった場合も対応が可能になる。
+        // 例えば、 ViewModel 側でバリデーションチェックを行って、 OK の場合のみ画面遷移させる等。
         LaunchedEffect(Unit) {
             viewModel.eventFlow.collect { event ->
                 when (event) {
