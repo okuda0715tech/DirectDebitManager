@@ -27,9 +27,12 @@ value class PaymentId private constructor(val value: Int) {
 }
 
 @JvmInline
-value class PaymentName(val value: String) {
-    init {
-        require(value.isNotBlank()) { "PaymentName is blank" }
+value class PaymentName private constructor(val value: String) {
+    companion object {
+        fun of(value: String): PaymentName {
+            require(value.isNotBlank()) { "PaymentName must not be blank" }
+            return PaymentName(value)
+        }
     }
 }
 

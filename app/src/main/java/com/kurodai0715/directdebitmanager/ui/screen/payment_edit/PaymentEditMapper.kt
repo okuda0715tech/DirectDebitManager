@@ -10,21 +10,21 @@ fun PaymentEditUiState.Payment.toDomain(): Payment {
     return when (val mode = editMode) {
         is PaymentEditUiState.EditMode.Add -> {
             Payment.InMemory(
-                name = PaymentName(name)
+                name = PaymentName.of(name)
             )
         }
 
         is PaymentEditUiState.EditMode.Edit -> {
             Payment.Persisted(
                 id = PaymentId.of(mode.id),
-                name = PaymentName(name)
+                name = PaymentName.of(name)
             )
         }
     }
 }
 
 fun PaymentEditUiState.toDomain(): Payment {
-    val name = PaymentName(payment.name)
+    val name = PaymentName.of(payment.name)
 
     val payerId = payer.id // or 別管理
         ?.let { PayerId.of(it) }

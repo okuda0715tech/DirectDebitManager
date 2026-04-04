@@ -9,7 +9,7 @@ import com.kurodai0715.directdebitmanager.domain.model.PaymentName
 fun PaymentEntityV2.toPayment(): Payment.Persisted {
     return Payment.Persisted(
         id = PaymentId.of(id),
-        name = PaymentName(label),
+        name = PaymentName.of(label),
         payerId = parentId?.let { PayerId.of(it) } ?: PayerId.NONE,
     )
 }
