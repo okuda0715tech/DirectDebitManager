@@ -93,7 +93,7 @@ class PaymentEditViewModel @Inject constructor(
 
     private fun loadPaymentBy(paymentId: Int) {
         viewModelScope.launch {
-            val loadedPayment = paymentQueryUseCase.loadPaymentByV2(paymentId)
+            val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
 
             require(loadedPayment != null) { "loadedPayment is null." }
 
@@ -144,7 +144,7 @@ class PaymentEditViewModel @Inject constructor(
 
     private fun loadPayer(id: Int) {
         viewModelScope.launch {
-            val payerName = paymentQueryUseCase.loadPayerNameByV2(id)
+            val payerName = paymentQueryUseCase.loadPayerNameBy(id)
 
             payer.update {
                 PaymentEditUiState.Payer(

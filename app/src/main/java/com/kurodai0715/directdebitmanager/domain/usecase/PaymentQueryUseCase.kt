@@ -15,19 +15,11 @@ class PaymentQueryUseCase @Inject constructor(
         return repo.loadPayments()
     }
 
-    suspend fun loadPaymentBy(paymentId: Int): PaymentEntityV2? {
-        return repo.loadItemBy(paymentId)
-    }
-
-    suspend fun loadPaymentByV2(paymentId: Int): Payment.Persisted? {
+    suspend fun loadPaymentBy(paymentId: Int): Payment.Persisted? {
         return repo.loadItemBy(paymentId)?.toPayment()
     }
 
     suspend fun loadPayerNameBy(payerId: Int): String {
-        return loadPaymentBy(payerId)?.label.orEmpty()
-    }
-
-    suspend fun loadPayerNameByV2(payerId: Int): String {
-        return loadPaymentByV2(payerId)?.name?.value.orEmpty()
+        return loadPaymentBy(payerId)?.name?.value.orEmpty()
     }
 }
