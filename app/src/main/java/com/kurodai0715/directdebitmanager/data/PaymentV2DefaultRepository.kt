@@ -20,7 +20,7 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.observePayments()
     }
 
-    override suspend fun loadItemBy(id: Int): PaymentEntityV2 {
+    override suspend fun loadItemBy(id: Int): PaymentEntityV2? {
         return localDataSource.loadItemBy(id)
     }
 
@@ -52,11 +52,14 @@ class PaymentV2DefaultRepository @Inject constructor(
         label: String,
         parentId: Int?,
     ): Boolean {
-
-        val item = localDataSource.loadItemBy(id)
-
         var resultSuccess: Boolean
         withContext(ioDispatcher) {
+            val item = localDataSource.loadItemBy(id)
+            if (item == null) {
+                resultSuccess = false
+                return@withContext
+            }
+
             resultSuccess = try {
                 localDataSource.upsertPayment(
                     item.copy(

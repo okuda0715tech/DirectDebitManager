@@ -95,6 +95,8 @@ class PaymentEditViewModel @Inject constructor(
         viewModelScope.launch {
             val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
 
+            require(loadedPayment != null) { "loadedPayment is null." }
+
             payment.update {
                 it.copy(
                     editMode = PaymentEditUiState.EditMode.Edit(loadedPayment.id),
