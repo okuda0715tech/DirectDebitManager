@@ -66,6 +66,8 @@ fun PaymentEditScreen(
                     }
 
                     PaymentEditUiEvent.OnClickBack -> onClickBack()
+
+                    PaymentEditUiEvent.OnClickPayer -> onClickPayer()
                 }
             }
         }
@@ -78,7 +80,7 @@ fun PaymentEditScreen(
             onPaymentNameChanged = { viewModel.updatePaymentName(it) },
             paymentNameMessage = uiState.payment.messageRes,
             payerName = uiState.payer.name,
-            onClickPayer = onClickPayer,
+            onClickPayer = { viewModel.onClickPayer() },
             payerNameMessage = uiState.payer.messageRes,
         )
     }
