@@ -144,7 +144,7 @@ class PaymentEditViewModel @Inject constructor(
 
     private fun loadPayer(id: Int) {
         viewModelScope.launch {
-            val payerName = paymentQueryUseCase.loadPayerNameBy(id)
+            val payerName = paymentQueryUseCase.loadPayerNameByV2(id)
 
             payer.update {
                 PaymentEditUiState.Payer(

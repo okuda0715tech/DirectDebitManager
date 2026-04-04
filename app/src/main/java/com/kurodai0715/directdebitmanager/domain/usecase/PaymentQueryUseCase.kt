@@ -26,4 +26,8 @@ class PaymentQueryUseCase @Inject constructor(
     suspend fun loadPayerNameBy(payerId: Int): String {
         return loadPaymentBy(payerId)?.label.orEmpty()
     }
+
+    suspend fun loadPayerNameByV2(payerId: Int): String {
+        return loadPaymentByV2(payerId)?.name?.value.orEmpty()
+    }
 }
