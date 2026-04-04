@@ -45,6 +45,7 @@ data class PaymentEditUiState(
 
 sealed class PaymentEditUiEvent {
     data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
+    data object OnClickBack : PaymentEditUiEvent()
 }
 
 @HiltViewModel
@@ -154,4 +155,11 @@ class PaymentEditViewModel @Inject constructor(
             }
         }
     }
+
+    fun onClickBack() {
+        viewModelScope.launch {
+            _eventChannel.send(PaymentEditUiEvent.OnClickBack)
+        }
+    }
+
 }

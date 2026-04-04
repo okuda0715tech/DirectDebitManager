@@ -65,16 +65,14 @@ fun PaymentEditScreen(
                         )
                     }
 
-                    // TODO
-                    // 画面遷移もイベントとして扱い、ここで実装する。
-
+                    PaymentEditUiEvent.OnClickBack -> onClickBack()
                 }
             }
         }
 
         TransferRelationEditContents(
             modifier = Modifier.padding(paddingValues),
-            onClickBack = onClickBack,
+            onClickBack = { viewModel.onClickBack() },
             onClickSave = { viewModel.save() },
             paymentName = uiState.payment.name,
             onPaymentNameChanged = { viewModel.updatePaymentName(it) },
