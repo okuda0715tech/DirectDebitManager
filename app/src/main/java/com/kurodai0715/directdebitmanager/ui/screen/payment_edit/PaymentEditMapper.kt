@@ -12,16 +12,16 @@ fun PaymentEditUiState.toDomain(): Payment {
         ?.let { PayerId.of(it) }
         ?: PayerId.NONE
 
-    return when (val mode = payment.editMode) {
-        is PaymentEditUiState.EditMode.Add ->
+    return when (val paymentId = payment.id) {
+        is PaymentEditUiState.Payment.Id.Unassigned ->
             Payment.InMemory(
                 name = name,
                 payerId = payerId,
             )
 
-        is PaymentEditUiState.EditMode.Edit ->
+        is PaymentEditUiState.Payment.Id.Assigned ->
             Payment.Persisted(
-                id = PaymentId.of(mode.id),
+                id = PaymentId.of(paymentId.value),
                 name = name,
                 payerId = payerId,
             )

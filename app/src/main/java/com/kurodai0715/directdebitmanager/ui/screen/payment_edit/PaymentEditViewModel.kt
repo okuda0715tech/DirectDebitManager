@@ -25,16 +25,16 @@ data class PaymentEditUiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer(),
 ) {
-    sealed interface EditMode {
-        data object Add : EditMode
-        data class Edit(val id: Int) : EditMode
-    }
-
     data class Payment(
-        val editMode: EditMode = EditMode.Add,
+        val id: Id = Id.Unassigned,
         val name: String = "",
         val messageRes: Int? = null,
-    )
+    ) {
+        sealed interface Id {
+            data object Unassigned : Id
+            data class Assigned(val value: Int) : Id
+        }
+    }
 
     data class Payer(
         val id: Int? = null,
@@ -101,7 +101,7 @@ class PaymentEditViewModel @Inject constructor(
 
             payment.update {
                 it.copy(
-                    editMode = PaymentEditUiState.EditMode.Edit(loadedPayment.id.value),
+                    id = PaymentEditUiState.Payment.Id.Assigned(loadedPayment.id.value),
                     name = loadedPayment.name.value
                 )
             }
