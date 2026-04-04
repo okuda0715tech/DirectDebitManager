@@ -93,7 +93,6 @@ data class FlattenedTreeItem(
     val index: String
         get() = "     ".repeat(depth.toIndexCount())
 
-    // ├ を使った表示もできたらやりたい。
     val connector: String
         get() = if (depth.needConnector()) "└ " else ""
 
