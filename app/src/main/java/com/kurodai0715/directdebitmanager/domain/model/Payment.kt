@@ -17,7 +17,14 @@ sealed interface Payment {
 }
 
 @JvmInline
-value class PaymentId(val value: Int)
+value class PaymentId private constructor(val value: Int) {
+    companion object {
+        fun of(value: Int): PaymentId {
+            require(value >= 0) { "PaymentId must be >= 0" }
+            return PaymentId(value)
+        }
+    }
+}
 
 @JvmInline
 value class PaymentName(val value: String) {

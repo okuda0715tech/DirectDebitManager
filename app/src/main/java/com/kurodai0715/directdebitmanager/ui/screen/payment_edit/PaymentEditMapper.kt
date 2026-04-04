@@ -16,7 +16,7 @@ fun PaymentEditUiState.Payment.toDomain(): Payment {
 
         is PaymentEditUiState.EditMode.Edit -> {
             Payment.Persisted(
-                id = PaymentId(mode.id),
+                id = PaymentId.of(mode.id),
                 name = PaymentName(name)
             )
         }
@@ -39,7 +39,7 @@ fun PaymentEditUiState.toDomain(): Payment {
 
         is PaymentEditUiState.EditMode.Edit ->
             Payment.Persisted(
-                id = PaymentId(mode.id),
+                id = PaymentId.of(mode.id),
                 name = name,
                 payerId = payerId,
             )
