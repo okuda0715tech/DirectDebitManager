@@ -5,24 +5,6 @@ import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentName
 
-fun PaymentEditUiState.Payment.toDomain(): Payment {
-
-    return when (val mode = editMode) {
-        is PaymentEditUiState.EditMode.Add -> {
-            Payment.InMemory(
-                name = PaymentName.of(name)
-            )
-        }
-
-        is PaymentEditUiState.EditMode.Edit -> {
-            Payment.Persisted(
-                id = PaymentId.of(mode.id),
-                name = PaymentName.of(name)
-            )
-        }
-    }
-}
-
 fun PaymentEditUiState.toDomain(): Payment {
     val name = PaymentName.of(payment.name)
 
