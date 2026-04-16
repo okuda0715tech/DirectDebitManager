@@ -56,7 +56,7 @@
 
     <!-- 支払情報 編集 画面 -->
     <string name="payment_name_label">支払情報の名称</string>
-    <string name="payer_name_label">上記支払情報の支払元</string>
+    <string name="payer_name_label">支払元</string>
     <string name="open_payment_list_screen_icon_description">支払情報選択画面を開くアイコン</string>
 
     <!-- 支払情報 選択 画面 -->
