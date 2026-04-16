@@ -142,7 +142,7 @@ fun Contents(
 ) {
     Column {
         EditableForm(
-            labelText = stringResource(R.string.payee_name_label),
+            labelText = stringResource(R.string.payee_name_label_old),
             text = payeeName,
             onTextChanged = onPayeeNameChanged,
             supportingText = supportingTextRes,

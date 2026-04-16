@@ -52,7 +52,7 @@
     <string name="open_destination_list_dialog_icon_description">振替先選択ダイアログを開くアイコン</string>
 
     <!-- 支払先 編集 画面 -->
-    <string name="payee_name_label">支払先の名称</string>
+    <string name="payee_name_label_old">支払先の名称</string>
 
     <!-- 支払情報 編集 画面 -->
     <string name="payment_name_label">支払情報の名称</string>
