@@ -3,6 +3,7 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -30,6 +31,7 @@ fun PaymentEditScreen(
     viewModel: PaymentEditViewModel,
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
+    onClickPayee: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -68,6 +70,8 @@ fun PaymentEditScreen(
                     PaymentEditUiEvent.OnClickBack -> onClickBack()
 
                     PaymentEditUiEvent.OnClickPayer -> onClickPayer()
+
+                    PaymentEditUiEvent.OnClickPayee -> onClickPayee()
                 }
             }
         }
@@ -82,6 +86,8 @@ fun PaymentEditScreen(
             payerName = uiState.payer.name,
             onClickPayer = { viewModel.onClickPayer() },
             payerNameMessage = uiState.payer.messageRes,
+            payees = uiState.payees,
+            onClickPayee = { TODO() }
         )
     }
 }
@@ -97,6 +103,8 @@ fun TransferRelationEditContents(
     payerName: String,
     onClickPayer: () -> Unit,
     payerNameMessage: Int?,
+    payees: List<PaymentEditUiState.Payee>,
+    onClickPayee: (Int) -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
@@ -108,6 +116,8 @@ fun TransferRelationEditContents(
                 payerName = payerName,
                 onClickPayer = onClickPayer,
                 payerNameMessage = payerNameMessage,
+                payees = payees,
+                onClickPayee = onClickPayee
             )
         },
         bottomButton = {
@@ -135,6 +145,8 @@ fun Contents(
     payerName: String,
     onClickPayer: () -> Unit,
     payerNameMessage: Int?,
+    payees: List<PaymentEditUiState.Payee>,
+    onClickPayee: (Int) -> Unit,
 ) {
     Column {
         EditableForm(
@@ -154,6 +166,28 @@ fun Contents(
             iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
             onClickIcon = onClickPayer,
         )
+
+        Payees(payees = payees, onClickPayee = onClickPayee)
+    }
+}
+
+@Composable
+fun Payees(
+    payees: List<PaymentEditUiState.Payee>,
+    onClickPayee: (Int) -> Unit
+) {
+    LazyColumn {
+        items(payees.size) { index ->
+            ReadOnlyForm(
+                labelText = stringResource(R.string.payee_name_label, index + 1),
+                text = payees[index].name,
+                onClickText = { onClickPayee(index) },
+                supportingText = payees[index].messageRes,
+                icon = painterResource(id = R.drawable.outline_arrow_right_24),
+                iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
+                onClickIcon = { onClickPayee(index) },
+            )
+        }
     }
 }
 
@@ -169,5 +203,11 @@ private fun Preview() {
         payerName = "",
         onClickPayer = {},
         payerNameMessage = null,
+        payees = listOf(
+            PaymentEditUiState.Payee(name = "テスト支払先1"),
+            PaymentEditUiState.Payee(name = "テスト支払先2"),
+            PaymentEditUiState.Payee(name = "テスト支払先3"),
+        ),
+        onClickPayee = {}
     )
 }

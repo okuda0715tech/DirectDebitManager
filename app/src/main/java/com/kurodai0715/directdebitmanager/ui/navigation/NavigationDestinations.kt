@@ -86,4 +86,6 @@ data class PaymentEdit(
 ) : TransferBase
 
 @Serializable
-data object PaymentSelect : TransferBase
+data class PaymentSelect(
+    val target: String,
+) : TransferBase

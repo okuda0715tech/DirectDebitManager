@@ -7,6 +7,7 @@ import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
+import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -24,6 +25,7 @@ private const val TAG = "PaymentEditViewModel.kt"
 data class PaymentEditUiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer(),
+    val payees: List<Payee> = mutableListOf(),
 ) {
     data class Payment(
         val id: Id = Id.Unassigned,
@@ -41,12 +43,19 @@ data class PaymentEditUiState(
         val name: String = "",
         val messageRes: Int? = null,
     )
+
+    data class Payee(
+        val id: Int? = null,
+        val name: String = "",
+        val messageRes: Int? = null,
+    )
 }
 
 sealed class PaymentEditUiEvent {
     data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
     data object OnClickBack : PaymentEditUiEvent()
     data object OnClickPayer : PaymentEditUiEvent()
+    data object OnClickPayee : PaymentEditUiEvent()
 }
 
 @HiltViewModel
@@ -62,12 +71,14 @@ class PaymentEditViewModel @Inject constructor(
 
     private val payer = MutableStateFlow(PaymentEditUiState.Payer())
 
+    private val payees = MutableStateFlow<List<PaymentEditUiState.Payee>>(emptyList())
+
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer)
-    { payment, payer ->
-        PaymentEditUiState(payment = payment, payer = payer)
+    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer, payees)
+    { payment, payer, payees ->
+        PaymentEditUiState(payment = payment, payer = payer, payees = payees)
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
@@ -108,6 +119,8 @@ class PaymentEditViewModel @Inject constructor(
 
             if (loadedPayment.payerId.isValid)
                 loadPayer(loadedPayment.payerId.value)
+
+            loadPayees(loadedPayment.id.value)
         }
     }
 
@@ -140,13 +153,16 @@ class PaymentEditViewModel @Inject constructor(
         return paymentCommandUseCase.savePayment(payment)
     }
 
-    fun onPaymentSelected(id: Int) {
-        loadPayer(id)
+    fun onPaymentSelected(target: NavContract.SelectTarget, id: Int) {
+        when (target) {
+            NavContract.SelectTarget.Payer -> loadPayer(id)
+            NavContract.SelectTarget.Payee -> TODO()
+        }
     }
 
     private fun loadPayer(id: Int) {
         viewModelScope.launch {
-            val payerName = paymentQueryUseCase.loadPayerNameBy(id)
+            val payerName = paymentQueryUseCase.loadPaymentNameBy(id)
 
             payer.update {
                 PaymentEditUiState.Payer(
@@ -154,6 +170,16 @@ class PaymentEditViewModel @Inject constructor(
                     name = payerName,
                 )
             }
+        }
+    }
+
+    private fun loadPayees(id: Int) {
+        viewModelScope.launch {
+            val domainPayees = paymentQueryUseCase.loadPayeesBy(id)
+
+            val uiPayees = domainPayees?.toUiPayees() ?: emptyList()
+
+            payees.update { uiPayees }
         }
     }
 
@@ -166,6 +192,12 @@ class PaymentEditViewModel @Inject constructor(
     fun onClickPayer() {
         viewModelScope.launch {
             _eventChannel.send(PaymentEditUiEvent.OnClickPayer)
+        }
+    }
+
+    fun onClickPayee() {
+        viewModelScope.launch {
+            _eventChannel.send(PaymentEditUiEvent.OnClickPayee)
         }
     }
 }

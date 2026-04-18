@@ -24,6 +24,10 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.loadItemBy(id)
     }
 
+    override suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>? {
+        return localDataSource.loadChildItemsBy(parentId)
+    }
+
     override suspend fun createPayment(
         label: String,
         parentId: Int?,

@@ -188,7 +188,16 @@ fun AppNavGraph(
                         // navController.navigateUp() ではなく、 popBackStack() を使う。
                         navController.popToTransferRelationList()
                     },
-                    onClickPayer = { navController.navigateToPaymentSelect() }
+                    onClickPayer = {
+                        navController.navigateToPaymentSelect(
+                            NavContract.SelectTarget.Payer
+                        )
+                    },
+                    onClickPayee = {
+                        navController.navigateToPaymentSelect(
+                            NavContract.SelectTarget.Payee
+                        )
+                    },
                 )
 
                 onChangeTitle(R.string.payment_info_edit_screen_title)
@@ -202,7 +211,10 @@ fun AppNavGraph(
                 val viewModel: PaymentEditViewModel =
                     hiltViewModel(parentEntry)
 
+                val paymentSelect: PaymentSelect = backStackEntry.toRoute()
+
                 PaymentSelectScreen(
+                    selectTarget = NavContract.SelectTarget.valueOf(paymentSelect.target),
                     sharedViewModel = viewModel,
                     onClickBack = { navController.navigateUp() }
                 )

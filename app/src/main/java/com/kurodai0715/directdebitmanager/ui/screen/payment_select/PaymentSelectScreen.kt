@@ -22,12 +22,14 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultListItemFrame
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.PaymentEditViewModel
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PaymentSelectScreen(
+    selectTarget: NavContract.SelectTarget,
     sharedViewModel: PaymentEditViewModel,
     viewModel: PaymentSelectViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
@@ -41,7 +43,7 @@ fun PaymentSelectScreen(
         onClickBack = onClickBack,
         onClickSelect = {
             viewModel.onClickSelect()?.let {
-                sharedViewModel.onPaymentSelected(it)
+                sharedViewModel.onPaymentSelected(selectTarget, it)
                 onClickBack()
             }
         }

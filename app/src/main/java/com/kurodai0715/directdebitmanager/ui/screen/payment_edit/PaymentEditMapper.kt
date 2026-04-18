@@ -27,3 +27,14 @@ fun PaymentEditUiState.toDomain(): Payment {
             )
     }
 }
+
+fun Payment.Persisted.toUiPayee(): PaymentEditUiState.Payee {
+    return PaymentEditUiState.Payee(
+        id = id.value,
+        name = name.value,
+    )
+}
+
+fun List<Payment.Persisted>.toUiPayees(): List<PaymentEditUiState.Payee> {
+    return map { it.toUiPayee() }
+}
