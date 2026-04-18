@@ -4,13 +4,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -87,7 +90,8 @@ fun PaymentEditScreen(
             onClickPayer = { viewModel.onClickPayer() },
             payerNameMessage = uiState.payer.messageRes,
             payees = uiState.payees,
-            onClickPayee = { TODO() }
+            onClickPayee = { TODO() },
+            onClickAddPayee = { TODO() },
         )
     }
 }
@@ -105,6 +109,7 @@ fun TransferRelationEditContents(
     payerNameMessage: Int?,
     payees: List<PaymentEditUiState.Payee>,
     onClickPayee: (Int) -> Unit,
+    onClickAddPayee: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
@@ -117,7 +122,8 @@ fun TransferRelationEditContents(
                 onClickPayer = onClickPayer,
                 payerNameMessage = payerNameMessage,
                 payees = payees,
-                onClickPayee = onClickPayee
+                onClickPayee = onClickPayee,
+                onClickAddPayee = onClickAddPayee
             )
         },
         bottomButton = {
@@ -147,6 +153,7 @@ fun Contents(
     payerNameMessage: Int?,
     payees: List<PaymentEditUiState.Payee>,
     onClickPayee: (Int) -> Unit,
+    onClickAddPayee: () -> Unit,
 ) {
     Column {
         EditableForm(
@@ -167,16 +174,19 @@ fun Contents(
             onClickIcon = onClickPayer,
         )
 
-        Payees(payees = payees, onClickPayee = onClickPayee)
+        Payees(
+            payees = payees, onClickPayee = onClickPayee, onClickAddPayee = onClickAddPayee
+        )
     }
 }
 
 @Composable
 fun Payees(
     payees: List<PaymentEditUiState.Payee>,
-    onClickPayee: (Int) -> Unit
+    onClickPayee: (Int) -> Unit,
+    onClickAddPayee: () -> Unit,
 ) {
-    LazyColumn {
+    LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
         items(payees.size) { index ->
             ReadOnlyForm(
                 labelText = stringResource(R.string.payee_name_label, index + 1),
@@ -187,6 +197,12 @@ fun Payees(
                 iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
                 onClickIcon = { onClickPayee(index) },
             )
+        }
+
+        item {
+            Button(onClick = { debouncedClick { onClickAddPayee() } }) {
+                Text(text = stringResource(R.string.add_payee))
+            }
         }
     }
 }
@@ -208,6 +224,7 @@ private fun Preview() {
             PaymentEditUiState.Payee(name = "テスト支払先2"),
             PaymentEditUiState.Payee(name = "テスト支払先3"),
         ),
-        onClickPayee = {}
+        onClickPayee = {},
+        onClickAddPayee = {},
     )
 }
