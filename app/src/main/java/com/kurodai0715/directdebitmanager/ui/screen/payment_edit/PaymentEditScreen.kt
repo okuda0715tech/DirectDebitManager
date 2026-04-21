@@ -171,7 +171,7 @@ fun Contents(
             onClickText = onClickPayer,
             supportingText = payerNameMessage,
             icon = painterResource(id = R.drawable.outline_arrow_right_24),
-            iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
+            iconDescription = stringResource(id = R.string.detach_payee_icon_description),
             onClickIcon = onClickPayer,
         )
 
@@ -197,8 +197,8 @@ fun Payees(
                 text = payees[index].name,
                 onClickText = { onClickPayee(index) },
                 supportingText = payees[index].messageRes,
-                icon = painterResource(id = R.drawable.outline_arrow_right_24),
-                iconDescription = stringResource(id = R.string.open_payment_list_screen_icon_description),
+                icon = painterResource(id = R.drawable.outline_conversion_path_off_24),
+                iconDescription = stringResource(id = R.string.detach_payee_icon_description),
                 onClickIcon = { onClickPayee(index) },
             )
         }
