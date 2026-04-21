@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -186,7 +187,10 @@ fun Payees(
     onClickPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
-    LazyColumn(horizontalAlignment = Alignment.CenterHorizontally) {
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         items(payees.size) { index ->
             ReadOnlyForm(
                 labelText = stringResource(R.string.payee_name_label, index + 1),
