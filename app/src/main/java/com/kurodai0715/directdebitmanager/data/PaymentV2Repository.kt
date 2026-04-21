@@ -1,6 +1,7 @@
 package com.kurodai0715.directdebitmanager.data
 
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import kotlinx.coroutines.flow.Flow
 
 interface PaymentV2Repository {
@@ -11,8 +12,6 @@ interface PaymentV2Repository {
 
     suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>?
 
-    suspend fun createPayment(label: String, parentId: Int? = null): Boolean
-
-    suspend fun updatePayment(id: Int, label: String, parentId: Int? = null): Boolean
+    suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult
 
 }

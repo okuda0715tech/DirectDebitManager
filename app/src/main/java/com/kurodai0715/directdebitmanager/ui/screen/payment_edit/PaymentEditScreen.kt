@@ -34,7 +34,7 @@ fun PaymentEditScreen(
     viewModel: PaymentEditViewModel,
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
-    onClickPayee: () -> Unit,
+    onClickAddPayee: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -74,7 +74,7 @@ fun PaymentEditScreen(
 
                     PaymentEditUiEvent.OnClickPayer -> onClickPayer()
 
-                    PaymentEditUiEvent.OnClickPayee -> onClickPayee()
+                    PaymentEditUiEvent.OnClickAddPayee -> onClickAddPayee()
                 }
             }
         }
@@ -91,7 +91,7 @@ fun PaymentEditScreen(
             payerNameMessage = uiState.payer.messageRes,
             payees = uiState.payees,
             onClickPayee = { TODO() },
-            onClickAddPayee = { TODO() },
+            onClickAddPayee = { viewModel.onClickAddPayee() },
         )
     }
 }

@@ -3,7 +3,7 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
@@ -55,7 +55,7 @@ sealed class PaymentEditUiEvent {
     data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
     data object OnClickBack : PaymentEditUiEvent()
     data object OnClickPayer : PaymentEditUiEvent()
-    data object OnClickPayee : PaymentEditUiEvent()
+    data object OnClickAddPayee : PaymentEditUiEvent()
 }
 
 @HiltViewModel
@@ -134,9 +134,12 @@ class PaymentEditViewModel @Inject constructor(
 
     fun save() {
         viewModelScope.launch {
-            val payment = uiState.value.toDomain()
+            val aggregate = PaymentAggregate(
+                payment = uiState.value.paymentToDomain(),
+                payees = uiState.value.payees.toDomain(),
+            )
 
-            val result = savePayment(payment)
+            val result = savePayments(aggregate)
 
             when (result) {
                 SaveResult.Succeeded -> {
@@ -149,14 +152,14 @@ class PaymentEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun savePayment(payment: Payment): SaveResult {
-        return paymentCommandUseCase.savePayment(payment)
+    private suspend fun savePayments(aggregate: PaymentAggregate): SaveResult {
+        return paymentCommandUseCase.savePayments(aggregate)
     }
 
     fun onPaymentSelected(target: NavContract.SelectTarget, id: Int) {
         when (target) {
             NavContract.SelectTarget.Payer -> loadPayer(id)
-            NavContract.SelectTarget.Payee -> TODO()
+            NavContract.SelectTarget.Payee -> addPayee(id)
         }
     }
 
@@ -168,6 +171,19 @@ class PaymentEditViewModel @Inject constructor(
                 PaymentEditUiState.Payer(
                     id = id,
                     name = payerName,
+                )
+            }
+        }
+    }
+
+    private fun addPayee(id: Int) {
+        viewModelScope.launch {
+            val payeeName = paymentQueryUseCase.loadPaymentNameBy(id)
+
+            payees.update {
+                it + PaymentEditUiState.Payee(
+                    id = id,
+                    name = payeeName,
                 )
             }
         }
@@ -195,9 +211,9 @@ class PaymentEditViewModel @Inject constructor(
         }
     }
 
-    fun onClickPayee() {
+    fun onClickAddPayee() {
         viewModelScope.launch {
-            _eventChannel.send(PaymentEditUiEvent.OnClickPayee)
+            _eventChannel.send(PaymentEditUiEvent.OnClickAddPayee)
         }
     }
 }

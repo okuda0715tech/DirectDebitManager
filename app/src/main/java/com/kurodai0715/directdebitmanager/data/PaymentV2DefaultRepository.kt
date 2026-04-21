@@ -1,9 +1,14 @@
 package com.kurodai0715.directdebitmanager.data
 
 import android.util.Log
+import androidx.room.withTransaction
+import com.kurodai0715.directdebitmanager.data.source.local.AppDatabase
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
+import com.kurodai0715.directdebitmanager.domain.model.PayerId
+import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -12,6 +17,7 @@ import javax.inject.Inject
 private const val TAG = "PaymentV2DefaultRepository.kt"
 
 class PaymentV2DefaultRepository @Inject constructor(
+    private val db: AppDatabase,
     private val localDataSource: PaymentV2Dao,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : PaymentV2Repository {
@@ -28,57 +34,68 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.loadChildItemsBy(parentId)
     }
 
-    override suspend fun createPayment(
-        label: String,
-        parentId: Int?,
-    ): Boolean {
-        var resultSuccess: Boolean
-        withContext(ioDispatcher) {
-            resultSuccess = try {
-                localDataSource.upsertPayment(
-                    PaymentEntityV2(
-                        label = label,
-                        parentId = parentId,
-                    )
-                )
-                true
+    override suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult {
+
+        return withContext(ioDispatcher) {
+            try {
+                db.withTransaction {
+                    val paymentId = when (val payment = aggregate.payment) {
+                        is Payment.Persisted -> {
+                            updatePayment(payment)
+                            payment.id.value
+                        }
+
+                        is Payment.InMemory -> {
+                            createPayment(payment)
+                        }
+                    }
+
+                    aggregate.payees.forEach {
+                        updatePayment(
+                            it.copy(
+                                payerId = PayerId.of(paymentId),
+                            )
+                        )
+                    }
+                }
+
+                RepositoryResult.Success
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
-                false
+                RepositoryResult.Failure(e)
             }
-            Log.d(TAG, "resultSuccess = $resultSuccess")
         }
-        return resultSuccess
     }
 
-    override suspend fun updatePayment(
-        id: Int,
-        label: String,
-        parentId: Int?,
-    ): Boolean {
-        var resultSuccess: Boolean
-        withContext(ioDispatcher) {
-            val item = localDataSource.loadItemBy(id)
-            if (item == null) {
-                resultSuccess = false
-                return@withContext
-            }
-
-            resultSuccess = try {
-                localDataSource.upsertPayment(
-                    item.copy(
-                        id = id,
-                        label = label,
-                        parentId = parentId,
-                    )
+    private suspend fun createPayment(
+        payment: Payment.InMemory
+    ): Int {
+        return withContext(ioDispatcher) {
+            localDataSource.insertPayment(
+                PaymentEntityV2(
+                    label = payment.name.value,
+                    parentId = payment.payerId.value,
                 )
-                true
-            } catch (e: Exception) {
-                Log.e(TAG, "$e")
-                false
-            }
-            Log.d(TAG, "resultSuccess = $resultSuccess")
+            ).toInt()
         }
-        return resultSuccess
+    }
+
+    private suspend fun updatePayment(
+        payment: Payment.Persisted
+    ) {
+        withContext(ioDispatcher) {
+            val item = localDataSource.loadItemBy(payment.id.value)
+                ?: throw IllegalStateException(
+                    "item is not found whose id = ${payment.id.value}."
+                )
+
+            localDataSource.updatePayment(
+                item.copy(
+                    id = payment.id.value,
+                    label = payment.name.value,
+                    parentId = payment.payerId.valueOrZero,
+                )
+            )
+        }
     }
 }

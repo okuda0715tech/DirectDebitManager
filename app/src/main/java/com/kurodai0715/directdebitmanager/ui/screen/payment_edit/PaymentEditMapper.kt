@@ -5,7 +5,7 @@ import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentName
 
-fun PaymentEditUiState.toDomain(): Payment {
+fun PaymentEditUiState.paymentToDomain(): Payment {
     val name = PaymentName.of(payment.name)
 
     val payerId = payer.id // or 別管理
@@ -26,6 +26,17 @@ fun PaymentEditUiState.toDomain(): Payment {
                 payerId = payerId,
             )
     }
+}
+
+fun PaymentEditUiState.Payee.toDomain(): Payment.Persisted {
+    return Payment.Persisted(
+        id = PaymentId.of(id!!),
+        name = PaymentName.of(name),
+    )
+}
+
+fun List<PaymentEditUiState.Payee>.toDomain(): List<Payment.Persisted> {
+    return map { it.toDomain() }
 }
 
 fun Payment.Persisted.toUiPayee(): PaymentEditUiState.Payee {
