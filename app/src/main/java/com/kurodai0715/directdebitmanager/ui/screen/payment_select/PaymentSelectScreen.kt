@@ -84,23 +84,15 @@ private fun Contents(
         is PaymentSelectUiState.Success -> {
             LazyColumn {
                 items(uiState.payments) { item ->
-                    ListItem(
+                    DefaultListItemFrame(
                         isSelected = uiState.isSelected(item.id),
-                        item = item,
-                        onClickItem = { onClickItem(item) })
+                        label = item.name,
+                        onClickItem = { onClickItem(item) }
+                    )
                 }
             }
         }
     }
-}
-
-@Composable
-fun ListItem(
-    isSelected: Boolean,
-    item: PaymentSelectUiState.Success.Item,
-    onClickItem: () -> Unit
-) {
-    DefaultListItemFrame(isSelected = isSelected, label = item.name, onClickItem = onClickItem)
 }
 
 @Preview(name = "PaymentSelectContents")
