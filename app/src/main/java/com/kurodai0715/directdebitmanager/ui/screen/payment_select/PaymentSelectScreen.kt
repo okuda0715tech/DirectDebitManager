@@ -109,7 +109,7 @@ fun ListItem(
     item: PaymentSelectUiState.Success.Item,
     onClickItem: () -> Unit
 ) {
-    DefaultListItemFrame(onClickItem = onClickItem) {
+    DefaultListItemFrame(isSelected = isSelected, onClickItem = onClickItem) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -123,7 +123,7 @@ fun ListItem(
                     modifier = Modifier
                         .size(ICON_LARGE_SIZE)
                         .clickable(onClick = { debouncedClick(onClickItem) }),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
                 )
             }
         }

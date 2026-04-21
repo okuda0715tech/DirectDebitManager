@@ -19,6 +19,7 @@ private const val TAG = "ListItemFrame"
 @Composable
 fun DefaultListItemFrame(
     modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
     onClickItem: () -> Unit,
     contents: @Composable () -> Unit
 ) {
@@ -26,7 +27,13 @@ fun DefaultListItemFrame(
         modifier = modifier
             .padding(vertical = LayoutTokens.itemSpacingHalf)
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceContainerLow)
+            .background(
+                if (isSelected) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainerLow
+                }
+            )
             .clickable(onClick = {
                 Log.v(TAG, "list item is clicked.")
                 debouncedClick(onClickItem)
