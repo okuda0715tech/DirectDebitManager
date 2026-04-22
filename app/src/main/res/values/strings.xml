@@ -59,6 +59,7 @@
     <string name="payer_name_label">支払元</string>
     <string name="payee_name_label">支払先%1$d</string>
     <string name="add_payee">支払先を追加</string>
+    <string name="detach_payer_icon_description">支払元とのリンクを切り離すアイコン</string>
     <string name="detach_payee_icon_description">支払先とのリンクを切り離すアイコン</string>
 
     <!-- 支払情報 選択 画面 -->

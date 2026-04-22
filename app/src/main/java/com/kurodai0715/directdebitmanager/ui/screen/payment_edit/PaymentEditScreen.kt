@@ -170,7 +170,7 @@ fun Contents(
             text = payerName,
             onClickText = onClickPayer,
             supportingText = payerNameMessage,
-            icon = painterResource(id = R.drawable.outline_arrow_right_24),
+            icon = painterResource(id = R.drawable.outline_conversion_path_off_24),
             iconDescription = stringResource(id = R.string.detach_payee_icon_description),
             onClickIcon = onClickPayer,
         )
