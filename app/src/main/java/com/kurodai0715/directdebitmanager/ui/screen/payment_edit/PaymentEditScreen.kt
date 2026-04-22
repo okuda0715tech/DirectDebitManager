@@ -1,11 +1,15 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -26,6 +30,8 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -176,7 +182,9 @@ fun Contents(
         )
 
         Payees(
-            payees = payees, onClickDetachPayee = onClickDetachPayee, onClickAddPayee = onClickAddPayee
+            payees = payees,
+            onClickDetachPayee = onClickDetachPayee,
+            onClickAddPayee = onClickAddPayee
         )
     }
 }
@@ -205,6 +213,13 @@ fun Payees(
 
         item {
             Button(onClick = { debouncedClick { onClickAddPayee() } }) {
+                Icon(
+                    painter = painterResource(R.drawable.outline_add_link_24),
+                    contentDescription = stringResource(R.string.add_payee_button_icon_description),
+                    modifier = Modifier.size(ICON_LARGE_SIZE),
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                )
+                Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
                 Text(text = stringResource(R.string.add_payee))
             }
         }
