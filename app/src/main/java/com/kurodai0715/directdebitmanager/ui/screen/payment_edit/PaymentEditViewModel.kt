@@ -45,7 +45,7 @@ data class PaymentEditUiState(
     )
 
     data class Payee(
-        val id: Int? = null,
+        val id: Int,
         val name: String = "",
         val messageRes: Int? = null,
     )
@@ -186,6 +186,12 @@ class PaymentEditViewModel @Inject constructor(
                     name = payeeName,
                 )
             }
+        }
+    }
+
+    fun removePayee(id: Int) {
+        payees.update { current ->
+            current.filter { it.id != id }
         }
     }
 

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -97,7 +98,7 @@ fun PaymentEditScreen(
             onClickPayer = { viewModel.onClickPayer() },
             payerNameMessage = uiState.payer.messageRes,
             payees = uiState.payees,
-            onClickDetachPayee = { TODO() },
+            onClickDetachPayee = { viewModel.removePayee(it) },
             onClickAddPayee = { viewModel.onClickAddPayee() },
         )
     }
@@ -199,15 +200,15 @@ fun Payees(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        items(payees.size) { index ->
+        itemsIndexed(payees) { index, payee ->
             ReadOnlyForm(
                 labelText = stringResource(R.string.payee_name_label, index + 1),
-                text = payees[index].name,
-                onClickText = { onClickDetachPayee(index) },
-                supportingText = payees[index].messageRes,
+                text = payee.name,
+                onClickText = { onClickDetachPayee(payee.id) },
+                supportingText = payee.messageRes,
                 icon = painterResource(id = R.drawable.outline_link_off_24),
                 iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-                onClickIcon = { onClickDetachPayee(index) },
+                onClickIcon = { onClickDetachPayee(payee.id) },
             )
         }
 
@@ -239,9 +240,9 @@ private fun Preview() {
         onClickPayer = {},
         payerNameMessage = null,
         payees = listOf(
-            PaymentEditUiState.Payee(name = "テスト支払先1"),
-            PaymentEditUiState.Payee(name = "テスト支払先2"),
-            PaymentEditUiState.Payee(name = "テスト支払先3"),
+            PaymentEditUiState.Payee(id = 1, name = "テスト支払先1"),
+            PaymentEditUiState.Payee(id = 2, name = "テスト支払先2"),
+            PaymentEditUiState.Payee(id = 3, name = "テスト支払先3"),
         ),
         onClickDetachPayee = {},
         onClickAddPayee = {},
