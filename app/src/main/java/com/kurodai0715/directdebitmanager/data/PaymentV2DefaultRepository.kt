@@ -39,24 +39,11 @@ class PaymentV2DefaultRepository @Inject constructor(
         return withContext(ioDispatcher) {
             try {
                 db.withTransaction {
-                    val paymentId = when (val payment = aggregate.payment) {
-                        is Payment.Persisted -> {
-                            updatePayment(payment)
-                            payment.id.value
-                        }
+                    val paymentId = upsertPayment(aggregate)
 
-                        is Payment.InMemory -> {
-                            createPayment(payment)
-                        }
-                    }
+                    rootDetachedPayees(paymentId, aggregate)
 
-                    aggregate.payees.forEach {
-                        updatePayment(
-                            it.copy(
-                                payerId = PayerId.of(paymentId),
-                            )
-                        )
-                    }
+                    updatePayeesParentId(aggregate, paymentId)
                 }
 
                 RepositoryResult.Success
@@ -65,6 +52,52 @@ class PaymentV2DefaultRepository @Inject constructor(
                 RepositoryResult.Failure(e)
             }
         }
+    }
+
+    /**
+     * 支払情報を更新または新規作成する.
+     */
+    private suspend fun upsertPayment(aggregate: PaymentAggregate): Int =
+        when (val payment = aggregate.payment) {
+            is Payment.Persisted -> {
+                updatePayment(payment)
+                payment.id.value
+            }
+
+            is Payment.InMemory -> {
+                createPayment(payment)
+            }
+        }
+
+    /**
+     * 支払先の parentId を更新する.
+     */
+    private suspend fun updatePayeesParentId(
+        aggregate: PaymentAggregate,
+        paymentId: Int
+    ) {
+        aggregate.payees.forEach {
+            updatePayment(
+                it.copy(
+                    payerId = PayerId.of(paymentId),
+                )
+            )
+        }
+    }
+
+    /**
+     * リンクを解除された支払先の parentId を 0 で更新する.
+     */
+    private suspend fun rootDetachedPayees(
+        paymentId: Int,
+        aggregate: PaymentAggregate
+    ) {
+        val currentPayees = loadChildItemsBy(paymentId)
+        val currentIds = currentPayees?.map { it.id }?.toSet()
+        val newIds = aggregate.payees.map { it.id.value }.toSet()
+        val detachedIds = currentIds?.minus(newIds)
+
+        detachedIds?.let { localDataSource.rootParentIds(detachedIds) }
     }
 
     private suspend fun createPayment(

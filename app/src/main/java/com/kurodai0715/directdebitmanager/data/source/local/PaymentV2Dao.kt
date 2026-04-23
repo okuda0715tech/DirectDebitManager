@@ -24,4 +24,7 @@ interface PaymentV2Dao {
     @Update
     suspend fun updatePayment(payment: PaymentEntityV2)
 
+    @Query("UPDATE payment_v2 SET parentId = 0 WHERE id IN (:ids)")
+    suspend fun rootParentIds(ids: Set<Int>)
+
 }
