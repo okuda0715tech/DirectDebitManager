@@ -163,7 +163,10 @@ fun Contents(
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
-    Column {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         EditableForm(
             labelText = stringResource(R.string.payment_name_label),
             text = paymentName,
@@ -181,6 +184,17 @@ fun Contents(
             iconDescription = stringResource(id = R.string.detach_payee_icon_description),
             onClickIcon = onClickPayer,
         )
+
+        Button(onClick = { debouncedClick { TODO() } }) {
+            Icon(
+                painter = painterResource(R.drawable.outline_add_link_24),
+                contentDescription = stringResource(R.string.add_payer_button_icon_description),
+                modifier = Modifier.size(ICON_LARGE_SIZE),
+                tint = MaterialTheme.colorScheme.onPrimary,
+            )
+            Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
+            Text(text = stringResource(R.string.add_payer))
+        }
 
         Payees(
             payees = payees,
