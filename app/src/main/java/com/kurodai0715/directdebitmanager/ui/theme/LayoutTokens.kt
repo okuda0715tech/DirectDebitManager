@@ -6,6 +6,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.elementSpacing
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.itemSpacing
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.screenPadding
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.sectionSpacing
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens.smallSectionSpacing
 
 object LayoutTokens {
 
@@ -38,6 +39,20 @@ object LayoutTokens {
      */
     val itemSpacingHalf: Dp
         @Composable get() = itemSpacing / 2
+
+    /**
+     * 小さなセクションとセクションの間の余白.
+     *
+     * 具体例 : カードとカードの間など。
+     */
+    val smallSectionSpacing: Dp
+        @Composable get() = Spacing.m
+
+    /**
+     * [smallSectionSpacing] の半分の余白.
+     */
+    val smallSectionSpacingHalf: Dp
+        @Composable get() = smallSectionSpacing / 2
 
     /**
      * 大きめのセクションとセクションの間の余白.
