@@ -24,7 +24,7 @@ private const val TAG = "PaymentEditViewModel.kt"
 
 data class PaymentEditUiState(
     val payment: Payment = Payment(),
-    val payer: Payer = Payer(),
+    val payer: Payer = Payer.Unassigned,
     val payees: List<Payee> = mutableListOf(),
 ) {
     data class Payment(
@@ -38,11 +38,14 @@ data class PaymentEditUiState(
         }
     }
 
-    data class Payer(
-        val id: Int? = null,
-        val name: String = "",
-        val messageRes: Int? = null,
-    )
+    sealed interface Payer {
+        data object Unassigned : Payer
+        data class Assigned(
+            val id: Int,
+            val name: String = "",
+            val messageRes: Int? = null,
+        ) : Payer
+    }
 
     data class Payee(
         val id: Int,
@@ -69,7 +72,8 @@ class PaymentEditViewModel @Inject constructor(
      */
     private val payment = MutableStateFlow(PaymentEditUiState.Payment())
 
-    private val payer = MutableStateFlow(PaymentEditUiState.Payer())
+    private val payer: MutableStateFlow<PaymentEditUiState.Payer> =
+        MutableStateFlow(PaymentEditUiState.Payer.Unassigned)
 
     private val payees = MutableStateFlow<List<PaymentEditUiState.Payee>>(emptyList())
 
@@ -168,7 +172,7 @@ class PaymentEditViewModel @Inject constructor(
             val payerName = paymentQueryUseCase.loadPaymentNameBy(id)
 
             payer.update {
-                PaymentEditUiState.Payer(
+                PaymentEditUiState.Payer.Assigned(
                     id = id,
                     name = payerName,
                 )

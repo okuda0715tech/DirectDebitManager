@@ -8,9 +8,10 @@ import com.kurodai0715.directdebitmanager.domain.model.PaymentName
 fun PaymentEditUiState.paymentToDomain(): Payment {
     val name = PaymentName.of(payment.name)
 
-    val payerId = payer.id // or 別管理
-        ?.let { PayerId.of(it) }
-        ?: PayerId.NONE
+    val payerId = when (payer) {
+        is PaymentEditUiState.Payer.Unassigned -> PayerId.NONE
+        is PaymentEditUiState.Payer.Assigned -> PayerId.of(payer.id)
+    }
 
     return when (val paymentId = payment.id) {
         is PaymentEditUiState.Payment.Id.Unassigned ->
@@ -30,7 +31,7 @@ fun PaymentEditUiState.paymentToDomain(): Payment {
 
 fun PaymentEditUiState.Payee.toDomain(): Payment.Persisted {
     return Payment.Persisted(
-        id = PaymentId.of(id!!),
+        id = PaymentId.of(id),
         name = PaymentName.of(name),
     )
 }
