@@ -228,7 +228,7 @@ fun Payees(
             ReadOnlyForm(
                 labelText = stringResource(R.string.payee_name_label, index + 1),
                 text = payee.name,
-                onClickText = { onClickDetachPayee(payee.id) },
+                onClickText = {},
                 supportingText = payee.messageRes,
                 icon = painterResource(id = R.drawable.outline_link_off_24),
                 iconDescription = stringResource(id = R.string.detach_payee_icon_description),
