@@ -1,7 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -172,57 +171,11 @@ fun Contents(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.surfaceContainer)
-                .padding(LayoutTokens.itemSpacing)
-        ) {
-            EditableForm(
-                labelText = stringResource(R.string.payment_name_label),
-                text = paymentName,
-                onTextChanged = onPaymentNameChanged,
-                supportingText = paymentNameMessage,
-                onClickClear = { onPaymentNameChanged("") }
-            )
-        }
+        Payment(paymentName, onPaymentNameChanged, paymentNameMessage)
 
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.surfaceContainer)
-                .padding(LayoutTokens.itemSpacing)
-        ) {
-            when (payer) {
-                is PaymentEditUiState.Payer.Unassigned -> {
-                    Button(onClick = { debouncedClick { onClickAddPayer() } }) {
-                        Icon(
-                            painter = painterResource(R.drawable.outline_add_link_24),
-                            contentDescription = stringResource(R.string.add_payer_button_icon_description),
-                            modifier = Modifier.size(ICON_LARGE_SIZE),
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                        )
-                        Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
-                        Text(text = stringResource(R.string.add_payer))
-                    }
-
-                }
-
-                is PaymentEditUiState.Payer.Assigned -> {
-                    ReadOnlyForm(
-                        labelText = stringResource(R.string.payer_name_label),
-                        text = payer.name,
-                        onClickText = {},
-                        supportingText = payer.messageRes,
-                        icon = painterResource(id = R.drawable.outline_link_off_24),
-                        iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-                        onClickIcon = onClickDetachPayer,
-                    )
-                }
-            }
-        }
+        Payer(payer, onClickAddPayer, onClickDetachPayer)
 
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
 
@@ -231,6 +184,72 @@ fun Contents(
             onClickDetachPayee = onClickDetachPayee,
             onClickAddPayee = onClickAddPayee
         )
+    }
+}
+
+@Composable
+private fun Payment(
+    paymentName: String,
+    onPaymentNameChanged: (String) -> Unit,
+    paymentNameMessage: Int?
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.surfaceContainer)
+            .padding(LayoutTokens.itemSpacing),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        EditableForm(
+            labelText = stringResource(R.string.payment_name_label),
+            text = paymentName,
+            onTextChanged = onPaymentNameChanged,
+            supportingText = paymentNameMessage,
+            onClickClear = { onPaymentNameChanged("") }
+        )
+    }
+}
+
+@Composable
+private fun Payer(
+    payer: PaymentEditUiState.Payer,
+    onClickAddPayer: () -> Unit,
+    onClickDetachPayer: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.surfaceContainer)
+            .padding(LayoutTokens.itemSpacing),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        when (payer) {
+            is PaymentEditUiState.Payer.Unassigned -> {
+                Button(onClick = { debouncedClick { onClickAddPayer() } }) {
+                    Icon(
+                        painter = painterResource(R.drawable.outline_add_link_24),
+                        contentDescription = stringResource(R.string.add_payer_button_icon_description),
+                        modifier = Modifier.size(ICON_LARGE_SIZE),
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                    )
+                    Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
+                    Text(text = stringResource(R.string.add_payer))
+                }
+
+            }
+
+            is PaymentEditUiState.Payer.Assigned -> {
+                ReadOnlyForm(
+                    labelText = stringResource(R.string.payer_name_label),
+                    text = payer.name,
+                    onClickText = {},
+                    supportingText = payer.messageRes,
+                    icon = painterResource(id = R.drawable.outline_link_off_24),
+                    iconDescription = stringResource(id = R.string.detach_payee_icon_description),
+                    onClickIcon = onClickDetachPayer,
+                )
+            }
+        }
     }
 }
 
