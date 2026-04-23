@@ -194,7 +194,11 @@ class PaymentEditViewModel @Inject constructor(
         }
     }
 
-    fun removePayee(id: Int) {
+    fun onClickDetachPayee(id: Int) {
+        removePayee(id)
+    }
+
+    private fun removePayee(id: Int) {
         payees.update { current ->
             current.filter { it.id != id }
         }

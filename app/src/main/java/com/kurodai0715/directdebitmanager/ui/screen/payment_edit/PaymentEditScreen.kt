@@ -101,7 +101,7 @@ fun PaymentEditScreen(
             onClickDetachPayer = { viewModel.onClickDetachPayer() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
             payees = uiState.payees,
-            onClickDetachPayee = { viewModel.removePayee(it) },
+            onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
             onClickAddPayee = { viewModel.onClickAddPayee() },
         )
     }
