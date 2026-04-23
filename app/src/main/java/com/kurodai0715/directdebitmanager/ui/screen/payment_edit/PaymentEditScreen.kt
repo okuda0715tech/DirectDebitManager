@@ -98,7 +98,7 @@ fun PaymentEditScreen(
             onPaymentNameChanged = { viewModel.updatePaymentName(it) },
             paymentNameMessage = uiState.payment.messageRes,
             payer = uiState.payer,
-            onClickPayer = { viewModel.onClickPayer() },
+            onClickDetachPayer = { viewModel.onClickDetachPayer() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
             payees = uiState.payees,
             onClickDetachPayee = { viewModel.removePayee(it) },
@@ -116,7 +116,7 @@ fun TransferRelationEditContents(
     onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?,
     payer: PaymentEditUiState.Payer,
-    onClickPayer: () -> Unit,
+    onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
     payees: List<PaymentEditUiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
@@ -130,7 +130,7 @@ fun TransferRelationEditContents(
                 onPaymentNameChanged = onPaymentNameChanged,
                 paymentNameMessage = paymentNameMessage,
                 payer = payer,
-                onClickPayer = onClickPayer,
+                onClickDetachPayer = onClickDetachPayer,
                 onClickAddPayer = onClickAddPayer,
                 payees = payees,
                 onClickDetachPayee = onClickDetachPayee,
@@ -160,7 +160,7 @@ fun Contents(
     onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?,
     payer: PaymentEditUiState.Payer,
-    onClickPayer: () -> Unit,
+    onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
     payees: List<PaymentEditUiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
@@ -197,11 +197,11 @@ fun Contents(
                 ReadOnlyForm(
                     labelText = stringResource(R.string.payer_name_label),
                     text = payer.name,
-                    onClickText = onClickPayer,
+                    onClickText = {},
                     supportingText = payer.messageRes,
                     icon = painterResource(id = R.drawable.outline_link_off_24),
                     iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-                    onClickIcon = onClickPayer,
+                    onClickIcon = onClickDetachPayer,
                 )
             }
         }
@@ -264,7 +264,7 @@ private fun Preview() {
             id = 1,
             name = "三井住友銀行",
         ),
-        onClickPayer = {},
+        onClickDetachPayer = {},
         onClickAddPayer = {},
         payees = listOf(
             PaymentEditUiState.Payee(id = 1, name = "電気料金"),

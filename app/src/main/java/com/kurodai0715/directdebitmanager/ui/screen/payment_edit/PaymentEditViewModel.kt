@@ -216,10 +216,12 @@ class PaymentEditViewModel @Inject constructor(
         }
     }
 
-    fun onClickPayer() {
-        viewModelScope.launch {
-            _eventChannel.send(PaymentEditUiEvent.OnClickPayer)
-        }
+    fun onClickDetachPayer() {
+        removePayer()
+    }
+
+    private fun removePayer() {
+        payer.update { PaymentEditUiState.Payer.Unassigned }
     }
 
     fun onClickAddPayer() {
