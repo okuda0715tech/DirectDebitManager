@@ -42,6 +42,7 @@ fun PaymentEditScreen(
     viewModel: PaymentEditViewModel,
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
+    onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -82,6 +83,8 @@ fun PaymentEditScreen(
 
                     PaymentEditUiEvent.OnClickPayer -> onClickPayer()
 
+                    PaymentEditUiEvent.OnClickAddPayer -> onClickAddPayer()
+
                     PaymentEditUiEvent.OnClickAddPayee -> onClickAddPayee()
                 }
             }
@@ -96,6 +99,7 @@ fun PaymentEditScreen(
             paymentNameMessage = uiState.payment.messageRes,
             payer = uiState.payer,
             onClickPayer = { viewModel.onClickPayer() },
+            onClickAddPayer = { viewModel.onClickAddPayer() },
             payees = uiState.payees,
             onClickDetachPayee = { viewModel.removePayee(it) },
             onClickAddPayee = { viewModel.onClickAddPayee() },
@@ -113,6 +117,7 @@ fun TransferRelationEditContents(
     paymentNameMessage: Int?,
     payer: PaymentEditUiState.Payer,
     onClickPayer: () -> Unit,
+    onClickAddPayer: () -> Unit,
     payees: List<PaymentEditUiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
@@ -126,6 +131,7 @@ fun TransferRelationEditContents(
                 paymentNameMessage = paymentNameMessage,
                 payer = payer,
                 onClickPayer = onClickPayer,
+                onClickAddPayer = onClickAddPayer,
                 payees = payees,
                 onClickDetachPayee = onClickDetachPayee,
                 onClickAddPayee = onClickAddPayee
@@ -155,6 +161,7 @@ fun Contents(
     paymentNameMessage: Int?,
     payer: PaymentEditUiState.Payer,
     onClickPayer: () -> Unit,
+    onClickAddPayer: () -> Unit,
     payees: List<PaymentEditUiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
@@ -173,7 +180,7 @@ fun Contents(
 
         when (payer) {
             is PaymentEditUiState.Payer.Unassigned -> {
-                Button(onClick = { debouncedClick { TODO() } }) {
+                Button(onClick = { debouncedClick { onClickAddPayer() } }) {
                     Icon(
                         painter = painterResource(R.drawable.outline_add_link_24),
                         contentDescription = stringResource(R.string.add_payer_button_icon_description),
@@ -258,8 +265,9 @@ private fun Preview() {
             name = "三井住友銀行",
         ),
         onClickPayer = {},
+        onClickAddPayer = {},
         payees = listOf(
-            PaymentEditUiState.Payee(id = 1, name = "でんきりょう"),
+            PaymentEditUiState.Payee(id = 1, name = "電気料金"),
             PaymentEditUiState.Payee(id = 2, name = "水道料金"),
             PaymentEditUiState.Payee(id = 3, name = "ガス料金"),
         ),

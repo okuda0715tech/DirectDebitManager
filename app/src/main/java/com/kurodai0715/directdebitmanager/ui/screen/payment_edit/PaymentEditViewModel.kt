@@ -58,6 +58,7 @@ sealed class PaymentEditUiEvent {
     data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
     data object OnClickBack : PaymentEditUiEvent()
     data object OnClickPayer : PaymentEditUiEvent()
+    data object OnClickAddPayer : PaymentEditUiEvent()
     data object OnClickAddPayee : PaymentEditUiEvent()
 }
 
@@ -122,7 +123,7 @@ class PaymentEditViewModel @Inject constructor(
             }
 
             if (loadedPayment.payerId.isValid)
-                loadPayer(loadedPayment.payerId.value)
+                addPayer(loadedPayment.payerId.value)
 
             loadPayees(loadedPayment.id.value)
         }
@@ -162,12 +163,12 @@ class PaymentEditViewModel @Inject constructor(
 
     fun onPaymentSelected(target: NavContract.SelectTarget, id: Int) {
         when (target) {
-            NavContract.SelectTarget.Payer -> loadPayer(id)
+            NavContract.SelectTarget.Payer -> addPayer(id)
             NavContract.SelectTarget.Payee -> addPayee(id)
         }
     }
 
-    private fun loadPayer(id: Int) {
+    private fun addPayer(id: Int) {
         viewModelScope.launch {
             val payerName = paymentQueryUseCase.loadPaymentNameBy(id)
 
@@ -218,6 +219,12 @@ class PaymentEditViewModel @Inject constructor(
     fun onClickPayer() {
         viewModelScope.launch {
             _eventChannel.send(PaymentEditUiEvent.OnClickPayer)
+        }
+    }
+
+    fun onClickAddPayer() {
+        viewModelScope.launch {
+            _eventChannel.send(PaymentEditUiEvent.OnClickAddPayer)
         }
     }
 

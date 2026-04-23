@@ -193,6 +193,11 @@ fun AppNavGraph(
                             NavContract.SelectTarget.Payer
                         )
                     },
+                    onClickAddPayer = {
+                        navController.navigateToPaymentSelect(
+                            NavContract.SelectTarget.Payer
+                        )
+                    },
                     onClickAddPayee = {
                         navController.navigateToPaymentSelect(
                             NavContract.SelectTarget.Payee
