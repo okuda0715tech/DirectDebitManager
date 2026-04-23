@@ -275,3 +275,21 @@ private fun Preview() {
         onClickAddPayee = {},
     )
 }
+
+@Preview(name = "TransferRelationEditContents")
+@Composable
+private fun NoPayerNoPayeePreview() {
+    TransferRelationEditContents(
+        onClickBack = {},
+        onClickSave = {},
+        paymentName = "リクルートカードプラス",
+        onPaymentNameChanged = {},
+        paymentNameMessage = null,
+        payer = PaymentEditUiState.Payer.Unassigned,
+        onClickDetachPayer = {},
+        onClickAddPayer = {},
+        payees = listOf(),
+        onClickDetachPayee = {},
+        onClickAddPayee = {},
+    )
+}
