@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material3.Button
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -235,12 +235,11 @@ private fun Payer(
 
         when (payer) {
             is PaymentEditUiState.Payer.Unassigned -> {
-                Button(onClick = { debouncedClick { onClickAddPayer() } }) {
+                FilledTonalButton(onClick = { debouncedClick { onClickAddPayer() } }) {
                     Icon(
                         painter = painterResource(R.drawable.outline_add_link_24),
                         contentDescription = stringResource(R.string.add_payer_button_icon_description),
                         modifier = Modifier.size(ICON_LARGE_SIZE),
-                        tint = MaterialTheme.colorScheme.onPrimary,
                     )
                     Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
                     Text(text = stringResource(R.string.add_payer))
@@ -312,12 +311,11 @@ fun Payees(
         }
 
         item {
-            Button(onClick = { debouncedClick { onClickAddPayee() } }) {
+            FilledTonalButton(onClick = { debouncedClick { onClickAddPayee() } }) {
                 Icon(
                     painter = painterResource(R.drawable.outline_add_link_24),
                     contentDescription = stringResource(R.string.add_payee_button_icon_description),
                     modifier = Modifier.size(ICON_LARGE_SIZE),
-                    tint = MaterialTheme.colorScheme.onPrimary,
                 )
                 Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
                 Text(text = stringResource(R.string.add_payee))
