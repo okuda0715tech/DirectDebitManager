@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
@@ -173,15 +174,26 @@ fun Contents(
 
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
 
-        Payer(payer, onClickAddPayer, onClickDetachPayer)
+        LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            item {
+                Payer(payer, onClickAddPayer, onClickDetachPayer)
+            }
 
-        Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
+            item {
+                Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
+            }
 
-        Payees(
-            payees = payees,
-            onClickDetachPayee = onClickDetachPayee,
-            onClickAddPayee = onClickAddPayee
-        )
+            payees(
+                payees = payees,
+                onClickDetachPayee = onClickDetachPayee,
+                onClickAddPayee = onClickAddPayee
+            )
+        }
+
+
     }
 }
 
@@ -234,41 +246,35 @@ private fun Payer(
     }
 }
 
-@Composable
-fun Payees(
+fun LazyListScope.payees(
     payees: List<PaymentEditUiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        itemsIndexed(payees) { index, payee ->
-            ReadOnlyForm(
-                labelText = stringResource(R.string.individual_payee_label, index + 1),
-                text = payee.name,
-                onClickText = {},
-                supportingText = payee.messageRes,
-                icon = painterResource(id = R.drawable.outline_link_off_24),
-                iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-                onClickIcon = { onClickDetachPayee(payee.id) },
+    itemsIndexed(payees) { index, payee ->
+        ReadOnlyForm(
+            labelText = stringResource(R.string.individual_payee_label, index + 1),
+            text = payee.name,
+            onClickText = {},
+            supportingText = payee.messageRes,
+            icon = painterResource(id = R.drawable.outline_link_off_24),
+            iconDescription = stringResource(id = R.string.detach_payee_icon_description),
+            onClickIcon = { onClickDetachPayee(payee.id) },
+        )
+
+        Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
+
+    }
+
+    item {
+        FilledTonalButton(onClick = { debouncedClick { onClickAddPayee() } }) {
+            Icon(
+                painter = painterResource(R.drawable.outline_add_link_24),
+                contentDescription = stringResource(R.string.add_payee_button_icon_description),
+                modifier = Modifier.size(ICON_LARGE_SIZE),
             )
-
             Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
-
-        }
-
-        item {
-            FilledTonalButton(onClick = { debouncedClick { onClickAddPayee() } }) {
-                Icon(
-                    painter = painterResource(R.drawable.outline_add_link_24),
-                    contentDescription = stringResource(R.string.add_payee_button_icon_description),
-                    modifier = Modifier.size(ICON_LARGE_SIZE),
-                )
-                Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
-                Text(text = stringResource(R.string.add_payee))
-            }
+            Text(text = stringResource(R.string.add_payee))
         }
     }
 }
