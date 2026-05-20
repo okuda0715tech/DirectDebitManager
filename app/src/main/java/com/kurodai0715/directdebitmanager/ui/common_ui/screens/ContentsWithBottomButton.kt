@@ -2,8 +2,10 @@ package com.kurodai0715.directdebitmanager.ui.common_ui.screens
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -29,7 +31,11 @@ fun ContentsWithBottomButton(
             contents()
         }
 
+        Spacer(modifier = Modifier.size(LayoutTokens.sectionSpacingHalf))
+
         HorizontalDivider()
+
+        Spacer(modifier = Modifier.size(LayoutTokens.sectionSpacingHalf))
 
         bottomButton()
     }
