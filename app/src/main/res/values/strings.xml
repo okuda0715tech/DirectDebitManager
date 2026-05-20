@@ -55,13 +55,9 @@
     <string name="payee_name_label_old">支払先の名称</string>
 
     <!-- 支払情報 編集 画面 -->
-    <string name="payment_label">支払情報</string>
     <string name="payment_name_label">名称</string>
     <string name="payer_label">支払元</string>
-    <string name="payer_name_label">名称</string>
-    <string name="payee_label">支払先</string>
     <string name="individual_payee_label">支払先%1$d</string>"
-    <string name="payee_name_label">名称</string>
     <string name="add_payer">支払元を追加</string>
     <string name="add_payee">支払先を追加</string>
     <string name="detach_payer_icon_description">支払元とのリンクを切り離すアイコン</string>
