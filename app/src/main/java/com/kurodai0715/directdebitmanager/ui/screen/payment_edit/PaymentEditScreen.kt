@@ -210,42 +210,30 @@ private fun Payer(
     onClickAddPayer: () -> Unit,
     onClickDetachPayer: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surfaceContainer)
-            .padding(LayoutTokens.itemSpacing),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = stringResource(R.string.payer_label))
-
-        Spacer(modifier = Modifier.size(LayoutTokens.itemSpacing))
-
-        when (payer) {
-            is PaymentEditUiState.Payer.Unassigned -> {
-                FilledTonalButton(onClick = { debouncedClick { onClickAddPayer() } }) {
-                    Icon(
-                        painter = painterResource(R.drawable.outline_add_link_24),
-                        contentDescription = stringResource(R.string.add_payer_button_icon_description),
-                        modifier = Modifier.size(ICON_LARGE_SIZE),
-                    )
-                    Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
-                    Text(text = stringResource(R.string.add_payer))
-                }
-
-            }
-
-            is PaymentEditUiState.Payer.Assigned -> {
-                ReadOnlyForm(
-                    labelText = stringResource(R.string.payer_name_label),
-                    text = payer.name,
-                    onClickText = {},
-                    supportingText = payer.messageRes,
-                    icon = painterResource(id = R.drawable.outline_link_off_24),
-                    iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-                    onClickIcon = onClickDetachPayer,
+    when (payer) {
+        is PaymentEditUiState.Payer.Unassigned -> {
+            FilledTonalButton(onClick = { debouncedClick { onClickAddPayer() } }) {
+                Icon(
+                    painter = painterResource(R.drawable.outline_add_link_24),
+                    contentDescription = stringResource(R.string.add_payer_button_icon_description),
+                    modifier = Modifier.size(ICON_LARGE_SIZE),
                 )
+                Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
+                Text(text = stringResource(R.string.add_payer))
             }
+
+        }
+
+        is PaymentEditUiState.Payer.Assigned -> {
+            ReadOnlyForm(
+                labelText = stringResource(R.string.payer_label),
+                text = payer.name,
+                onClickText = {},
+                supportingText = payer.messageRes,
+                icon = painterResource(id = R.drawable.outline_link_off_24),
+                iconDescription = stringResource(id = R.string.detach_payee_icon_description),
+                onClickIcon = onClickDetachPayer,
+            )
         }
     }
 }
