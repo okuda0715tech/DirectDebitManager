@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -172,6 +173,10 @@ fun Contents(
     ) {
         Payment(paymentName, onPaymentNameChanged, paymentNameMessage)
 
+        Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
+
+        HorizontalDivider()
+
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
 
         LazyColumn(
@@ -183,7 +188,7 @@ fun Contents(
             }
 
             item {
-                Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
+                Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
             }
 
             payees(
