@@ -195,25 +195,13 @@ private fun Payment(
     onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surfaceContainer)
-            .padding(LayoutTokens.itemSpacing),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = stringResource(R.string.payment_label))
-
-        Spacer(modifier = Modifier.size(LayoutTokens.itemSpacing))
-
-        EditableForm(
-            labelText = stringResource(R.string.payment_name_label),
-            text = paymentName,
-            onTextChanged = onPaymentNameChanged,
-            supportingText = paymentNameMessage,
-            onClickClear = { onPaymentNameChanged("") }
-        )
-    }
+    EditableForm(
+        labelText = stringResource(R.string.payment_name_label),
+        text = paymentName,
+        onTextChanged = onPaymentNameChanged,
+        supportingText = paymentNameMessage,
+        onClickClear = { onPaymentNameChanged("") }
+    )
 }
 
 @Composable
