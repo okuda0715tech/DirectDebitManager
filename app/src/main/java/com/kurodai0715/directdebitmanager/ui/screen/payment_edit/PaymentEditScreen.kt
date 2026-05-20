@@ -95,7 +95,6 @@ fun PaymentEditScreen(
             onClickBack = { viewModel.onClickBack() },
             onClickSave = { viewModel.save() },
             paymentName = uiState.payment.name,
-            onPaymentNameChanged = { viewModel.updatePaymentName(it) },
             paymentNameMessage = uiState.payment.messageRes,
             payer = uiState.payer,
             onClickDetachPayer = { viewModel.onClickDetachPayer() },
@@ -113,7 +112,6 @@ fun TransferRelationEditContents(
     onClickBack: () -> Unit,
     onClickSave: () -> Unit,
     paymentName: String,
-    onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?,
     payer: PaymentEditUiState.Payer,
     onClickDetachPayer: () -> Unit,
@@ -127,7 +125,6 @@ fun TransferRelationEditContents(
         contents = {
             Contents(
                 paymentName = paymentName,
-                onPaymentNameChanged = onPaymentNameChanged,
                 paymentNameMessage = paymentNameMessage,
                 payer = payer,
                 onClickDetachPayer = onClickDetachPayer,
@@ -157,7 +154,6 @@ private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
 @Composable
 fun Contents(
     paymentName: String,
-    onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?,
     payer: PaymentEditUiState.Payer,
     onClickDetachPayer: () -> Unit,
@@ -170,7 +166,7 @@ fun Contents(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Payment(paymentName, onPaymentNameChanged, paymentNameMessage)
+        Payment(paymentName, paymentNameMessage)
 
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacingHalf))
 
@@ -204,7 +200,6 @@ fun Contents(
 @Composable
 private fun Payment(
     paymentName: String,
-    onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?
 ) {
     ReadOnlyForm(
@@ -292,7 +287,6 @@ private fun Preview() {
         onClickBack = {},
         onClickSave = {},
         paymentName = "リクルートカードプラス",
-        onPaymentNameChanged = {},
         paymentNameMessage = null,
         payer = PaymentEditUiState.Payer.Assigned(
             id = 1,
@@ -317,7 +311,6 @@ private fun NoPayerNoPayeePreview() {
         onClickBack = {},
         onClickSave = {},
         paymentName = "リクルートカードプラス",
-        onPaymentNameChanged = {},
         paymentNameMessage = null,
         payer = PaymentEditUiState.Payer.Unassigned,
         onClickDetachPayer = {},
