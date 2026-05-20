@@ -173,11 +173,11 @@ fun Contents(
     ) {
         Payment(paymentName, onPaymentNameChanged, paymentNameMessage)
 
-        Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
+        Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacingHalf))
 
         HorizontalDivider()
 
-        Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
+        Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacingHalf))
 
         LazyColumn(
             modifier = Modifier.fillMaxWidth(),
