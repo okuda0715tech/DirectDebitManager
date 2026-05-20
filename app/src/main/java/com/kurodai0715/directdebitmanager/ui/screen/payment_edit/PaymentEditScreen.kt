@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -26,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
@@ -251,25 +249,9 @@ fun Payees(
             .padding(LayoutTokens.itemSpacing),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Text(text = stringResource(R.string.payee_label))
-
-            Spacer(modifier = Modifier.size(LayoutTokens.itemSpacing))
-        }
-
         itemsIndexed(payees) { index, payee ->
-            Text(
-                text = stringResource(R.string.individual_payee_label, index + 1),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = LayoutTokens.itemSpacing),
-                textAlign = TextAlign.Start
-            )
-
-            Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
-
             ReadOnlyForm(
-                labelText = stringResource(R.string.payee_name_label),
+                labelText = stringResource(R.string.individual_payee_label, index + 1),
                 text = payee.name,
                 onClickText = {},
                 supportingText = payee.messageRes,
@@ -277,10 +259,6 @@ fun Payees(
                 iconDescription = stringResource(id = R.string.detach_payee_icon_description),
                 onClickIcon = { onClickDetachPayee(payee.id) },
             )
-
-            Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
-
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
             Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
 
