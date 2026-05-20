@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
@@ -208,12 +207,14 @@ private fun Payment(
     onPaymentNameChanged: (String) -> Unit,
     paymentNameMessage: Int?
 ) {
-    EditableForm(
+    ReadOnlyForm(
         labelText = stringResource(R.string.payment_name_label),
         text = paymentName,
-        onTextChanged = onPaymentNameChanged,
+        onClickText = { TODO() },
         supportingText = paymentNameMessage,
-        onClickClear = { onPaymentNameChanged("") }
+        icon = painterResource(id = R.drawable.baseline_delete_outline_24),
+        iconDescription = stringResource(id = R.string.delete_payment_icon_description),
+        onClickIcon = { TODO() }
     )
 }
 
