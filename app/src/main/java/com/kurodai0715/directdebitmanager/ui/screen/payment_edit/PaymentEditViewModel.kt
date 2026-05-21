@@ -256,4 +256,12 @@ class PaymentEditViewModel @Inject constructor(
             )
         }
     }
+
+    fun dismissDialog() {
+        dialog.update { null }
+    }
+
+    fun deletePayment() {
+        TODO()
+    }
 }

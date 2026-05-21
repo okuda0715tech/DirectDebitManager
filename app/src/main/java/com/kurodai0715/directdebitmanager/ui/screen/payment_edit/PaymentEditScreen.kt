@@ -106,22 +106,33 @@ fun PaymentEditScreen(
             onClickAddPayee = { viewModel.onClickAddPayee() },
         )
 
-        TransferRelationEditDialog(uiState.dialog)
+        TransferRelationEditDialog(
+            dialog = uiState.dialog,
+            onClickDismiss = { viewModel.dismissDialog() },
+            onClickYes = { viewModel.deletePayment() },
+            onClickNo = { viewModel.dismissDialog() }
+        )
 
     }
 }
 
 @Composable
-fun TransferRelationEditDialog(dialog: PaymentEditUiState.Dialog?) {
+fun TransferRelationEditDialog(
+    dialog: PaymentEditUiState.Dialog?,
+    onClickDismiss: () -> Unit,
+    onClickYes: () -> Unit,
+    onClickNo: () -> Unit
+) {
     when (dialog) {
         is PaymentEditUiState.Dialog.DeleteConfirm -> {
             DeleteConfirmDialog2(
                 itemName = dialog.itemName,
-                onDismissRequest = { },
-                onClickNo = { },
-                onClickYes = { }
+                onDismissRequest = onClickDismiss,
+                onClickNo = onClickNo,
+                onClickYes = onClickYes,
             )
         }
+
         else -> {
             // do nothing
         }
