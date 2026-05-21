@@ -97,6 +97,7 @@ fun PaymentEditScreen(
             onClickSave = { viewModel.save() },
             paymentName = uiState.payment.name,
             paymentNameMessage = uiState.payment.messageRes,
+            onClickDelete = { viewModel.onClickDeletePayment() },
             payer = uiState.payer,
             onClickDetachPayer = { viewModel.onClickDetachPayer() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
@@ -134,6 +135,7 @@ fun TransferRelationEditContents(
     onClickSave: () -> Unit,
     paymentName: String,
     paymentNameMessage: Int?,
+    onClickDelete: () -> Unit,
     payer: PaymentEditUiState.Payer,
     onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
@@ -147,6 +149,7 @@ fun TransferRelationEditContents(
             Contents(
                 paymentName = paymentName,
                 paymentNameMessage = paymentNameMessage,
+                onClickDelete = onClickDelete,
                 payer = payer,
                 onClickDetachPayer = onClickDetachPayer,
                 onClickAddPayer = onClickAddPayer,
@@ -176,6 +179,7 @@ private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
 fun Contents(
     paymentName: String,
     paymentNameMessage: Int?,
+    onClickDelete: () -> Unit,
     payer: PaymentEditUiState.Payer,
     onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
@@ -187,7 +191,7 @@ fun Contents(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Payment(paymentName, paymentNameMessage)
+        Payment(paymentName, paymentNameMessage, onClickDelete)
 
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacingHalf))
 
@@ -221,7 +225,8 @@ fun Contents(
 @Composable
 private fun Payment(
     paymentName: String,
-    paymentNameMessage: Int?
+    paymentNameMessage: Int?,
+    onClickDelete: () -> Unit,
 ) {
     ReadOnlyForm(
         labelText = stringResource(R.string.payment_name_label),
@@ -230,7 +235,7 @@ private fun Payment(
         supportingText = paymentNameMessage,
         icon = painterResource(id = R.drawable.baseline_delete_outline_24),
         iconDescription = stringResource(id = R.string.delete_payment_icon_description),
-        onClickIcon = { TODO() }
+        onClickIcon = { onClickDelete() }
     )
 }
 
@@ -309,6 +314,7 @@ private fun Preview() {
         onClickSave = {},
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
+        onClickDelete = {},
         payer = PaymentEditUiState.Payer.Assigned(
             id = 1,
             name = "三井住友銀行",
@@ -333,6 +339,7 @@ private fun NoPayerNoPayeePreview() {
         onClickSave = {},
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
+        onClickDelete = {},
         payer = PaymentEditUiState.Payer.Unassigned,
         onClickDetachPayer = {},
         onClickAddPayer = {},

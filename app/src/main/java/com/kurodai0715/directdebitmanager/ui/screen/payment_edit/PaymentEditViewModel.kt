@@ -85,12 +85,14 @@ class PaymentEditViewModel @Inject constructor(
 
     private val payees = MutableStateFlow<List<PaymentEditUiState.Payee>>(emptyList())
 
+    private val dialog = MutableStateFlow<PaymentEditUiState.Dialog?>(null)
+
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer, payees)
-    { payment, payer, payees ->
-        PaymentEditUiState(payment = payment, payer = payer, payees = payees)
+    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer, payees, dialog)
+    { payment, payer, payees, dialog ->
+        PaymentEditUiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
@@ -244,6 +246,14 @@ class PaymentEditViewModel @Inject constructor(
     fun onClickAddPayee() {
         viewModelScope.launch {
             _eventChannel.send(PaymentEditUiEvent.OnClickAddPayee)
+        }
+    }
+
+    fun onClickDeletePayment() {
+        dialog.update {
+            PaymentEditUiState.Dialog.DeleteConfirm(
+                itemName = payment.value.name
+            )
         }
     }
 }
