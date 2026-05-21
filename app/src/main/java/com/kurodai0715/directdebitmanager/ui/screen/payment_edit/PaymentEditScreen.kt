@@ -31,6 +31,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog2
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -103,6 +104,26 @@ fun PaymentEditScreen(
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
             onClickAddPayee = { viewModel.onClickAddPayee() },
         )
+
+        TransferRelationEditDialog(uiState.dialog)
+
+    }
+}
+
+@Composable
+fun TransferRelationEditDialog(dialog: PaymentEditUiState.Dialog?) {
+    when (dialog) {
+        is PaymentEditUiState.Dialog.DeleteConfirm -> {
+            DeleteConfirmDialog2(
+                itemName = dialog.itemName,
+                onDismissRequest = { },
+                onClickNo = { },
+                onClickYes = { }
+            )
+        }
+        else -> {
+            // do nothing
+        }
     }
 }
 

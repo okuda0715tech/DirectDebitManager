@@ -26,6 +26,7 @@ data class PaymentEditUiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer.Unassigned,
     val payees: List<Payee> = mutableListOf(),
+    val dialog: Dialog? = null,
 ) {
     data class Payment(
         val id: Id = Id.Unassigned,
@@ -52,6 +53,12 @@ data class PaymentEditUiState(
         val name: String = "",
         val messageRes: Int? = null,
     )
+
+    sealed interface Dialog {
+        data class DeleteConfirm(
+            val itemName: String,
+        ) : Dialog
+    }
 }
 
 sealed class PaymentEditUiEvent {
