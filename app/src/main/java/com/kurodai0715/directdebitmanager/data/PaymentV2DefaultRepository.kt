@@ -41,7 +41,7 @@ class PaymentV2DefaultRepository @Inject constructor(
                 db.withTransaction {
                     val paymentId = upsertPayment(aggregate)
 
-                    rootDetachedPayees(paymentId, aggregate)
+                    requestDetachPayees(paymentId, aggregate)
 
                     updatePayeesParentId(aggregate, paymentId)
                 }
@@ -88,7 +88,7 @@ class PaymentV2DefaultRepository @Inject constructor(
     /**
      * リンクを解除された支払先の parentId を 0 で更新する.
      */
-    private suspend fun rootDetachedPayees(
+    private suspend fun requestDetachPayees(
         paymentId: Int,
         aggregate: PaymentAggregate
     ) {
