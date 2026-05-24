@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class PaymentEditUiState(
@@ -17,5 +18,9 @@ class PaymentEditViewModel @Inject constructor() : ViewModel() {
     private val _uiState = MutableStateFlow(PaymentEditUiState(id = 0, name = ""))
 
     val uiState: StateFlow<PaymentEditUiState> = _uiState
+
+    fun updateName(name: String) {
+        _uiState.update { it.copy(name = name) }
+    }
 
 }

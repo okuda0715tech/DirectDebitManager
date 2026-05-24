@@ -25,6 +25,7 @@ fun PaymentEditScreen(
 
     PaymentEditContents(
         name = uiState.name,
+        onChangeName = { viewModel.updateName(it) },
         onClickBack = { TODO() },
         onClickSave = { TODO() },
     )
@@ -34,13 +35,14 @@ fun PaymentEditScreen(
 fun PaymentEditContents(
     modifier: Modifier = Modifier,
     name: String,
+    onChangeName: (String) -> Unit,
     onClickBack: () -> Unit,
     onClickSave: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(name)
+            Contents(name = name, onChangeName = onChangeName)
         },
         bottomButton = {
             BottomButton(onClickBack, onClickSave)
@@ -49,7 +51,10 @@ fun PaymentEditContents(
 }
 
 @Composable
-fun Contents(name: String) {
+fun Contents(
+    name: String,
+    onChangeName: (String) -> Unit
+) {
     Column {
         Text(stringResource(R.string.payment_edit_screen_description))
 
@@ -58,7 +63,7 @@ fun Contents(name: String) {
         EditableForm(
             labelText = stringResource(R.string.payment_name_label2),
             text = name,
-            onTextChanged = { TODO() },
+            onTextChanged = onChangeName,
             supportingText = null, // TODO
             onClickClear = { TODO() }
         )
