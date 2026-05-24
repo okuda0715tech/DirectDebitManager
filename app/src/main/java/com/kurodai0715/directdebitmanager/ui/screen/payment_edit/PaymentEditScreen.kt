@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
@@ -19,7 +21,10 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 fun PaymentEditScreen(
     viewModel: PaymentEditViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     PaymentEditContents(
+        name = uiState.name,
         onClickBack = { TODO() },
         onClickSave = { TODO() },
     )
@@ -28,13 +33,14 @@ fun PaymentEditScreen(
 @Composable
 fun PaymentEditContents(
     modifier: Modifier = Modifier,
+    name: String,
     onClickBack: () -> Unit,
     onClickSave: () -> Unit,
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents()
+            Contents(name)
         },
         bottomButton = {
             BottomButton(onClickBack, onClickSave)
@@ -43,7 +49,7 @@ fun PaymentEditContents(
 }
 
 @Composable
-fun Contents() {
+fun Contents(name: String) {
     Column {
         Text(stringResource(R.string.payment_edit_screen_description))
 
@@ -51,7 +57,7 @@ fun Contents() {
 
         EditableForm(
             labelText = stringResource(R.string.payment_name_label2),
-            text = "",
+            text = name,
             onTextChanged = { TODO() },
             supportingText = null, // TODO
             onClickClear = { TODO() }
