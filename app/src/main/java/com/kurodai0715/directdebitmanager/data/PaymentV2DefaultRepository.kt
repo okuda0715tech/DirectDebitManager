@@ -145,4 +145,41 @@ class PaymentV2DefaultRepository @Inject constructor(
             )
         }
     }
+
+    override suspend fun requestDeletePayment(payment: Payment.Persisted): RepositoryResult {
+
+        return withContext(ioDispatcher) {
+            try {
+                db.withTransaction {
+                    val paymentId = payment.id.value
+                    deletePayment(paymentId)
+
+                    val childIds = loadChildIdsBy(paymentId)
+
+                    detachPayees(childIds)
+                }
+
+                RepositoryResult.Success
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                RepositoryResult.Failure(e)
+            }
+        }
+    }
+
+    /**
+     * 支払情報を削除する.
+     */
+    private suspend fun deletePayment(
+        paymentId: Int
+    ) {
+        withContext(ioDispatcher) {
+            val item = localDataSource.loadItemBy(paymentId)
+                ?: throw IllegalStateException(
+                    "item is not found whose id = ${paymentId}."
+                )
+
+             localDataSource.deleteItem(item.id)
+        }
+    }
 }
