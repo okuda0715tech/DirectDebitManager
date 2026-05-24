@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun PaymentEditScreen(
     paymentId: Int?,
-    viewModel: PaymentEditViewModel,
+    viewModel: TransferRelationEditViewModel,
     onClickBack: () -> Unit,
     onClickPayer: () -> Unit,
     onClickAddPayer: () -> Unit,

@@ -73,7 +73,7 @@ sealed class PaymentEditUiEvent {
 }
 
 @HiltViewModel
-class PaymentEditViewModel @Inject constructor(
+class TransferRelationEditViewModel @Inject constructor(
     private val paymentQueryUseCase: PaymentQueryUseCase,
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
