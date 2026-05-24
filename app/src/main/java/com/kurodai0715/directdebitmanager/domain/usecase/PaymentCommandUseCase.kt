@@ -2,6 +2,7 @@ package com.kurodai0715.directdebitmanager.domain.usecase
 
 import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
 import com.kurodai0715.directdebitmanager.data.RepositoryResult
+import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
@@ -16,6 +17,15 @@ class PaymentCommandUseCase @Inject constructor(
         return when (result) {
             is RepositoryResult.Success -> SaveResult.Succeeded
             is RepositoryResult.Failure -> SaveResult.Failed
+        }
+    }
+
+    suspend fun deletePayment(payment: Payment.Persisted): DeleteResult {
+        val result = repo.requestDeletePayment(payment)
+
+        return when (result) {
+            is RepositoryResult.Success -> DeleteResult.Succeeded
+            is RepositoryResult.Failure -> DeleteResult.Failed
         }
     }
 }
