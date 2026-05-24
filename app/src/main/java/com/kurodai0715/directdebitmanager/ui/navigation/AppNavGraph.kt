@@ -165,13 +165,13 @@ fun AppNavGraph(
             onChangeTitle(R.string.transfer_relation_list_screen_title)
         }
 
-        navigation<PaymentEditGraph>(
+        navigation<TransferRelationEditGraph>(
             startDestination = TransferRelationEdit(null),
         ) {
 
             composable<TransferRelationEdit> { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry<PaymentEditGraph>()
+                    navController.getBackStackEntry<TransferRelationEditGraph>()
                 }
 
                 val viewModel: TransferRelationEditViewModel =
@@ -213,7 +213,7 @@ fun AppNavGraph(
 
             composable<PaymentSelect> { backStackEntry ->
                 val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry<PaymentEditGraph>()
+                    navController.getBackStackEntry<TransferRelationEditGraph>()
                 }
 
                 val viewModel: TransferRelationEditViewModel =

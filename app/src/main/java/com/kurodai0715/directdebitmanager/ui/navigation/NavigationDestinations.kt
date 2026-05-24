@@ -78,7 +78,7 @@ sealed interface TransferBase : NavDestination
 data object TransferRelationList : TransferBase
 
 @Serializable
-data object PaymentEditGraph : TransferBase
+data object TransferRelationEditGraph : TransferBase
 
 @Serializable
 data class TransferRelationEdit(
