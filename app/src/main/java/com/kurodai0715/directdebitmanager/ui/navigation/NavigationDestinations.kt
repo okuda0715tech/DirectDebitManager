@@ -81,7 +81,7 @@ data object TransferRelationList : TransferBase
 data object PaymentEditGraph : TransferBase
 
 @Serializable
-data class PaymentEdit(
+data class TransferRelationEdit(
     val paymentId: Int?,
 ) : TransferBase
 
