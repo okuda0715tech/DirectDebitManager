@@ -24,6 +24,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.payee_edit.PayeeEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_edit.PayerEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_list.PayerListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.PaymentEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.PaymentSelectScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
@@ -158,11 +159,17 @@ fun AppNavGraph(
         composable<TransferRelationList> {
             TransferRelationListScreen(
                 onClickBack = { navController.navigateUp() },
-                onClickAdd = { TODO() },
+                onClickAdd = { navController.navigateToPaymentEdit() },
                 onClickItem = { navController.navigateToTransferRelationEdit(it) }
             )
 
             onChangeTitle(R.string.transfer_relation_list_screen_title)
+        }
+
+        composable<PaymentEdit> {
+            PaymentEditScreen()
+
+            onChangeTitle(R.string.payment_edit_screen_title)
         }
 
         navigation<TransferRelationEditGraph>(

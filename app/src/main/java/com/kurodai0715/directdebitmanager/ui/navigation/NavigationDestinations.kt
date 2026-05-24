@@ -89,3 +89,6 @@ data class TransferRelationEdit(
 data class PaymentSelect(
     val target: String,
 ) : TransferBase
+
+@Serializable
+data object PaymentEdit: NavDestination
