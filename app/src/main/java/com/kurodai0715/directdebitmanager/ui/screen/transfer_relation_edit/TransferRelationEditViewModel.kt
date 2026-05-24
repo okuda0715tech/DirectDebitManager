@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 private const val TAG = "PaymentEditViewModel.kt"
 
-data class PaymentEditUiState(
+data class TransferRelationEditUiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer.Unassigned,
     val payees: List<Payee> = mutableListOf(),
@@ -81,25 +81,25 @@ class TransferRelationEditViewModel @Inject constructor(
     /**
      * ユーザーが支払情報編集画面に直接入力した値.
      */
-    private val payment = MutableStateFlow(PaymentEditUiState.Payment())
+    private val payment = MutableStateFlow(TransferRelationEditUiState.Payment())
 
-    private val payer: MutableStateFlow<PaymentEditUiState.Payer> =
-        MutableStateFlow(PaymentEditUiState.Payer.Unassigned)
+    private val payer: MutableStateFlow<TransferRelationEditUiState.Payer> =
+        MutableStateFlow(TransferRelationEditUiState.Payer.Unassigned)
 
-    private val payees = MutableStateFlow<List<PaymentEditUiState.Payee>>(emptyList())
+    private val payees = MutableStateFlow<List<TransferRelationEditUiState.Payee>>(emptyList())
 
-    private val dialog = MutableStateFlow<PaymentEditUiState.Dialog?>(null)
+    private val dialog = MutableStateFlow<TransferRelationEditUiState.Dialog?>(null)
 
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<PaymentEditUiState> = combine(payment, payer, payees, dialog)
+    val uiState: StateFlow<TransferRelationEditUiState> = combine(payment, payer, payees, dialog)
     { payment, payer, payees, dialog ->
-        PaymentEditUiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
+        TransferRelationEditUiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
-        initialValue = PaymentEditUiState()
+        initialValue = TransferRelationEditUiState()
     )
 
     /**
@@ -129,7 +129,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
             payment.update {
                 it.copy(
-                    id = PaymentEditUiState.Payment.Id.Assigned(loadedPayment.id.value),
+                    id = TransferRelationEditUiState.Payment.Id.Assigned(loadedPayment.id.value),
                     name = loadedPayment.name.value
                 )
             }
@@ -185,7 +185,7 @@ class TransferRelationEditViewModel @Inject constructor(
             val payerName = paymentQueryUseCase.loadPaymentNameBy(id)
 
             payer.update {
-                PaymentEditUiState.Payer.Assigned(
+                TransferRelationEditUiState.Payer.Assigned(
                     id = id,
                     name = payerName,
                 )
@@ -198,7 +198,7 @@ class TransferRelationEditViewModel @Inject constructor(
             val payeeName = paymentQueryUseCase.loadPaymentNameBy(id)
 
             payees.update {
-                it + PaymentEditUiState.Payee(
+                it + TransferRelationEditUiState.Payee(
                     id = id,
                     name = payeeName,
                 )
@@ -237,7 +237,7 @@ class TransferRelationEditViewModel @Inject constructor(
     }
 
     private fun removePayer() {
-        payer.update { PaymentEditUiState.Payer.Unassigned }
+        payer.update { TransferRelationEditUiState.Payer.Unassigned }
     }
 
     fun onClickAddPayer() {
@@ -254,7 +254,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickDeletePayment() {
         dialog.update {
-            PaymentEditUiState.Dialog.DeleteConfirm(
+            TransferRelationEditUiState.Dialog.DeleteConfirm(
                 itemName = payment.value.name
             )
         }
