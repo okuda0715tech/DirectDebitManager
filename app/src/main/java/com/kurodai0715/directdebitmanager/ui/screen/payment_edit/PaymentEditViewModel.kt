@@ -3,6 +3,8 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
+import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
@@ -67,6 +69,7 @@ sealed class PaymentEditUiEvent {
     data object OnClickPayer : PaymentEditUiEvent()
     data object OnClickAddPayer : PaymentEditUiEvent()
     data object OnClickAddPayee : PaymentEditUiEvent()
+    data object OnDeleted : PaymentEditUiEvent()
 }
 
 @HiltViewModel
@@ -261,7 +264,22 @@ class PaymentEditViewModel @Inject constructor(
         dialog.update { null }
     }
 
-    fun deletePayment() {
-        TODO()
+    fun onClickDeleteExecution() {
+        viewModelScope.launch {
+            val result = deletePayment(uiState.value.paymentToDomain2())
+
+            when (result) {
+                DeleteResult.Succeeded -> {
+                    _eventChannel.send(PaymentEditUiEvent.OnDeleted)
+                }
+
+                DeleteResult.Failed ->
+                    TODO()
+            }
+        }
+    }
+
+    private suspend fun deletePayment(payment: Payment.Persisted): DeleteResult {
+        return paymentCommandUseCase.deletePayment(payment)
     }
 }

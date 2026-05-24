@@ -203,6 +203,9 @@ fun AppNavGraph(
                             NavContract.SelectTarget.Payee
                         )
                     },
+                    onDeleted = {
+                        navController.popToTransferRelationList()
+                    }
                 )
 
                 onChangeTitle(R.string.payment_info_edit_screen_title)

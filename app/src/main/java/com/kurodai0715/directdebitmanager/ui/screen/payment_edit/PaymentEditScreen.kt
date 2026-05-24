@@ -45,6 +45,7 @@ fun PaymentEditScreen(
     onClickPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
+    onDeleted: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -87,6 +88,8 @@ fun PaymentEditScreen(
                     PaymentEditUiEvent.OnClickAddPayer -> onClickAddPayer()
 
                     PaymentEditUiEvent.OnClickAddPayee -> onClickAddPayee()
+
+                    PaymentEditUiEvent.OnDeleted -> onDeleted()
                 }
             }
         }
@@ -109,7 +112,7 @@ fun PaymentEditScreen(
         TransferRelationEditDialog(
             dialog = uiState.dialog,
             onClickDismiss = { viewModel.dismissDialog() },
-            onClickYes = { viewModel.deletePayment() },
+            onClickYes = { viewModel.onClickDeleteExecution() },
             onClickNo = { viewModel.dismissDialog() }
         )
 
