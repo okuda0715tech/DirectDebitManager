@@ -63,13 +63,13 @@ data class PaymentEditUiState(
     }
 }
 
-sealed class PaymentEditUiEvent {
-    data class ShowSnackbar(val messageRes: Int) : PaymentEditUiEvent()
-    data object OnClickBack : PaymentEditUiEvent()
-    data object OnClickPayer : PaymentEditUiEvent()
-    data object OnClickAddPayer : PaymentEditUiEvent()
-    data object OnClickAddPayee : PaymentEditUiEvent()
-    data object OnDeleted : PaymentEditUiEvent()
+sealed class TransferRelationEditUiEvent {
+    data class ShowSnackbar(val messageRes: Int) : TransferRelationEditUiEvent()
+    data object OnClickBack : TransferRelationEditUiEvent()
+    data object OnClickPayer : TransferRelationEditUiEvent()
+    data object OnClickAddPayer : TransferRelationEditUiEvent()
+    data object OnClickAddPayee : TransferRelationEditUiEvent()
+    data object OnDeleted : TransferRelationEditUiEvent()
 }
 
 @HiltViewModel
@@ -105,7 +105,7 @@ class TransferRelationEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _eventChannel = Channel<PaymentEditUiEvent>(Channel.BUFFERED)
+    private val _eventChannel = Channel<TransferRelationEditUiEvent>(Channel.BUFFERED)
 
     /**
      * 参照用.
@@ -160,11 +160,11 @@ class TransferRelationEditViewModel @Inject constructor(
 
             when (result) {
                 SaveResult.Succeeded -> {
-                    _eventChannel.send(PaymentEditUiEvent.ShowSnackbar(R.string.common_save_successfully))
+                    _eventChannel.send(TransferRelationEditUiEvent.ShowSnackbar(R.string.common_save_successfully))
                 }
 
                 SaveResult.Failed ->
-                    _eventChannel.send(PaymentEditUiEvent.ShowSnackbar(R.string.common_save_failed))
+                    _eventChannel.send(TransferRelationEditUiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
     }
@@ -228,7 +228,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickBack() {
         viewModelScope.launch {
-            _eventChannel.send(PaymentEditUiEvent.OnClickBack)
+            _eventChannel.send(TransferRelationEditUiEvent.OnClickBack)
         }
     }
 
@@ -242,13 +242,13 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickAddPayer() {
         viewModelScope.launch {
-            _eventChannel.send(PaymentEditUiEvent.OnClickAddPayer)
+            _eventChannel.send(TransferRelationEditUiEvent.OnClickAddPayer)
         }
     }
 
     fun onClickAddPayee() {
         viewModelScope.launch {
-            _eventChannel.send(PaymentEditUiEvent.OnClickAddPayee)
+            _eventChannel.send(TransferRelationEditUiEvent.OnClickAddPayee)
         }
     }
 
@@ -270,7 +270,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
             when (result) {
                 DeleteResult.Succeeded -> {
-                    _eventChannel.send(PaymentEditUiEvent.OnDeleted)
+                    _eventChannel.send(TransferRelationEditUiEvent.OnDeleted)
                 }
 
                 DeleteResult.Failed ->

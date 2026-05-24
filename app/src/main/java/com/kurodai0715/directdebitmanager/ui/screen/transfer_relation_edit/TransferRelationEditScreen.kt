@@ -72,7 +72,7 @@ fun PaymentEditScreen(
         LaunchedEffect(Unit) {
             viewModel.eventFlow.collect { event ->
                 when (event) {
-                    is PaymentEditUiEvent.ShowSnackbar -> launch {
+                    is TransferRelationEditUiEvent.ShowSnackbar -> launch {
                         // showSnackbar() 関数は suspend 関数であるため、スナックバーが消えるまで
                         // 次の命令に進めない。そのため、 launch{} ブロック内で実行することにより、
                         // 別の子ルーチン化することにより、すぐに後続のコルーチンを開始している。
@@ -81,15 +81,15 @@ fun PaymentEditScreen(
                         )
                     }
 
-                    PaymentEditUiEvent.OnClickBack -> onClickBack()
+                    TransferRelationEditUiEvent.OnClickBack -> onClickBack()
 
-                    PaymentEditUiEvent.OnClickPayer -> onClickPayer()
+                    TransferRelationEditUiEvent.OnClickPayer -> onClickPayer()
 
-                    PaymentEditUiEvent.OnClickAddPayer -> onClickAddPayer()
+                    TransferRelationEditUiEvent.OnClickAddPayer -> onClickAddPayer()
 
-                    PaymentEditUiEvent.OnClickAddPayee -> onClickAddPayee()
+                    TransferRelationEditUiEvent.OnClickAddPayee -> onClickAddPayee()
 
-                    PaymentEditUiEvent.OnDeleted -> onDeleted()
+                    TransferRelationEditUiEvent.OnDeleted -> onDeleted()
                 }
             }
         }
