@@ -23,7 +23,7 @@ class PaymentQueryUseCase @Inject constructor(
         return loadPaymentBy(paymentId)?.name?.value.orEmpty()
     }
 
-    suspend fun loadPayeesBy(parentId: Int): List<Payment.Persisted>? {
-        return repo.loadChildItemsBy(parentId)?.map { it.toPayment() }
+    suspend fun loadPayeesBy(parentId: Int): List<Payment.Persisted> {
+        return repo.loadChildItemsBy(parentId).map { it.toPayment() }
     }
 }

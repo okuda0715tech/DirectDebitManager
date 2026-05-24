@@ -30,8 +30,12 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.loadItemBy(id)
     }
 
-    override suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>? {
+    override suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2> {
         return localDataSource.loadChildItemsBy(parentId)
+    }
+
+    private suspend fun loadChildIdsBy(parentId: Int): Set<Int> {
+        return localDataSource.loadChildItemsBy(parentId).map { it.id }.toSet()
     }
 
     override suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult {
@@ -92,12 +96,22 @@ class PaymentV2DefaultRepository @Inject constructor(
         paymentId: Int,
         aggregate: PaymentAggregate
     ) {
-        val currentPayees = loadChildItemsBy(paymentId)
-        val currentIds = currentPayees?.map { it.id }?.toSet()
+        val currentIds = loadChildIdsBy(paymentId)
         val newIds = aggregate.payees.map { it.id.value }.toSet()
-        val detachedIds = currentIds?.minus(newIds)
 
-        detachedIds?.let { localDataSource.rootParentIds(detachedIds) }
+        detachPayees(currentIds - newIds)
+    }
+
+    /**
+     * 引数で指定された支払情報の parentId を 0 にする.
+     *
+     * @param payeeIds: 対象となる支払情報の id のコレクション
+     */
+    private suspend fun detachPayees(payeeIds: Set<Int>) {
+        // 空なら何もしない。
+        if (payeeIds.isEmpty()) return
+        // 空でない場合は実行する。
+        localDataSource.rootParentIds(payeeIds)
     }
 
     private suspend fun createPayment(

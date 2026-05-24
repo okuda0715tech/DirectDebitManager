@@ -217,7 +217,7 @@ class PaymentEditViewModel @Inject constructor(
         viewModelScope.launch {
             val domainPayees = paymentQueryUseCase.loadPayeesBy(id)
 
-            val uiPayees = domainPayees?.toUiPayees() ?: emptyList()
+            val uiPayees = domainPayees.toUiPayees()
 
             payees.update { uiPayees }
         }

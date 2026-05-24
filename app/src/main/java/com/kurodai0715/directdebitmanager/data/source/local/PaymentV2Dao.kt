@@ -16,7 +16,7 @@ interface PaymentV2Dao {
     suspend fun loadItemBy(id: Int): PaymentEntityV2?
 
     @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
-    suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>?
+    suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>
 
     @Insert
     suspend fun insertPayment(payment: PaymentEntityV2): Long
