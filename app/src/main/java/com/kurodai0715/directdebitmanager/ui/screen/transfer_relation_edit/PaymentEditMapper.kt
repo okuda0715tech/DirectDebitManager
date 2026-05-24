@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
+package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit
 
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
