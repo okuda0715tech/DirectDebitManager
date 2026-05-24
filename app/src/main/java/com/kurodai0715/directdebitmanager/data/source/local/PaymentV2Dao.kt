@@ -27,4 +27,12 @@ interface PaymentV2Dao {
     @Query("UPDATE payment_v2 SET parentId = 0 WHERE id IN (:ids)")
     suspend fun rootParentIds(ids: Set<Int>)
 
+    /**
+     * 指定した id のレコードを削除.
+     *
+     * @return 削除したレコードの件数
+     */
+    @Query("DELETE FROM payment_v2 WHERE id = :id")
+    suspend fun deleteItem(id: Int): Int
+
 }
