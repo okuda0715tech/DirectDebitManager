@@ -67,6 +67,10 @@
     <string name="add_payer_button_icon_description">支払元を追加するボタンのアイコン</string>
     <string name="add_payee_button_icon_description">支払先を追加するボタンのアイコン</string>
 
+    <!-- 支払情報 編集 画面 -->
+    <string name="payment_edit_screen_description">支払情報を入力してください。</string>
+    <string name="payment_name_label2">名称</string>
+
     <!-- 支払情報 選択 画面 -->
     <string name="selected_icon_description">選択中アイコン</string>
 
