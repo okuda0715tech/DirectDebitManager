@@ -35,7 +35,7 @@ fun Screen(
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    TransferRelationListContents(
+    Contents(
         onClickBack = onClickBack,
         onClickAdd = onClickAdd,
         onClickItem = onClickItem,
@@ -44,7 +44,7 @@ fun Screen(
 }
 
 @Composable
-fun TransferRelationListContents(
+fun Contents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
@@ -115,7 +115,7 @@ fun ListItem(
 @Preview
 @Composable
 private fun Preview() {
-    TransferRelationListContents(
+    Contents(
         onClickBack = { },
         onClickAdd = { },
         onClickItem = { },
