@@ -80,7 +80,7 @@ class ViewModel @Inject constructor(
 
     fun onClickSave() {
         viewModelScope.launch {
-            val payment = uiState.value.toDomain()
+            val payment = uiState.value.toDomainPayment()
 
             val result = savePayment(payment)
 
