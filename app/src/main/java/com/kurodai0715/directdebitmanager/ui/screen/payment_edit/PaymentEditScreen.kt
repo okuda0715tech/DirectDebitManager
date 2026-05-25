@@ -27,7 +27,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
 @Composable
-fun PaymentEditScreen(
+fun Screen(
     viewModel: ViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
 ) {
