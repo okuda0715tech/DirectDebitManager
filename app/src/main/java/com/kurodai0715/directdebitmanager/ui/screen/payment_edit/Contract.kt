@@ -17,9 +17,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class UiState(
-    val id: Int,
+    val id: Id = Id.Unassigned,
     val name: String,
-)
+) {
+    sealed interface Id {
+        data object Unassigned : Id
+        data class Assigned(val value: Int) : Id
+    }
+}
 
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
@@ -31,7 +36,7 @@ class ViewModel @Inject constructor(
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UiState(id = 0, name = ""))
+    private val _uiState = MutableStateFlow(UiState(id = UiState.Id.Unassigned, name = ""))
 
     val uiState: StateFlow<UiState> = _uiState
 
@@ -62,7 +67,7 @@ class ViewModel @Inject constructor(
 
             _uiState.update {
                 it.copy(
-                    id = loadedPayment.id.value,
+                    id = UiState.Id.Assigned(loadedPayment.id.value),
                     name = loadedPayment.name.value
                 )
             }
