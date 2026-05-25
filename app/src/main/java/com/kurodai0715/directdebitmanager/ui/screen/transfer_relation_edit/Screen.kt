@@ -38,7 +38,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
 @Composable
-fun TransferRelationEditScreen(
+fun Screen(
     paymentId: Int?,
     viewModel: TransferRelationEditViewModel,
     onClickBack: () -> Unit,
