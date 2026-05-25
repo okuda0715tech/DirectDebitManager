@@ -72,7 +72,7 @@ fun TransferRelationEditScreen(
         LaunchedEffect(Unit) {
             viewModel.eventFlow.collect { event ->
                 when (event) {
-                    is TransferRelationEditUiEvent.ShowSnackbar -> launch {
+                    is UiEvent.ShowSnackbar -> launch {
                         // showSnackbar() 関数は suspend 関数であるため、スナックバーが消えるまで
                         // 次の命令に進めない。そのため、 launch{} ブロック内で実行することにより、
                         // 別の子ルーチン化することにより、すぐに後続のコルーチンを開始している。
@@ -81,13 +81,13 @@ fun TransferRelationEditScreen(
                         )
                     }
 
-                    TransferRelationEditUiEvent.OnClickPayer -> onClickPayer()
+                    UiEvent.OnClickPayer -> onClickPayer()
 
-                    TransferRelationEditUiEvent.OnClickAddPayer -> onClickAddPayer()
+                    UiEvent.OnClickAddPayer -> onClickAddPayer()
 
-                    TransferRelationEditUiEvent.OnClickAddPayee -> onClickAddPayee()
+                    UiEvent.OnClickAddPayee -> onClickAddPayee()
 
-                    TransferRelationEditUiEvent.OnDeleted -> onDeleted()
+                    UiEvent.OnDeleted -> onDeleted()
                 }
             }
         }

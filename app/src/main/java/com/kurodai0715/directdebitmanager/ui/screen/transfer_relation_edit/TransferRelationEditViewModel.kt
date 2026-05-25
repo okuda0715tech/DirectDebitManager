@@ -63,12 +63,12 @@ data class TransferRelationEditUiState(
     }
 }
 
-sealed class TransferRelationEditUiEvent {
-    data class ShowSnackbar(val messageRes: Int) : TransferRelationEditUiEvent()
-    data object OnClickPayer : TransferRelationEditUiEvent()
-    data object OnClickAddPayer : TransferRelationEditUiEvent()
-    data object OnClickAddPayee : TransferRelationEditUiEvent()
-    data object OnDeleted : TransferRelationEditUiEvent()
+sealed class UiEvent {
+    data class ShowSnackbar(val messageRes: Int) : UiEvent()
+    data object OnClickPayer : UiEvent()
+    data object OnClickAddPayer : UiEvent()
+    data object OnClickAddPayee : UiEvent()
+    data object OnDeleted : UiEvent()
 }
 
 @HiltViewModel
@@ -104,7 +104,7 @@ class TransferRelationEditViewModel @Inject constructor(
     /**
      * 更新用.
      */
-    private val _eventChannel = Channel<TransferRelationEditUiEvent>(Channel.BUFFERED)
+    private val _eventChannel = Channel<UiEvent>(Channel.BUFFERED)
 
     /**
      * 参照用.
@@ -159,11 +159,11 @@ class TransferRelationEditViewModel @Inject constructor(
 
             when (result) {
                 SaveResult.Succeeded -> {
-                    _eventChannel.send(TransferRelationEditUiEvent.ShowSnackbar(R.string.common_save_successfully))
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
                 }
 
                 SaveResult.Failed ->
-                    _eventChannel.send(TransferRelationEditUiEvent.ShowSnackbar(R.string.common_save_failed))
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
     }
@@ -235,13 +235,13 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickAddPayer() {
         viewModelScope.launch {
-            _eventChannel.send(TransferRelationEditUiEvent.OnClickAddPayer)
+            _eventChannel.send(UiEvent.OnClickAddPayer)
         }
     }
 
     fun onClickAddPayee() {
         viewModelScope.launch {
-            _eventChannel.send(TransferRelationEditUiEvent.OnClickAddPayee)
+            _eventChannel.send(UiEvent.OnClickAddPayee)
         }
     }
 
@@ -263,7 +263,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
             when (result) {
                 DeleteResult.Succeeded -> {
-                    _eventChannel.send(TransferRelationEditUiEvent.OnDeleted)
+                    _eventChannel.send(UiEvent.OnDeleted)
                 }
 
                 DeleteResult.Failed ->
