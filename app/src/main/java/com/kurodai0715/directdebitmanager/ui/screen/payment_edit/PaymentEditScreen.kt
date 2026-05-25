@@ -20,6 +20,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun PaymentEditScreen(
     viewModel: PaymentEditViewModel = hiltViewModel(),
+    onClickBack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -27,7 +28,7 @@ fun PaymentEditScreen(
         name = uiState.name,
         onChangeName = { viewModel.updateName(it) },
         onClickClear = { viewModel.updateName("") },
-        onClickBack = { TODO() },
+        onClickBack = onClickBack,
         onClickSave = { viewModel.onClickSave() },
     )
 }

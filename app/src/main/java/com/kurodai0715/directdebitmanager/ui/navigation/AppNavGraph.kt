@@ -167,7 +167,9 @@ fun AppNavGraph(
         }
 
         composable<PaymentEdit> {
-            PaymentEditScreen()
+            PaymentEditScreen(
+                onClickBack = { navController.navigateUp() }
+            )
 
             onChangeTitle(R.string.payment_edit_screen_title)
         }
