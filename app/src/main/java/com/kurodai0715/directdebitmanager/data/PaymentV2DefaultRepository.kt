@@ -114,6 +114,11 @@ class PaymentV2DefaultRepository @Inject constructor(
         localDataSource.rootParentIds(payeeIds)
     }
 
+    /**
+     * 新規作成.
+     *
+     * @return 作成したレコードの id
+     */
     private suspend fun createPayment(
         payment: Payment.InMemory
     ): Int {
