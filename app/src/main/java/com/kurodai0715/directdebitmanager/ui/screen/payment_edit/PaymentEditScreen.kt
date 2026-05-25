@@ -45,8 +45,11 @@ fun PaymentEditContents(
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(name = name, onChangeName = onChangeName,
-                onClickClear = onClickClear)
+            Contents(
+                name = name,
+                onChangeName = onChangeName,
+                onClickClear = onClickClear,
+            )
         },
         bottomButton = {
             BottomButton(onClickBack, onClickSave)
