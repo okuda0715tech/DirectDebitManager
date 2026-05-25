@@ -107,7 +107,7 @@ fun Screen(
             onClickAddPayee = { viewModel.onClickAddPayee() },
         )
 
-        TransferRelationEditDialog(
+        Dialog(
             dialog = uiState.dialog,
             onClickDismiss = { viewModel.dismissDialog() },
             onClickYes = { viewModel.onClickDeleteExecution() },
@@ -118,7 +118,7 @@ fun Screen(
 }
 
 @Composable
-fun TransferRelationEditDialog(
+fun Dialog(
     dialog: UiState.Dialog?,
     onClickDismiss: () -> Unit,
     onClickYes: () -> Unit,
