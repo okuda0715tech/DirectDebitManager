@@ -54,7 +54,7 @@ fun Contents(
     ContentsWithBottomButton(
         modifier = modifier,
         contents = {
-            Contents(onClickItem, uiState)
+            Body(onClickItem, uiState)
         },
         bottomButton = {
             HorizontalTwoButton(
@@ -68,7 +68,7 @@ fun Contents(
 }
 
 @Composable
-fun Contents(
+fun Body(
     onClickItem: (Int) -> Unit,
     uiState: TransferRelationListUiState,
 ) {
