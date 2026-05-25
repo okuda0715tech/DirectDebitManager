@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 data class UiState(
     val id: Id = Id.Unassigned,
-    val name: String,
+    val name: String = "",
 ) {
     sealed interface Id {
         data object Unassigned : Id
@@ -36,7 +36,7 @@ class ViewModel @Inject constructor(
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(UiState(id = UiState.Id.Unassigned, name = ""))
+    private val _uiState = MutableStateFlow(UiState())
 
     val uiState: StateFlow<UiState> = _uiState
 
