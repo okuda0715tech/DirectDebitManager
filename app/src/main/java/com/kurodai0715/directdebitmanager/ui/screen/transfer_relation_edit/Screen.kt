@@ -30,7 +30,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog2
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
@@ -155,7 +155,7 @@ fun Contents(
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(

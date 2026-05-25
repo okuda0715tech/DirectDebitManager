@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 
 @Composable
-fun ContentsWithBottomButton(
+fun BodyBottomButtonLayout(
     modifier: Modifier = Modifier,
     body: @Composable () -> Unit,
     bottomButton: @Composable () -> Unit,
@@ -43,8 +43,8 @@ fun ContentsWithBottomButton(
 
 @Preview
 @Composable
-private fun ContentWithBottomButtonPreview() {
-    ContentsWithBottomButton(
+private fun ContentWithBottomButtonLayoutPreview() {
+    BodyBottomButtonLayout(
         body = { Text("コンテンツ") },
         bottomButton = {
             Button(onClick = {}) {

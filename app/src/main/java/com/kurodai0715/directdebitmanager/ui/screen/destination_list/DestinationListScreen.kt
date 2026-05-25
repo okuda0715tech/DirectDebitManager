@@ -45,7 +45,7 @@ import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -101,7 +101,7 @@ fun DestinationListContents(
     onChangeTab: (TabType) -> Unit,
     onNavigateToEdit: (Int?) -> Unit
 ) {
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(items, tabType, onChangeTab, onNavigateToEdit)

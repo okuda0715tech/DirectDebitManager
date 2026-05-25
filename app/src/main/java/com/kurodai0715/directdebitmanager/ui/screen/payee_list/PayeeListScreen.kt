@@ -25,7 +25,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -72,7 +72,7 @@ fun PayeeListContents(
     onClickItem: (Int) -> Unit,
 ) {
 
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(modifier = Modifier, items = items, onClickItem = onClickItem)

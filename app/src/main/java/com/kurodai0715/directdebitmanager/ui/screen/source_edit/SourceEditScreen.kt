@@ -28,7 +28,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
@@ -135,7 +135,7 @@ fun SourceEditContents(
     onClickSave: () -> Unit,
     onClickType: () -> Unit,
 ) {
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(source, onSourceChanged, sourceErrorMessage, sourceTypeStringRes, onClickType)

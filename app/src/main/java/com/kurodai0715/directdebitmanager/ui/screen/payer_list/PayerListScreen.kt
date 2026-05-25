@@ -35,7 +35,7 @@ import com.kurodai0715.directdebitmanager.domain.model.ItemType
 import com.kurodai0715.directdebitmanager.domain.model.SourceUiModel
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.getSourceTypeStringRes
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -81,7 +81,7 @@ fun PayerListContents(
     onNavigateToEdit: (Int?) -> Unit,
     onNavigateUp: () -> Unit,
 ) {
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(items, onNavigateToEdit)

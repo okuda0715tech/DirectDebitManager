@@ -34,7 +34,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoB
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.SingleChoiceSegmentedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.AppUncertainCircularIndicator
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteNotAllowedDialog
@@ -195,7 +195,7 @@ fun DestinationEditContents(
     onClickSource: () -> Unit,
     onClickDestSelectField: () -> Unit,
 ) {
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(

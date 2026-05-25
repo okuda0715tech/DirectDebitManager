@@ -20,7 +20,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalThreeButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.screens.ContentsWithBottomButton
+import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
 
@@ -90,7 +90,7 @@ fun PayeeEditContents(
     onClickBack: () -> Unit,
     supportingTextRes: Int?
 ) {
-    ContentsWithBottomButton(
+    BodyBottomButtonLayout(
         modifier = modifier,
         body = {
             Contents(
