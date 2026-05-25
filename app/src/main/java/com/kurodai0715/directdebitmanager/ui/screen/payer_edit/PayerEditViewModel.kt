@@ -8,7 +8,6 @@ package com.kurodai0715.directdebitmanager.ui.screen.payer_edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.DirectDebitDefaultRepository
 import com.kurodai0715.directdebitmanager.data.PaymentDefaultRepository
 import com.kurodai0715.directdebitmanager.domain.BasicTextValidator
 import com.kurodai0715.directdebitmanager.domain.ValidationResult
