@@ -157,7 +157,7 @@ fun Contents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(
                 paymentName = paymentName,
                 paymentNameMessage = paymentNameMessage,

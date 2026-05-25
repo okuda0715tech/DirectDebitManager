@@ -83,7 +83,7 @@ fun PayerListContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(items, onNavigateToEdit)
         },
         bottomButton = {

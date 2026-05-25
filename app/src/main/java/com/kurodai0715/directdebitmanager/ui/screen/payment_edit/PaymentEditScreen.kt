@@ -82,7 +82,7 @@ fun PaymentEditContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(
                 name = name,
                 onChangeName = onChangeName,

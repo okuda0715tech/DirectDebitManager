@@ -137,7 +137,7 @@ fun SourceEditContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(source, onSourceChanged, sourceErrorMessage, sourceTypeStringRes, onClickType)
         },
         bottomButton = {

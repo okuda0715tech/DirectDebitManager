@@ -18,7 +18,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 @Composable
 fun ContentsWithBottomButton(
     modifier: Modifier = Modifier,
-    contents: @Composable () -> Unit,
+    body: @Composable () -> Unit,
     bottomButton: @Composable () -> Unit,
 ) {
     Column(
@@ -28,7 +28,7 @@ fun ContentsWithBottomButton(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(modifier = Modifier.weight(1f)) {
-            contents()
+            body()
         }
 
         Spacer(modifier = Modifier.size(LayoutTokens.sectionSpacingHalf))
@@ -45,7 +45,7 @@ fun ContentsWithBottomButton(
 @Composable
 private fun ContentWithBottomButtonPreview() {
     ContentsWithBottomButton(
-        contents = { Text("コンテンツ") },
+        body = { Text("コンテンツ") },
         bottomButton = {
             Button(onClick = {}) {
                 Text("ボタン")

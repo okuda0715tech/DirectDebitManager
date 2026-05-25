@@ -92,7 +92,7 @@ fun PayeeEditContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(
                 payeeName = payeeName,
                 onPayeeNameChanged = onPayeeNameChanged,

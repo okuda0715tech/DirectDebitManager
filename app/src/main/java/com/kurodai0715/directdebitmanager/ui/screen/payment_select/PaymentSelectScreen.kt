@@ -51,7 +51,7 @@ fun PaymentSelectContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(uiState, onClickItem)
         },
         bottomButton = {

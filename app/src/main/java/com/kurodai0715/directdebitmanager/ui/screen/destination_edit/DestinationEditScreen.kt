@@ -197,7 +197,7 @@ fun DestinationEditContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(
                 sourceName = sourceName,
                 onClickSource = onClickSource,

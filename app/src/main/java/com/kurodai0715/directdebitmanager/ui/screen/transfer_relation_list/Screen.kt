@@ -53,7 +53,7 @@ fun Contents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Body(onClickItem, uiState)
         },
         bottomButton = {

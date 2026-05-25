@@ -83,7 +83,7 @@ fun SourceListContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(items, onNavigateToEdit)
         },
         bottomButton = {

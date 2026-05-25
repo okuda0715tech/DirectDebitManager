@@ -74,7 +74,7 @@ fun PayeeListContents(
 
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(modifier = Modifier, items = items, onClickItem = onClickItem)
         },
         bottomButton = {

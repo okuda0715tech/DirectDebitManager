@@ -103,7 +103,7 @@ fun DestinationListContents(
 ) {
     ContentsWithBottomButton(
         modifier = modifier,
-        contents = {
+        body = {
             Contents(items, tabType, onChangeTab, onNavigateToEdit)
         },
         bottomButton = {
