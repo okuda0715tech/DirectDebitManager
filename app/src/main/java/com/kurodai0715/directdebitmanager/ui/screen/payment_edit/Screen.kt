@@ -36,21 +36,6 @@ fun Screen(
 
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        viewModel.eventFlow.collect { event ->
-            when (event) {
-                is UiEvent.ShowSnackbar -> launch {
-                    // showSnackbar() 関数は suspend 関数であるため、スナックバーが消えるまで
-                    // 次の命令に進めない。そのため、 launch{} ブロック内で実行することにより、
-                    // 別の子ルーチン化することにより、すぐに後続のコルーチンを開始している。
-                    snackbarHostState.showSnackbar(
-                        message = context.getString(event.messageRes)
-                    )
-                }
-            }
-        }
-    }
-
     Scaffold(snackbarHost = {
         SnackbarHost(
             hostState = snackbarHostState,
@@ -60,6 +45,21 @@ fun Screen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+        LaunchedEffect(Unit) {
+            viewModel.eventFlow.collect { event ->
+                when (event) {
+                    is UiEvent.ShowSnackbar -> launch {
+                        // showSnackbar() 関数は suspend 関数であるため、スナックバーが消えるまで
+                        // 次の命令に進めない。そのため、 launch{} ブロック内で実行することにより、
+                        // 別の子ルーチン化することにより、すぐに後続のコルーチンを開始している。
+                        snackbarHostState.showSnackbar(
+                            message = context.getString(event.messageRes)
+                        )
+                    }
+                }
+            }
+        }
 
         PaymentEditContents(
             modifier = Modifier.padding(paddingValues),
