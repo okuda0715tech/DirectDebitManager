@@ -65,7 +65,6 @@ data class TransferRelationEditUiState(
 
 sealed class TransferRelationEditUiEvent {
     data class ShowSnackbar(val messageRes: Int) : TransferRelationEditUiEvent()
-    data object OnClickBack : TransferRelationEditUiEvent()
     data object OnClickPayer : TransferRelationEditUiEvent()
     data object OnClickAddPayer : TransferRelationEditUiEvent()
     data object OnClickAddPayee : TransferRelationEditUiEvent()
@@ -223,12 +222,6 @@ class TransferRelationEditViewModel @Inject constructor(
             val uiPayees = domainPayees.toUiPayees()
 
             payees.update { uiPayees }
-        }
-    }
-
-    fun onClickBack() {
-        viewModelScope.launch {
-            _eventChannel.send(TransferRelationEditUiEvent.OnClickBack)
         }
     }
 

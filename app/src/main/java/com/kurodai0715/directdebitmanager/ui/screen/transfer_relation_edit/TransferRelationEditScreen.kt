@@ -81,8 +81,6 @@ fun TransferRelationEditScreen(
                         )
                     }
 
-                    TransferRelationEditUiEvent.OnClickBack -> onClickBack()
-
                     TransferRelationEditUiEvent.OnClickPayer -> onClickPayer()
 
                     TransferRelationEditUiEvent.OnClickAddPayer -> onClickAddPayer()
@@ -96,7 +94,7 @@ fun TransferRelationEditScreen(
 
         TransferRelationEditContents(
             modifier = Modifier.padding(paddingValues),
-            onClickBack = { viewModel.onClickBack() },
+            onClickBack = onClickBack,
             onClickSave = { viewModel.save() },
             paymentName = uiState.payment.name,
             paymentNameMessage = uiState.payment.messageRes,
