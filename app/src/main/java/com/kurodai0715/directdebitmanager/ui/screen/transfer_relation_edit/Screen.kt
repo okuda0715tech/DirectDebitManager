@@ -42,6 +42,7 @@ fun Screen(
     paymentId: Int?,
     viewModel: TransferRelationEditViewModel,
     onClickBack: () -> Unit,
+    onClickPayment: (Int) -> Unit,
     onClickPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
@@ -81,6 +82,8 @@ fun Screen(
                         )
                     }
 
+                    is UiEvent.OnClickPayment -> onClickPayment(event.paymentId)
+
                     UiEvent.OnClickPayer -> onClickPayer()
 
                     UiEvent.OnClickAddPayer -> onClickAddPayer()
@@ -98,6 +101,7 @@ fun Screen(
             onClickSave = { viewModel.save() },
             paymentName = uiState.payment.name,
             paymentNameMessage = uiState.payment.messageRes,
+            onClickPayment = { viewModel.onClickPayment() },
             onClickDelete = { viewModel.onClickDeletePayment() },
             payer = uiState.payer,
             onClickDetachPayer = { viewModel.onClickDetachPayer() },
@@ -147,6 +151,7 @@ fun Contents(
     onClickSave: () -> Unit,
     paymentName: String,
     paymentNameMessage: Int?,
+    onClickPayment: () -> Unit,
     onClickDelete: () -> Unit,
     payer: UiState.Payer,
     onClickDetachPayer: () -> Unit,
@@ -161,6 +166,7 @@ fun Contents(
             Body(
                 paymentName = paymentName,
                 paymentNameMessage = paymentNameMessage,
+                onClickPayment = onClickPayment,
                 onClickDelete = onClickDelete,
                 payer = payer,
                 onClickDetachPayer = onClickDetachPayer,
@@ -191,6 +197,7 @@ private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
 fun Body(
     paymentName: String,
     paymentNameMessage: Int?,
+    onClickPayment: () -> Unit,
     onClickDelete: () -> Unit,
     payer: UiState.Payer,
     onClickDetachPayer: () -> Unit,
@@ -203,7 +210,12 @@ fun Body(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Payment(paymentName, paymentNameMessage, onClickDelete)
+        Payment(
+            paymentName = paymentName,
+            paymentNameMessage = paymentNameMessage,
+            onClickPayment = onClickPayment,
+            onClickDelete = onClickDelete
+        )
 
         Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacingHalf))
 
@@ -238,12 +250,13 @@ fun Body(
 private fun Payment(
     paymentName: String,
     paymentNameMessage: Int?,
+    onClickPayment: () -> Unit,
     onClickDelete: () -> Unit,
 ) {
     ReadOnlyForm(
         labelText = stringResource(R.string.payment_name_label),
         text = paymentName,
-        onClickText = { TODO() },
+        onClickText = onClickPayment,
         supportingText = paymentNameMessage,
         icon = painterResource(id = R.drawable.baseline_delete_outline_24),
         iconDescription = stringResource(id = R.string.delete_payment_icon_description),
@@ -326,6 +339,7 @@ private fun Preview() {
         onClickSave = {},
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
+        onClickPayment = {},
         onClickDelete = {},
         payer = UiState.Payer.Assigned(
             id = 1,
@@ -351,6 +365,7 @@ private fun NoPayerNoPayeePreview() {
         onClickSave = {},
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
+        onClickPayment = {},
         onClickDelete = {},
         payer = UiState.Payer.Unassigned,
         onClickDetachPayer = {},

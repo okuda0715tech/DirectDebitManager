@@ -91,4 +91,6 @@ data class PaymentSelect(
 ) : TransferBase
 
 @Serializable
-data object PaymentEdit: NavDestination
+data class PaymentEdit(
+    val paymentId: Int?
+): NavDestination

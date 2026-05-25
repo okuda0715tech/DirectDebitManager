@@ -28,6 +28,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Screen(
+    paymentId: Int?,
     viewModel: ViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
 ) {

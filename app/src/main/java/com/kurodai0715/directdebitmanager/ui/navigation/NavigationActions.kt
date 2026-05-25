@@ -56,7 +56,7 @@ fun NavController.navigateToPayerList() {
     navigate(PayerList)
 }
 
-fun NavController.navigateToPaymentEdit() {
+fun NavController.navigateToPaymentEdit(paymentId: Int? = null) {
     navigate(PaymentEdit)
 }
 

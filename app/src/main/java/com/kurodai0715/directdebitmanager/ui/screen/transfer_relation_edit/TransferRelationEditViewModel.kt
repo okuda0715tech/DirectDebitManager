@@ -65,6 +65,7 @@ data class UiState(
 
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
+    data class OnClickPayment(val paymentId: Int) : UiEvent()
     data object OnClickPayer : UiEvent()
     data object OnClickAddPayer : UiEvent()
     data object OnClickAddPayee : UiEvent()
@@ -274,5 +275,20 @@ class TransferRelationEditViewModel @Inject constructor(
 
     private suspend fun deletePayment(payment: Payment.Persisted): DeleteResult {
         return paymentCommandUseCase.deletePayment(payment)
+    }
+
+    fun onClickPayment() {
+        when (val id = payment.value.id) {
+
+            is UiState.Payment.Id.Assigned -> {
+                viewModelScope.launch {
+                    _eventChannel.send(UiEvent.OnClickPayment(id.value))
+                }
+            }
+
+            else -> {
+                throw IllegalStateException("paymentId is Unassigned.")
+            }
+        }
     }
 }
