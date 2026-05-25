@@ -158,7 +158,7 @@ fun Contents(
     BodyBottomButtonLayout(
         modifier = modifier,
         body = {
-            Contents(
+            Body(
                 paymentName = paymentName,
                 paymentNameMessage = paymentNameMessage,
                 onClickDelete = onClickDelete,
@@ -188,7 +188,7 @@ private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
 }
 
 @Composable
-fun Contents(
+fun Body(
     paymentName: String,
     paymentNameMessage: Int?,
     onClickDelete: () -> Unit,
