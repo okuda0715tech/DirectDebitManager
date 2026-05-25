@@ -6,6 +6,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
+import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +27,8 @@ sealed class UiEvent {
 
 @HiltViewModel
 class ViewModel @Inject constructor(
-    private val paymentCommandUseCase: PaymentCommandUseCase
+    private val paymentQueryUseCase: PaymentQueryUseCase,
+    private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState(id = 0, name = ""))
@@ -42,6 +44,30 @@ class ViewModel @Inject constructor(
      * 参照用.
      */
     val eventFlow = _eventChannel.receiveAsFlow()
+
+    private var initialized = false
+
+    fun initialize(paymentId: Int?) {
+        if (initialized) return
+        initialized = true
+
+        paymentId?.let { loadPaymentBy(it) }
+    }
+
+    private fun loadPaymentBy(paymentId: Int) {
+        viewModelScope.launch {
+            val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
+
+            require(loadedPayment != null) { "loadedPayment is null." }
+
+            _uiState.update {
+                it.copy(
+                    id = loadedPayment.id.value,
+                    name = loadedPayment.name.value
+                )
+            }
+        }
+    }
 
     fun updateName(name: String) {
         _uiState.update { it.copy(name = name) }
