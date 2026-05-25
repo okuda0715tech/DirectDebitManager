@@ -5,22 +5,22 @@ import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentName
 
-fun TransferRelationEditUiState.paymentToDomain(): Payment {
+fun UiState.paymentToDomain(): Payment {
     val name = PaymentName.of(payment.name)
 
     val payerId = when (payer) {
-        is TransferRelationEditUiState.Payer.Unassigned -> PayerId.NONE
-        is TransferRelationEditUiState.Payer.Assigned -> PayerId.of(payer.id)
+        is UiState.Payer.Unassigned -> PayerId.NONE
+        is UiState.Payer.Assigned -> PayerId.of(payer.id)
     }
 
     return when (val paymentId = payment.id) {
-        is TransferRelationEditUiState.Payment.Id.Unassigned ->
+        is UiState.Payment.Id.Unassigned ->
             Payment.InMemory(
                 name = name,
                 payerId = payerId,
             )
 
-        is TransferRelationEditUiState.Payment.Id.Assigned ->
+        is UiState.Payment.Id.Assigned ->
             Payment.Persisted(
                 id = PaymentId.of(paymentId.value),
                 name = name,
@@ -29,19 +29,19 @@ fun TransferRelationEditUiState.paymentToDomain(): Payment {
     }
 }
 
-fun TransferRelationEditUiState.paymentToDomain2(): Payment.Persisted {
+fun UiState.paymentToDomain2(): Payment.Persisted {
     val name = PaymentName.of(payment.name)
 
     val payerId = when (payer) {
-        is TransferRelationEditUiState.Payer.Unassigned -> PayerId.NONE
-        is TransferRelationEditUiState.Payer.Assigned -> PayerId.of(payer.id)
+        is UiState.Payer.Unassigned -> PayerId.NONE
+        is UiState.Payer.Assigned -> PayerId.of(payer.id)
     }
 
     return when (val paymentId = payment.id) {
-        is TransferRelationEditUiState.Payment.Id.Unassigned ->
+        is UiState.Payment.Id.Unassigned ->
             throw IllegalStateException("paymentId is Unassigned.")
 
-        is TransferRelationEditUiState.Payment.Id.Assigned ->
+        is UiState.Payment.Id.Assigned ->
             Payment.Persisted(
                 id = PaymentId.of(paymentId.value),
                 name = name,
@@ -50,24 +50,24 @@ fun TransferRelationEditUiState.paymentToDomain2(): Payment.Persisted {
     }
 }
 
-fun TransferRelationEditUiState.Payee.toDomain(): Payment.Persisted {
+fun UiState.Payee.toDomain(): Payment.Persisted {
     return Payment.Persisted(
         id = PaymentId.of(id),
         name = PaymentName.of(name),
     )
 }
 
-fun List<TransferRelationEditUiState.Payee>.toDomain(): List<Payment.Persisted> {
+fun List<UiState.Payee>.toDomain(): List<Payment.Persisted> {
     return map { it.toDomain() }
 }
 
-fun Payment.Persisted.toUiPayee(): TransferRelationEditUiState.Payee {
-    return TransferRelationEditUiState.Payee(
+fun Payment.Persisted.toUiPayee(): UiState.Payee {
+    return UiState.Payee(
         id = id.value,
         name = name.value,
     )
 }
 
-fun List<Payment.Persisted>.toUiPayees(): List<TransferRelationEditUiState.Payee> {
+fun List<Payment.Persisted>.toUiPayees(): List<UiState.Payee> {
     return map { it.toUiPayee() }
 }

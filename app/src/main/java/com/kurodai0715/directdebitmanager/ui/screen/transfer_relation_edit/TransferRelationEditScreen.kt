@@ -119,13 +119,13 @@ fun TransferRelationEditScreen(
 
 @Composable
 fun TransferRelationEditDialog(
-    dialog: TransferRelationEditUiState.Dialog?,
+    dialog: UiState.Dialog?,
     onClickDismiss: () -> Unit,
     onClickYes: () -> Unit,
     onClickNo: () -> Unit
 ) {
     when (dialog) {
-        is TransferRelationEditUiState.Dialog.DeleteConfirm -> {
+        is UiState.Dialog.DeleteConfirm -> {
             DeleteConfirmDialog2(
                 itemName = dialog.itemName,
                 onDismissRequest = onClickDismiss,
@@ -148,10 +148,10 @@ fun TransferRelationEditContents(
     paymentName: String,
     paymentNameMessage: Int?,
     onClickDelete: () -> Unit,
-    payer: TransferRelationEditUiState.Payer,
+    payer: UiState.Payer,
     onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
-    payees: List<TransferRelationEditUiState.Payee>,
+    payees: List<UiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
@@ -192,10 +192,10 @@ fun Contents(
     paymentName: String,
     paymentNameMessage: Int?,
     onClickDelete: () -> Unit,
-    payer: TransferRelationEditUiState.Payer,
+    payer: UiState.Payer,
     onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
-    payees: List<TransferRelationEditUiState.Payee>,
+    payees: List<UiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
@@ -253,12 +253,12 @@ private fun Payment(
 
 @Composable
 private fun Payer(
-    payer: TransferRelationEditUiState.Payer,
+    payer: UiState.Payer,
     onClickAddPayer: () -> Unit,
     onClickDetachPayer: () -> Unit
 ) {
     when (payer) {
-        is TransferRelationEditUiState.Payer.Unassigned -> {
+        is UiState.Payer.Unassigned -> {
             FilledTonalButton(onClick = { debouncedClick { onClickAddPayer() } }) {
                 Icon(
                     painter = painterResource(R.drawable.outline_add_link_24),
@@ -271,7 +271,7 @@ private fun Payer(
 
         }
 
-        is TransferRelationEditUiState.Payer.Assigned -> {
+        is UiState.Payer.Assigned -> {
             ReadOnlyForm(
                 labelText = stringResource(R.string.payer_label),
                 text = payer.name,
@@ -286,7 +286,7 @@ private fun Payer(
 }
 
 fun LazyListScope.payees(
-    payees: List<TransferRelationEditUiState.Payee>,
+    payees: List<UiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
 ) {
@@ -327,16 +327,16 @@ private fun Preview() {
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
         onClickDelete = {},
-        payer = TransferRelationEditUiState.Payer.Assigned(
+        payer = UiState.Payer.Assigned(
             id = 1,
             name = "三井住友銀行",
         ),
         onClickDetachPayer = {},
         onClickAddPayer = {},
         payees = listOf(
-            TransferRelationEditUiState.Payee(id = 1, name = "電気料金"),
-            TransferRelationEditUiState.Payee(id = 2, name = "水道料金"),
-            TransferRelationEditUiState.Payee(id = 3, name = "ガス料金"),
+            UiState.Payee(id = 1, name = "電気料金"),
+            UiState.Payee(id = 2, name = "水道料金"),
+            UiState.Payee(id = 3, name = "ガス料金"),
         ),
         onClickDetachPayee = {},
         onClickAddPayee = {},
@@ -352,7 +352,7 @@ private fun NoPayerNoPayeePreview() {
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
         onClickDelete = {},
-        payer = TransferRelationEditUiState.Payer.Unassigned,
+        payer = UiState.Payer.Unassigned,
         onClickDetachPayer = {},
         onClickAddPayer = {},
         payees = listOf(),
