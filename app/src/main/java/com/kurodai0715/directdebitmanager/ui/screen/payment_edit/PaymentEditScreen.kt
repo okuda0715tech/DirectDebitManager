@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun PaymentEditScreen(
-    viewModel: PaymentEditViewModel = hiltViewModel(),
+    viewModel: ViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }

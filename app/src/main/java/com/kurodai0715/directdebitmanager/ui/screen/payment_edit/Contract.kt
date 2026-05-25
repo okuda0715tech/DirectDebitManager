@@ -25,7 +25,7 @@ sealed class UiEvent {
 }
 
 @HiltViewModel
-class PaymentEditViewModel @Inject constructor(
+class ViewModel @Inject constructor(
     private val paymentCommandUseCase: PaymentCommandUseCase
 ) : ViewModel() {
 
