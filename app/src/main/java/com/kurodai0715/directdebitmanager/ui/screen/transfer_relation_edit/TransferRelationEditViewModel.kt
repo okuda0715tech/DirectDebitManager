@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
@@ -122,6 +123,8 @@ class TransferRelationEditViewModel @Inject constructor(
     }
 
     private fun loadPaymentBy(paymentId: Int) {
+        Log.d(TAG, "loadPaymentBy: paymentId=$paymentId")
+
         viewModelScope.launch {
             val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
 
