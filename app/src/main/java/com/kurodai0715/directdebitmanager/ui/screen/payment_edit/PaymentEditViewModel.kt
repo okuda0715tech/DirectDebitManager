@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-data class PaymentEditUiState(
+data class UiState(
     val id: Int,
     val name: String,
 )
@@ -29,9 +29,9 @@ class PaymentEditViewModel @Inject constructor(
     private val paymentCommandUseCase: PaymentCommandUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(PaymentEditUiState(id = 0, name = ""))
+    private val _uiState = MutableStateFlow(UiState(id = 0, name = ""))
 
-    val uiState: StateFlow<PaymentEditUiState> = _uiState
+    val uiState: StateFlow<UiState> = _uiState
 
     /**
      * 更新用.
