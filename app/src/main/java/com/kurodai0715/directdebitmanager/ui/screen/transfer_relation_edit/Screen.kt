@@ -92,7 +92,7 @@ fun Screen(
             }
         }
 
-        TransferRelationEditContents(
+        Contents(
             modifier = Modifier.padding(paddingValues),
             onClickBack = onClickBack,
             onClickSave = { viewModel.save() },
@@ -141,7 +141,7 @@ fun TransferRelationEditDialog(
 }
 
 @Composable
-fun TransferRelationEditContents(
+fun Contents(
     modifier: Modifier = Modifier,
     onClickBack: () -> Unit,
     onClickSave: () -> Unit,
@@ -321,7 +321,7 @@ fun LazyListScope.payees(
 @Preview(name = "TransferRelationEditContents")
 @Composable
 private fun Preview() {
-    TransferRelationEditContents(
+    Contents(
         onClickBack = {},
         onClickSave = {},
         paymentName = "リクルートカードプラス",
@@ -346,7 +346,7 @@ private fun Preview() {
 @Preview(name = "TransferRelationEditContents")
 @Composable
 private fun NoPayerNoPayeePreview() {
-    TransferRelationEditContents(
+    Contents(
         onClickBack = {},
         onClickSave = {},
         paymentName = "リクルートカードプラス",
