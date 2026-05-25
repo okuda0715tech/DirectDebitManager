@@ -28,9 +28,9 @@ import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.Screen as Payme
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.PaymentSelectScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
-import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditScreen
+import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditScreen as TransferRelationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditViewModel
-import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.TransferRelationListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.TransferRelationListScreen as TransferRelationListScreen
 
 private const val TAG = "AppNavGraph.kt"
 
