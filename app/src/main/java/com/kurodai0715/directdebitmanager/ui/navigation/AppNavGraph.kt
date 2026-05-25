@@ -30,7 +30,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.Screen as TransferRelationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditViewModel
-import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.TransferRelationListScreen as TransferRelationListScreen
+import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.Screen as TransferRelationListScreen
 
 private const val TAG = "AppNavGraph.kt"
 

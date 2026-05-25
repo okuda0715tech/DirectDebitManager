@@ -26,7 +26,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 private const val TAG = "TransferRelationListScreen"
 
 @Composable
-fun TransferRelationListScreen(
+fun Screen(
     viewModel: TransferRelationListViewModel = hiltViewModel(),
     onClickBack: () -> Unit,
     onClickAdd: () -> Unit,
