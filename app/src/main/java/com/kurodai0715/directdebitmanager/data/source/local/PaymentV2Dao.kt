@@ -18,6 +18,11 @@ interface PaymentV2Dao {
     @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
     suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>
 
+    /**
+     * 新規作成.
+     *
+     * @return 作成したレコードの id
+     */
     @Insert
     suspend fun insertPayment(payment: PaymentEntityV2): Long
 
