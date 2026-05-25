@@ -55,7 +55,7 @@ class PaymentV2DefaultRepository @Inject constructor(
         return withContext(ioDispatcher) {
             try {
                 db.withTransaction {
-                    val paymentId = upsertPayment(aggregate)
+                    val paymentId = upsertPayment(aggregate.payment)
 
                     requestDetachPayees(paymentId, aggregate)
 
@@ -73,8 +73,8 @@ class PaymentV2DefaultRepository @Inject constructor(
     /**
      * 支払情報を更新または新規作成する.
      */
-    private suspend fun upsertPayment(aggregate: PaymentAggregate): Int =
-        when (val payment = aggregate.payment) {
+    private suspend fun upsertPayment(payment: Payment): Int =
+        when (payment) {
             is Payment.Persisted -> {
                 updatePayment(payment)
                 payment.id.value
