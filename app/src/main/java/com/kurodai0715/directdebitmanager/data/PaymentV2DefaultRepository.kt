@@ -38,6 +38,18 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.loadChildItemsBy(parentId).map { it.id }.toSet()
     }
 
+    override suspend fun requestCreatePayment(payment: Payment.InMemory): RepositoryResult {
+        return withContext(ioDispatcher) {
+            try {
+                createPayment(payment)
+                RepositoryResult.Success
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                RepositoryResult.Failure(e)
+            }
+        }
+    }
+
     override suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult {
 
         return withContext(ioDispatcher) {

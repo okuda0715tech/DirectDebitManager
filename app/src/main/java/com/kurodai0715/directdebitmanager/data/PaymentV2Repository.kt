@@ -13,6 +13,8 @@ interface PaymentV2Repository {
 
     suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>
 
+    suspend fun requestCreatePayment(payment: Payment.InMemory): RepositoryResult
+
     suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult
 
     suspend fun requestDeletePayment(payment: Payment.Persisted): RepositoryResult

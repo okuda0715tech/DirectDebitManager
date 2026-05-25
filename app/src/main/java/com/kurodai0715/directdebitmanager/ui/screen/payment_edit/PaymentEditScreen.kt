@@ -28,7 +28,7 @@ fun PaymentEditScreen(
         onChangeName = { viewModel.updateName(it) },
         onClickClear = { viewModel.updateName("") },
         onClickBack = { TODO() },
-        onClickSave = { TODO() },
+        onClickSave = { viewModel.onClickSave() },
     )
 }
 
