@@ -56,7 +56,7 @@ value class PayerId private constructor(val value: Int) {
     val isValid: Boolean
         get() = this != NONE
 
-    val valueOrZero: Int?
+    val valueOrZero: Int
         get() = if (this == NONE) 0 else value
 }
 

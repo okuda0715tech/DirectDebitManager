@@ -17,5 +17,5 @@ data class PaymentEntityV2(
 
     val label: String,
 
-    val parentId: Int? = null,
+    val parentId: Int = 0,
 )
