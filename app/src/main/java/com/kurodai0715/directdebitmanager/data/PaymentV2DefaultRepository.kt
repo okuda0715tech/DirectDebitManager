@@ -38,10 +38,10 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.loadChildItemsBy(parentId).map { it.id }.toSet()
     }
 
-    override suspend fun requestCreatePayment(payment: Payment.InMemory): RepositoryResult {
+    override suspend fun requestSavePayment(id: Int?, name: String): RepositoryResult {
         return withContext(ioDispatcher) {
             try {
-                createPayment(payment)
+                upsertPaymentV2(id, name)
                 RepositoryResult.Success
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
@@ -82,6 +82,20 @@ class PaymentV2DefaultRepository @Inject constructor(
 
             is Payment.InMemory -> {
                 createPayment(payment)
+            }
+        }
+
+    /**
+     * 支払情報を更新または新規作成する.
+     */
+    private suspend fun upsertPaymentV2(id: Int?, name: String) =
+        when (id) {
+            null -> {
+                createPaymentV2(name)
+            }
+
+            else -> {
+                updatePaymentV2(id, name)
             }
         }
 
@@ -144,6 +158,21 @@ class PaymentV2DefaultRepository @Inject constructor(
         }
     }
 
+    /**
+     * 新規作成.
+     *
+     * @return 作成したレコードの id
+     */
+    private suspend fun createPaymentV2(
+        name: String
+    ): Int {
+        return withContext(ioDispatcher) {
+            localDataSource.insertPayment(
+                PaymentEntityV2(label = name)
+            ).toInt()
+        }
+    }
+
     private suspend fun updatePayment(
         payment: Payment.Persisted
     ) {
@@ -158,6 +187,24 @@ class PaymentV2DefaultRepository @Inject constructor(
                     id = payment.id.value,
                     label = payment.name.value,
                     parentId = payment.payerId.valueOrZero,
+                )
+            )
+        }
+    }
+
+    private suspend fun updatePaymentV2(
+        id: Int, name: String
+    ) {
+        withContext(ioDispatcher) {
+            val item = localDataSource.loadItemBy(id)
+                ?: throw IllegalStateException(
+                    "item is not found whose id = $id."
+                )
+
+            localDataSource.updatePayment(
+                item.copy(
+                    id = id,
+                    label = name,
                 )
             )
         }
@@ -196,7 +243,7 @@ class PaymentV2DefaultRepository @Inject constructor(
                     "item is not found whose id = ${paymentId}."
                 )
 
-             localDataSource.deleteItem(item.id)
+            localDataSource.deleteItem(item.id)
         }
     }
 }

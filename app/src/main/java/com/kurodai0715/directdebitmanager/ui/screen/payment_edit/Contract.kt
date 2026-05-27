@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
-import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -80,9 +79,7 @@ class ViewModel @Inject constructor(
 
     fun onClickSave() {
         viewModelScope.launch {
-            val payment = uiState.value.toDomainPayment()
-
-            val result = savePayment(payment)
+            val result = savePayment(uiState.value.idToInt(), uiState.value.name)
 
             when (result) {
                 CreatePaymentResult.Succeeded -> {
@@ -95,7 +92,7 @@ class ViewModel @Inject constructor(
         }
     }
 
-    private suspend fun savePayment(payment: Payment.InMemory): CreatePaymentResult {
-        return paymentCommandUseCase.createPayment(payment)
+    private suspend fun savePayment(id: Int?, name: String): CreatePaymentResult {
+        return paymentCommandUseCase.savePaymentV2(id, name)
     }
 }

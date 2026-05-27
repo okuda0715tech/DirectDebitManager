@@ -12,8 +12,8 @@ import javax.inject.Inject
 class PaymentCommandUseCase @Inject constructor(
     private val repo: PaymentV2Repository
 ) {
-    suspend fun createPayment(payment: Payment.InMemory): CreatePaymentResult {
-        val result = repo.requestCreatePayment(payment)
+    suspend fun savePaymentV2(id: Int?, name: String): CreatePaymentResult {
+        val result = repo.requestSavePayment(id, name)
 
         return when (result) {
             is RepositoryResult.Success -> CreatePaymentResult.Succeeded
