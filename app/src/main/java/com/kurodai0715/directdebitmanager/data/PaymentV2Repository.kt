@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface PaymentV2Repository {
 
+    fun loadPaymentBy(id: Int): Flow<PaymentEntityV2?>
+
     fun loadPayments(): Flow<List<PaymentEntityV2>>
 
     suspend fun loadItemBy(id: Int): PaymentEntityV2?

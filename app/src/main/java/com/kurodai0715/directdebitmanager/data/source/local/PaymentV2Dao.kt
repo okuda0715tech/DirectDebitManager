@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PaymentV2Dao {
 
+    @Query("SELECT * FROM payment_v2 WHERE id = :id")
+    fun observePaymentBy(id: Int): Flow<PaymentEntityV2?>
+
     @Query("SELECT * FROM payment_v2")
     fun observePayments(): Flow<List<PaymentEntityV2>>
 

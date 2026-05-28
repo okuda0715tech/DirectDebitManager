@@ -11,6 +11,10 @@ class PaymentQueryUseCase @Inject constructor(
     private val repo: PaymentV2Repository
 ) {
 
+    fun loadPaymentByV2(id: Int): Flow<PaymentEntityV2?> {
+        return repo.loadPaymentBy(id)
+    }
+
     fun loadPayments(): Flow<List<PaymentEntityV2>> {
         return repo.loadPayments()
     }

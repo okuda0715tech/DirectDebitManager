@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit
 
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
@@ -24,4 +25,10 @@ fun Payment.Persisted.toUiPayee(): UiState.Payee {
 
 fun List<Payment.Persisted>.toUiPayees(): List<UiState.Payee> {
     return map { it.toUiPayee() }
+}
+
+fun PaymentEntityV2.toUiPayment(): UiState.Payment {
+    return UiState.Payment(
+        name = label,
+    )
 }

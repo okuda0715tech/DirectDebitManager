@@ -21,6 +21,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -29,7 +30,6 @@ import javax.inject.Inject
 
 private const val TAG = "PaymentEditViewModel.kt"
 
-// TODO ストリームを構築し、常に最新の支払情報を画面に表示する。
 data class UiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer.Unassigned,
@@ -88,10 +88,15 @@ class TransferRelationEditViewModel @Inject constructor(
         .toRoute<TransferRelationEditGraph>()
         .paymentId
 
-    /**
-     * ユーザーが支払情報編集画面に直接入力した値.
-     */
-    private val payment = MutableStateFlow(UiState.Payment())
+    private val payment = paymentQueryUseCase.loadPaymentByV2(paymentId)
+        .map {
+            it?.toUiPayment() ?: UiState.Payment()
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileUiSubscribed,
+            initialValue = UiState.Payment()
+        )
 
     private val payer: MutableStateFlow<UiState.Payer> =
         MutableStateFlow(UiState.Payer.Unassigned)
@@ -133,12 +138,6 @@ class TransferRelationEditViewModel @Inject constructor(
             val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
 
             require(loadedPayment != null) { "loadedPayment is null." }
-
-            payment.update {
-                it.copy(
-                    name = loadedPayment.name.value
-                )
-            }
 
             if (loadedPayment.payerId.isValid)
                 addPayer(loadedPayment.payerId.value)
