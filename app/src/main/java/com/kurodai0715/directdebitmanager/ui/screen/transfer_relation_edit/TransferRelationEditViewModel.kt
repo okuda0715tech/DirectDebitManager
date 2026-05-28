@@ -10,7 +10,6 @@ import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
-import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
@@ -155,21 +154,8 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    fun updatePaymentName(paymentName: String) {
-        payment.update {
-            it.copy(
-                name = paymentName
-            )
-        }
-    }
-
     fun save() {
         viewModelScope.launch {
-            val aggregate = PaymentAggregate(
-                payment = uiState.value.paymentToDomain(),
-                payees = uiState.value.payees.toDomain(),
-            )
-
             val result = saveRelations(
                 paymentId = uiState.value.getPaymentId(),
                 payerId = uiState.value.getPayerId(),
