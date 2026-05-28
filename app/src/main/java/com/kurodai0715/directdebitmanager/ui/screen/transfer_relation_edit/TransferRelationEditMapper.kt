@@ -24,30 +24,6 @@ fun UiState.getPayeeIds(): Set<PayeeId> {
     return this.payees.map { PayeeId.of(it.id) }.toSet()
 }
 
-fun UiState.paymentToDomain(): Payment {
-    val name = PaymentName.of(payment.name)
-
-    val payerId = when (payer) {
-        is UiState.Payer.Unassigned -> PayerId.NONE
-        is UiState.Payer.Assigned -> PayerId.of(payer.id)
-    }
-
-    return when (val paymentId = payment.id) {
-        is UiState.Payment.Id.Unassigned ->
-            Payment.InMemory(
-                name = name,
-                payerId = payerId,
-            )
-
-        is UiState.Payment.Id.Assigned ->
-            Payment.Persisted(
-                id = PaymentId.of(paymentId.value),
-                name = name,
-                payerId = payerId,
-            )
-    }
-}
-
 fun UiState.paymentToDomain2(): Payment.Persisted {
     val name = PaymentName.of(payment.name)
 
@@ -67,17 +43,6 @@ fun UiState.paymentToDomain2(): Payment.Persisted {
                 payerId = payerId,
             )
     }
-}
-
-fun UiState.Payee.toDomain(): Payment.Persisted {
-    return Payment.Persisted(
-        id = PaymentId.of(id),
-        name = PaymentName.of(name),
-    )
-}
-
-fun List<UiState.Payee>.toDomain(): List<Payment.Persisted> {
-    return map { it.toDomain() }
 }
 
 fun Payment.Persisted.toUiPayee(): UiState.Payee {
