@@ -41,7 +41,7 @@ class PaymentV2DefaultRepository @Inject constructor(
     override suspend fun requestSavePayment(id: Int?, name: String): RepositoryResult {
         return withContext(ioDispatcher) {
             try {
-                upsertPaymentV2(id, name)
+                upsertPayment(id, name)
                 RepositoryResult.Success
             } catch (e: Exception) {
                 Log.e(TAG, "$e")
@@ -61,9 +61,9 @@ class PaymentV2DefaultRepository @Inject constructor(
                 db.withTransaction {
                     updateParentId(paymentId, payerId.value)
 
-                    requestDetachPayeesV2(paymentId, payeeIds)
+                    requestDetachPayees(paymentId, payeeIds)
 
-                    updatePayeesParentIdV2(payeeIds, paymentId)
+                    updatePayeesParentId(payeeIds, paymentId)
                 }
 
                 RepositoryResult.Success
@@ -77,21 +77,21 @@ class PaymentV2DefaultRepository @Inject constructor(
     /**
      * 支払情報を更新または新規作成する.
      */
-    private suspend fun upsertPaymentV2(id: Int?, name: String) =
+    private suspend fun upsertPayment(id: Int?, name: String) =
         when (id) {
             null -> {
-                createPaymentV2(name)
+                createPayment(name)
             }
 
             else -> {
-                updatePaymentV2(id, name)
+                updatePayment(id, name)
             }
         }
 
     /**
      * 支払先の parentId を更新する.
      */
-    private suspend fun updatePayeesParentIdV2(
+    private suspend fun updatePayeesParentId(
         payeeIds: Set<PayeeId>,
         paymentId: Int
     ) {
@@ -106,7 +106,7 @@ class PaymentV2DefaultRepository @Inject constructor(
     /**
      * 振替関係を解除したい支払先の parentId を 0 で更新する.
      */
-    private suspend fun requestDetachPayeesV2(
+    private suspend fun requestDetachPayees(
         paymentId: Int,
         payeeIds: Set<PayeeId>
     ) {
@@ -133,7 +133,7 @@ class PaymentV2DefaultRepository @Inject constructor(
      *
      * @return 作成したレコードの id
      */
-    private suspend fun createPaymentV2(
+    private suspend fun createPayment(
         name: String
     ): Int {
         return withContext(ioDispatcher) {
@@ -143,7 +143,7 @@ class PaymentV2DefaultRepository @Inject constructor(
         }
     }
 
-    private suspend fun updatePaymentV2(
+    private suspend fun updatePayment(
         id: Int, name: String
     ) {
         withContext(ioDispatcher) {
