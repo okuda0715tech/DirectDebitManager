@@ -6,6 +6,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.AppDatabase
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
+import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
@@ -50,16 +51,20 @@ class PaymentV2DefaultRepository @Inject constructor(
         }
     }
 
-    override suspend fun saveRelations(aggregate: PaymentAggregate): RepositoryResult {
+    override suspend fun saveRelations(
+        paymentId: Int,
+        payerId: PayerId,
+        payeeIds: Set<PayeeId>
+    ): RepositoryResult {
 
         return withContext(ioDispatcher) {
             try {
                 db.withTransaction {
-                    val paymentId = upsertPayment(aggregate.payment)
+                    updateParentId(paymentId, payerId.value)
 
-                    requestDetachPayees(paymentId, aggregate)
+                    requestDetachPayeesV2(paymentId, payeeIds)
 
-                    updatePayeesParentId(aggregate, paymentId)
+                    updatePayeesParentIdV2(payeeIds, paymentId)
                 }
 
                 RepositoryResult.Success
@@ -116,6 +121,21 @@ class PaymentV2DefaultRepository @Inject constructor(
     }
 
     /**
+     * 支払先の parentId を更新する.
+     */
+    private suspend fun updatePayeesParentIdV2(
+        payeeIds: Set<PayeeId>,
+        paymentId: Int
+    ) {
+        payeeIds.map { it.value }.forEach {
+            updateParentId(
+                paymentId = it,
+                parentId = paymentId
+            )
+        }
+    }
+
+    /**
      * リンクを解除された支払先の parentId を 0 で更新する.
      */
     private suspend fun requestDetachPayees(
@@ -124,6 +144,19 @@ class PaymentV2DefaultRepository @Inject constructor(
     ) {
         val currentIds = loadChildIdsBy(paymentId)
         val newIds = aggregate.payees.map { it.id.value }.toSet()
+
+        detachPayees(currentIds - newIds)
+    }
+
+    /**
+     * 振替関係を解除したい支払先の parentId を 0 で更新する.
+     */
+    private suspend fun requestDetachPayeesV2(
+        paymentId: Int,
+        payeeIds: Set<PayeeId>
+    ) {
+        val currentIds = loadChildIdsBy(paymentId)
+        val newIds = payeeIds.map { it.value }.toSet()
 
         detachPayees(currentIds - newIds)
     }
@@ -205,6 +238,24 @@ class PaymentV2DefaultRepository @Inject constructor(
                 item.copy(
                     id = id,
                     label = name,
+                )
+            )
+        }
+    }
+
+    private suspend fun updateParentId(
+        paymentId: Int, parentId: Int
+    ) {
+        withContext(ioDispatcher) {
+            val item = localDataSource.loadItemBy(paymentId)
+                ?: throw IllegalStateException(
+                    "item is not found whose id = $paymentId."
+                )
+
+            localDataSource.updatePayment(
+                item.copy(
+                    id = paymentId,
+                    parentId = parentId,
                 )
             )
         }

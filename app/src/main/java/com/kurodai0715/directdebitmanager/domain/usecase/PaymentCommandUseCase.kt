@@ -4,8 +4,9 @@ import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
 import com.kurodai0715.directdebitmanager.data.RepositoryResult
 import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
+import com.kurodai0715.directdebitmanager.domain.model.PayeeId
+import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
-import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import javax.inject.Inject
 
@@ -21,8 +22,8 @@ class PaymentCommandUseCase @Inject constructor(
         }
     }
 
-    suspend fun saveRelations(aggregate: PaymentAggregate): SaveResult {
-        val result = repo.saveRelations(aggregate)
+    suspend fun saveRelations(paymentId: Int, payerId: PayerId, payeeIds: Set<PayeeId>): SaveResult {
+        val result = repo.saveRelations(paymentId, payerId, payeeIds)
 
         return when (result) {
             is RepositoryResult.Success -> SaveResult.Succeeded

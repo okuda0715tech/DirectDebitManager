@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
+import com.kurodai0715.directdebitmanager.domain.model.PayeeId
+import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import com.kurodai0715.directdebitmanager.domain.model.PaymentAggregate
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
@@ -25,6 +27,7 @@ import javax.inject.Inject
 
 private const val TAG = "PaymentEditViewModel.kt"
 
+// TODO ストリームを構築し、常に最新の支払情報を画面に表示する。
 data class UiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer.Unassigned,
@@ -152,7 +155,6 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    // TODO この画面では、支払情報の名称を更新できないようにする。また、ストリームを構築し、常に最新の支払情報を画面に表示する。
     fun save() {
         viewModelScope.launch {
             val aggregate = PaymentAggregate(
@@ -160,7 +162,11 @@ class TransferRelationEditViewModel @Inject constructor(
                 payees = uiState.value.payees.toDomain(),
             )
 
-            val result = saveRelations(aggregate)
+            val result = saveRelations(
+                paymentId = uiState.value.getPaymentId(),
+                payerId = uiState.value.getPayerId(),
+                payeeIds = uiState.value.getPayeeIds(),
+            )
 
             when (result) {
                 SaveResult.Succeeded -> {
@@ -173,8 +179,12 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun saveRelations(aggregate: PaymentAggregate): SaveResult {
-        return paymentCommandUseCase.saveRelations(aggregate)
+    private suspend fun saveRelations(
+        paymentId: Int,
+        payerId: PayerId,
+        payeeIds: Set<PayeeId>
+    ): SaveResult {
+        return paymentCommandUseCase.saveRelations(paymentId, payerId, payeeIds)
     }
 
     fun onPaymentSelected(target: NavContract.SelectTarget, id: Int) {
