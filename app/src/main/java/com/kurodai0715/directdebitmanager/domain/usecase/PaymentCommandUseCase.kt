@@ -6,7 +6,7 @@ import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
-import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import javax.inject.Inject
 
@@ -31,8 +31,8 @@ class PaymentCommandUseCase @Inject constructor(
         }
     }
 
-    suspend fun deletePayment(payment: Payment.Persisted): DeleteResult {
-        val result = repo.requestDeletePayment(payment)
+    suspend fun deletePayment(paymentId: PaymentId): DeleteResult {
+        val result = repo.requestDeletePayment(paymentId)
 
         return when (result) {
             is RepositoryResult.Success -> DeleteResult.Succeeded

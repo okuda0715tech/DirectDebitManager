@@ -9,7 +9,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
-import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
@@ -268,7 +268,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickDeleteExecution() {
         viewModelScope.launch {
-            val result = deletePayment(uiState.value.paymentToDomain())
+            val result = deletePayment(PaymentId.of(uiState.value.getPaymentId()))
 
             when (result) {
                 DeleteResult.Succeeded -> {
@@ -281,8 +281,8 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun deletePayment(payment: Payment.Persisted): DeleteResult {
-        return paymentCommandUseCase.deletePayment(payment)
+    private suspend fun deletePayment(paymentId: PaymentId): DeleteResult {
+        return paymentCommandUseCase.deletePayment(paymentId)
     }
 
     fun onClickPayment() {

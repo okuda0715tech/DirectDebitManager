@@ -3,7 +3,7 @@ package com.kurodai0715.directdebitmanager.data
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
-import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import kotlinx.coroutines.flow.Flow
 
 interface PaymentV2Repository {
@@ -18,5 +18,5 @@ interface PaymentV2Repository {
 
     suspend fun saveRelations(paymentId: Int, payerId: PayerId, payeeIds: Set<PayeeId>): RepositoryResult
 
-    suspend fun requestDeletePayment(payment: Payment.Persisted): RepositoryResult
+    suspend fun requestDeletePayment(paymentId: PaymentId): RepositoryResult
 }

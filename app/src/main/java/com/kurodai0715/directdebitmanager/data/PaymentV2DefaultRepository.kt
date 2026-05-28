@@ -8,7 +8,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
-import com.kurodai0715.directdebitmanager.domain.model.Payment
+import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -179,12 +179,12 @@ class PaymentV2DefaultRepository @Inject constructor(
         }
     }
 
-    override suspend fun requestDeletePayment(payment: Payment.Persisted): RepositoryResult {
+    override suspend fun requestDeletePayment(paymentId: PaymentId): RepositoryResult {
 
         return withContext(ioDispatcher) {
             try {
                 db.withTransaction {
-                    val paymentId = payment.id.value
+                    val paymentId = paymentId.value
                     deletePayment(paymentId)
 
                     val childIds = loadChildIdsBy(paymentId)
