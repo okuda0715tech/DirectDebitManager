@@ -21,8 +21,8 @@ class PaymentCommandUseCase @Inject constructor(
         }
     }
 
-    suspend fun savePayments(aggregate: PaymentAggregate): SaveResult {
-        val result = repo.savePayments(aggregate)
+    suspend fun saveRelations(aggregate: PaymentAggregate): SaveResult {
+        val result = repo.saveRelations(aggregate)
 
         return when (result) {
             is RepositoryResult.Success -> SaveResult.Succeeded

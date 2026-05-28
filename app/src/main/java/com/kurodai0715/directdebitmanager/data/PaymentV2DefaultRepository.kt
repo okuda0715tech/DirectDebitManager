@@ -50,7 +50,7 @@ class PaymentV2DefaultRepository @Inject constructor(
         }
     }
 
-    override suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult {
+    override suspend fun saveRelations(aggregate: PaymentAggregate): RepositoryResult {
 
         return withContext(ioDispatcher) {
             try {

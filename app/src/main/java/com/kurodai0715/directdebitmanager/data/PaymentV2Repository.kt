@@ -15,7 +15,7 @@ interface PaymentV2Repository {
 
     suspend fun requestSavePayment(id: Int?, name: String): RepositoryResult
 
-    suspend fun savePayments(aggregate: PaymentAggregate): RepositoryResult
+    suspend fun saveRelations(aggregate: PaymentAggregate): RepositoryResult
 
     suspend fun requestDeletePayment(payment: Payment.Persisted): RepositoryResult
 }

@@ -152,6 +152,7 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
+    // TODO この画面では、支払情報の名称を更新できないようにする。また、ストリームを構築し、常に最新の支払情報を画面に表示する。
     fun save() {
         viewModelScope.launch {
             val aggregate = PaymentAggregate(
@@ -159,7 +160,7 @@ class TransferRelationEditViewModel @Inject constructor(
                 payees = uiState.value.payees.toDomain(),
             )
 
-            val result = savePayments(aggregate)
+            val result = saveRelations(aggregate)
 
             when (result) {
                 SaveResult.Succeeded -> {
@@ -172,8 +173,8 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    private suspend fun savePayments(aggregate: PaymentAggregate): SaveResult {
-        return paymentCommandUseCase.savePayments(aggregate)
+    private suspend fun saveRelations(aggregate: PaymentAggregate): SaveResult {
+        return paymentCommandUseCase.saveRelations(aggregate)
     }
 
     fun onPaymentSelected(target: NavContract.SelectTarget, id: Int) {
