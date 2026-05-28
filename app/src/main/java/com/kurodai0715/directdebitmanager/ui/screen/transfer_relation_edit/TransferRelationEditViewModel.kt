@@ -37,15 +37,9 @@ data class UiState(
     val dialog: Dialog? = null,
 ) {
     data class Payment(
-        val id: Id = Id.Unassigned,
         val name: String = "",
         val messageRes: Int? = null,
-    ) {
-        sealed interface Id {
-            data object Unassigned : Id
-            data class Assigned(val value: Int) : Id
-        }
-    }
+    )
 
     sealed interface Payer {
         data object Unassigned : Payer
@@ -142,7 +136,6 @@ class TransferRelationEditViewModel @Inject constructor(
 
             payment.update {
                 it.copy(
-                    id = UiState.Payment.Id.Assigned(loadedPayment.id.value),
                     name = loadedPayment.name.value
                 )
             }
@@ -157,7 +150,7 @@ class TransferRelationEditViewModel @Inject constructor(
     fun save() {
         viewModelScope.launch {
             val result = saveRelations(
-                paymentId = uiState.value.getPaymentId(),
+                paymentId = paymentId,
                 payerId = uiState.value.getPayerId(),
                 payeeIds = uiState.value.getPayeeIds(),
             )
@@ -268,7 +261,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickDeleteExecution() {
         viewModelScope.launch {
-            val result = deletePayment(PaymentId.of(uiState.value.getPaymentId()))
+            val result = deletePayment(PaymentId.of(paymentId))
 
             when (result) {
                 DeleteResult.Succeeded -> {
@@ -286,17 +279,8 @@ class TransferRelationEditViewModel @Inject constructor(
     }
 
     fun onClickPayment() {
-        when (val id = payment.value.id) {
-
-            is UiState.Payment.Id.Assigned -> {
-                viewModelScope.launch {
-                    _eventChannel.send(UiEvent.OnClickPayment(id.value))
-                }
-            }
-
-            else -> {
-                throw IllegalStateException("paymentId is Unassigned.")
-            }
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.OnClickPayment(paymentId))
         }
     }
 }

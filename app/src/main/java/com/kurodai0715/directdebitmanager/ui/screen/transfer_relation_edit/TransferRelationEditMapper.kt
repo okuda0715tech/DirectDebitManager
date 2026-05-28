@@ -4,13 +4,6 @@ import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 
-fun UiState.getPaymentId(): Int {
-    return when (this.payment.id) {
-        is UiState.Payment.Id.Assigned -> this.payment.id.value
-        is UiState.Payment.Id.Unassigned -> throw IllegalStateException("paymentId is Unassigned.")
-    }
-}
-
 fun UiState.getPayerId(): PayerId {
     return when (this.payer) {
         is UiState.Payer.Unassigned -> PayerId.NONE
