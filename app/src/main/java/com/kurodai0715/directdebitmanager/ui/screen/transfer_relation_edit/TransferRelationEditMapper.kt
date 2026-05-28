@@ -24,7 +24,7 @@ fun UiState.getPayeeIds(): Set<PayeeId> {
     return this.payees.map { PayeeId.of(it.id) }.toSet()
 }
 
-fun UiState.paymentToDomain2(): Payment.Persisted {
+fun UiState.paymentToDomain(): Payment.Persisted {
     val name = PaymentName.of(payment.name)
 
     val payerId = when (payer) {

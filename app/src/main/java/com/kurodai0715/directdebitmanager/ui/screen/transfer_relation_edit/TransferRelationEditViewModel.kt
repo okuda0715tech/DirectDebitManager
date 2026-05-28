@@ -268,7 +268,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickDeleteExecution() {
         viewModelScope.launch {
-            val result = deletePayment(uiState.value.paymentToDomain2())
+            val result = deletePayment(uiState.value.paymentToDomain())
 
             when (result) {
                 DeleteResult.Succeeded -> {
