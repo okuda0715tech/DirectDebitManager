@@ -93,6 +93,6 @@ class ViewModel @Inject constructor(
     }
 
     private suspend fun savePayment(id: Int?, name: String): CreatePaymentResult {
-        return paymentCommandUseCase.savePaymentV2(id, name)
+        return paymentCommandUseCase.savePayment(id, name)
     }
 }

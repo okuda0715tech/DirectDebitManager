@@ -13,7 +13,7 @@ import javax.inject.Inject
 class PaymentCommandUseCase @Inject constructor(
     private val repo: PaymentV2Repository
 ) {
-    suspend fun savePaymentV2(id: Int?, name: String): CreatePaymentResult {
+    suspend fun savePayment(id: Int?, name: String): CreatePaymentResult {
         val result = repo.requestSavePayment(id, name)
 
         return when (result) {
