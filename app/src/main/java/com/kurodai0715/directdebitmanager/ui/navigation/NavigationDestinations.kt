@@ -78,12 +78,12 @@ sealed interface TransferBase : NavDestination
 data object TransferRelationList : TransferBase
 
 @Serializable
-data object TransferRelationEditGraph : TransferBase
+data class TransferRelationEditGraph(
+    val paymentId: Int,
+) : TransferBase
 
 @Serializable
-data class TransferRelationEdit(
-    val paymentId: Int?,
-) : TransferBase
+data object TransferRelationEdit : TransferBase
 
 @Serializable
 data class PaymentSelect(
@@ -93,4 +93,4 @@ data class PaymentSelect(
 @Serializable
 data class PaymentEdit(
     val paymentId: Int?
-): NavDestination
+) : NavDestination

@@ -39,7 +39,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Screen(
-    paymentId: Int?,
     viewModel: TransferRelationEditViewModel,
     onClickBack: () -> Unit,
     onClickPayment: (Int) -> Unit,
@@ -61,11 +60,6 @@ fun Screen(
     }) { paddingValues ->
 
         val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-        // リスト画面から引き継いだパラメータで UI 状態を初期化する。
-        LaunchedEffect(paymentId) {
-            viewModel.initialize(paymentId)
-        }
 
         // 画面遷移もイベントに含める理由は、 ViewModel を経由したいため。
         // ViewModel を経由することで、今後、画面遷移前になんらかの処理が必要になった場合も対応が可能になる。

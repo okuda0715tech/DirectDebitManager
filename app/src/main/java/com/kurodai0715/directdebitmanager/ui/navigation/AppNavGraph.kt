@@ -178,7 +178,7 @@ fun AppNavGraph(
         }
 
         navigation<TransferRelationEditGraph>(
-            startDestination = TransferRelationEdit(null),
+            startDestination = TransferRelationEdit,
         ) {
 
             composable<TransferRelationEdit> { backStackEntry ->
@@ -189,10 +189,7 @@ fun AppNavGraph(
                 val viewModel: TransferRelationEditViewModel =
                     hiltViewModel(parentEntry)
 
-                val transferRelationEdit: TransferRelationEdit = backStackEntry.toRoute()
-
                 TransferRelationEditScreen(
-                    paymentId = transferRelationEdit.paymentId,
                     viewModel = viewModel,
                     onClickBack = {
                         // PaymentEdit と TransferRelationList の間に PaymentEditGraph が

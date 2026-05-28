@@ -1,8 +1,10 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit
 
 import android.util.Log
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
@@ -13,6 +15,7 @@ import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
+import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEditGraph
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -78,9 +81,19 @@ sealed class UiEvent {
 
 @HiltViewModel
 class TransferRelationEditViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val paymentQueryUseCase: PaymentQueryUseCase,
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
+
+    // 【技術的メモ】
+    // AppNavGraph.kt 内で TransferRelationEditViewModel を生成する際に、
+    // hiltViewModel() の引数に TransferRelationEditGraph の backStackEntry を渡しているため、
+    // TransferRelationEditGraph のパラメータがこの TransferRelationEditViewModel の
+    // SavedStateHandle に渡される。
+    private val paymentId: Int = savedStateHandle
+        .toRoute<TransferRelationEditGraph>()
+        .paymentId
 
     /**
      * ユーザーが支払情報編集画面に直接入力した値.
@@ -116,13 +129,8 @@ class TransferRelationEditViewModel @Inject constructor(
      */
     val eventFlow = _eventChannel.receiveAsFlow()
 
-    private var initialized = false
-
-    fun initialize(paymentId: Int?) {
-        if (initialized) return
-        initialized = true
-
-        paymentId?.let { loadPaymentBy(it) }
+    init {
+        loadPaymentBy(paymentId)
     }
 
     private fun loadPaymentBy(paymentId: Int) {
