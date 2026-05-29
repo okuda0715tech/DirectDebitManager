@@ -78,8 +78,6 @@ fun Screen(
 
                     is UiEvent.OnClickPayment -> onClickPayment(event.paymentId)
 
-                    UiEvent.OnClickPayer -> onClickPayer()
-
                     UiEvent.OnClickAddPayer -> onClickAddPayer()
 
                     UiEvent.OnClickAddPayee -> onClickAddPayee()

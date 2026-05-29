@@ -66,7 +66,6 @@ data class UiState(
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
     data class OnClickPayment(val paymentId: Int) : UiEvent()
-    data object OnClickPayer : UiEvent()
     data object OnClickAddPayer : UiEvent()
     data object OnClickAddPayee : UiEvent()
     data object OnDeleted : UiEvent()
