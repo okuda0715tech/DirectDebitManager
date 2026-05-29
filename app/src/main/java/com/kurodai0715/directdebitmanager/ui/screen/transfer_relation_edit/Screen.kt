@@ -105,11 +105,7 @@ fun Screen(
 
         Dialog(
             dialog = uiState.dialog,
-            onClickDismiss = { viewModel.dismissDialog() },
-            onClickYes = { viewModel.onClickDeleteExecution() },
-            onClickNo = { viewModel.dismissDialog() },
-            onClickDetachYes = { TODO() },
-            onClickDetachNo = { TODO() },
+            onAction = viewModel::onDialogAction,
         )
 
     }
@@ -118,19 +114,15 @@ fun Screen(
 @Composable
 fun Dialog(
     dialog: UiState.Dialog,
-    onClickDismiss: () -> Unit,
-    onClickYes: () -> Unit,
-    onClickNo: () -> Unit,
-    onClickDetachYes: () -> Unit,
-    onClickDetachNo: () -> Unit,
+    onAction: (UiState.Dialog.Action) -> Unit,
 ) {
     when (dialog) {
         is UiState.Dialog.DeleteConfirm -> {
             DeleteConfirmDialog2(
                 itemName = dialog.itemName,
-                onDismissRequest = onClickDismiss,
-                onClickNo = onClickNo,
-                onClickYes = onClickYes,
+                onDismissRequest = { onAction(UiState.Dialog.Action.Dismiss) },
+                onClickNo = { onAction(UiState.Dialog.Action.No) },
+                onClickYes = { onAction(UiState.Dialog.Action.DeleteYes) },
             )
         }
 
@@ -138,9 +130,9 @@ fun Dialog(
             DetachConfirmDialog(
                 paymentName = dialog.paymentName,
                 payerName = dialog.payerName,
-                onDismissRequest = onClickDismiss,
-                onClickNo = onClickDetachNo,
-                onClickYes = onClickDetachYes,
+                onDismissRequest = { onAction(UiState.Dialog.Action.Dismiss) },
+                onClickNo = { onAction(UiState.Dialog.Action.No) },
+                onClickYes = { onAction(UiState.Dialog.Action.DetachYes) },
             )
         }
 

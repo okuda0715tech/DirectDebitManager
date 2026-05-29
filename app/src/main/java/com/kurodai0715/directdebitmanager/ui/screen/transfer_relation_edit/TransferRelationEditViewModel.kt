@@ -67,6 +67,13 @@ data class UiState(
             val paymentName: String,
             val payerName: String,
         ) : Dialog
+
+        sealed interface Action {
+            data object Dismiss : Action
+            data object No : Action
+            data object DeleteYes : Action
+            data object DetachYes : Action
+        }
     }
 }
 
@@ -286,6 +293,15 @@ class TransferRelationEditViewModel @Inject constructor(
     fun onClickPayment() {
         viewModelScope.launch {
             _eventChannel.send(UiEvent.OnClickPayment(paymentId))
+        }
+    }
+
+    fun onDialogAction(action: UiState.Dialog.Action) {
+        when (action) {
+            UiState.Dialog.Action.Dismiss -> dismissDialog()
+            UiState.Dialog.Action.No -> dismissDialog()
+            UiState.Dialog.Action.DeleteYes -> onClickDeleteExecution()
+            UiState.Dialog.Action.DetachYes -> TODO()
         }
     }
 }
