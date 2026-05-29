@@ -103,7 +103,7 @@ fun Screen(
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
         )
 
-        Dialog(
+        DialogHost(
             dialog = uiState.dialog,
             onAction = viewModel::onDialogAction,
         )
@@ -112,7 +112,7 @@ fun Screen(
 }
 
 @Composable
-fun Dialog(
+fun DialogHost(
     dialog: UiState.Dialog,
     onAction: (UiState.Dialog.Action) -> Unit,
 ) {
