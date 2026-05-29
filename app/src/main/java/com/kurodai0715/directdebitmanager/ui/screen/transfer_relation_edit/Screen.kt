@@ -91,18 +91,18 @@ fun Screen(
 
         Contents(
             modifier = Modifier.padding(paddingValues),
-            onClickBack = onClickBack,
-            onClickSave = { viewModel.save() },
             paymentName = uiState.payment.name,
             paymentNameMessage = uiState.payment.messageRes,
-            onClickPayment = { viewModel.onClickPayment() },
-            onClickDelete = { viewModel.onClickDeletePayment() },
             payer = uiState.payer,
-            onClickDetachPayer = { viewModel.onClickDetachPayer() },
-            onClickAddPayer = { viewModel.onClickAddPayer() },
             payees = uiState.payees,
-            onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
+            onClickBack = onClickBack,
+            onClickSave = { viewModel.save() },
+            onClickDelete = { viewModel.onClickDeletePayment() },
+            onClickPayment = { viewModel.onClickPayment() },
+            onClickAddPayer = { viewModel.onClickAddPayer() },
             onClickAddPayee = { viewModel.onClickAddPayee() },
+            onClickDetachPayer = { viewModel.onClickDetachPayer() },
+            onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
         )
 
         Dialog(
@@ -141,18 +141,18 @@ fun Dialog(
 @Composable
 fun Contents(
     modifier: Modifier = Modifier,
-    onClickBack: () -> Unit,
-    onClickSave: () -> Unit,
     paymentName: String,
     paymentNameMessage: Int?,
-    onClickPayment: () -> Unit,
-    onClickDelete: () -> Unit,
     payer: UiState.Payer,
-    onClickDetachPayer: () -> Unit,
-    onClickAddPayer: () -> Unit,
     payees: List<UiState.Payee>,
-    onClickDetachPayee: (Int) -> Unit,
+    onClickBack: () -> Unit,
+    onClickSave: () -> Unit,
+    onClickDelete: () -> Unit,
+    onClickPayment: () -> Unit,
+    onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
+    onClickDetachPayer: () -> Unit,
+    onClickDetachPayee: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
