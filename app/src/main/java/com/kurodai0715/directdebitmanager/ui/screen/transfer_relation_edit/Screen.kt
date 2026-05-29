@@ -33,6 +33,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog2
 import com.kurodai0715.directdebitmanager.ui.dialog.DetachConfirmDialog
+import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.UiState.Dialog
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -113,30 +114,30 @@ fun Screen(
 
 @Composable
 fun DialogHost(
-    dialog: UiState.Dialog,
-    onAction: (UiState.Dialog.Action) -> Unit,
+    dialog: Dialog,
+    onAction: (Dialog.Action) -> Unit,
 ) {
     when (dialog) {
-        is UiState.Dialog.DeleteConfirm -> {
+        is Dialog.DeleteConfirm -> {
             DeleteConfirmDialog2(
                 itemName = dialog.itemName,
-                onDismissRequest = { onAction(UiState.Dialog.Action.Dismiss) },
-                onClickNo = { onAction(UiState.Dialog.Action.No) },
-                onClickYes = { onAction(UiState.Dialog.Action.DeleteYes) },
+                onDismissRequest = { onAction(Dialog.Action.Dismiss) },
+                onClickNo = { onAction(Dialog.Action.No) },
+                onClickYes = { onAction(Dialog.Action.DeleteYes) },
             )
         }
 
-        is UiState.Dialog.DetachPayerConfirm -> {
+        is Dialog.DetachPayerConfirm -> {
             DetachConfirmDialog(
                 paymentName = dialog.paymentName,
                 payerName = dialog.payerName,
-                onDismissRequest = { onAction(UiState.Dialog.Action.Dismiss) },
-                onClickNo = { onAction(UiState.Dialog.Action.No) },
-                onClickYes = { onAction(UiState.Dialog.Action.DetachYes) },
+                onDismissRequest = { onAction(Dialog.Action.Dismiss) },
+                onClickNo = { onAction(Dialog.Action.No) },
+                onClickYes = { onAction(Dialog.Action.DetachYes) },
             )
         }
 
-        UiState.Dialog.None -> {
+        Dialog.None -> {
             /* ダイアログを表示しない */
         }
 
