@@ -191,14 +191,14 @@ private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
 fun Body(
     paymentName: String,
     paymentNameMessage: Int?,
+    payer: UiState.Payer,
+    payees: List<UiState.Payee>,
     onClickPayment: () -> Unit,
     onClickDelete: () -> Unit,
-    payer: UiState.Payer,
-    onClickDetachPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
-    payees: List<UiState.Payee>,
-    onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
+    onClickDetachPayer: () -> Unit,
+    onClickDetachPayee: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
