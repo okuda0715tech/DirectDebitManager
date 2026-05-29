@@ -115,7 +115,7 @@ fun Screen(
 
 @Composable
 fun Dialog(
-    dialog: UiState.Dialog?,
+    dialog: UiState.Dialog,
     onClickDismiss: () -> Unit,
     onClickYes: () -> Unit,
     onClickNo: () -> Unit
@@ -133,6 +133,11 @@ fun Dialog(
         else -> {
             // do nothing
         }
+
+        UiState.Dialog.None -> {
+            /* ダイアログを表示しない */
+        }
+
     }
 }
 

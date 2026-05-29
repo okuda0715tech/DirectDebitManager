@@ -34,7 +34,7 @@ data class UiState(
     val payment: Payment = Payment(),
     val payer: Payer = Payer.Unassigned,
     val payees: List<Payee> = mutableListOf(),
-    val dialog: Dialog? = null,
+    val dialog: Dialog = Dialog.None,
 ) {
     data class Payment(
         val name: String = "",
@@ -57,6 +57,8 @@ data class UiState(
     )
 
     sealed interface Dialog {
+        data object None : Dialog
+
         data class DeleteConfirm(
             val itemName: String,
         ) : Dialog
@@ -102,7 +104,7 @@ class TransferRelationEditViewModel @Inject constructor(
 
     private val payees = MutableStateFlow<List<UiState.Payee>>(emptyList())
 
-    private val dialog = MutableStateFlow<UiState.Dialog?>(null)
+    private val dialog = MutableStateFlow<UiState.Dialog>(UiState.Dialog.None)
 
     /**
      * UI で必要となる全ての状態.
@@ -254,7 +256,7 @@ class TransferRelationEditViewModel @Inject constructor(
     }
 
     fun dismissDialog() {
-        dialog.update { null }
+        dialog.update { UiState.Dialog.None }
     }
 
     fun onClickDeleteExecution() {
