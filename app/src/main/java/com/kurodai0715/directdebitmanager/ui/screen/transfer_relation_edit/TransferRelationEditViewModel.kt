@@ -62,6 +62,11 @@ data class UiState(
         data class DeleteConfirm(
             val itemName: String,
         ) : Dialog
+
+        data class DetachPayerConfirm(
+            val paymentName: String,
+            val payerName: String,
+        ) : Dialog
     }
 }
 

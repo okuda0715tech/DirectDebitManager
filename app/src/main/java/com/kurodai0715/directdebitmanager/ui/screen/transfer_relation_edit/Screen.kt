@@ -32,6 +32,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoB
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog2
+import com.kurodai0715.directdebitmanager.ui.dialog.DetachConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -106,7 +107,9 @@ fun Screen(
             dialog = uiState.dialog,
             onClickDismiss = { viewModel.dismissDialog() },
             onClickYes = { viewModel.onClickDeleteExecution() },
-            onClickNo = { viewModel.dismissDialog() }
+            onClickNo = { viewModel.dismissDialog() },
+            onClickDetachYes = { TODO() },
+            onClickDetachNo = { TODO() },
         )
 
     }
@@ -117,7 +120,9 @@ fun Dialog(
     dialog: UiState.Dialog,
     onClickDismiss: () -> Unit,
     onClickYes: () -> Unit,
-    onClickNo: () -> Unit
+    onClickNo: () -> Unit,
+    onClickDetachYes: () -> Unit,
+    onClickDetachNo: () -> Unit,
 ) {
     when (dialog) {
         is UiState.Dialog.DeleteConfirm -> {
@@ -129,8 +134,14 @@ fun Dialog(
             )
         }
 
-        else -> {
-            // do nothing
+        is UiState.Dialog.DetachPayerConfirm -> {
+            DetachConfirmDialog(
+                paymentName = dialog.paymentName,
+                payerName = dialog.payerName,
+                onDismissRequest = onClickDismiss,
+                onClickNo = onClickDetachNo,
+                onClickYes = onClickDetachYes,
+            )
         }
 
         UiState.Dialog.None -> {
