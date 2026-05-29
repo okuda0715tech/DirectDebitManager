@@ -99,6 +99,11 @@
     <string name="del_conf_text_source_info">この振替元を削除しますか？</string>
     <string name="del_conf_icon_description">削除確認アイコン</string>
 
+    <!-- 振替関係 解除確認 ダイアログ -->
+    <string name="detach_conf_title">解除確認</string>
+    <string name="detach_conf_text">%1$s と %2$s の関連付けを解除しますか？</string>
+    <string name="detach_conf_icon_description">振替関係の解除確認アイコン</string>
+
     <!-- 振替元 編集 画面用 削除確認 ダイアログ -->
     <string name="del_conf_text_related_dest_exists">%1$d 件の振替先で、この振替元が使用されています。\n\n振替先データも削除されますが、削除してもよろしいですか？</string>
 
