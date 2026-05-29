@@ -160,14 +160,14 @@ fun Contents(
             Body(
                 paymentName = paymentName,
                 paymentNameMessage = paymentNameMessage,
+                payer = payer,
+                payees = payees,
                 onClickPayment = onClickPayment,
                 onClickDelete = onClickDelete,
-                payer = payer,
-                onClickDetachPayer = onClickDetachPayer,
                 onClickAddPayer = onClickAddPayer,
-                payees = payees,
+                onClickAddPayee = onClickAddPayee,
+                onClickDetachPayer = onClickDetachPayer,
                 onClickDetachPayee = onClickDetachPayee,
-                onClickAddPayee = onClickAddPayee
             )
         },
         bottomButton = {
