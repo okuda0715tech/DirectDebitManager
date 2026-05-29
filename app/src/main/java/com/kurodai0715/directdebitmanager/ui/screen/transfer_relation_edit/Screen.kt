@@ -42,7 +42,6 @@ fun Screen(
     viewModel: TransferRelationEditViewModel,
     onClickBack: () -> Unit,
     onClickPayment: (Int) -> Unit,
-    onClickPayer: () -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
     onDeleted: () -> Unit,
