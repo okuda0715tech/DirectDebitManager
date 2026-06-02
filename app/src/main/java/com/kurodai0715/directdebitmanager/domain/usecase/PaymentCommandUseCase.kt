@@ -23,7 +23,11 @@ class PaymentCommandUseCase @Inject constructor(
         }
     }
 
-    suspend fun saveRelations(paymentId: Int, payerId: PayerId, payeeIds: Set<PayeeId>): SaveResult {
+    suspend fun saveRelations(
+        paymentId: Int,
+        payerId: PayerId,
+        payeeIds: Set<PayeeId>
+    ): SaveResult {
         val result = repo.saveRelations(paymentId, payerId, payeeIds)
 
         return when (result) {
