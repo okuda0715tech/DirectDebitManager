@@ -200,12 +200,12 @@ fun AppNavGraph(
                     openPaymentEdit = {
                         navController.navigateToPaymentEdit(it)
                     },
-                    onClickAddPayer = {
+                    openPayerSelect = {
                         navController.navigateToPaymentSelect(
                             NavContract.SelectTarget.Payer
                         )
                     },
-                    onClickAddPayee = {
+                    openPayeeSelect = {
                         navController.navigateToPaymentSelect(
                             NavContract.SelectTarget.Payee
                         )

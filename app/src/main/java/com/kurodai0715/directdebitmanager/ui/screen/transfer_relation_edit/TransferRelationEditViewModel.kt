@@ -81,8 +81,8 @@ data class UiState(
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
     data class OpenPaymentEdit(val paymentId: Int) : UiEvent()
-    data object OnClickAddPayer : UiEvent()
-    data object OnClickAddPayee : UiEvent()
+    data object OpenPayerSelect : UiEvent()
+    data object OpenPayeeSelect : UiEvent()
     data object OnDeleted : UiEvent()
 }
 
@@ -251,13 +251,13 @@ class TransferRelationEditViewModel @Inject constructor(
 
     fun onClickAddPayer() {
         viewModelScope.launch {
-            _eventChannel.send(UiEvent.OnClickAddPayer)
+            _eventChannel.send(UiEvent.OpenPayerSelect)
         }
     }
 
     fun onClickAddPayee() {
         viewModelScope.launch {
-            _eventChannel.send(UiEvent.OnClickAddPayee)
+            _eventChannel.send(UiEvent.OpenPayeeSelect)
         }
     }
 
