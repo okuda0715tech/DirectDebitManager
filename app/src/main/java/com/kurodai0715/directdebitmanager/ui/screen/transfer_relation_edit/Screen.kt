@@ -100,7 +100,7 @@ fun Screen(
             onClickPayment = { viewModel.onClickPayment() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
             onClickAddPayee = { viewModel.onClickAddPayee() },
-            onClickDetachPayer = { viewModel.onClickDetachPayerIcon() },
+            onClickDetachPayerIcon = { viewModel.onClickDetachPayerIcon() },
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
         )
 
@@ -157,7 +157,7 @@ fun Contents(
     onClickPayment: () -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
-    onClickDetachPayer: () -> Unit,
+    onClickDetachPayerIcon: () -> Unit,
     onClickDetachPayee: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
@@ -172,7 +172,7 @@ fun Contents(
                 onClickDelete = onClickDelete,
                 onClickAddPayer = onClickAddPayer,
                 onClickAddPayee = onClickAddPayee,
-                onClickDetachPayer = onClickDetachPayer,
+                onClickDetachPayer = onClickDetachPayerIcon,
                 onClickDetachPayee = onClickDetachPayee,
             )
         },
@@ -345,7 +345,7 @@ private fun Preview() {
             id = 1,
             name = "三井住友銀行",
         ),
-        onClickDetachPayer = {},
+        onClickDetachPayerIcon = {},
         onClickAddPayer = {},
         payees = listOf(
             UiState.Payee(id = 1, name = "電気料金"),
@@ -368,7 +368,7 @@ private fun NoPayerNoPayeePreview() {
         onClickPayment = {},
         onClickDelete = {},
         payer = UiState.Payer.Unassigned,
-        onClickDetachPayer = {},
+        onClickDetachPayerIcon = {},
         onClickAddPayer = {},
         payees = listOf(),
         onClickDetachPayee = {},
