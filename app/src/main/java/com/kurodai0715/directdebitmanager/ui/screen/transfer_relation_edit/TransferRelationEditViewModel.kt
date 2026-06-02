@@ -239,7 +239,7 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    fun onClickDetachPayer() {
+    fun onClickDetachPayerIcon() {
         removePayer()
     }
 

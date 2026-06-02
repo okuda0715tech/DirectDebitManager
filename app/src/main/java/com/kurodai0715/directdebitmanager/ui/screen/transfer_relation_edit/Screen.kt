@@ -100,7 +100,7 @@ fun Screen(
             onClickPayment = { viewModel.onClickPayment() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
             onClickAddPayee = { viewModel.onClickAddPayee() },
-            onClickDetachPayer = { viewModel.onClickDetachPayer() },
+            onClickDetachPayer = { viewModel.onClickDetachPayerIcon() },
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
         )
 
