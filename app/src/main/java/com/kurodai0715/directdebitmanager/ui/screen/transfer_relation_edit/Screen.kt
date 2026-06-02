@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 fun Screen(
     viewModel: TransferRelationEditViewModel,
     onClickBack: () -> Unit,
-    onClickPayment: (Int) -> Unit,
+    openPaymentEdit: (Int) -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
     onDeleted: () -> Unit,
@@ -77,7 +77,7 @@ fun Screen(
                         )
                     }
 
-                    is UiEvent.OnClickPayment -> onClickPayment(event.paymentId)
+                    is UiEvent.OpenPaymentEdit -> openPaymentEdit(event.paymentId)
 
                     UiEvent.OnClickAddPayer -> onClickAddPayer()
 

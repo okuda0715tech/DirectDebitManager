@@ -197,7 +197,7 @@ fun AppNavGraph(
                         // navController.navigateUp() ではなく、 popBackStack() を使う。
                         navController.popToTransferRelationList()
                     },
-                    onClickPayment = {
+                    openPaymentEdit = {
                         navController.navigateToPaymentEdit(it)
                     },
                     onClickAddPayer = {
