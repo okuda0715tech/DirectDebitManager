@@ -102,7 +102,7 @@ fun Screen(
             onClickAddPayee = { viewModel.onClickAddPayee() },
             onClickDetachPayerIcon = viewModel::onClickDetachPayerIcon,
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
-            onClickPayerName = viewModel::onClickPayerName,
+            onClickRelatedName = viewModel::onClickRelatedName,
         )
 
         DialogHost(
@@ -160,7 +160,7 @@ fun Contents(
     onClickAddPayee: () -> Unit,
     onClickDetachPayerIcon: (String) -> Unit,
     onClickDetachPayee: (Int) -> Unit,
-    onClickPayerName: (Int) -> Unit,
+    onClickRelatedName: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
@@ -176,7 +176,7 @@ fun Contents(
                 onClickAddPayee = onClickAddPayee,
                 onClickDetachPayer = onClickDetachPayerIcon,
                 onClickDetachPayee = onClickDetachPayee,
-                onClickPayerName = onClickPayerName,
+                onClickRelatedName = onClickRelatedName,
             )
         },
         bottomButton = {
@@ -208,7 +208,7 @@ fun Body(
     onClickAddPayee: () -> Unit,
     onClickDetachPayer: (String) -> Unit,
     onClickDetachPayee: (Int) -> Unit,
-    onClickPayerName: (Int) -> Unit,
+    onClickRelatedName: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -236,7 +236,7 @@ fun Body(
                     payer = payer,
                     onClickAddPayer = onClickAddPayer,
                     onClickDetachPayer = onClickDetachPayer,
-                    onClickPayerName = onClickPayerName
+                    onClickPayerName = onClickRelatedName
                 )
             }
 
@@ -248,7 +248,7 @@ fun Body(
                 payees = payees,
                 onClickDetachPayee = onClickDetachPayee,
                 onClickAddPayee = onClickAddPayee,
-                onClickPayeeName = onClickPayerName,
+                onClickPayeeName = onClickRelatedName,
             )
         }
 
@@ -366,7 +366,7 @@ private fun Preview() {
         ),
         onClickDetachPayee = {},
         onClickAddPayee = {},
-        onClickPayerName = {},
+        onClickRelatedName = {},
     )
 }
 
@@ -386,6 +386,6 @@ private fun NoPayerNoPayeePreview() {
         payees = listOf(),
         onClickDetachPayee = {},
         onClickAddPayee = {},
-        onClickPayerName = {},
+        onClickRelatedName = {},
     )
 }

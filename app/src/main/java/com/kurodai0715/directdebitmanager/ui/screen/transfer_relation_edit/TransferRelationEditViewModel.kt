@@ -328,7 +328,7 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    fun onClickPayerName(id: Int) {
+    fun onClickRelatedName(id: Int) {
         openPaymentEdit(id)
     }
 }
