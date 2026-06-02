@@ -176,7 +176,7 @@ fun Contents(
                 onClickAddPayee = onClickAddPayee,
                 onClickDetachPayer = onClickDetachPayerIcon,
                 onClickDetachPayee = onClickDetachPayee,
-                onClickPayerName = onClickPayerName
+                onClickPayerName = onClickPayerName,
             )
         },
         bottomButton = {
@@ -247,7 +247,8 @@ fun Body(
             payees(
                 payees = payees,
                 onClickDetachPayee = onClickDetachPayee,
-                onClickAddPayee = onClickAddPayee
+                onClickAddPayee = onClickAddPayee,
+                onClickPayeeName = onClickPayerName,
             )
         }
 
@@ -312,12 +313,13 @@ fun LazyListScope.payees(
     payees: List<UiState.Payee>,
     onClickDetachPayee: (Int) -> Unit,
     onClickAddPayee: () -> Unit,
+    onClickPayeeName: (Int) -> Unit,
 ) {
     itemsIndexed(payees) { index, payee ->
         ReadOnlyForm(
             labelText = stringResource(R.string.individual_payee_label, index + 1),
             text = payee.name,
-            onClickText = {},
+            onClickText = { onClickPayeeName(payee.id) },
             supportingText = payee.messageRes,
             icon = painterResource(id = R.drawable.outline_link_off_24),
             iconDescription = stringResource(id = R.string.detach_payee_icon_description),
