@@ -102,6 +102,7 @@ fun Screen(
             onClickAddPayee = { viewModel.onClickAddPayee() },
             onClickDetachPayerIcon = viewModel::onClickDetachPayerIcon,
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
+            onClickPayerName = viewModel::onClickPayerName,
         )
 
         DialogHost(
@@ -159,6 +160,7 @@ fun Contents(
     onClickAddPayee: () -> Unit,
     onClickDetachPayerIcon: (String) -> Unit,
     onClickDetachPayee: (Int) -> Unit,
+    onClickPayerName: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
@@ -174,6 +176,7 @@ fun Contents(
                 onClickAddPayee = onClickAddPayee,
                 onClickDetachPayer = onClickDetachPayerIcon,
                 onClickDetachPayee = onClickDetachPayee,
+                onClickPayerName = onClickPayerName
             )
         },
         bottomButton = {
@@ -205,6 +208,7 @@ fun Body(
     onClickAddPayee: () -> Unit,
     onClickDetachPayer: (String) -> Unit,
     onClickDetachPayee: (Int) -> Unit,
+    onClickPayerName: (Int) -> Unit,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -228,7 +232,12 @@ fun Body(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Payer(payer, onClickAddPayer, onClickDetachPayer)
+                Payer(
+                    payer = payer,
+                    onClickAddPayer = onClickAddPayer,
+                    onClickDetachPayer = onClickDetachPayer,
+                    onClickPayerName = onClickPayerName
+                )
             }
 
             item {
@@ -268,7 +277,8 @@ private fun Payment(
 private fun Payer(
     payer: UiState.Payer,
     onClickAddPayer: () -> Unit,
-    onClickDetachPayer: (String) -> Unit
+    onClickDetachPayer: (String) -> Unit,
+    onClickPayerName: (Int) -> Unit,
 ) {
     when (payer) {
         is UiState.Payer.Unassigned -> {
@@ -288,7 +298,7 @@ private fun Payer(
             ReadOnlyForm(
                 labelText = stringResource(R.string.payer_label),
                 text = payer.name,
-                onClickText = {},
+                onClickText = { onClickPayerName(payer.id) },
                 supportingText = payer.messageRes,
                 icon = painterResource(id = R.drawable.outline_link_off_24),
                 iconDescription = stringResource(id = R.string.detach_payee_icon_description),
@@ -354,6 +364,7 @@ private fun Preview() {
         ),
         onClickDetachPayee = {},
         onClickAddPayee = {},
+        onClickPayerName = {},
     )
 }
 
@@ -373,5 +384,6 @@ private fun NoPayerNoPayeePreview() {
         payees = listOf(),
         onClickDetachPayee = {},
         onClickAddPayee = {},
+        onClickPayerName = {},
     )
 }

@@ -293,8 +293,12 @@ class TransferRelationEditViewModel @Inject constructor(
     }
 
     fun onClickPayment() {
+        openPaymentEdit(paymentId)
+    }
+
+    private fun openPaymentEdit(id: Int) {
         viewModelScope.launch {
-            _eventChannel.send(UiEvent.OnClickPayment(paymentId))
+            _eventChannel.send(UiEvent.OnClickPayment(id))
         }
     }
 
@@ -322,5 +326,9 @@ class TransferRelationEditViewModel @Inject constructor(
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
+    }
+
+    fun onClickPayerName(id: Int) {
+        openPaymentEdit(id)
     }
 }
