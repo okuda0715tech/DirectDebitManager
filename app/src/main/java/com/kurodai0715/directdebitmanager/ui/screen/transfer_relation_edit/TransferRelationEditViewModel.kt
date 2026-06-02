@@ -72,7 +72,7 @@ data class UiState(
             data object Dismiss : Action
             data object No : Action
             data object DeleteYes : Action
-            data object DetachYes : Action
+            data object DetachPayerYes : Action
         }
     }
 }
@@ -301,7 +301,7 @@ class TransferRelationEditViewModel @Inject constructor(
             UiState.Dialog.Action.Dismiss -> dismissDialog()
             UiState.Dialog.Action.No -> dismissDialog()
             UiState.Dialog.Action.DeleteYes -> onClickDeleteExecution()
-            UiState.Dialog.Action.DetachYes -> TODO()
+            UiState.Dialog.Action.DetachPayerYes -> TODO()
         }
     }
 }

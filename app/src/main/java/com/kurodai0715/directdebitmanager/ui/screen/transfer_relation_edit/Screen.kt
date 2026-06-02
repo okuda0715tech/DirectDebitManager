@@ -133,7 +133,7 @@ fun DialogHost(
                 payerName = dialog.payerName,
                 onDismissRequest = { onAction(Dialog.Action.Dismiss) },
                 onClickNo = { onAction(Dialog.Action.No) },
-                onClickYes = { onAction(Dialog.Action.DetachYes) },
+                onClickYes = { onAction(Dialog.Action.DetachPayerYes) },
             )
         }
 
