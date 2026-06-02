@@ -219,4 +219,16 @@ class PaymentV2DefaultRepository @Inject constructor(
             localDataSource.deleteItem(item.id)
         }
     }
+
+    override suspend fun requestDetachPayer(paymentId: Int): RepositoryResult {
+        return withContext(ioDispatcher) {
+            try {
+                updateParentId(paymentId, 0)
+                RepositoryResult.Success
+            } catch (e: Exception) {
+                Log.e(TAG, "$e")
+                RepositoryResult.Failure(e)
+            }
+        }
+    }
 }

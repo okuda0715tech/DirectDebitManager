@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
+import com.kurodai0715.directdebitmanager.domain.model.DetachPayerResult
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
@@ -302,7 +303,24 @@ class TransferRelationEditViewModel @Inject constructor(
             UiState.Dialog.Action.Dismiss -> dismissDialog()
             UiState.Dialog.Action.No -> dismissDialog()
             UiState.Dialog.Action.DeleteYes -> onClickDeleteExecution()
-            UiState.Dialog.Action.DetachPayerYes -> TODO()
+            UiState.Dialog.Action.DetachPayerYes -> onClickDetachPayerYes()
+        }
+    }
+
+    private fun onClickDetachPayerYes() {
+        dismissDialog()
+
+        viewModelScope.launch {
+            val result = paymentCommandUseCase.detachPayer(paymentId)
+
+            when (result) {
+                DetachPayerResult.Succeeded -> {
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+                }
+
+                DetachPayerResult.Failed ->
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+            }
         }
     }
 }

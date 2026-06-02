@@ -4,6 +4,7 @@ import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
 import com.kurodai0715.directdebitmanager.data.RepositoryResult
 import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
+import com.kurodai0715.directdebitmanager.domain.model.DetachPayerResult
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
@@ -28,6 +29,15 @@ class PaymentCommandUseCase @Inject constructor(
         return when (result) {
             is RepositoryResult.Success -> SaveResult.Succeeded
             is RepositoryResult.Failure -> SaveResult.Failed
+        }
+    }
+
+    suspend fun detachPayer(paymentId: Int): DetachPayerResult {
+        val result = repo.requestDetachPayer(paymentId)
+
+        return when (result) {
+            is RepositoryResult.Success -> DetachPayerResult.Succeeded
+            is RepositoryResult.Failure -> DetachPayerResult.Failed
         }
     }
 

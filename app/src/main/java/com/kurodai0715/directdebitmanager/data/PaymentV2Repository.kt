@@ -21,4 +21,6 @@ interface PaymentV2Repository {
     suspend fun saveRelations(paymentId: Int, payerId: PayerId, payeeIds: Set<PayeeId>): RepositoryResult
 
     suspend fun requestDeletePayment(paymentId: PaymentId): RepositoryResult
+
+    suspend fun requestDetachPayer(paymentId: Int): RepositoryResult
 }
