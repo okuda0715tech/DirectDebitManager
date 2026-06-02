@@ -239,12 +239,13 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
-    fun onClickDetachPayerIcon() {
-        removePayer()
-    }
-
-    private fun removePayer() {
-        payer.update { UiState.Payer.Unassigned }
+    fun onClickDetachPayerIcon(payerName: String) {
+        dialog.update {
+            UiState.Dialog.DetachPayerConfirm(
+                paymentName = payment.value.name,
+                payerName = payerName,
+            )
+        }
     }
 
     fun onClickAddPayer() {

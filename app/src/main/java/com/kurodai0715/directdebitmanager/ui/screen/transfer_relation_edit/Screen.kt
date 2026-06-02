@@ -100,7 +100,7 @@ fun Screen(
             onClickPayment = { viewModel.onClickPayment() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
             onClickAddPayee = { viewModel.onClickAddPayee() },
-            onClickDetachPayerIcon = { viewModel.onClickDetachPayerIcon() },
+            onClickDetachPayerIcon = viewModel::onClickDetachPayerIcon,
             onClickDetachPayee = { viewModel.onClickDetachPayee(it) },
         )
 
@@ -157,7 +157,7 @@ fun Contents(
     onClickPayment: () -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
-    onClickDetachPayerIcon: () -> Unit,
+    onClickDetachPayerIcon: (String) -> Unit,
     onClickDetachPayee: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
@@ -203,7 +203,7 @@ fun Body(
     onClickDelete: () -> Unit,
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
-    onClickDetachPayer: () -> Unit,
+    onClickDetachPayer: (String) -> Unit,
     onClickDetachPayee: (Int) -> Unit,
 ) {
     Column(
@@ -268,7 +268,7 @@ private fun Payment(
 private fun Payer(
     payer: UiState.Payer,
     onClickAddPayer: () -> Unit,
-    onClickDetachPayer: () -> Unit
+    onClickDetachPayer: (String) -> Unit
 ) {
     when (payer) {
         is UiState.Payer.Unassigned -> {
@@ -292,7 +292,7 @@ private fun Payer(
                 supportingText = payer.messageRes,
                 icon = painterResource(id = R.drawable.outline_link_off_24),
                 iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-                onClickIcon = onClickDetachPayer,
+                onClickIcon = { onClickDetachPayer(payer.name) },
             )
         }
     }
