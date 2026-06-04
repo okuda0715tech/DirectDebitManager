@@ -18,6 +18,7 @@ import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEditGraph
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -117,6 +118,24 @@ class TransferRelationEditViewModel @Inject constructor(
     private val payer: MutableStateFlow<UiState.Payer> =
         MutableStateFlow(UiState.Payer.Unassigned)
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val payerV2 = paymentQueryUseCase.loadPayerBy(paymentId)
+        .map {
+            if (it == null) {
+                UiState.Payer.Unassigned
+            } else {
+                UiState.Payer.Assigned(
+                    id = it.id,
+                    name = it.label,
+                )
+            }
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = WhileUiSubscribed,
+            initialValue = UiState.Payer.Unassigned
+        )
+    
     private val payees = MutableStateFlow<List<UiState.Payee>>(emptyList())
 
     private val dialog = MutableStateFlow<UiState.Dialog>(UiState.Dialog.None)
@@ -124,7 +143,7 @@ class TransferRelationEditViewModel @Inject constructor(
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<UiState> = combine(uiPayment, payer, payees, dialog)
+    val uiState: StateFlow<UiState> = combine(uiPayment, payerV2, payees, dialog)
     { payment, payer, payees, dialog ->
         UiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
