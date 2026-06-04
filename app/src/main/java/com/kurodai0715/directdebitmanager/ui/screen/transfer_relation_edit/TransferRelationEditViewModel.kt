@@ -104,8 +104,6 @@ class TransferRelationEditViewModel @Inject constructor(
         .paymentId
 
     private val payment = paymentQueryUseCase.loadPaymentByV2(paymentId)
-
-    private val uiPayment = payment
         .map {
             it?.toUiPayment() ?: UiState.Payment()
         }
@@ -135,7 +133,7 @@ class TransferRelationEditViewModel @Inject constructor(
             started = WhileUiSubscribed,
             initialValue = UiState.Payer.Unassigned
         )
-    
+
     private val payees = MutableStateFlow<List<UiState.Payee>>(emptyList())
 
     private val dialog = MutableStateFlow<UiState.Dialog>(UiState.Dialog.None)
@@ -143,7 +141,7 @@ class TransferRelationEditViewModel @Inject constructor(
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<UiState> = combine(uiPayment, payerV2, payees, dialog)
+    val uiState: StateFlow<UiState> = combine(payment, payerV2, payees, dialog)
     { payment, payer, payees, dialog ->
         UiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
@@ -264,7 +262,7 @@ class TransferRelationEditViewModel @Inject constructor(
     fun onClickDetachPayerIcon(payerName: String) {
         dialog.update {
             UiState.Dialog.DetachPayerConfirm(
-                paymentName = uiPayment.value.name,
+                paymentName = payment.value.name,
                 payerName = payerName,
             )
         }
@@ -285,7 +283,7 @@ class TransferRelationEditViewModel @Inject constructor(
     fun onClickDeletePayment() {
         dialog.update {
             UiState.Dialog.DeleteConfirm(
-                itemName = uiPayment.value.name
+                itemName = payment.value.name
             )
         }
     }
