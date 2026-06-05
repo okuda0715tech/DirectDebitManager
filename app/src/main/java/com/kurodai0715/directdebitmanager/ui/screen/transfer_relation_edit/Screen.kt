@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun Screen(
-    viewModel: TransferRelationEditViewModel,
+    viewModel: ViewModel,
     onClickBack: () -> Unit,
     openPaymentEdit: (Int) -> Unit,
     openPayerSelect: (Int) -> Unit,

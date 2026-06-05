@@ -97,7 +97,7 @@ sealed class UiEvent {
 }
 
 @HiltViewModel
-class TransferRelationEditViewModel @Inject constructor(
+class ViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val paymentQueryUseCase: PaymentQueryUseCase,
     private val paymentCommandUseCase: PaymentCommandUseCase,
