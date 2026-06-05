@@ -16,7 +16,7 @@ import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonL
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun PaymentSelectScreen(
+fun Screen(
     viewModel: PaymentSelectViewModel,
     onClickBack: () -> Unit,
 ) {
