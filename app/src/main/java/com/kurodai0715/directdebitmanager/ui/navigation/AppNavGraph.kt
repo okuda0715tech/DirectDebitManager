@@ -22,7 +22,7 @@ import com.kurodai0715.directdebitmanager.ui.screen.payee_edit.PayeeEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payee_list.PayeeListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_edit.PayerEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payer_list.PayerListScreen
-import com.kurodai0715.directdebitmanager.ui.screen.payment_select.PaymentSelectViewModel as PaymentSelectViewModel
+import com.kurodai0715.directdebitmanager.ui.screen.payment_select.ViewModel as PaymentSelectViewModel
 import com.kurodai0715.directdebitmanager.ui.screen.source_edit.SourceEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.source_list.SourceListScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditViewModel

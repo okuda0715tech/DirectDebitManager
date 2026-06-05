@@ -17,7 +17,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun Screen(
-    viewModel: PaymentSelectViewModel,
+    viewModel: ViewModel,
     onClickBack: () -> Unit,
 ) {
 

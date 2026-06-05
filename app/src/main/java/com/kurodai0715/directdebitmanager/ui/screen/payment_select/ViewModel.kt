@@ -59,7 +59,7 @@ sealed interface SelectionState {
 }
 
 @HiltViewModel
-class PaymentSelectViewModel @Inject constructor(
+class ViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     paymentQueryUseCase: PaymentQueryUseCase,
     private val paymentCommandUseCase: PaymentCommandUseCase,
