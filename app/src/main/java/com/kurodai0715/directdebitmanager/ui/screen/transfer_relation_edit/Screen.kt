@@ -101,7 +101,7 @@ fun Screen(
             onClickAddPayer = { viewModel.onClickAddPayer() },
             onClickAddPayee = { viewModel.onClickAddPayee() },
             onClickDetachPayerIcon = viewModel::onClickDetachPayerIcon,
-            onClickDetachPayeeIcon = { viewModel.onClickDetachPayee(it) },
+            onClickDetachPayeeIcon = viewModel::onClickDetachPayeeIcon,
             onClickRelatedName = viewModel::onClickRelatedName,
         )
 
@@ -163,7 +163,7 @@ fun Contents(
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
     onClickDetachPayerIcon: (String) -> Unit,
-    onClickDetachPayeeIcon: (Int) -> Unit,
+    onClickDetachPayeeIcon: (Int, String) -> Unit,
     onClickRelatedName: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
@@ -211,7 +211,7 @@ fun Body(
     onClickAddPayer: () -> Unit,
     onClickAddPayee: () -> Unit,
     onClickDetachPayer: (String) -> Unit,
-    onClickDetachPayee: (Int) -> Unit,
+    onClickDetachPayee: (Int, String) -> Unit,
     onClickRelatedName: (Int) -> Unit,
 ) {
     Column(
@@ -315,7 +315,7 @@ private fun Payer(
 
 fun LazyListScope.payees(
     payees: List<UiState.Payee>,
-    onClickDetachPayee: (Int) -> Unit,
+    onClickDetachPayee: (Int, String) -> Unit,
     onClickAddPayee: () -> Unit,
     onClickPayeeName: (Int) -> Unit,
 ) {
@@ -327,7 +327,7 @@ fun LazyListScope.payees(
             supportingText = payee.messageRes,
             icon = painterResource(id = R.drawable.outline_link_off_24),
             iconDescription = stringResource(id = R.string.detach_payee_icon_description),
-            onClickIcon = { onClickDetachPayee(payee.id) },
+            onClickIcon = { onClickDetachPayee(payee.id, payee.name) },
         )
 
         Spacer(modifier = Modifier.size(LayoutTokens.elementSpacing))
@@ -368,7 +368,7 @@ private fun Preview() {
             UiState.Payee(id = 2, name = "水道料金"),
             UiState.Payee(id = 3, name = "ガス料金"),
         ),
-        onClickDetachPayeeIcon = {},
+        onClickDetachPayeeIcon = { _, _ -> },
         onClickAddPayee = {},
         onClickRelatedName = {},
     )
@@ -388,7 +388,7 @@ private fun NoPayerNoPayeePreview() {
         onClickDetachPayerIcon = {},
         onClickAddPayer = {},
         payees = listOf(),
-        onClickDetachPayeeIcon = {},
+        onClickDetachPayeeIcon = { _, _ -> },
         onClickAddPayee = {},
         onClickRelatedName = {},
     )

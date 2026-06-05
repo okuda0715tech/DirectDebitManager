@@ -273,6 +273,10 @@ class TransferRelationEditViewModel @Inject constructor(
         }
     }
 
+    fun onClickDetachPayeeIcon(payeeId: Int, payeeName: String) {
+        TODO()
+    }
+
     fun onClickAddPayer() {
         viewModelScope.launch {
             _eventChannel.send(UiEvent.OpenPayerSelect(paymentId))
