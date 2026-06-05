@@ -1,9 +1,13 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
+import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
+import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEditGraph
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,8 +58,13 @@ sealed interface SelectionState {
 
 @HiltViewModel
 class PaymentSelectViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     paymentQueryUseCase: PaymentQueryUseCase,
 ) : ViewModel() {
+
+    private val paymentId: Int = savedStateHandle
+        .toRoute<PaymentSelect>()
+        .paymentId
 
     private val selectedId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
