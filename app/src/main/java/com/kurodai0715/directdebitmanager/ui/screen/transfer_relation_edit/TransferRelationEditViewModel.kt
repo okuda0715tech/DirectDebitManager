@@ -70,6 +70,11 @@ data class UiState(
             val payerName: String,
         ) : Dialog
 
+        data class DetachPayeeConfirm(
+            val paymentName: String,
+            val payeeName: String,
+        ) : Dialog
+
         sealed interface Action {
             data object Dismiss : Action
             data object No : Action

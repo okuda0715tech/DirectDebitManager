@@ -138,6 +138,10 @@ fun DialogHost(
             )
         }
 
+        is Dialog.DetachPayeeConfirm -> {
+            TODO()
+        }
+
         Dialog.None -> {
             /* ダイアログを表示しない */
         }
