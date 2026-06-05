@@ -345,12 +345,12 @@ class TransferRelationEditViewModel @Inject constructor(
             UiState.Dialog.Action.Dismiss -> dismissDialog()
             UiState.Dialog.Action.No -> dismissDialog()
             UiState.Dialog.Action.DeleteYes -> onClickDeleteExecution()
-            UiState.Dialog.Action.DetachPayerYes -> onClickDetachPayerYes()
-            is UiState.Dialog.Action.DetachPayeeYes -> onClickDetachPayeeYes(action.payeeId)
+            UiState.Dialog.Action.DetachPayerYes -> requestDetachPayment(paymentId)
+            is UiState.Dialog.Action.DetachPayeeYes -> requestDetachPayment(action.payeeId)
         }
     }
 
-    private fun onClickDetachPayerYes() {
+    private fun requestDetachPayment(paymentId: Int) {
         dismissDialog()
 
         viewModelScope.launch {
@@ -365,10 +365,6 @@ class TransferRelationEditViewModel @Inject constructor(
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
-    }
-
-    private fun onClickDetachPayeeYes(payeeId: Int) {
-        TODO()
     }
 
     fun onClickRelatedName(id: Int) {
