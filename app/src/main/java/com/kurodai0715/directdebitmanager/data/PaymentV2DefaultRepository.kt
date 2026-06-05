@@ -231,4 +231,14 @@ class PaymentV2DefaultRepository @Inject constructor(
             }
         }
     }
+
+    override suspend fun requestAddPayer(paymentId: Int, payerId: Int): RepositoryResult {
+        return try {
+            updateParentId(paymentId, payerId)
+            RepositoryResult.Success
+        } catch (e: Exception) {
+            Log.e(TAG, "$e")
+            RepositoryResult.Failure(e)
+        }
+    }
 }

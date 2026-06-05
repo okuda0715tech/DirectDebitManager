@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
-import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEditGraph
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed class PaymentSelectUiState {
@@ -60,6 +61,7 @@ sealed interface SelectionState {
 class PaymentSelectViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     paymentQueryUseCase: PaymentQueryUseCase,
+    private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
     private val paymentId: Int = savedStateHandle
@@ -120,6 +122,12 @@ class PaymentSelectViewModel @Inject constructor(
             else -> {
                 null
             }
+        }
+    }
+
+    fun onClickSave() {
+        viewModelScope.launch {
+            paymentCommandUseCase.addPayer(paymentId = paymentId, payerId = selectedId.value!!)
         }
     }
 }

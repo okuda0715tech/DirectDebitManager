@@ -31,9 +31,7 @@ fun PaymentSelectScreen(
         uiState = uiStateV2,
         onClickItem = { viewModel.onClickItem(it) },
         onClickBack = onClickBack,
-        onClickSave = {
-            TODO()
-        }
+        onClickSave = viewModel::onClickSave
     )
 }
 
