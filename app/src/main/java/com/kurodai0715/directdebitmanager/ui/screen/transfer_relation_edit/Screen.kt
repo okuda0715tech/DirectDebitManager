@@ -139,7 +139,13 @@ fun DialogHost(
         }
 
         is Dialog.DetachPayeeConfirm -> {
-            TODO()
+            DetachConfirmDialog(
+                paymentName = dialog.paymentName,
+                payerName = dialog.payeeName,
+                onDismissRequest = { onAction(Dialog.Action.Dismiss) },
+                onClickNo = { onAction(Dialog.Action.No) },
+                onClickYes = { onAction(Dialog.Action.DetachPayeeYes(dialog.payeeId)) },
+            )
         }
 
         Dialog.None -> {

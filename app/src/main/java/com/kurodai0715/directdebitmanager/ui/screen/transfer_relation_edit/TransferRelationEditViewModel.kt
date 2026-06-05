@@ -72,6 +72,7 @@ data class UiState(
 
         data class DetachPayeeConfirm(
             val paymentName: String,
+            val payeeId: Int,
             val payeeName: String,
         ) : Dialog
 
@@ -80,6 +81,9 @@ data class UiState(
             data object No : Action
             data object DeleteYes : Action
             data object DetachPayerYes : Action
+            data class DetachPayeeYes(
+                val payeeId: Int,
+            ) : Action
         }
     }
 }
@@ -274,7 +278,13 @@ class TransferRelationEditViewModel @Inject constructor(
     }
 
     fun onClickDetachPayeeIcon(payeeId: Int, payeeName: String) {
-        TODO()
+        dialog.update {
+            UiState.Dialog.DetachPayeeConfirm(
+                paymentName = payment.value.name,
+                payeeId = payeeId,
+                payeeName = payeeName,
+            )
+        }
     }
 
     fun onClickAddPayer() {
@@ -336,6 +346,7 @@ class TransferRelationEditViewModel @Inject constructor(
             UiState.Dialog.Action.No -> dismissDialog()
             UiState.Dialog.Action.DeleteYes -> onClickDeleteExecution()
             UiState.Dialog.Action.DetachPayerYes -> onClickDetachPayerYes()
+            is UiState.Dialog.Action.DetachPayeeYes -> onClickDetachPayeeYes(action.payeeId)
         }
     }
 
@@ -354,6 +365,10 @@ class TransferRelationEditViewModel @Inject constructor(
                     _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
             }
         }
+    }
+
+    private fun onClickDetachPayeeYes(payeeId: Int) {
+        TODO()
     }
 
     fun onClickRelatedName(id: Int) {
