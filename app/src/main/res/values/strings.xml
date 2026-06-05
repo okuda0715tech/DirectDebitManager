@@ -27,6 +27,8 @@
     <string name="payment_edit_screen_title">支払情報 / 登録・編集</string>
     <string name="transfer_relation_edit_screen_title">振替関係 / 編集</string>
     <string name="payment_select_screen_title">支払情報 / 選択"</string>
+    <string name="payer_registration_screen_title">支払元 / 登録"</string>
+    <string name="payee_registration_screen_title">支払先 / 登録"</string>
 
     <!-- ホーム 画面 -->
     <string name="payer_list_label">支払元　一覧</string>

@@ -232,7 +232,14 @@ fun AppNavGraph(
                     onClickBack = { navController.navigateUp() }
                 )
 
-                onChangeTitle(R.string.payment_select_screen_title)
+                val target = NavContract.SelectTarget.valueOf(paymentSelect.target)
+
+                when(target){
+                    NavContract.SelectTarget.Payer ->
+                        onChangeTitle(R.string.payer_registration_screen_title)
+                    NavContract.SelectTarget.Payee ->
+                        onChangeTitle(R.string.payee_registration_screen_title)
+                }
             }
 
         }
