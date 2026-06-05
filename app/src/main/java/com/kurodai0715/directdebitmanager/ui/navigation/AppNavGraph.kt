@@ -222,21 +222,12 @@ fun AppNavGraph(
             }
 
             composable<PaymentSelect> { backStackEntry ->
-                val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry<TransferRelationEditGraph>()
-                }
-
-                val relationEditViewModel: TransferRelationEditViewModel =
-                    hiltViewModel(parentEntry)
-
                 val paymentSelect: PaymentSelect = backStackEntry.toRoute()
 
                 val paymentSelectViewModel: PaymentSelectViewModel =
                     hiltViewModel(backStackEntry)
 
                 PaymentSelectScreen(
-                    selectTarget = NavContract.SelectTarget.valueOf(paymentSelect.target),
-                    sharedViewModel = relationEditViewModel,
                     viewModel = paymentSelectViewModel,
                     onClickBack = { navController.navigateUp() }
                 )

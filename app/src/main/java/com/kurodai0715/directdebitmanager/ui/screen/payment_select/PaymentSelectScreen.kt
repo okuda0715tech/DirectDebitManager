@@ -13,14 +13,10 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultListItemFrame
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
-import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
-import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.TransferRelationEditViewModel
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
 fun PaymentSelectScreen(
-    selectTarget: NavContract.SelectTarget,
-    sharedViewModel: TransferRelationEditViewModel,
     viewModel: PaymentSelectViewModel,
     onClickBack: () -> Unit,
 ) {
