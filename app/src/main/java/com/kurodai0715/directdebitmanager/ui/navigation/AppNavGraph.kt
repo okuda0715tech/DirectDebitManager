@@ -176,60 +176,61 @@ fun AppNavGraph(
             onChangeTitle(R.string.payment_edit_screen_title)
         }
 
-            composable<TransferRelationEdit> { backStackEntry ->
-                val viewModel: TransferRelationEditViewModel =
-                    hiltViewModel(backStackEntry)
+        composable<TransferRelationEdit> { backStackEntry ->
+            val viewModel: TransferRelationEditViewModel =
+                hiltViewModel(backStackEntry)
 
-                TransferRelationEditScreen(
-                    viewModel = viewModel,
-                    onClickBack = {
-                        // PaymentEdit と TransferRelationList の間に PaymentEditGraph が
-                        // 存在しているはずなので、それも含めて破棄するため、
-                        // navController.navigateUp() ではなく、 popBackStack() を使う。
-                        navController.popToTransferRelationList()
-                    },
-                    openPaymentEdit = {
-                        navController.navigateToPaymentEdit(it)
-                    },
-                    openPayerSelect = { paymentId ->
-                        navController.navigateToPaymentSelect(
-                            paymentId = paymentId,
-                            target = NavContract.SelectTarget.Payer,
-                        )
-                    },
-                    openPayeeSelect = { paymentId ->
-                        navController.navigateToPaymentSelect(
-                            paymentId = paymentId,
-                            target = NavContract.SelectTarget.Payee,
-                        )
-                    },
-                    onDeleted = {
-                        navController.popToTransferRelationList()
-                    }
-                )
-
-                onChangeTitle(R.string.transfer_relation_edit_screen_title)
-            }
-
-            composable<PaymentSelect> { backStackEntry ->
-                val paymentSelect: PaymentSelect = backStackEntry.toRoute()
-
-                val paymentSelectViewModel: PaymentSelectViewModel =
-                    hiltViewModel(backStackEntry)
-
-                PaymentSelectScreen(
-                    viewModel = paymentSelectViewModel,
-                    onClickBack = { navController.navigateUp() }
-                )
-
-                val target = NavContract.SelectTarget.valueOf(paymentSelect.target)
-
-                when(target){
-                    NavContract.SelectTarget.Payer ->
-                        onChangeTitle(R.string.payer_registration_screen_title)
-                    NavContract.SelectTarget.Payee ->
-                        onChangeTitle(R.string.payee_registration_screen_title)
+            TransferRelationEditScreen(
+                viewModel = viewModel,
+                onClickBack = {
+                    // PaymentEdit と TransferRelationList の間に PaymentEditGraph が
+                    // 存在しているはずなので、それも含めて破棄するため、
+                    // navController.navigateUp() ではなく、 popBackStack() を使う。
+                    navController.popToTransferRelationList()
+                },
+                openPaymentEdit = {
+                    navController.navigateToPaymentEdit(it)
+                },
+                openPayerSelect = { paymentId ->
+                    navController.navigateToPaymentSelect(
+                        paymentId = paymentId,
+                        target = NavContract.SelectTarget.Payer,
+                    )
+                },
+                openPayeeSelect = { paymentId ->
+                    navController.navigateToPaymentSelect(
+                        paymentId = paymentId,
+                        target = NavContract.SelectTarget.Payee,
+                    )
+                },
+                onDeleted = {
+                    navController.popToTransferRelationList()
                 }
+            )
+
+            onChangeTitle(R.string.transfer_relation_edit_screen_title)
+        }
+
+        composable<PaymentSelect> { backStackEntry ->
+            val paymentSelect: PaymentSelect = backStackEntry.toRoute()
+
+            val paymentSelectViewModel: PaymentSelectViewModel =
+                hiltViewModel(backStackEntry)
+
+            PaymentSelectScreen(
+                viewModel = paymentSelectViewModel,
+                onClickBack = { navController.navigateUp() }
+            )
+
+            val target = NavContract.SelectTarget.valueOf(paymentSelect.target)
+
+            when (target) {
+                NavContract.SelectTarget.Payer ->
+                    onChangeTitle(R.string.payer_registration_screen_title)
+
+                NavContract.SelectTarget.Payee ->
+                    onChangeTitle(R.string.payee_registration_screen_title)
             }
+        }
     }
 }
