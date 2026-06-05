@@ -223,14 +223,14 @@ fun AppNavGraph(
                     navController.getBackStackEntry<TransferRelationEditGraph>()
                 }
 
-                val viewModel: TransferRelationEditViewModel =
+                val relationEditViewModel: TransferRelationEditViewModel =
                     hiltViewModel(parentEntry)
 
                 val paymentSelect: PaymentSelect = backStackEntry.toRoute()
 
                 PaymentSelectScreen(
                     selectTarget = NavContract.SelectTarget.valueOf(paymentSelect.target),
-                    sharedViewModel = viewModel,
+                    sharedViewModel = relationEditViewModel,
                     onClickBack = { navController.navigateUp() }
                 )
 
