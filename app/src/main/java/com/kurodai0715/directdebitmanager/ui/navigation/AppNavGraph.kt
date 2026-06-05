@@ -7,14 +7,12 @@ package com.kurodai0715.directdebitmanager.ui.navigation
 
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.screen.destination_edit.DestinationEditScreen
@@ -178,17 +176,9 @@ fun AppNavGraph(
             onChangeTitle(R.string.payment_edit_screen_title)
         }
 
-        navigation<TransferRelationEditGraph>(
-            startDestination = TransferRelationEdit,
-        ) {
-
             composable<TransferRelationEdit> { backStackEntry ->
-                val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry<TransferRelationEditGraph>()
-                }
-
                 val viewModel: TransferRelationEditViewModel =
-                    hiltViewModel(parentEntry)
+                    hiltViewModel(backStackEntry)
 
                 TransferRelationEditScreen(
                     viewModel = viewModel,
@@ -241,7 +231,5 @@ fun AppNavGraph(
                         onChangeTitle(R.string.payee_registration_screen_title)
                 }
             }
-
-        }
     }
 }

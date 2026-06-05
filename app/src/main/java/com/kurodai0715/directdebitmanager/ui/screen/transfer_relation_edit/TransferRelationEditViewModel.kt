@@ -15,7 +15,7 @@ import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
-import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEditGraph
+import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEdit
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -100,7 +100,7 @@ class TransferRelationEditViewModel @Inject constructor(
     // TransferRelationEditGraph のパラメータがこの TransferRelationEditViewModel の
     // SavedStateHandle に渡される。
     private val paymentId: Int = savedStateHandle
-        .toRoute<TransferRelationEditGraph>()
+        .toRoute<TransferRelationEdit>()
         .paymentId
 
     private val payment = paymentQueryUseCase.loadPaymentByV2(paymentId)

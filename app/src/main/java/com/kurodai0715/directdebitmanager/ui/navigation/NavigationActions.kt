@@ -65,7 +65,7 @@ fun NavController.navigateToTransferRelationList() {
 }
 
 fun NavController.navigateToTransferRelationEdit(paymentId: Int) {
-    navigate(TransferRelationEditGraph(paymentId))
+    navigate(TransferRelationEdit(paymentId))
 }
 
 fun NavController.navigateToPaymentSelect(paymentId: Int, target: NavContract.SelectTarget) {
