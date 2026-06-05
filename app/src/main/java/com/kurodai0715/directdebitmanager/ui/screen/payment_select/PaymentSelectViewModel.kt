@@ -7,6 +7,7 @@ import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
+import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -64,9 +65,11 @@ class PaymentSelectViewModel @Inject constructor(
     private val paymentCommandUseCase: PaymentCommandUseCase,
 ) : ViewModel() {
 
-    private val paymentId: Int = savedStateHandle
-        .toRoute<PaymentSelect>()
-        .paymentId
+    private val paymentId: Int = savedStateHandle.toRoute<PaymentSelect>().paymentId
+
+    private val target = NavContract.SelectTarget.valueOf(
+        savedStateHandle.toRoute<PaymentSelect>().target
+    )
 
     private val selectedId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
@@ -127,7 +130,15 @@ class PaymentSelectViewModel @Inject constructor(
 
     fun onClickSave() {
         viewModelScope.launch {
-            paymentCommandUseCase.addPayer(paymentId = paymentId, payerId = selectedId.value!!)
+            when (target) {
+                NavContract.SelectTarget.Payer ->
+                    paymentCommandUseCase.addPayer(
+                        paymentId = paymentId,
+                        payerId = selectedId.value!!
+                    )
+
+                NavContract.SelectTarget.Payee -> TODO()
+            }
         }
     }
 }
