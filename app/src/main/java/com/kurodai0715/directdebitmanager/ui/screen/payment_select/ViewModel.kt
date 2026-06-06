@@ -50,7 +50,7 @@ sealed class PaymentSelectUiState {
 
 sealed interface SelectionState {
     data object None : SelectionState
-    data class Selected(val id: Int) : SelectionState
+    data object Selected : SelectionState
 }
 
 @HiltViewModel
@@ -89,7 +89,7 @@ class ViewModel @Inject constructor(
 
                 is Async.Success -> {
                     val selectionState =
-                        selectedId?.let { SelectionState.Selected(it) }
+                        selectedId?.let { SelectionState.Selected }
                             ?: SelectionState.None
 
                     val payments = asyncPayments.data.map {
