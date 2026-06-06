@@ -105,8 +105,8 @@ class ViewModel @Inject constructor(
 
     // 【技術的メモ】
     // AppNavGraph.kt 内で TransferRelationEditViewModel を生成する際に、
-    // hiltViewModel() の引数に TransferRelationEditGraph の backStackEntry を渡しているため、
-    // TransferRelationEditGraph のパラメータがこの TransferRelationEditViewModel の
+    // hiltViewModel() の引数に TransferRelationEdit の backStackEntry を渡しているため、
+    // TransferRelationEdit のパラメータがこの TransferRelationEditViewModel の
     // SavedStateHandle に渡される。
     private val paymentId: Int = savedStateHandle
         .toRoute<TransferRelationEdit>()
