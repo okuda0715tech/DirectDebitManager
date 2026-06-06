@@ -119,7 +119,7 @@ class ViewModel @Inject constructor(
         )
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val payerV2 = paymentQueryUseCase.loadPayerBy(paymentId)
+    private val payer = paymentQueryUseCase.loadPayerBy(paymentId)
         .map {
             if (it == null) {
                 UiState.Payer.Unassigned
@@ -143,7 +143,7 @@ class ViewModel @Inject constructor(
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<UiState> = combine(payment, payerV2, payees, dialog)
+    val uiState: StateFlow<UiState> = combine(payment, payer, payees, dialog)
     { payment, payer, payees, dialog ->
         UiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
