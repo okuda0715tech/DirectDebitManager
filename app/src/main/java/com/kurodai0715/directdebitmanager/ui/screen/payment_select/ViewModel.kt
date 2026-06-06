@@ -42,7 +42,7 @@ sealed class PaymentSelectUiState {
         }
     }
 
-    val canSelect: Boolean
+    val saveButtonEnabled: Boolean
         get() {
             return (this is Success)
                     &&

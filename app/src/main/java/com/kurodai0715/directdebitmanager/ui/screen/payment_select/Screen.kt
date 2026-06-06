@@ -50,7 +50,7 @@ fun PaymentSelectContents(
                 onClickRight = { debouncedClick(onClickSave) },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save),
-                rightEnabled = uiState.canSelect,
+                rightEnabled = uiState.saveButtonEnabled,
             )
         }
     )
