@@ -118,9 +118,6 @@ class ViewModel @Inject constructor(
             initialValue = UiState.Payment()
         )
 
-    private val payer: MutableStateFlow<UiState.Payer> =
-        MutableStateFlow(UiState.Payer.Unassigned)
-
     @OptIn(ExperimentalCoroutinesApi::class)
     private val payerV2 = paymentQueryUseCase.loadPayerBy(paymentId)
         .map {
@@ -177,23 +174,7 @@ class ViewModel @Inject constructor(
 
             require(loadedPayment != null) { "loadedPayment is null." }
 
-            if (loadedPayment.payerId.isValid)
-                addPayer(loadedPayment.payerId.value)
-
             loadPayees(loadedPayment.id.value)
-        }
-    }
-
-    private fun addPayer(id: Int) {
-        viewModelScope.launch {
-            val payerName = paymentQueryUseCase.loadPaymentNameBy(id)
-
-            payer.update {
-                UiState.Payer.Assigned(
-                    id = id,
-                    name = payerName,
-                )
-            }
         }
     }
 
