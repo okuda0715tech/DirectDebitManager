@@ -14,7 +14,6 @@ import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
-import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEdit
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -215,13 +214,6 @@ class ViewModel @Inject constructor(
         return paymentCommandUseCase.saveRelations(paymentId, payerId, payeeIds)
     }
 
-    fun onPaymentSelected(target: NavContract.SelectTarget, id: Int) {
-        when (target) {
-            NavContract.SelectTarget.Payer -> addPayer(id)
-            NavContract.SelectTarget.Payee -> addPayee(id)
-        }
-    }
-
     private fun addPayer(id: Int) {
         viewModelScope.launch {
             val payerName = paymentQueryUseCase.loadPaymentNameBy(id)
@@ -233,23 +225,6 @@ class ViewModel @Inject constructor(
                 )
             }
         }
-    }
-
-    private fun addPayee(id: Int) {
-        viewModelScope.launch {
-            val payeeName = paymentQueryUseCase.loadPaymentNameBy(id)
-
-            payees.update {
-                it + UiState.Payee(
-                    id = id,
-                    name = payeeName,
-                )
-            }
-        }
-    }
-
-    fun onClickDetachPayee(id: Int) {
-        removePayee(id)
     }
 
     private fun removePayee(id: Int) {
