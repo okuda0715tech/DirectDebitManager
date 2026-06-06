@@ -12,6 +12,10 @@ fun UiState.getPayerId(): PayerId {
     }
 }
 
+fun UiState.getPayerIdInt(): Int {
+    return getPayerId().value
+}
+
 fun UiState.getPayeeIds(): Set<PayeeId> {
     return this.payees.map { PayeeId.of(it.id) }.toSet()
 }

@@ -67,6 +67,8 @@ class ViewModel @Inject constructor(
 
     private val paymentId: Int = savedStateHandle.toRoute<PaymentSelect>().paymentId
 
+    private val payerId: Int = savedStateHandle.toRoute<PaymentSelect>().payerId
+
     private val target = NavContract.SelectTarget.valueOf(
         savedStateHandle.toRoute<PaymentSelect>().target
     )

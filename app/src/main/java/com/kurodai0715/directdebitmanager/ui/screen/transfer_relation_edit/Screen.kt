@@ -44,8 +44,8 @@ fun Screen(
     viewModel: ViewModel,
     onClickBack: () -> Unit,
     openPaymentEdit: (Int) -> Unit,
-    openPayerSelect: (Int) -> Unit,
-    openPayeeSelect: (Int) -> Unit,
+    openPayerSelect: (Int, Int) -> Unit,
+    openPayeeSelect: (Int, Int) -> Unit,
     onDeleted: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
@@ -79,9 +79,9 @@ fun Screen(
 
                     is UiEvent.OpenPaymentEdit -> openPaymentEdit(event.paymentId)
 
-                    is UiEvent.OpenPayerSelect -> openPayerSelect(event.paymentId)
+                    is UiEvent.OpenPayerSelect -> openPayerSelect(event.payerId, event.paymentId)
 
-                    is UiEvent.OpenPayeeSelect -> openPayeeSelect(event.paymentId)
+                    is UiEvent.OpenPayeeSelect -> openPayeeSelect(event.payerId, event.paymentId)
 
                     UiEvent.OnDeleted -> onDeleted()
                 }

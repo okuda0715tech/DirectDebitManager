@@ -191,14 +191,16 @@ fun AppNavGraph(
                 openPaymentEdit = {
                     navController.navigateToPaymentEdit(it)
                 },
-                openPayerSelect = { paymentId ->
+                openPayerSelect = { payerId, paymentId ->
                     navController.navigateToPaymentSelect(
+                        payerId = payerId,
                         paymentId = paymentId,
                         target = NavContract.SelectTarget.Payer,
                     )
                 },
-                openPayeeSelect = { paymentId ->
+                openPayeeSelect = { payerId, paymentId ->
                     navController.navigateToPaymentSelect(
+                        payerId = payerId,
                         paymentId = paymentId,
                         target = NavContract.SelectTarget.Payee,
                     )
