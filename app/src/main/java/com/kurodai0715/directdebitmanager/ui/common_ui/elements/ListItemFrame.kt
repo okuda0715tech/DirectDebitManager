@@ -69,7 +69,14 @@ fun ListItemFrame(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(modifier = Modifier.weight(1f), text = label)
+            Text(
+                modifier = Modifier.weight(1f),
+                text = label,
+                color = when (itemState) {
+                    ItemState.Registered -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+                    else -> MaterialTheme.colorScheme.onPrimaryContainer
+                }
+            )
 
             when (itemState) {
                 ItemState.Selected ->
