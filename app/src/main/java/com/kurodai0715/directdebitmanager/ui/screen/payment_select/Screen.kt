@@ -36,7 +36,7 @@ fun PaymentSelectContents(
     uiState: PaymentSelectUiState,
     onClickItem: (PaymentSelectUiState.Success.Item) -> Unit,
     onClickBack: () -> Unit,
-    onClickSave: () -> Unit,
+    onClickSave: (Int) -> Unit,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
@@ -46,7 +46,17 @@ fun PaymentSelectContents(
         bottomButton = {
             HorizontalTwoButton(
                 onClickLeft = { debouncedClick(onClickBack) },
-                onClickRight = { debouncedClick(onClickSave) },
+                onClickRight = {
+                    when (uiState) {
+                        is PaymentSelectUiState.Success -> uiState.selectedId?.let {
+                            debouncedClick { onClickSave(it) }
+                        }
+
+                        else -> {
+                            // 何もしない
+                        }
+                    }
+                },
                 leftText = stringResource(R.string.common_back),
                 rightText = stringResource(R.string.common_save),
                 rightEnabled = uiState.saveButtonEnabled,

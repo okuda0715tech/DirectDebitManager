@@ -26,7 +26,7 @@ sealed class PaymentSelectUiState {
     object Loading : PaymentSelectUiState()
     data class Error(val errorMessageRes: Int) : PaymentSelectUiState()
     data class Success(
-        val selectionState: SelectionState = SelectionState.None,
+        val selectedId: Int? = null,
         val payments: List<Item> = emptyList(),
     ) : PaymentSelectUiState() {
         data class Item(
@@ -39,17 +39,8 @@ sealed class PaymentSelectUiState {
     val saveButtonEnabled: Boolean
         get() {
             return (this is Success)
-                    &&
-                    when (selectionState) {
-                        SelectionState.None -> false
-                        is SelectionState.Selected -> true
-                    }
+                    && selectedId != null
         }
-}
-
-sealed interface SelectionState {
-    data object None : SelectionState
-    data object Selected : SelectionState
 }
 
 @HiltViewModel
@@ -87,10 +78,6 @@ class ViewModel @Inject constructor(
                 }
 
                 is Async.Success -> {
-                    val selectionState =
-                        selectedId?.let { SelectionState.Selected }
-                            ?: SelectionState.None
-
                     val payments = asyncPayments.data.map {
                         if (it.id == selectedId) {
                             it.copy(state = ItemState.Selected)
@@ -100,7 +87,7 @@ class ViewModel @Inject constructor(
                     }
 
                     PaymentSelectUiState.Success(
-                        selectionState = selectionState,
+                        selectedId = selectedId,
                         payments = payments,
                     )
                 }
@@ -117,16 +104,20 @@ class ViewModel @Inject constructor(
         }
     }
 
-    fun onClickSave() {
+    fun onClickSave(selectedId: Int) {
         viewModelScope.launch {
             when (target) {
                 NavContract.SelectTarget.Payer ->
                     paymentCommandUseCase.addPayer(
                         paymentId = paymentId,
-                        payerId = selectedId.value!!
+                        payerId = selectedId,
                     )
 
-                NavContract.SelectTarget.Payee -> TODO()
+                NavContract.SelectTarget.Payee ->
+                    paymentCommandUseCase.addPayer(
+                        paymentId = selectedId,
+                        payerId = paymentId,
+                    )
             }
         }
     }
