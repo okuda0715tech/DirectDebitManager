@@ -7,7 +7,6 @@ import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
-import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ItemState
 import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
 import com.kurodai0715.directdebitmanager.ui.util.Async

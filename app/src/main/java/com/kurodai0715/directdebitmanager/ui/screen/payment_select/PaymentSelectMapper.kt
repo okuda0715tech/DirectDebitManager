@@ -1,7 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
-import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ItemState
 
 /**
  * エンティティを UI モデルに変換する(個別用).

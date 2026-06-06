@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.common_ui.elements
+package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
 import android.util.Log
 import androidx.compose.foundation.background

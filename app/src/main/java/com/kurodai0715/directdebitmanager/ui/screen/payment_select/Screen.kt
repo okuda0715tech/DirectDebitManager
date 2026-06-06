@@ -11,8 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ItemState
-import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ListItemFrame
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
