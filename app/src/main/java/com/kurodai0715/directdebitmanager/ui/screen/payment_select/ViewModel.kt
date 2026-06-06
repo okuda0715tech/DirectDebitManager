@@ -7,6 +7,7 @@ import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ItemState
 import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
 import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
 import com.kurodai0715.directdebitmanager.ui.util.Async
@@ -32,14 +33,8 @@ sealed class PaymentSelectUiState {
         data class Item(
             val id: Int,
             val name: String,
+            val state: ItemState,
         )
-
-        fun isSelected(itemId: Int): Boolean {
-            return when (val state = selectionState) {
-                SelectionState.None -> false
-                is SelectionState.Selected -> state.id == itemId
-            }
-        }
     }
 
     val saveButtonEnabled: Boolean
@@ -76,7 +71,7 @@ class ViewModel @Inject constructor(
     private val selectedId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
     private val asyncPayments = paymentQueryUseCase.loadPayments()
-        .map { Async.Success(it.toPaymentSelect()) }
+        .map { Async.Success(it.toPaymentSelectUiModel(paymentId, payerId)) }
         .catch<Async<List<PaymentSelectUiState.Success.Item>>> {
             emit(Async.Error(R.string.load_error))
         }
@@ -97,9 +92,17 @@ class ViewModel @Inject constructor(
                         selectedId?.let { SelectionState.Selected(it) }
                             ?: SelectionState.None
 
+                    val payments = asyncPayments.data.map {
+                        if (it.id == selectedId) {
+                            it.copy(state = ItemState.Selected)
+                        } else {
+                            it
+                        }
+                    }
+
                     PaymentSelectUiState.Success(
                         selectionState = selectionState,
-                        payments = asyncPayments.data
+                        payments = payments,
                     )
                 }
             }

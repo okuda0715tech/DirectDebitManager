@@ -75,6 +75,7 @@
 
     <!-- 支払情報 選択 画面 -->
     <string name="selected_icon_description">選択中アイコン</string>
+    <string name="registered_label">登録済み</string>
 
     <!-- 振替元 編集 画面 -->
     <string name="source_edit_text_label">振替元の名称</string>

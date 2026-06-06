@@ -24,10 +24,16 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 private const val TAG = "ListItemFrame"
 
+sealed interface ItemState {
+    data object None : ItemState
+    data object Selected : ItemState
+    data object Registered : ItemState
+}
+
 @Composable
-fun DefaultListItemFrame(
+fun ListItemFrame(
     modifier: Modifier = Modifier,
-    isSelected: Boolean = false,
+    itemState: ItemState = ItemState.None,
     label: String,
     onClickItem: () -> Unit,
 ) {
@@ -36,10 +42,15 @@ fun DefaultListItemFrame(
             .padding(vertical = LayoutTokens.itemSpacingHalf)
             .fillMaxWidth()
             .background(
-                if (isSelected) {
-                    MaterialTheme.colorScheme.secondaryContainer
-                } else {
-                    MaterialTheme.colorScheme.surfaceContainerLow
+                when (itemState) {
+                    ItemState.Selected ->
+                        MaterialTheme.colorScheme.secondaryContainer
+
+                    ItemState.Registered ->
+                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+
+                    ItemState.None ->
+                        MaterialTheme.colorScheme.surfaceContainerLow
                 }
             )
             .clickable(onClick = {
@@ -54,36 +65,54 @@ fun DefaultListItemFrame(
         ) {
             Text(modifier = Modifier.weight(1f), text = label)
 
-            if (isSelected) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_check_circle_outline_24),
-                    contentDescription = stringResource(id = R.string.selected_icon_description),
-                    modifier = Modifier
-                        .size(ICON_LARGE_SIZE)
-                        .clickable(onClick = { debouncedClick(onClickItem) }),
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                )
+            when (itemState) {
+                ItemState.Selected ->
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_check_circle_outline_24),
+                        contentDescription = stringResource(id = R.string.selected_icon_description),
+                        modifier = Modifier
+                            .size(ICON_LARGE_SIZE)
+                            .clickable(onClick = { debouncedClick(onClickItem) }),
+                        tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    )
+
+                ItemState.Registered ->
+                    Text(text = stringResource(id = R.string.registered_label))
+
+                ItemState.None -> {
+                    // 何も表示しない
+                }
             }
         }
     }
 }
 
-@Preview(name = "DefaultListItemFrame")
+@Preview(name = "ListItemFrame")
 @Composable
 private fun SelectedPreview() {
-    DefaultListItemFrame(
+    ListItemFrame(
         label = "選択中のアイテム",
-        isSelected = true,
+        itemState = ItemState.Selected,
         onClickItem = {}
     )
 }
 
-@Preview(name = "DefaultListItemFrame")
+@Preview(name = "ListItemFrame")
 @Composable
 private fun NonSelectedPreview() {
-    DefaultListItemFrame(
-        label = "選択されていないアイテム",
-        isSelected = false,
+    ListItemFrame(
+        label = "通常状態アイテム",
+        itemState = ItemState.None,
+        onClickItem = {}
+    )
+}
+
+@Preview(name = "ListItemFrame")
+@Composable
+private fun RegisteredPreview() {
+    ListItemFrame(
+        label = "登録済みのアイテム",
+        itemState = ItemState.Registered,
         onClickItem = {}
     )
 }

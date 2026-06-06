@@ -11,7 +11,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
-import com.kurodai0715.directdebitmanager.ui.common_ui.elements.DefaultListItemFrame
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ItemState
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.ListItemFrame
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -74,8 +75,8 @@ private fun Contents(
         is PaymentSelectUiState.Success -> {
             LazyColumn {
                 items(uiState.payments) { item ->
-                    DefaultListItemFrame(
-                        isSelected = uiState.isSelected(item.id),
+                    ListItemFrame(
+                        itemState = item.state,
                         label = item.name,
                         onClickItem = { onClickItem(item) }
                     )
@@ -91,11 +92,11 @@ private fun Preview() {
     PaymentSelectContents(
         uiState = PaymentSelectUiState.Success(
             payments = listOf(
-                PaymentSelectUiState.Success.Item(1, "三井住友銀行"),
-                PaymentSelectUiState.Success.Item(2, "リクルートカードプラス"),
-                PaymentSelectUiState.Success.Item(3, "横浜銀行"),
-                PaymentSelectUiState.Success.Item(4, "楽天銀行"),
-                PaymentSelectUiState.Success.Item(5, "電気料金"),
+                PaymentSelectUiState.Success.Item(1, "三井住友銀行", ItemState.None),
+                PaymentSelectUiState.Success.Item(2, "リクルートカードプラス", ItemState.None),
+                PaymentSelectUiState.Success.Item(3, "横浜銀行", ItemState.None),
+                PaymentSelectUiState.Success.Item(4, "水道料金", ItemState.Registered),
+                PaymentSelectUiState.Success.Item(5, "電気料金", ItemState.Selected),
             ),
         ),
         onClickItem = { },
