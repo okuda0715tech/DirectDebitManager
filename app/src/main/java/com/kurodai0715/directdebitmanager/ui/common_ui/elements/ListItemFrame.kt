@@ -55,7 +55,13 @@ fun ListItemFrame(
             )
             .clickable(onClick = {
                 Log.v(TAG, "list item is clicked.")
-                debouncedClick(onClickItem)
+                when (itemState) {
+                    ItemState.Registered -> {
+                        // クリック処理を行わない
+                    }
+
+                    else -> debouncedClick(onClickItem)
+                }
             })
             .padding(LayoutTokens.elementSpacing)
     ) {
