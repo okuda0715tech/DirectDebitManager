@@ -227,12 +227,6 @@ class ViewModel @Inject constructor(
         }
     }
 
-    private fun removePayee(id: Int) {
-        payees.update { current ->
-            current.filter { it.id != id }
-        }
-    }
-
     private fun loadPayees(id: Int) {
         viewModelScope.launch {
             val domainPayees = paymentQueryUseCase.loadPayeesBy(id)
