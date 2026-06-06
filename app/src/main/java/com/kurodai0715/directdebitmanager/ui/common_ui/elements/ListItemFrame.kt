@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,9 +26,19 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 private const val TAG = "ListItemFrame"
 
 sealed interface ItemState {
-    data object None : ItemState
-    data object Selected : ItemState
-    data object Registered : ItemState
+    val isClickable: Boolean
+
+    data object None : ItemState {
+        override val isClickable = true
+    }
+
+    data object Selected : ItemState {
+        override val isClickable = true
+    }
+
+    data object Registered : ItemState {
+        override val isClickable = false
+    }
 }
 
 @Composable
@@ -41,28 +52,13 @@ fun ListItemFrame(
         modifier = modifier
             .padding(vertical = LayoutTokens.itemSpacingHalf)
             .fillMaxWidth()
-            .background(
-                when (itemState) {
-                    ItemState.Selected ->
-                        MaterialTheme.colorScheme.secondaryContainer
-
-                    ItemState.Registered ->
-                        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
-
-                    ItemState.None ->
-                        MaterialTheme.colorScheme.surfaceContainerLow
-                }
-            )
-            .clickable(onClick = {
-                Log.v(TAG, "list item is clicked.")
-                when (itemState) {
-                    ItemState.Registered -> {
-                        // クリック処理を行わない
-                    }
-
-                    else -> debouncedClick(onClickItem)
-                }
-            })
+            .background(getBackgroundColor(itemState))
+            .clickable(
+                enabled = itemState.isClickable,
+                onClick = {
+                    Log.v(TAG, "list item is clicked.")
+                    debouncedClick(onClickItem)
+                })
             .padding(LayoutTokens.elementSpacing)
     ) {
         Row(
@@ -98,6 +94,18 @@ fun ListItemFrame(
             }
         }
     }
+}
+
+@Composable
+private fun getBackgroundColor(itemState: ItemState): Color = when (itemState) {
+    ItemState.Selected ->
+        MaterialTheme.colorScheme.secondaryContainer
+
+    ItemState.Registered ->
+        MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
+
+    ItemState.None ->
+        MaterialTheme.colorScheme.surfaceContainerLow
 }
 
 @Preview(name = "ListItemFrame")
