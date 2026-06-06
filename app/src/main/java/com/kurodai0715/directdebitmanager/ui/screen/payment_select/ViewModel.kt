@@ -118,21 +118,6 @@ class ViewModel @Inject constructor(
         }
     }
 
-    /**
-     * 選択ボタンタップ時に、選択されたアイテムの ID を返す.
-     */
-    fun onClickSelect(): Int? {
-        return when (uiState.value) {
-            is PaymentSelectUiState.Success -> {
-                selectedId.value
-            }
-
-            else -> {
-                null
-            }
-        }
-    }
-
     fun onClickSave() {
         viewModelScope.launch {
             when (target) {
