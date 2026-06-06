@@ -8,10 +8,7 @@ import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.DeleteResult
 import com.kurodai0715.directdebitmanager.domain.model.DetachPayerResult
-import com.kurodai0715.directdebitmanager.domain.model.PayeeId
-import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
-import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEdit
@@ -185,33 +182,6 @@ class ViewModel @Inject constructor(
 
             loadPayees(loadedPayment.id.value)
         }
-    }
-
-    fun save() {
-        viewModelScope.launch {
-            val result = saveRelations(
-                paymentId = paymentId,
-                payerId = uiState.value.getPayerId(),
-                payeeIds = uiState.value.getPayeeIds(),
-            )
-
-            when (result) {
-                SaveResult.Succeeded -> {
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
-                }
-
-                SaveResult.Failed ->
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
-            }
-        }
-    }
-
-    private suspend fun saveRelations(
-        paymentId: Int,
-        payerId: PayerId,
-        payeeIds: Set<PayeeId>
-    ): SaveResult {
-        return paymentCommandUseCase.saveRelations(paymentId, payerId, payeeIds)
     }
 
     private fun addPayer(id: Int) {

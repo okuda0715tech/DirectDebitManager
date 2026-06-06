@@ -28,8 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
+import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneOutlinedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
 import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog2
 import com.kurodai0715.directdebitmanager.ui.dialog.DetachConfirmDialog
@@ -95,7 +95,6 @@ fun Screen(
             payer = uiState.payer,
             payees = uiState.payees,
             onClickBack = onClickBack,
-            onClickSave = { viewModel.save() },
             onClickDelete = { viewModel.onClickDeletePayment() },
             onClickPayment = { viewModel.onClickPayment() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
@@ -163,7 +162,6 @@ fun Contents(
     payer: UiState.Payer,
     payees: List<UiState.Payee>,
     onClickBack: () -> Unit,
-    onClickSave: () -> Unit,
     onClickDelete: () -> Unit,
     onClickPayment: () -> Unit,
     onClickAddPayer: () -> Unit,
@@ -190,19 +188,17 @@ fun Contents(
             )
         },
         bottomButton = {
-            BottomButton(onClickBack, onClickSave)
+            BottomButton(onClickBack)
         }
     )
 
 }
 
 @Composable
-private fun BottomButton(onClickBack: () -> Unit, onClickSave: () -> Unit) {
-    HorizontalTwoButton(
-        onClickLeft = { debouncedClick(onClickBack) },
-        onClickRight = { debouncedClick(onClickSave) },
-        leftText = stringResource(R.string.common_back),
-        rightText = stringResource(R.string.common_save)
+private fun BottomButton(onClickBack: () -> Unit) {
+    OneOutlinedButton(
+        onClick = { debouncedClick(onClickBack) },
+        text = stringResource(R.string.common_back)
     )
 }
 
@@ -358,7 +354,6 @@ fun LazyListScope.payees(
 private fun Preview() {
     Contents(
         onClickBack = {},
-        onClickSave = {},
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
         onClickPayment = {},
@@ -385,7 +380,6 @@ private fun Preview() {
 private fun NoPayerNoPayeePreview() {
     Contents(
         onClickBack = {},
-        onClickSave = {},
         paymentName = "リクルートカードプラス",
         paymentNameMessage = null,
         onClickPayment = {},
