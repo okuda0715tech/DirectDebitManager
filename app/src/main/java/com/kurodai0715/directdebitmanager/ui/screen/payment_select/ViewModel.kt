@@ -31,12 +31,19 @@ sealed class PaymentSelectUiState {
         val explainMessageRes: Int,
         val selectedId: Int? = null,
         val payments: List<Item> = emptyList(),
+        val dialog: Dialog = Dialog.None,
     ) : PaymentSelectUiState() {
         data class Item(
             val id: Int,
             val name: String,
             val state: ItemState,
         )
+
+        sealed interface Dialog {
+            data object None : Dialog
+            data object SaveSuccess : Dialog
+            data object SaveFailed : Dialog
+        }
     }
 
     val saveButtonEnabled: Boolean
@@ -151,7 +158,7 @@ class ViewModel @Inject constructor(
 
     fun onClickSave(selectedId: Int) {
         viewModelScope.launch {
-            when (target) {
+            val result = when (target) {
                 NavContract.SelectTarget.Payer ->
                     paymentCommandUseCase.addPayer(
                         paymentId = paymentId,
@@ -164,6 +171,8 @@ class ViewModel @Inject constructor(
                         payerId = paymentId,
                     )
             }
+
+
         }
     }
 }
