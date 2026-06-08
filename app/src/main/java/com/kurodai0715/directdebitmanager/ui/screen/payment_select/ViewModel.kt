@@ -74,16 +74,16 @@ class ViewModel @Inject constructor(
 
     val uiState: StateFlow<PaymentSelectUiState> =
         combine(asyncPayments, selectedId) { asyncPayments, selectedId ->
-            when (asyncPayments) {
-                is Async.Loading -> {
-                    PaymentSelectUiState.Loading
+            val error = listOf(asyncPayments)
+                .filterIsInstance<Async.Error>()
+                .firstOrNull()
+
+            when {
+                error != null -> {
+                    PaymentSelectUiState.Error(error.errorMessage)
                 }
 
-                is Async.Error -> {
-                    PaymentSelectUiState.Error(asyncPayments.errorMessage)
-                }
-
-                is Async.Success -> {
+                asyncPayments is Async.Success -> {
                     val payments = asyncPayments.data.map {
                         if (it.id == selectedId) {
                             it.copy(state = ItemState.Selected)
@@ -96,6 +96,10 @@ class ViewModel @Inject constructor(
                         selectedId = selectedId,
                         payments = payments,
                     )
+                }
+
+                else -> {
+                    PaymentSelectUiState.Loading
                 }
             }
         }.stateIn(
