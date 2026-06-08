@@ -10,22 +10,19 @@ import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
  */
 fun PaymentEntityV2.toPaymentSelectUiModel(
     editingPaymentId: Int,
-    registeredPayerId: Int
 ): PaymentSelectUiState.Success.Item {
     return PaymentSelectUiState.Success.Item(
         id = id,
         name = label,
-        state = isRegistered(editingPaymentId, registeredPayerId)
+        state = isRegistered(editingPaymentId)
     )
 }
 
 /**
  * 現在編集中の支払情報に対する「支払元」あるいは「支払先」に既に登録されているか、されていないかのステータスを返す.
  */
-private fun PaymentEntityV2.isRegistered(editingPaymentId: Int, registeredPayerId: Int): ItemState {
+private fun PaymentEntityV2.isRegistered(editingPaymentId: Int): ItemState {
     return if (editingPaymentId == parentId) { // 支払先として登録されている場合
-        ItemState.Registered
-    } else if (registeredPayerId == id) { // 支払元として登録されている場合
         ItemState.Registered
     } else {
         ItemState.None
@@ -40,8 +37,7 @@ private fun PaymentEntityV2.isRegistered(editingPaymentId: Int, registeredPayerI
  */
 fun List<PaymentEntityV2>.toPaymentSelectUiModel(
     editingPaymentId: Int,
-    registeredPayerId: Int
 ): List<PaymentSelectUiState.Success.Item> {
 
-    return map { it.toPaymentSelectUiModel(editingPaymentId, registeredPayerId) }
+    return map { it.toPaymentSelectUiModel(editingPaymentId) }
 }

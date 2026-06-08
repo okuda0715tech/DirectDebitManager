@@ -84,7 +84,6 @@ data class TransferRelationEdit(
 
 @Serializable
 data class PaymentSelect(
-    val payerId: Int,
     val paymentId: Int,
     val target: String,
 ) : TransferBase

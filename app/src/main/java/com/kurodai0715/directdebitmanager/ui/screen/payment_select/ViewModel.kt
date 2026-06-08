@@ -53,8 +53,6 @@ class ViewModel @Inject constructor(
 
     private val paymentId: Int = savedStateHandle.toRoute<PaymentSelect>().paymentId
 
-    private val payerId: Int = savedStateHandle.toRoute<PaymentSelect>().payerId
-
     private val asyncPayment = paymentQueryUseCase.loadPaymentByV2(paymentId)
         .map {
             requireNotNull(it) { "The paymentId cannot be null." }
@@ -75,7 +73,7 @@ class ViewModel @Inject constructor(
             val data = payments
                 // 自分自身はリストから除外する(支払先や支払元に自分自身が設定されるのはおかしいため)
                 .filter { it.id != paymentId }
-                .toPaymentSelectUiModel(paymentId, payerId)
+                .toPaymentSelectUiModel(paymentId)
             Async.Success(data)
         }
         .catch<Async<List<PaymentSelectUiState.Success.Item>>> {
@@ -103,6 +101,10 @@ class ViewModel @Inject constructor(
 
                     val payments = asyncPayments.data.map {
                         when {
+                            it.id == asyncPayment.data.parentId -> {
+                                it.copy(state = ItemState.Registered)
+                            }
+
                             it.id == selectedId -> {
                                 it.copy(state = ItemState.Selected)
                             }

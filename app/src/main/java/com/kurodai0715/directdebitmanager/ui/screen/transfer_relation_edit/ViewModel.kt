@@ -85,8 +85,8 @@ data class UiState(
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
     data class OpenPaymentEdit(val paymentId: Int) : UiEvent()
-    data class OpenPayerSelect(val payerId: Int, val paymentId: Int) : UiEvent()
-    data class OpenPayeeSelect(val payerId: Int, val paymentId: Int) : UiEvent()
+    data class OpenPayerSelect(val paymentId: Int) : UiEvent()
+    data class OpenPayeeSelect(val paymentId: Int) : UiEvent()
     data object OnDeleted : UiEvent()
 }
 
@@ -190,7 +190,6 @@ class ViewModel @Inject constructor(
         viewModelScope.launch {
             _eventChannel.send(
                 UiEvent.OpenPayerSelect(
-                    payerId = uiState.value.getPayerIdInt(),
                     paymentId = paymentId
                 )
             )
@@ -201,7 +200,6 @@ class ViewModel @Inject constructor(
         viewModelScope.launch {
             _eventChannel.send(
                 UiEvent.OpenPayeeSelect(
-                    payerId = uiState.value.getPayerIdInt(),
                     paymentId = paymentId
                 )
             )
