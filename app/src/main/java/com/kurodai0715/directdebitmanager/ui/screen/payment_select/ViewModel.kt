@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
@@ -54,6 +55,15 @@ class ViewModel @Inject constructor(
 
     private val payerId: Int = savedStateHandle.toRoute<PaymentSelect>().payerId
 
+    private val asyncPayment = paymentQueryUseCase.loadPaymentByV2(paymentId)
+        .map {
+            requireNotNull(it) { "The paymentId cannot be null." }
+            Async.Success(it)
+        }
+        .catch<Async<PaymentEntityV2>> {
+            emit(Async.Error(R.string.load_error))
+        }
+
     private val target = NavContract.SelectTarget.valueOf(
         savedStateHandle.toRoute<PaymentSelect>().target
     )
@@ -73,8 +83,12 @@ class ViewModel @Inject constructor(
         }
 
     val uiState: StateFlow<PaymentSelectUiState> =
-        combine(asyncPayments, selectedId) { asyncPayments, selectedId ->
-            val error = listOf(asyncPayments)
+        combine(
+            asyncPayments,
+            selectedId,
+            asyncPayment
+        ) { asyncPayments, selectedId, asyncPayment ->
+            val error = listOf(asyncPayments, asyncPayment)
                 .filterIsInstance<Async.Error>()
                 .firstOrNull()
 
@@ -83,7 +97,9 @@ class ViewModel @Inject constructor(
                     PaymentSelectUiState.Error(error.errorMessage)
                 }
 
-                asyncPayments is Async.Success -> {
+                asyncPayments is Async.Success
+                        && asyncPayment is Async.Success -> {
+
                     val payments = asyncPayments.data.map {
                         if (it.id == selectedId) {
                             it.copy(state = ItemState.Selected)
