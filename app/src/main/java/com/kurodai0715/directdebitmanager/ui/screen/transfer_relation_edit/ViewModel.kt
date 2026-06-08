@@ -13,7 +13,6 @@ import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationEdit
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -117,7 +116,6 @@ class ViewModel @Inject constructor(
             initialValue = UiState.Payment()
         )
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private val payer = paymentQueryUseCase.loadPayerBy(paymentId)
         .map {
             if (it == null) {
