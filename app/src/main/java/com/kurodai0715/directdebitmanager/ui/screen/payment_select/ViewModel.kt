@@ -97,6 +97,7 @@ class ViewModel @Inject constructor(
                     PaymentSelectUiState.Error(error.errorMessage)
                 }
 
+                // 【技術メモ】xxx.data を取得するために、個別の 'is Async.Success' 判定が必要です。
                 asyncPayments is Async.Success
                         && asyncPayment is Async.Success -> {
 
