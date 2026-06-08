@@ -106,6 +106,9 @@ class ViewModel @Inject constructor(
         .toRoute<TransferRelationEdit>()
         .paymentId
 
+    // 【技術メモ】
+    // payment プロパティは、 payment.value で値を取得している部分があるため、
+    // Flow を StateFlow に変換する必要がある。
     private val payment = paymentQueryUseCase.loadPaymentByV2(paymentId)
         .map {
             it?.toUiPayment() ?: UiState.Payment()
@@ -133,6 +136,10 @@ class ViewModel @Inject constructor(
             initialValue = UiState.Payer.Unassigned
         )
 
+    // 【技術メモ】
+    // payees は payees.value のように値を直接取得していないため、
+    // Flow を StateFlow に変換する必要はない。
+    // もし、今後、 .value で値を取得したくなった場合は StateFlow への変換が必要です。
     private val payees = paymentQueryUseCase.loadPaymentsBy(paymentId)
         .map { it.toUiPayeesV2() }
 
