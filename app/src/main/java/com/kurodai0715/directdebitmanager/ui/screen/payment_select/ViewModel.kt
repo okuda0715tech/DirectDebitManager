@@ -102,10 +102,12 @@ class ViewModel @Inject constructor(
                         && asyncPayment is Async.Success -> {
 
                     val payments = asyncPayments.data.map {
-                        if (it.id == selectedId) {
-                            it.copy(state = ItemState.Selected)
-                        } else {
-                            it
+                        when {
+                            it.id == selectedId -> {
+                                it.copy(state = ItemState.Selected)
+                            }
+
+                            else -> it
                         }
                     }
 
