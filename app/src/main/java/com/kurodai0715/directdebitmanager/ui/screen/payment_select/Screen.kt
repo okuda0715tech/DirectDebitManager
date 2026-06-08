@@ -85,7 +85,7 @@ private fun Contents(
         }
 
         is PaymentSelectUiState.Success -> {
-            Column{
+            Column {
                 Spacer(modifier = Modifier.size(LayoutTokens.sectionSpacingHalf))
 
                 Text(
@@ -105,6 +105,20 @@ private fun Contents(
                             onClickItem = { onClickItem(item) }
                         )
                     }
+                }
+            }
+
+            when (val dialog = uiState.dialog) {
+                PaymentSelectUiState.Success.Dialog.SaveSuccess -> {
+                    TODO()
+                }
+
+                PaymentSelectUiState.Success.Dialog.SaveFailed -> {
+                    TODO()
+                }
+
+                PaymentSelectUiState.Success.Dialog.None -> {
+                    // 何も表示しない
                 }
             }
         }
