@@ -135,7 +135,7 @@ class ViewModel @Inject constructor(
             initialValue = UiState.Payer.Unassigned
         )
 
-    private val payeesV2 = paymentQueryUseCase.loadPaymentsBy(paymentId)
+    private val payees = paymentQueryUseCase.loadPaymentsBy(paymentId)
         .map { it.toUiPayeesV2() }
 
     private val dialog = MutableStateFlow<UiState.Dialog>(UiState.Dialog.None)
@@ -143,7 +143,7 @@ class ViewModel @Inject constructor(
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<UiState> = combine(payment, payer, payeesV2, dialog)
+    val uiState: StateFlow<UiState> = combine(payment, payer, payees, dialog)
     { payment, payer, payees, dialog ->
         UiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
