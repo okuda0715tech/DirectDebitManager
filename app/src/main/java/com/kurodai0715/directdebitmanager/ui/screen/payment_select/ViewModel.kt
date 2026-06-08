@@ -99,17 +99,18 @@ class ViewModel @Inject constructor(
                 asyncPayments is Async.Success
                         && asyncPayment is Async.Success -> {
 
-                    val payments = asyncPayments.data.map {
+                    val payments = asyncPayments.data.map { listItem ->
                         when {
-                            it.id == asyncPayment.data.parentId -> {
-                                it.copy(state = ItemState.Registered)
+                            // 編集中の支払情報に対する支払元として登録されている場合
+                            listItem.id == asyncPayment.data.parentId -> {
+                                listItem.copy(state = ItemState.Registered)
                             }
 
-                            it.id == selectedId -> {
-                                it.copy(state = ItemState.Selected)
+                            listItem.id == selectedId -> {
+                                listItem.copy(state = ItemState.Selected)
                             }
 
-                            else -> it
+                            else -> listItem
                         }
                     }
 
