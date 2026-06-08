@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.domain.model.AddPayerResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
 import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
@@ -98,12 +99,18 @@ class ViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
+    private val dialog =
+        MutableStateFlow<PaymentSelectUiState.Success.Dialog>(
+            PaymentSelectUiState.Success.Dialog.None
+        )
+
     val uiState: StateFlow<PaymentSelectUiState> =
         combine(
             asyncPayments,
             selectedId,
-            asyncPayment
-        ) { asyncPayments, selectedId, asyncPayment ->
+            asyncPayment,
+            dialog,
+        ) { asyncPayments, selectedId, asyncPayment, dialog ->
             val error = listOf(asyncPayments, asyncPayment)
                 .filterIsInstance<Async.Error>()
                 .firstOrNull()
@@ -137,6 +144,7 @@ class ViewModel @Inject constructor(
                         explainMessageRes = explainMessageRes,
                         selectedId = selectedId,
                         payments = payments,
+                        dialog = dialog,
                     )
                 }
 
@@ -172,7 +180,19 @@ class ViewModel @Inject constructor(
                     )
             }
 
+            when (result) {
+                AddPayerResult.Succeeded -> {
+                    updateDialog(PaymentSelectUiState.Success.Dialog.SaveSuccess)
+                }
 
+                AddPayerResult.Failed -> {
+                    updateDialog(PaymentSelectUiState.Success.Dialog.SaveFailed)
+                }
+            }
         }
+    }
+
+    private fun updateDialog(nextState: PaymentSelectUiState.Success.Dialog) {
+        dialog.update { nextState }
     }
 }
