@@ -61,7 +61,13 @@ class ViewModel @Inject constructor(
     private val selectedId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
     private val asyncPayments = paymentQueryUseCase.loadPayments()
-        .map { Async.Success(it.toPaymentSelectUiModel(paymentId, payerId)) }
+        .map { payments ->
+            val data = payments
+                // 自分自身はリストから除外する(支払先や支払元に自分自身が設定されるのはおかしいため)
+                .filter { it.id != paymentId }
+                .toPaymentSelectUiModel(paymentId, payerId)
+            Async.Success(data)
+        }
         .catch<Async<List<PaymentSelectUiState.Success.Item>>> {
             emit(Async.Error(R.string.load_error))
         }

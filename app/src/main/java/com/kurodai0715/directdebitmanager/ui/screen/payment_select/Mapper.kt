@@ -43,8 +43,5 @@ fun List<PaymentEntityV2>.toPaymentSelectUiModel(
     registeredPayerId: Int
 ): List<PaymentSelectUiState.Success.Item> {
 
-    return this
-        // 自分自身はリストから除外する(支払先や支払元に自分自身が設定されるのはおかしいため)
-        .filter { it.id != editingPaymentId }
-        .map { it.toPaymentSelectUiModel(editingPaymentId, registeredPayerId) }
+    return map { it.toPaymentSelectUiModel(editingPaymentId, registeredPayerId) }
 }
