@@ -1,6 +1,5 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -136,8 +135,6 @@ class ViewModel @Inject constructor(
             initialValue = UiState.Payer.Unassigned
         )
 
-    private val payees = MutableStateFlow<List<UiState.Payee>>(emptyList())
-
     private val payeesV2 = paymentQueryUseCase.loadPaymentsBy(paymentId)
         .map { it.toUiPayeesV2() }
 
@@ -164,32 +161,6 @@ class ViewModel @Inject constructor(
      * 参照用.
      */
     val eventFlow = _eventChannel.receiveAsFlow()
-
-    init {
-//        loadPaymentBy(paymentId)
-    }
-
-    private fun loadPaymentBy(paymentId: Int) {
-        Log.d(TAG, "loadPaymentBy: paymentId=$paymentId")
-
-        viewModelScope.launch {
-            val loadedPayment = paymentQueryUseCase.loadPaymentBy(paymentId)
-
-            require(loadedPayment != null) { "loadedPayment is null." }
-
-            loadPayees(loadedPayment.id.value)
-        }
-    }
-
-    private fun loadPayees(id: Int) {
-        viewModelScope.launch {
-            val domainPayees = paymentQueryUseCase.loadPayeesBy(id)
-
-            val uiPayees = domainPayees.toUiPayees()
-
-            payees.update { uiPayees }
-        }
-    }
 
     fun onClickDetachPayerIcon(payerName: String) {
         dialog.update {
