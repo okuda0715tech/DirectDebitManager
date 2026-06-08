@@ -31,7 +31,8 @@ fun Screen(
         uiState = uiState,
         onClickItem = { viewModel.onClickItem(it) },
         onClickBack = onClickBack,
-        onClickSave = viewModel::onClickSave
+        onClickSave = viewModel::onClickSave,
+        onClickSaveDialogClose = viewModel::onClickSaveDialogClose,
     )
 }
 
@@ -42,11 +43,12 @@ fun PaymentSelectContents(
     onClickItem: (PaymentSelectUiState.Success.Item) -> Unit,
     onClickBack: () -> Unit,
     onClickSave: (Int) -> Unit,
+    onClickSaveDialogClose: () -> Unit,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
         body = {
-            Contents(uiState, onClickItem)
+            Contents(uiState, onClickItem, onClickSaveDialogClose)
         },
         bottomButton = {
             HorizontalTwoButton(
@@ -73,7 +75,8 @@ fun PaymentSelectContents(
 @Composable
 private fun Contents(
     uiState: PaymentSelectUiState,
-    onClickItem: (PaymentSelectUiState.Success.Item) -> Unit
+    onClickItem: (PaymentSelectUiState.Success.Item) -> Unit,
+    onClickSaveDialogClose: () -> Unit,
 ) {
     when (uiState) {
         is PaymentSelectUiState.Error -> {
@@ -111,7 +114,7 @@ private fun Contents(
 
             when (val dialog = uiState.dialog) {
                 PaymentSelectUiState.Success.Dialog.SaveSuccess -> {
-                    SaveCompletionDialog { TODO() }
+                    SaveCompletionDialog(onClickClose = onClickSaveDialogClose)
                 }
 
                 PaymentSelectUiState.Success.Dialog.SaveFailed -> {
@@ -145,5 +148,6 @@ private fun Preview() {
         onClickItem = { },
         onClickBack = { },
         onClickSave = { },
+        onClickSaveDialogClose = { },
     )
 }

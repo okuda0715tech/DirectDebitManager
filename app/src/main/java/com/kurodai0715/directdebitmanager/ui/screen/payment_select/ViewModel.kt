@@ -195,4 +195,8 @@ class ViewModel @Inject constructor(
     private fun updateDialog(nextState: PaymentSelectUiState.Success.Dialog) {
         dialog.update { nextState }
     }
+
+    fun onClickSaveDialogClose() {
+        updateDialog(PaymentSelectUiState.Success.Dialog.None)
+    }
 }
