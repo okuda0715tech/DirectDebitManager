@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
+import com.kurodai0715.directdebitmanager.ui.dialog.SaveCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
@@ -110,7 +111,7 @@ private fun Contents(
 
             when (val dialog = uiState.dialog) {
                 PaymentSelectUiState.Success.Dialog.SaveSuccess -> {
-                    TODO()
+                    SaveCompletionDialog { TODO() }
                 }
 
                 PaymentSelectUiState.Success.Dialog.SaveFailed -> {
