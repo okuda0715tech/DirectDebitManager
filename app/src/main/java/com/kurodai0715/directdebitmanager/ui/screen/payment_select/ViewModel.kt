@@ -14,11 +14,13 @@ import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -52,6 +54,10 @@ sealed class PaymentSelectUiState {
             return (this is Success)
                     && selectedId != null
         }
+}
+
+sealed class UiEvent {
+    data object BackToRelationEditScreen : UiEvent()
 }
 
 @HiltViewModel
@@ -158,6 +164,16 @@ class ViewModel @Inject constructor(
             initialValue = PaymentSelectUiState.Loading
         )
 
+    /**
+     * 更新用.
+     */
+    private val _eventChannel = Channel<UiEvent>(Channel.BUFFERED)
+
+    /**
+     * 参照用.
+     */
+    val eventFlow = _eventChannel.receiveAsFlow()
+
     fun onClickItem(payment: PaymentSelectUiState.Success.Item) {
         selectedId.update { current ->
             if (current == payment.id) null else payment.id
@@ -198,5 +214,9 @@ class ViewModel @Inject constructor(
 
     fun onClickSaveDialogClose() {
         updateDialog(PaymentSelectUiState.Success.Dialog.None)
+
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.BackToRelationEditScreen)
+        }
     }
 }
