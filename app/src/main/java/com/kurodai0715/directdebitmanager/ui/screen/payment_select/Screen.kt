@@ -20,10 +20,10 @@ fun Screen(
     onClickBack: () -> Unit,
 ) {
 
-    val uiStateV2 by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     PaymentSelectContents(
-        uiState = uiStateV2,
+        uiState = uiState,
         onClickItem = { viewModel.onClickItem(it) },
         onClickBack = onClickBack,
         onClickSave = viewModel::onClickSave
