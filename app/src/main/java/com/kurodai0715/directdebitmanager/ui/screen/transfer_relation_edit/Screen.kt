@@ -349,7 +349,7 @@ fun LazyListScope.payees(
     }
 }
 
-@Preview(name = "TransferRelationEditContents")
+@Preview(name = "Contents")
 @Composable
 private fun Preview() {
     Contents(
@@ -375,7 +375,7 @@ private fun Preview() {
     )
 }
 
-@Preview(name = "TransferRelationEditContents")
+@Preview(name = "Contents")
 @Composable
 private fun NoPayerNoPayeePreview() {
     Contents(
