@@ -31,6 +31,17 @@ fun List<Payment.Persisted>.toUiPayees(): List<UiState.Payee> {
     return map { it.toUiPayee() }
 }
 
+fun PaymentEntityV2.toUiPayee(): UiState.Payee {
+    return UiState.Payee(
+        id = id,
+        name = label,
+    )
+}
+
+fun List<PaymentEntityV2>.toUiPayeesV2(): List<UiState.Payee> {
+    return map { it.toUiPayee() }
+}
+
 fun PaymentEntityV2.toUiPayment(): UiState.Payment {
     return UiState.Payment(
         name = label,

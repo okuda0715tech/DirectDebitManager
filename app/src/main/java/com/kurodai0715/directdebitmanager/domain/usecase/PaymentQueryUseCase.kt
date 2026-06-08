@@ -24,6 +24,10 @@ class PaymentQueryUseCase @Inject constructor(
         return repo.loadPayments()
     }
 
+    fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>> {
+        return repo.loadPaymentsBy(parentId)
+    }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun loadPayerBy(paymentId: Int): Flow<PaymentEntityV2?> {
         return repo.loadPaymentBy(paymentId)

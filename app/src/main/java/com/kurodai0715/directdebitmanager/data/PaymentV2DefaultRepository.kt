@@ -30,6 +30,10 @@ class PaymentV2DefaultRepository @Inject constructor(
         return localDataSource.observePayments()
     }
 
+    override fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>> {
+        return localDataSource.observePaymentsBy(parentId)
+    }
+
     override suspend fun loadItemBy(id: Int): PaymentEntityV2? {
         return localDataSource.loadItemBy(id)
     }

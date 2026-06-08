@@ -15,6 +15,9 @@ interface PaymentV2Dao {
     @Query("SELECT * FROM payment_v2")
     fun observePayments(): Flow<List<PaymentEntityV2>>
 
+    @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
+    fun observePaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>>
+
     @Query("SELECT * FROM payment_v2 WHERE id = :id")
     suspend fun loadItemBy(id: Int): PaymentEntityV2?
 

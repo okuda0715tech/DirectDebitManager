@@ -138,12 +138,15 @@ class ViewModel @Inject constructor(
 
     private val payees = MutableStateFlow<List<UiState.Payee>>(emptyList())
 
+    private val payeesV2 = paymentQueryUseCase.loadPaymentsBy(paymentId)
+        .map { it.toUiPayeesV2() }
+
     private val dialog = MutableStateFlow<UiState.Dialog>(UiState.Dialog.None)
 
     /**
      * UI で必要となる全ての状態.
      */
-    val uiState: StateFlow<UiState> = combine(payment, payer, payees, dialog)
+    val uiState: StateFlow<UiState> = combine(payment, payer, payeesV2, dialog)
     { payment, payer, payees, dialog ->
         UiState(payment = payment, payer = payer, payees = payees, dialog = dialog)
     }.stateIn(
@@ -163,7 +166,7 @@ class ViewModel @Inject constructor(
     val eventFlow = _eventChannel.receiveAsFlow()
 
     init {
-        loadPaymentBy(paymentId)
+//        loadPaymentBy(paymentId)
     }
 
     private fun loadPaymentBy(paymentId: Int) {

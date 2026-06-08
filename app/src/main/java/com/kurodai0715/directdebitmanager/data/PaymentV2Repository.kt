@@ -12,6 +12,8 @@ interface PaymentV2Repository {
 
     fun loadPayments(): Flow<List<PaymentEntityV2>>
 
+    fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>>
+
     suspend fun loadItemBy(id: Int): PaymentEntityV2?
 
     suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>
