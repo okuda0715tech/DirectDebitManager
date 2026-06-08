@@ -27,6 +27,8 @@ sealed class PaymentSelectUiState {
     object Loading : PaymentSelectUiState()
     data class Error(val errorMessageRes: Int) : PaymentSelectUiState()
     data class Success(
+        val paymentName: String = "",
+        val explainMessageRes: Int,
         val selectedId: Int? = null,
         val payments: List<Item> = emptyList(),
     ) : PaymentSelectUiState() {
@@ -65,6 +67,15 @@ class ViewModel @Inject constructor(
     private val target = NavContract.SelectTarget.valueOf(
         savedStateHandle.toRoute<PaymentSelect>().target
     )
+
+    val explainMessageRes =
+        when (target) {
+            NavContract.SelectTarget.Payer ->
+                R.string.payer_select_explain_label
+
+            NavContract.SelectTarget.Payee ->
+                R.string.payee_select_explain_label
+        }
 
     private val selectedId: MutableStateFlow<Int?> = MutableStateFlow(null)
 
@@ -115,6 +126,8 @@ class ViewModel @Inject constructor(
                     }
 
                     PaymentSelectUiState.Success(
+                        paymentName = asyncPayment.data.label,
+                        explainMessageRes = explainMessageRes,
                         selectedId = selectedId,
                         payments = payments,
                     )

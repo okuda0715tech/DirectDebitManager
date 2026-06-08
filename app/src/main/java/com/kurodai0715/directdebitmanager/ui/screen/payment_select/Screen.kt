@@ -1,5 +1,8 @@
 package com.kurodai0715.directdebitmanager.ui.screen.payment_select
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -12,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
+import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
@@ -81,13 +85,26 @@ private fun Contents(
         }
 
         is PaymentSelectUiState.Success -> {
-            LazyColumn {
-                items(uiState.payments) { item ->
-                    ListItemFrame(
-                        itemState = item.state,
-                        label = item.name,
-                        onClickItem = { onClickItem(item) }
+            Column{
+                Spacer(modifier = Modifier.size(LayoutTokens.sectionSpacingHalf))
+
+                Text(
+                    text = stringResource(
+                        uiState.explainMessageRes,
+                        uiState.paymentName,
                     )
+                )
+
+                Spacer(modifier = Modifier.size(LayoutTokens.smallSectionSpacing))
+
+                LazyColumn {
+                    items(uiState.payments) { item ->
+                        ListItemFrame(
+                            itemState = item.state,
+                            label = item.name,
+                            onClickItem = { onClickItem(item) }
+                        )
+                    }
                 }
             }
         }
@@ -99,6 +116,9 @@ private fun Contents(
 private fun Preview() {
     PaymentSelectContents(
         uiState = PaymentSelectUiState.Success(
+            paymentName = "三菱UFJ銀行",
+            explainMessageRes = R.string.payee_select_explain_label,
+            selectedId = 5,
             payments = listOf(
                 PaymentSelectUiState.Success.Item(1, "三井住友銀行", ItemState.None),
                 PaymentSelectUiState.Success.Item(2, "リクルートカードプラス", ItemState.None),

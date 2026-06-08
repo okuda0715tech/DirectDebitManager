@@ -74,6 +74,8 @@
     <string name="payment_name_label2">名称</string>
 
     <!-- 支払情報 選択 画面 -->
+    <string name="payer_select_explain_label">「%1$s」の支払元を登録します。</string>
+    <string name="payee_select_explain_label">「%1$s」の支払先を登録します。</string>
     <string name="selected_icon_description">選択中アイコン</string>
     <string name="registered_label">登録済み</string>
 
