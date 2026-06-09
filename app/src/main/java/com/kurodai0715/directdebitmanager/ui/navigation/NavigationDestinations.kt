@@ -39,9 +39,6 @@ data class PayeeEdit(
 sealed interface DestBase : NavDestination
 
 @Serializable
-data object DestList : DestBase
-
-@Serializable
 data class DestEdit(
     val destId: Int? = null,
 ) : DestBase
