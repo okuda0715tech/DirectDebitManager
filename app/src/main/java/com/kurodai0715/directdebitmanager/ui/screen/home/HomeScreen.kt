@@ -40,12 +40,6 @@ fun HomeScreenContents(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Button(onClick = { debouncedClick { onClickPayerList() } }) {
-            Text(text = stringResource(R.string.payer_list_label))
-        }
-        Button(onClick = { debouncedClick { onClickPayeeList() } }) {
-            Text(text = stringResource(R.string.payee_list_label))
-        }
         Button(onClick = { debouncedClick { onClickRelationList() } }) {
             Text(text = stringResource(R.string.relation_list_label))
         }
