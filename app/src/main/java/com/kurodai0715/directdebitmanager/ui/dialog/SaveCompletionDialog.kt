@@ -31,7 +31,7 @@ fun SaveCompletionDialog(
         text = {
             Text(text = stringResource(R.string.save_comp_text))
         },
-        onDismissRequest = {},
+        onDismissRequest = { debouncedClick(onClickClose) },
         confirmButton = {
             TextButton(onClick = { debouncedClick(onClickClose) }) {
                 Text(stringResource(R.string.common_close))
