@@ -122,7 +122,7 @@ private fun Contents(
                 }
             }
 
-            when (val dialog = uiState.dialog) {
+            when (uiState.dialog) {
                 PaymentSelectUiState.Success.Dialog.SaveSuccess -> {
                     SaveCompletionDialog(onClickClose = onClickSaveDialogClose)
                 }
