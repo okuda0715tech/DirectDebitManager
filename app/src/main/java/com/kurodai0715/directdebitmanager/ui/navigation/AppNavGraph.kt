@@ -37,7 +37,6 @@ fun AppNavGraph(
     ) {
         composable<TransferRelationList> {
             TransferRelationListScreen(
-                onClickBack = { navController.navigateUp() },
                 onClickAdd = { navController.navigateToPaymentEdit() },
                 onClickItem = { navController.navigateToTransferRelationEdit(it) }
             )
