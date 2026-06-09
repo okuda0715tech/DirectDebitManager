@@ -20,21 +20,18 @@ import kotlinx.serialization.Serializable
 sealed interface NavDestination
 
 @Serializable
-sealed interface TransferBase : NavDestination
-
-@Serializable
-data object TransferRelationList : TransferBase
+data object TransferRelationList : NavDestination
 
 @Serializable
 data class TransferRelationEdit(
     val paymentId: Int,
-) : TransferBase
+) : NavDestination
 
 @Serializable
 data class PaymentSelect(
     val paymentId: Int,
     val target: String,
-) : TransferBase
+) : NavDestination
 
 @Serializable
 data class PaymentEdit(
