@@ -62,10 +62,7 @@ fun AppNavGraph(
             TransferRelationEditScreen(
                 viewModel = viewModel,
                 onClickBack = {
-                    // PaymentEdit と TransferRelationList の間に PaymentEditGraph が
-                    // 存在しているはずなので、それも含めて破棄するため、
-                    // navController.navigateUp() ではなく、 popBackStack() を使う。
-                    navController.popToTransferRelationList()
+                    navController.navigateUp()
                 },
                 openPaymentEdit = {
                     navController.navigateToPaymentEdit(it)
