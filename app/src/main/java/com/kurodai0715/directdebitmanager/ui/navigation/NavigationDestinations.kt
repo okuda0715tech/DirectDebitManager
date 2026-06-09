@@ -19,52 +19,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed interface NavDestination
 
-/**
- * 支払先関連の画面.
- *
- * この分類の仕方は暫定的であり、現時点では意味がない。
- */
-@Serializable
-sealed interface PayeeBase : NavDestination
-
-@Serializable
-data object PayeeList : PayeeBase
-
-@Serializable
-data class PayeeEdit(
-    val id: Int?
-) : PayeeBase
-
-@Serializable
-sealed interface DestBase : NavDestination
-
-@Serializable
-data class DestEdit(
-    val destId: Int? = null,
-) : DestBase
-
-@Serializable
-sealed interface SourceBase : NavDestination
-
-@Serializable
-data object SourceList : SourceBase
-
-@Serializable
-data class SourceEdit(
-    val sourceId: Int? = null,
-) : SourceBase
-
-@Serializable
-sealed interface PayerBase : NavDestination
-
-@Serializable
-data object PayerList : PayerBase
-
-@Serializable
-data class PayerEdit(
-    val payerId: Int? = null,
-) : PayerBase
-
 @Serializable
 sealed interface TransferBase : NavDestination
 
