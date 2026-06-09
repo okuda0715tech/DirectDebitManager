@@ -19,9 +19,6 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed interface NavDestination
 
-@Serializable
-data object Home : NavDestination
-
 /**
  * 支払先関連の画面.
  *

@@ -14,7 +14,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.ui.screen.home.HomeScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.Screen as PaymentEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.Screen as PaymentSelectScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.ViewModel as PaymentSelectViewModel
@@ -36,15 +35,6 @@ fun AppNavGraph(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        composable<Home> {
-            HomeScreen(
-                onClickPayerList = { navController.navigateToPayerList() },
-                onClickPayeeList = { navController.navigateToPayeeList() },
-                onClickRelationList = { navController.navigateToTransferRelationList() },
-            )
-            onChangeTitle(R.string.home_screen_title)
-        }
-
         composable<TransferRelationList> {
             TransferRelationListScreen(
                 onClickBack = { navController.navigateUp() },
