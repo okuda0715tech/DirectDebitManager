@@ -167,12 +167,6 @@ fun AppDrawerContent(
         )
 
         NavigationDrawerItem(
-            label = { Text(text = stringResource(R.string.direct_debit_info)) },
-            selected = currentDest is DestList,
-            onClick = { debouncedClick { onClickItem(DestList) } }
-        )
-
-        NavigationDrawerItem(
             label = { Text(text = stringResource(R.string.privacy_policy)) },
             selected = false,
             onClick = {
