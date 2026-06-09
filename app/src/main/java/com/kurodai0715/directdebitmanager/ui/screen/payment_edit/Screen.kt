@@ -69,6 +69,7 @@ fun Screen(
         PaymentEditContents(
             modifier = Modifier.padding(paddingValues),
             name = uiState.name,
+            nameValidation = uiState.nameValidation,
             onChangeName = { viewModel.updateName(it) },
             onClickClear = { viewModel.updateName("") },
             onClickBack = onClickBack,
@@ -81,6 +82,7 @@ fun Screen(
 fun PaymentEditContents(
     modifier: Modifier = Modifier,
     name: String,
+    nameValidation: NameValidation,
     onChangeName: (String) -> Unit,
     onClickClear: () -> Unit,
     onClickBack: () -> Unit,
@@ -91,6 +93,7 @@ fun PaymentEditContents(
         body = {
             Contents(
                 name = name,
+                nameValidation = nameValidation,
                 onChangeName = onChangeName,
                 onClickClear = onClickClear,
             )
@@ -104,6 +107,7 @@ fun PaymentEditContents(
 @Composable
 fun Contents(
     name: String,
+    nameValidation: NameValidation,
     onChangeName: (String) -> Unit,
     onClickClear: () -> Unit,
 ) {
@@ -116,7 +120,11 @@ fun Contents(
             labelText = stringResource(R.string.payment_name_label2),
             text = name,
             onTextChanged = onChangeName,
-            supportingText = null, // TODO
+            supportingText = when (nameValidation) {
+                NameValidation.Valid -> null
+                NameValidation.EmptyError -> R.string.common_required_field
+                NameValidation.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
+            },
             onClickClear = onClickClear
         )
     }

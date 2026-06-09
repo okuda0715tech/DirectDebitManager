@@ -18,11 +18,18 @@ import javax.inject.Inject
 data class UiState(
     val id: Id = Id.Unassigned,
     val name: String = "",
+    val nameValidation: NameValidation = NameValidation.Valid,
 ) {
     sealed interface Id {
         data object Unassigned : Id
         data class Assigned(val value: Int) : Id
     }
+}
+
+sealed interface NameValidation {
+    data object Valid : NameValidation
+    data object EmptyError : NameValidation
+    data object LengthWithin100Error : NameValidation
 }
 
 sealed class UiEvent {
