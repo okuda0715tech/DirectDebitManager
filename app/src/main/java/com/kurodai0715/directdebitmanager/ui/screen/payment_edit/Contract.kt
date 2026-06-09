@@ -29,7 +29,7 @@ data class UiState(
 sealed interface NameValidation {
     data object Valid : NameValidation
     data object EmptyError : NameValidation
-    data object LengthWithin100Error : NameValidation
+    data object LengthOver100Error : NameValidation
 }
 
 sealed class UiEvent {
@@ -85,6 +85,26 @@ class ViewModel @Inject constructor(
     }
 
     fun onClickSave() {
+        when (val result = validateName(uiState.value.name)) {
+            NameValidation.Valid -> {
+                save()
+            }
+
+            else -> {
+                _uiState.update { it.copy(nameValidation = result) }
+            }
+        }
+    }
+
+    private fun validateName(name: String): NameValidation {
+        return when {
+            name.isEmpty() -> NameValidation.EmptyError
+            name.length > 100 -> NameValidation.LengthOver100Error
+            else -> NameValidation.Valid
+        }
+    }
+
+    private fun save() {
         viewModelScope.launch {
             val result = savePayment(uiState.value.idToInt(), uiState.value.name)
 

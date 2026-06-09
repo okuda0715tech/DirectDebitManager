@@ -123,7 +123,7 @@ fun Contents(
             supportingText = when (nameValidation) {
                 NameValidation.Valid -> null
                 NameValidation.EmptyError -> R.string.common_required_field
-                NameValidation.LengthWithin100Error -> R.string.common_length_needs_to_be_within_100
+                NameValidation.LengthOver100Error -> R.string.common_length_needs_to_be_within_100
             },
             onClickClear = onClickClear
         )
