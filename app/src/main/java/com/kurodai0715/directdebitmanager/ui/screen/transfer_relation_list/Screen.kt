@@ -55,7 +55,7 @@ fun Contents(
     modifier: Modifier = Modifier,
     openPaymentEdit: () -> Unit,
     onClickItem: (Int) -> Unit,
-    uiState: TransferRelationListUiState,
+    uiState: UiState,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
@@ -79,19 +79,19 @@ fun Contents(
 fun Body(
     onClickEmptyMessage: () -> Unit,
     onClickItem: (Int) -> Unit,
-    uiState: TransferRelationListUiState,
+    uiState: UiState,
 ) {
     when (uiState) {
-        is TransferRelationListUiState.Loading -> {
+        is UiState.Loading -> {
             // ローディング表示
         }
 
-        is TransferRelationListUiState.Error -> {
+        is UiState.Error -> {
             // エラー表示
             Text(text = stringResource(uiState.errorMessageRes))
         }
 
-        is TransferRelationListUiState.Success -> {
+        is UiState.Success -> {
             val payments = uiState.payments
             if (payments.isEmpty()) {
                 EmptyView(onClickEmptyMessage)
@@ -156,7 +156,7 @@ private fun Preview() {
     Contents(
         openPaymentEdit = { },
         onClickItem = { },
-        uiState = TransferRelationListUiState.Success(
+        uiState = UiState.Success(
             payments = listOf(
                 FlattenedTreeItem(1, "テスト1", depth = Depth(1)),
                 FlattenedTreeItem(2, "テスト2", depth = Depth(2)),

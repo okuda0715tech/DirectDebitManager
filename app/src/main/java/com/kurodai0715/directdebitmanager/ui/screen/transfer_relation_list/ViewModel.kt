@@ -16,12 +16,12 @@ import javax.inject.Inject
 
 private const val TAG = "TransferRelationListViewModel.kt"
 
-sealed interface TransferRelationListUiState {
-    object Loading : TransferRelationListUiState
-    data class Error(val errorMessageRes: Int) : TransferRelationListUiState
+sealed interface UiState {
+    object Loading : UiState
+    data class Error(val errorMessageRes: Int) : UiState
     data class Success(
         val payments: List<FlattenedTreeItem> = emptyList(),
-    ) : TransferRelationListUiState {
+    ) : UiState {
         data class Item(
             val id: Int,
             val name: String,
@@ -49,25 +49,25 @@ class ViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
-    val uiState: StateFlow<TransferRelationListUiState> = paymentsAsync.map { paymentsAsync ->
+    val uiState: StateFlow<UiState> = paymentsAsync.map { paymentsAsync ->
         when (paymentsAsync) {
             is Async.Loading -> {
-                TransferRelationListUiState.Loading
+                UiState.Loading
             }
 
             is Async.Error -> {
-                TransferRelationListUiState.Error(paymentsAsync.errorMessage)
+                UiState.Error(paymentsAsync.errorMessage)
             }
 
             is Async.Success -> {
                 Log.d(TAG, "paymentsAsync.data: ${paymentsAsync.data}")
-                TransferRelationListUiState.Success(paymentsAsync.data)
+                UiState.Success(paymentsAsync.data)
             }
         }
     }.stateIn(
         scope = viewModelScope,
         started = WhileUiSubscribed,
-        initialValue = TransferRelationListUiState.Loading
+        initialValue = UiState.Loading
     )
 
 }
