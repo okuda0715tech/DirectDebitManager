@@ -20,7 +20,7 @@ import kotlinx.serialization.Serializable
 sealed interface NavDestination
 
 @Serializable
-data object Splash : NavDestination
+data object Home : NavDestination
 
 @Serializable
 data object TransferRelationList : NavDestination

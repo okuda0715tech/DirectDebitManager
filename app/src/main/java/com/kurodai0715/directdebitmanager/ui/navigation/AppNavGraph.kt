@@ -36,7 +36,7 @@ fun AppNavGraph(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        composable<Splash> {
+        composable<Home> {
             HomeScreen()
 
             onChangeTitle(R.string.home_screen_title)
