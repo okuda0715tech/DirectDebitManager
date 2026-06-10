@@ -9,7 +9,7 @@ import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.domain.model.AddPayerResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
-import com.kurodai0715.directdebitmanager.ui.navigation.NavContract
+import com.kurodai0715.directdebitmanager.ui.navigation.Contract
 import com.kurodai0715.directdebitmanager.ui.navigation.PaymentSelect
 import com.kurodai0715.directdebitmanager.ui.util.Async
 import com.kurodai0715.directdebitmanager.ui.util.WhileUiSubscribed
@@ -78,16 +78,16 @@ class ViewModel @Inject constructor(
             emit(Async.Error(R.string.load_error))
         }
 
-    private val target = NavContract.SelectTarget.valueOf(
+    private val target = Contract.SelectTarget.valueOf(
         savedStateHandle.toRoute<PaymentSelect>().target
     )
 
     val explainMessageRes =
         when (target) {
-            NavContract.SelectTarget.Payer ->
+            Contract.SelectTarget.Payer ->
                 R.string.payer_select_explain_label
 
-            NavContract.SelectTarget.Payee ->
+            Contract.SelectTarget.Payee ->
                 R.string.payee_select_explain_label
         }
 
@@ -183,13 +183,13 @@ class ViewModel @Inject constructor(
     fun onClickSave(selectedId: Int) {
         viewModelScope.launch {
             val result = when (target) {
-                NavContract.SelectTarget.Payer ->
+                Contract.SelectTarget.Payer ->
                     paymentCommandUseCase.addPayer(
                         paymentId = paymentId,
                         payerId = selectedId,
                     )
 
-                NavContract.SelectTarget.Payee ->
+                Contract.SelectTarget.Payee ->
                     paymentCommandUseCase.addPayer(
                         paymentId = selectedId,
                         payerId = paymentId,

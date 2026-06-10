@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.navigation
 
-object NavContract {
+object Contract {
 
     sealed interface SelectTarget {
 

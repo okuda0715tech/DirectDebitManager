@@ -24,7 +24,7 @@ fun NavController.navigateToTransferRelationEdit(paymentId: Int) {
 
 fun NavController.navigateToPaymentSelect(
     paymentId: Int,
-    target: NavContract.SelectTarget
+    target: Contract.SelectTarget
 ) {
     navigate(PaymentSelect(paymentId = paymentId, target = target.route))
 }

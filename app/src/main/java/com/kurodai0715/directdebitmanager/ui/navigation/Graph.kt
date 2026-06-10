@@ -79,13 +79,13 @@ fun AppNavGraph(
                 openPayerSelect = { paymentId ->
                     navController.navigateToPaymentSelect(
                         paymentId = paymentId,
-                        target = NavContract.SelectTarget.Payer,
+                        target = Contract.SelectTarget.Payer,
                     )
                 },
                 openPayeeSelect = { paymentId ->
                     navController.navigateToPaymentSelect(
                         paymentId = paymentId,
-                        target = NavContract.SelectTarget.Payee,
+                        target = Contract.SelectTarget.Payee,
                     )
                 },
                 onDeleted = {
@@ -110,13 +110,13 @@ fun AppNavGraph(
                 }
             )
 
-            val target = NavContract.SelectTarget.valueOf(paymentSelect.target)
+            val target = Contract.SelectTarget.valueOf(paymentSelect.target)
 
             when (target) {
-                NavContract.SelectTarget.Payer ->
+                Contract.SelectTarget.Payer ->
                     onChangeTitle(R.string.payer_registration_screen_title)
 
-                NavContract.SelectTarget.Payee ->
+                Contract.SelectTarget.Payee ->
                     onChangeTitle(R.string.payee_registration_screen_title)
             }
         }
