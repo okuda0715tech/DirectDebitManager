@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.data
 
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
@@ -8,15 +8,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface PaymentV2Repository {
 
-    fun loadPaymentBy(id: Int): Flow<PaymentEntityV2?>
+    fun loadPaymentBy(id: Int): Flow<PaymentEntity?>
 
-    fun loadPayments(): Flow<List<PaymentEntityV2>>
+    fun loadPayments(): Flow<List<PaymentEntity>>
 
-    fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>>
+    fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntity>>
 
-    suspend fun loadItemBy(id: Int): PaymentEntityV2?
+    suspend fun loadItemBy(id: Int): PaymentEntity?
 
-    suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>
+    suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntity>
 
     suspend fun requestSavePayment(id: Int?, name: String): RepositoryResult
 

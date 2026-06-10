@@ -1,7 +1,7 @@
 package com.kurodai0715.directdebitmanager.domain.usecase
 
 import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.domain.mapper.toPayment
 import com.kurodai0715.directdebitmanager.domain.model.Payment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,20 +16,20 @@ class PaymentQueryUseCase @Inject constructor(
     private val repo: PaymentV2Repository
 ) {
 
-    fun loadPaymentByV2(id: Int): Flow<PaymentEntityV2?> {
+    fun loadPaymentByV2(id: Int): Flow<PaymentEntity?> {
         return repo.loadPaymentBy(id)
     }
 
-    fun loadPayments(): Flow<List<PaymentEntityV2>> {
+    fun loadPayments(): Flow<List<PaymentEntity>> {
         return repo.loadPayments()
     }
 
-    fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>> {
+    fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntity>> {
         return repo.loadPaymentsBy(parentId)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun loadPayerBy(paymentId: Int): Flow<PaymentEntityV2?> {
+    fun loadPayerBy(paymentId: Int): Flow<PaymentEntity?> {
         return repo.loadPaymentBy(paymentId)
             .map { it?.parentId }
             .distinctUntilChanged()

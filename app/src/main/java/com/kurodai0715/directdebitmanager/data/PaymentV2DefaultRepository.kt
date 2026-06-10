@@ -3,7 +3,7 @@ package com.kurodai0715.directdebitmanager.data
 import android.util.Log
 import androidx.room.withTransaction
 import com.kurodai0715.directdebitmanager.data.source.local.AppDatabase
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
@@ -22,23 +22,23 @@ class PaymentV2DefaultRepository @Inject constructor(
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : PaymentV2Repository {
 
-    override fun loadPaymentBy(id: Int): Flow<PaymentEntityV2?> {
+    override fun loadPaymentBy(id: Int): Flow<PaymentEntity?> {
         return localDataSource.observePaymentBy(id)
     }
 
-    override fun loadPayments(): Flow<List<PaymentEntityV2>> {
+    override fun loadPayments(): Flow<List<PaymentEntity>> {
         return localDataSource.observePayments()
     }
 
-    override fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>> {
+    override fun loadPaymentsBy(parentId: Int): Flow<List<PaymentEntity>> {
         return localDataSource.observePaymentsBy(parentId)
     }
 
-    override suspend fun loadItemBy(id: Int): PaymentEntityV2? {
+    override suspend fun loadItemBy(id: Int): PaymentEntity? {
         return localDataSource.loadItemBy(id)
     }
 
-    override suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2> {
+    override suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntity> {
         return localDataSource.loadChildItemsBy(parentId)
     }
 
@@ -146,7 +146,7 @@ class PaymentV2DefaultRepository @Inject constructor(
     ): Int {
         return withContext(ioDispatcher) {
             localDataSource.insertPayment(
-                PaymentEntityV2(label = name)
+                PaymentEntity(label = name)
             ).toInt()
         }
     }

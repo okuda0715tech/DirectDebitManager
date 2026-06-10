@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.domain.model.AddPayerResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
@@ -74,7 +74,7 @@ class ViewModel @Inject constructor(
             requireNotNull(it) { "The paymentId cannot be null." }
             Async.Success(it)
         }
-        .catch<Async<PaymentEntityV2>> {
+        .catch<Async<PaymentEntity>> {
             emit(Async.Error(R.string.load_error))
         }
 

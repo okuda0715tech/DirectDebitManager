@@ -1,14 +1,14 @@
 package com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list
 
 import android.util.Log
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntityV2
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 
 private const val TAG = "TransferRelationListMapper.kt"
 
 /**
  * 要素の親子関係を解析し、ツリー構造に変換する.
  */
-fun List<PaymentEntityV2>.buildNestedTree(): NestedTreeItem {
+fun List<PaymentEntity>.buildNestedTree(): NestedTreeItem {
 
     /**
      * レシーバーオブジェクトを親として、ツリー型になるように、その子を追加する.
@@ -18,7 +18,7 @@ fun List<PaymentEntityV2>.buildNestedTree(): NestedTreeItem {
      *
      * @param list 変換前のリスト
      */
-    fun NestedTreeItem.buildSubTree(list: List<PaymentEntityV2>) {
+    fun NestedTreeItem.buildSubTree(list: List<PaymentEntity>) {
         list.forEach {
             if (this.id == it.parentId) {
                 val child = it.toNestedTreeItem()
@@ -49,7 +49,7 @@ data class NestedTreeItem(
     val childList: MutableList<NestedTreeItem> = mutableListOf(),
 )
 
-fun PaymentEntityV2.toNestedTreeItem(): NestedTreeItem {
+fun PaymentEntity.toNestedTreeItem(): NestedTreeItem {
     return NestedTreeItem(
         id = id,
         label = label,

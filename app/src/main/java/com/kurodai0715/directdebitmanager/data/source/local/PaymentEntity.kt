@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "payment_v2")
-data class PaymentEntityV2(
+data class PaymentEntity(
 
     /**
      * ID.

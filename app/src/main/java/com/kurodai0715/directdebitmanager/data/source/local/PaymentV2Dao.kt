@@ -10,19 +10,19 @@ import kotlinx.coroutines.flow.Flow
 interface PaymentV2Dao {
 
     @Query("SELECT * FROM payment_v2 WHERE id = :id")
-    fun observePaymentBy(id: Int): Flow<PaymentEntityV2?>
+    fun observePaymentBy(id: Int): Flow<PaymentEntity?>
 
     @Query("SELECT * FROM payment_v2")
-    fun observePayments(): Flow<List<PaymentEntityV2>>
+    fun observePayments(): Flow<List<PaymentEntity>>
 
     @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
-    fun observePaymentsBy(parentId: Int): Flow<List<PaymentEntityV2>>
+    fun observePaymentsBy(parentId: Int): Flow<List<PaymentEntity>>
 
     @Query("SELECT * FROM payment_v2 WHERE id = :id")
-    suspend fun loadItemBy(id: Int): PaymentEntityV2?
+    suspend fun loadItemBy(id: Int): PaymentEntity?
 
     @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
-    suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntityV2>
+    suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntity>
 
     /**
      * 新規作成.
@@ -30,10 +30,10 @@ interface PaymentV2Dao {
      * @return 作成したレコードの id
      */
     @Insert
-    suspend fun insertPayment(payment: PaymentEntityV2): Long
+    suspend fun insertPayment(payment: PaymentEntity): Long
 
     @Update
-    suspend fun updatePayment(payment: PaymentEntityV2)
+    suspend fun updatePayment(payment: PaymentEntity)
 
     @Query("UPDATE payment_v2 SET parentId = 0 WHERE id IN (:ids)")
     suspend fun rootParentIds(ids: Set<Int>)
