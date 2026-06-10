@@ -10,6 +10,10 @@ import androidx.navigation.NavController
 
 //private const val TAG = "NavigationActions.kt"
 
+fun NavController.navigateToTransferRelationList() {
+    navigate(TransferRelationList)
+}
+
 fun NavController.navigateToPaymentEdit(paymentId: Int? = null) {
     navigate(PaymentEdit(paymentId = paymentId))
 }

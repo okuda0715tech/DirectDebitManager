@@ -37,7 +37,9 @@ fun AppNavGraph(
         modifier = modifier,
     ) {
         composable<Home> {
-            HomeScreen()
+            HomeScreen(
+                onClickScreen = { navController.navigateToTransferRelationList() }
+            )
 
             onChangeTitle(R.string.home_screen_title)
         }

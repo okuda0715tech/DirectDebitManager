@@ -1,5 +1,6 @@
 package com.kurodai0715.directdebitmanager.ui.screen.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,12 +18,17 @@ import coil.request.ImageRequest
 import coil.request.repeatCount
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader
+import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 
 @Composable
-fun Screen() {
+fun Screen(onClickScreen: () -> Unit) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(true) {
+                debouncedClick { onClickScreen() }
+            },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
