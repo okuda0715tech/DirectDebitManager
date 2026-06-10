@@ -10,6 +10,6 @@ fun PaymentEntity.toPayment(): Payment.Persisted {
     return Payment.Persisted(
         id = PaymentId.of(id),
         name = PaymentName.of(label),
-        payerId = parentId?.let { PayerId.of(it) } ?: PayerId.NONE,
+        payerId = parentId.let { PayerId.of(it) },
     )
 }
