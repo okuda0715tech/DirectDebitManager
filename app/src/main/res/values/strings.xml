@@ -32,14 +32,10 @@
     <string name="source_text_label">振替元</string>
     <string name="transfer_date">振替予定日</string>
     <string name="clear_text_icon_description">入力文字を削除</string>
-    <string name="open_source_list_dialog_icon_description">振替元選択ダイアログを開くアイコン</string>
 
     <!-- 振替関係 一覧 画面 -->
     <string name="empty_icon_description">開始のワクワクを表現する魔法の杖のアイコン</string>
     <string name="empty_message_label">さぁ、データを登録してみましょう。</string>
-
-    <!-- 支払先 編集 画面 -->
-    <string name="payee_name_label_old">支払先の名称</string>
 
     <!-- 支払情報 編集 画面 -->
     <string name="payment_name_label">名称</string>
@@ -64,7 +60,6 @@
     <string name="registered_label">登録済み</string>
 
     <!-- 振替元 編集 画面 -->
-    <string name="source_edit_text_label">振替元の名称</string>
     <string name="source_type">区分</string>
     <string name="bank">銀行</string>
     <string name="credit_card">クレジットカード</string>
@@ -74,12 +69,6 @@
 
     <!-- 振替元区分選択 ダイアログ -->
     <string name="source_type_list_dialog_title">区分の選択</string>
-
-    <!-- 削除不可 ダイアログ -->
-    <string name="del_not_allowed_title">削除不可</string>
-    <string name="del_not_allowed_text_in_transfer_edit">現在、この振替情報は削除できません。\n\nこの振替情報を削除するには、この振替先を振替元に使用しているデータを先に削除してください。</string>
-    <string name="del_not_allowed_text_in_source_edit">この振替元を使用中の振替先が存在するため、削除できません。</string>
-    <string name="del_not_allowed_icon_description">削除不可アイコン</string>
 
     <!-- 削除確認 ダイアログ -->
     <string name="del_conf_title">削除確認</string>
@@ -93,9 +82,6 @@
     <string name="detach_conf_text">%1$s と %2$s の関連付けを解除しますか？</string>
     <string name="detach_conf_icon_description">振替関係の解除確認アイコン</string>
 
-    <!-- 振替元 編集 画面用 削除確認 ダイアログ -->
-    <string name="del_conf_text_related_dest_exists">%1$d 件の振替先で、この振替元が使用されています。\n\n振替先データも削除されますが、削除してもよろしいですか？</string>
-
     <!-- 削除完了 ダイアログ -->
     <string name="del_comp_title">削除完了</string>
     <string name="del_comp_text">削除が完了しました。</string>
@@ -105,15 +91,6 @@
     <string name="save_comp_title">保存完了</string>
     <string name="save_comp_text">保存が完了しました。</string>
     <string name="save_comp_icon_description">保存完了アイコン</string>
-
-    <!-- 振替元情報データ未登録 ダイアログ -->
-    <string name="no_source_data_title">データ未登録</string>
-    <string name="no_source_data_text">振替元が 1 件も登録されていません。\n\nまずは、以下の「登録」ボタンより、ご登録ください。</string>
-    <string name="usage_rules_icon_description">ご使用方法</string>
-
-    <!-- 振替元選択 ダイアログ -->
-    <string name="source_list_dialog_title">振替元一覧</string>
-    <string name="edit_here">修正はこちら</string>
 
     <!-- 共通 -->
     <string name="menu_icon_description">メニュー</string>
