@@ -21,13 +21,7 @@ sealed interface UiState {
     data class Error(val errorMessageRes: Int) : UiState
     data class Success(
         val payments: List<FlattenedTreeItem> = emptyList(),
-    ) : UiState {
-        data class Item(
-            val id: Int,
-            val name: String,
-            val payerId: Int? = null,
-        )
-    }
+    ) : UiState
 }
 
 @HiltViewModel
