@@ -7,7 +7,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface PaymentV2Dao {
+interface PaymentDao {
 
     @Query("SELECT * FROM payment WHERE id = :id")
     fun observePaymentBy(id: Int): Flow<PaymentEntity?>

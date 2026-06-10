@@ -8,7 +8,7 @@ package com.kurodai0715.directdebitmanager.di
 import android.content.Context
 import androidx.room.Room
 import com.kurodai0715.directdebitmanager.data.source.local.AppDatabase
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentV2Dao
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,5 +32,5 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun providePaymentV2Dao(database: AppDatabase): PaymentV2Dao = database.paymentV2Dao()
+    fun providePaymentV2Dao(database: AppDatabase): PaymentDao = database.paymentDao()
 }
