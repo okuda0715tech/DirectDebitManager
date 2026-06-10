@@ -3,8 +3,8 @@ package com.kurodai0715.directdebitmanager.data
 import android.util.Log
 import androidx.room.withTransaction
 import com.kurodai0715.directdebitmanager.data.source.local.AppDatabase
-import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentDao
+import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.di.IoDispatcher
 import com.kurodai0715.directdebitmanager.domain.model.PayeeId
 import com.kurodai0715.directdebitmanager.domain.model.PayerId
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 private const val TAG = "PaymentV2DefaultRepository.kt"
 
-class PaymentV2DefaultRepository @Inject constructor(
+class PaymentDefaultRepository @Inject constructor(
     private val db: AppDatabase,
     private val localDataSource: PaymentDao,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,

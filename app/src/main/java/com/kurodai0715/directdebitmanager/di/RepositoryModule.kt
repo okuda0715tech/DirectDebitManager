@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.di
 
-import com.kurodai0715.directdebitmanager.data.PaymentV2DefaultRepository
+import com.kurodai0715.directdebitmanager.data.PaymentDefaultRepository
 import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
 import dagger.Binds
 import dagger.Module
@@ -13,6 +13,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindPaymentRepository(
-        impl: PaymentV2DefaultRepository
+        impl: PaymentDefaultRepository
     ): PaymentV2Repository
 }
