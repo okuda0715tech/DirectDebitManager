@@ -39,7 +39,7 @@ fun AppNavGraph(
         composable<Splash> {
             SplashScreen()
 
-            onChangeTitle(R.string.splash_screen_title)
+            onChangeTitle(R.string.home_screen_title)
         }
 
         composable<TransferRelationList> {

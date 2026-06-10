@@ -11,7 +11,6 @@
 
     <!-- 画面名 -->
     <string name="no_title"> </string>
-    <string name="home_screen_title">ホーム</string>
     <string name="payee_list_screen_title">支払先 / 一覧</string>
     <string name="payee_edit_screen_title">支払先 / 登録"</string>
     <string name="list_screen_title">振替情報 / 一覧</string>
@@ -23,7 +22,7 @@
     <string name="source_update_title">振替元 / 変更</string>
     <string name="payer_registration_title">支払元 / 登録</string>
     <string name="payer_update_title">支払元 / 変更</string>
-    <string name="splash_screen_title">ホーム</string>
+    <string name="home_screen_title">ホーム</string>
     <string name="transfer_relation_list_screen_title">振替関係 / 一覧</string>
     <string name="payment_edit_screen_title">支払情報 / 登録・編集</string>
     <string name="transfer_relation_edit_screen_title">振替関係 / 編集</string>

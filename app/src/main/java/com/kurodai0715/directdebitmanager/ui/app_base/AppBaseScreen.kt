@@ -160,7 +160,7 @@ fun AppDrawerContent(
         HorizontalDivider()
 
         NavigationDrawerItem(
-            label = { Text(text = stringResource(R.string.splash_screen_title)) },
+            label = { Text(text = stringResource(R.string.home_screen_title)) },
             selected = currentDest is Splash,
             onClick = { debouncedClick { onClickItem(Splash) } }
         )
