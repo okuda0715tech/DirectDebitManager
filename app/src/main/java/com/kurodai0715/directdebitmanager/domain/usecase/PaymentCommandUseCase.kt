@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.domain.usecase
 
-import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
+import com.kurodai0715.directdebitmanager.data.PaymentRepository
 import com.kurodai0715.directdebitmanager.data.RepositoryResult
 import com.kurodai0715.directdebitmanager.domain.model.AddPayerResult
 import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
@@ -13,7 +13,7 @@ import com.kurodai0715.directdebitmanager.domain.model.SaveResult
 import javax.inject.Inject
 
 class PaymentCommandUseCase @Inject constructor(
-    private val repo: PaymentV2Repository
+    private val repo: PaymentRepository
 ) {
     suspend fun savePayment(id: Int?, name: String): CreatePaymentResult {
         val result = repo.requestSavePayment(id, name)

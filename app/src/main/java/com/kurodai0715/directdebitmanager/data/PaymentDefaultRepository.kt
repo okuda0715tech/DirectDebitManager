@@ -20,7 +20,7 @@ class PaymentDefaultRepository @Inject constructor(
     private val db: AppDatabase,
     private val localDataSource: PaymentDao,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-) : PaymentV2Repository {
+) : PaymentRepository {
 
     override fun loadPaymentBy(id: Int): Flow<PaymentEntity?> {
         return localDataSource.observePaymentBy(id)

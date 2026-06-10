@@ -6,7 +6,7 @@ import com.kurodai0715.directdebitmanager.domain.model.PayerId
 import com.kurodai0715.directdebitmanager.domain.model.PaymentId
 import kotlinx.coroutines.flow.Flow
 
-interface PaymentV2Repository {
+interface PaymentRepository {
 
     fun loadPaymentBy(id: Int): Flow<PaymentEntity?>
 

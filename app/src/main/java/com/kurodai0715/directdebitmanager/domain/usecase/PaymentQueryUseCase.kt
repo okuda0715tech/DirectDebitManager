@@ -1,6 +1,6 @@
 package com.kurodai0715.directdebitmanager.domain.usecase
 
-import com.kurodai0715.directdebitmanager.data.PaymentV2Repository
+import com.kurodai0715.directdebitmanager.data.PaymentRepository
 import com.kurodai0715.directdebitmanager.data.source.local.PaymentEntity
 import com.kurodai0715.directdebitmanager.domain.mapper.toPayment
 import com.kurodai0715.directdebitmanager.domain.model.Payment
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PaymentQueryUseCase @Inject constructor(
-    private val repo: PaymentV2Repository
+    private val repo: PaymentRepository
 ) {
 
     fun loadPaymentByV2(id: Int): Flow<PaymentEntity?> {
