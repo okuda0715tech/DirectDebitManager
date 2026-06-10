@@ -53,7 +53,7 @@ fun PaymentEntity.toNestedTreeItem(): NestedTreeItem {
     return NestedTreeItem(
         id = id,
         label = label,
-        parentId = parentId ?: 0,
+        parentId = parentId,
     )
 }
 
