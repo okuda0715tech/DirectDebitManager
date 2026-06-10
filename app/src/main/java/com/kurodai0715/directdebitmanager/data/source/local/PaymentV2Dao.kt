@@ -9,19 +9,19 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface PaymentV2Dao {
 
-    @Query("SELECT * FROM payment_v2 WHERE id = :id")
+    @Query("SELECT * FROM payment WHERE id = :id")
     fun observePaymentBy(id: Int): Flow<PaymentEntity?>
 
-    @Query("SELECT * FROM payment_v2")
+    @Query("SELECT * FROM payment")
     fun observePayments(): Flow<List<PaymentEntity>>
 
-    @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
+    @Query("SELECT * FROM payment WHERE parentId = :parentId")
     fun observePaymentsBy(parentId: Int): Flow<List<PaymentEntity>>
 
-    @Query("SELECT * FROM payment_v2 WHERE id = :id")
+    @Query("SELECT * FROM payment WHERE id = :id")
     suspend fun loadItemBy(id: Int): PaymentEntity?
 
-    @Query("SELECT * FROM payment_v2 WHERE parentId = :parentId")
+    @Query("SELECT * FROM payment WHERE parentId = :parentId")
     suspend fun loadChildItemsBy(parentId: Int): List<PaymentEntity>
 
     /**
@@ -35,7 +35,7 @@ interface PaymentV2Dao {
     @Update
     suspend fun updatePayment(payment: PaymentEntity)
 
-    @Query("UPDATE payment_v2 SET parentId = 0 WHERE id IN (:ids)")
+    @Query("UPDATE payment SET parentId = 0 WHERE id IN (:ids)")
     suspend fun rootParentIds(ids: Set<Int>)
 
     /**
@@ -43,7 +43,7 @@ interface PaymentV2Dao {
      *
      * @return 削除したレコードの件数
      */
-    @Query("DELETE FROM payment_v2 WHERE id = :id")
+    @Query("DELETE FROM payment WHERE id = :id")
     suspend fun deleteItem(id: Int): Int
 
 }

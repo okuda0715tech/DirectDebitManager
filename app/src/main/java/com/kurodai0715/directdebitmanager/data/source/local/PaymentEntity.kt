@@ -3,7 +3,7 @@ package com.kurodai0715.directdebitmanager.data.source.local
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "payment_v2")
+@Entity(tableName = "payment")
 data class PaymentEntity(
 
     /**
