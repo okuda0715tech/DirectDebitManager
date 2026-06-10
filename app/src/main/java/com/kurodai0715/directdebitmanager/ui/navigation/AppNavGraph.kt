@@ -14,10 +14,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.kurodai0715.directdebitmanager.R
+import com.kurodai0715.directdebitmanager.ui.screen.home.Screen as SplashScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_edit.Screen as PaymentEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.Screen as PaymentSelectScreen
 import com.kurodai0715.directdebitmanager.ui.screen.payment_select.ViewModel as PaymentSelectViewModel
-import com.kurodai0715.directdebitmanager.ui.screen.splash.Screen as SplashScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.Screen as TransferRelationEditScreen
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.ViewModel as TransferRelationEditViewModel
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_list.Screen as TransferRelationListScreen

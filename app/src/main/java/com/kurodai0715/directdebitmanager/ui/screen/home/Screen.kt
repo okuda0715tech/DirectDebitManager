@@ -1,4 +1,4 @@
-package com.kurodai0715.directdebitmanager.ui.screen.splash
+package com.kurodai0715.directdebitmanager.ui.screen.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
