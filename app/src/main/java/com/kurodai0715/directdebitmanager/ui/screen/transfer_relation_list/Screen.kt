@@ -37,14 +37,14 @@ private const val TAG = "TransferRelationListScreen"
 @Composable
 fun Screen(
     viewModel: TransferRelationListViewModel = hiltViewModel(),
-    onClickAdd: () -> Unit,
+    openPaymentEdit: () -> Unit,
     onClickItem: (Int) -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     Contents(
-        onClickAdd = onClickAdd,
+        openPaymentEdit = openPaymentEdit,
         onClickItem = onClickItem,
         uiState = uiState
     )
@@ -53,18 +53,22 @@ fun Screen(
 @Composable
 fun Contents(
     modifier: Modifier = Modifier,
-    onClickAdd: () -> Unit,
+    openPaymentEdit: () -> Unit,
     onClickItem: (Int) -> Unit,
     uiState: TransferRelationListUiState,
 ) {
     BodyBottomButtonLayout(
         modifier = modifier,
         body = {
-            Body(onClickAdd, onClickItem, uiState)
+            Body(
+                onClickEmptyMessage = openPaymentEdit,
+                onClickItem = onClickItem,
+                uiState = uiState,
+            )
         },
         bottomButton = {
             OneButton(
-                onClick = { debouncedClick(onClickAdd) },
+                onClick = { debouncedClick(openPaymentEdit) },
                 text = stringResource(R.string.common_add)
             )
         }
@@ -90,7 +94,7 @@ fun Body(
         is TransferRelationListUiState.Success -> {
             val payments = uiState.payments
             if (payments.isEmpty()) {
-                EmptyMessage(onClickEmptyMessage)
+                EmptyView(onClickEmptyMessage)
             } else {
                 LazyColumn {
                     items(uiState.payments) { item ->
@@ -103,7 +107,7 @@ fun Body(
 }
 
 @Composable
-fun EmptyMessage(onClickEmptyMessage: () -> Unit) {
+fun EmptyView(onClickEmptyMessage: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -150,7 +154,7 @@ fun ListItem(
 @Composable
 private fun Preview() {
     Contents(
-        onClickAdd = { },
+        openPaymentEdit = { },
         onClickItem = { },
         uiState = TransferRelationListUiState.Success(
             payments = listOf(

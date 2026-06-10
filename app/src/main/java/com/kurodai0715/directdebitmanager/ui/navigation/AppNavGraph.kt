@@ -46,7 +46,7 @@ fun AppNavGraph(
 
         composable<TransferRelationList> {
             TransferRelationListScreen(
-                onClickAdd = { navController.navigateToPaymentEdit() },
+                openPaymentEdit = { navController.navigateToPaymentEdit() },
                 onClickItem = { navController.navigateToTransferRelationEdit(it) }
             )
 
