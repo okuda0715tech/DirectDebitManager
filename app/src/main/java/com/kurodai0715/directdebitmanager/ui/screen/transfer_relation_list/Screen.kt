@@ -36,7 +36,7 @@ private const val TAG = "TransferRelationListScreen"
 
 @Composable
 fun Screen(
-    viewModel: TransferRelationListViewModel = hiltViewModel(),
+    viewModel: ViewModel = hiltViewModel(),
     openPaymentEdit: () -> Unit,
     onClickItem: (Int) -> Unit,
 ) {

@@ -31,7 +31,7 @@ sealed interface TransferRelationListUiState {
 }
 
 @HiltViewModel
-class TransferRelationListViewModel @Inject constructor(
+class ViewModel @Inject constructor(
     paymentQueryUseCase: PaymentQueryUseCase,
 ) : ViewModel() {
 
