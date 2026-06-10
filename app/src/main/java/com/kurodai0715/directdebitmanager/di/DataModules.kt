@@ -38,5 +38,5 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun providePaymentV2Dao(database: AppDatabase): PaymentDao = database.paymentDao()
+    fun providePaymentDao(database: AppDatabase): PaymentDao = database.paymentDao()
 }
