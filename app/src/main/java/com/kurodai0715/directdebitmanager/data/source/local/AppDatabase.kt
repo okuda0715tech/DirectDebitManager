@@ -22,8 +22,6 @@ import androidx.room.TypeConverters
 @TypeConverters(TransferItemConverters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun directDebitDao(): DirectDebitDao
-
     abstract fun paymentDao(): PaymentDao
 
     abstract fun paymentV2Dao(): PaymentV2Dao
