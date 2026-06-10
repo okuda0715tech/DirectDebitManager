@@ -43,8 +43,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
-import com.kurodai0715.directdebitmanager.ui.navigation.NavDestination
 import com.kurodai0715.directdebitmanager.ui.navigation.Home
+import com.kurodai0715.directdebitmanager.ui.navigation.NavDestination
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
