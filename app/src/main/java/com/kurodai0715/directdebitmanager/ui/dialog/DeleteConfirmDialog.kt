@@ -20,7 +20,7 @@ import com.kurodai0715.directdebitmanager.ui.theme.ICON_EX_LARGE_SIZE
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 
 @Composable
-fun DeleteConfirmDialog2(
+fun DeleteConfirmDialog(
     itemName: String,
     onDismissRequest: () -> Unit,
     onClickNo: () -> Unit,
@@ -66,7 +66,7 @@ fun DeleteConfirmDialog2(
 @Preview
 @Composable
 private fun PreviewDelConfDialogInTransferEdit() {
-    DeleteConfirmDialog2(
+    DeleteConfirmDialog(
         itemName = "マルエツカード",
         onDismissRequest = {},
         onClickNo = {},

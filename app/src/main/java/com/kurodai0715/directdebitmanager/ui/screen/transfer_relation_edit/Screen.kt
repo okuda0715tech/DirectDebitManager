@@ -31,7 +31,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.ReadOnlyForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.elements.OneOutlinedButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
-import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog2
+import com.kurodai0715.directdebitmanager.ui.dialog.DeleteConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.dialog.DetachConfirmDialog
 import com.kurodai0715.directdebitmanager.ui.screen.transfer_relation_edit.UiState.Dialog
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_LARGE_SIZE
@@ -119,7 +119,7 @@ fun DialogHost(
 ) {
     when (dialog) {
         is Dialog.DeleteConfirm -> {
-            DeleteConfirmDialog2(
+            DeleteConfirmDialog(
                 itemName = dialog.itemName,
                 onDismissRequest = { onAction(Dialog.Action.Dismiss) },
                 onClickNo = { onAction(Dialog.Action.No) },
