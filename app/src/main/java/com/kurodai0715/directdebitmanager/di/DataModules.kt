@@ -24,10 +24,16 @@ object DatabaseModule {
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
         return Room.databaseBuilder(
-            context.applicationContext,
-            AppDatabase::class.java,
-            "app_database"
-        ).build()
+                context.applicationContext,
+                AppDatabase::class.java,
+                "app_database"
+        )
+            // リリースするまでの一時的な対応のため、
+            // リリース後は .fallbackToDestructiveMigration(true) を削除する。
+            // この処理の役割は、スキーマ変更時にマイグレーション処理が書かれていない場合に、
+            // 古いテーブルを削除して、新しいテーブルを作成するためのものです。
+            // .fallbackToDestructiveMigration(true)
+            .build()
     }
 
     @Singleton

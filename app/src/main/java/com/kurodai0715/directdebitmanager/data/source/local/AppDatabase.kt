@@ -9,14 +9,10 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-/**
- * Note exportSchema は、リリース前に true に変更してください。
- */
-
 @Database(
     entities = [PaymentEntity::class],
     version = 1,
-    exportSchema = false
+    exportSchema = true
 )
 
 @TypeConverters(TransferItemConverters::class)
