@@ -63,9 +63,9 @@ fun DeleteConfirmDialog(
         })
 }
 
-@Preview
+@Preview(name = "DeleteConfirmDialog")
 @Composable
-private fun PreviewDelConfDialogInTransferEdit() {
+private fun Preview() {
     DeleteConfirmDialog(
         itemName = "マルエツカード",
         onDismissRequest = {},
