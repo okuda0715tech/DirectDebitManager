@@ -44,7 +44,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.animation.LABEL_APP_BAR_TITLE
 import com.kurodai0715.directdebitmanager.ui.navigation.AppNavGraph
 import com.kurodai0715.directdebitmanager.ui.navigation.NavDestination
-import com.kurodai0715.directdebitmanager.ui.navigation.TransferRelationList
+import com.kurodai0715.directdebitmanager.ui.navigation.Splash
 import com.kurodai0715.directdebitmanager.ui.theme.ICON_DEF_SIZE
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
@@ -58,7 +58,7 @@ fun AppBaseScreen() {
 
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var navDest: NavDestination by remember { mutableStateOf(TransferRelationList) }
+    var navDest: NavDestination by remember { mutableStateOf(Splash) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -160,9 +160,9 @@ fun AppDrawerContent(
         HorizontalDivider()
 
         NavigationDrawerItem(
-            label = { Text(text = stringResource(R.string.transfer_relation_list_screen_title)) },
-            selected = currentDest is TransferRelationList,
-            onClick = { debouncedClick { onClickItem(TransferRelationList) } }
+            label = { Text(text = stringResource(R.string.splash_screen_title)) },
+            selected = currentDest is Splash,
+            onClick = { debouncedClick { onClickItem(Splash) } }
         )
 
         NavigationDrawerItem(
@@ -198,7 +198,7 @@ fun PreviewOpenedAppDrawer() {
     ModalNavigationDrawer(
         drawerContent = {
             AppDrawerContent(
-                currentDest = TransferRelationList,
+                currentDest = Splash,
                 onClickItem = {},
             )
         },
