@@ -14,7 +14,7 @@ import androidx.room.TypeConverters
  */
 
 @Database(
-    entities = [TransferItemEntity::class, PaymentEntityV2::class],
+    entities = [PaymentEntityV2::class],
     version = 1,
     exportSchema = false
 )
