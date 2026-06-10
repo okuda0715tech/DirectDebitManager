@@ -16,7 +16,7 @@ import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import coil.ImageLoader
-import com.kurodai0715.directdebitmanager.ui.app_base.AppBaseScreen
+import com.kurodai0715.directdebitmanager.ui.screen.AppBaseScreen
 import com.kurodai0715.directdebitmanager.ui.theme.DirectDebitManagerTheme
 import com.kurodai0715.directdebitmanager.ui.theme.LocalDensityMode
 import com.kurodai0715.directdebitmanager.ui.theme.LocalImageLoader

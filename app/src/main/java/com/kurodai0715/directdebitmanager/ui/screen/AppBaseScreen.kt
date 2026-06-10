@@ -3,7 +3,7 @@
  * Licensed under the MIT License.
  */
 
-package com.kurodai0715.directdebitmanager.ui.app_base
+package com.kurodai0715.directdebitmanager.ui.screen
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
