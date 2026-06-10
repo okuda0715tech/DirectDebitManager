@@ -11,49 +11,28 @@
 
     <!-- 画面名 -->
     <string name="no_title"> </string>
-    <string name="payee_list_screen_title">支払先 / 一覧</string>
-    <string name="payee_edit_screen_title">支払先 / 登録"</string>
     <string name="list_screen_title">振替情報 / 一覧</string>
-    <string name="register_screen_title">振替情報 / 登録</string>
     <string name="edit_screen_title">振替情報 / 変更</string>
-    <string name="source_list_title">振替元 / 一覧</string>
-    <string name="payer_list_screen_title">支払元 / 一覧</string>
-    <string name="source_registration_title">振替元 / 登録</string>
-    <string name="source_update_title">振替元 / 変更</string>
-    <string name="payer_registration_title">支払元 / 登録</string>
-    <string name="payer_update_title">支払元 / 変更</string>
     <string name="home_screen_title">ホーム</string>
     <string name="transfer_relation_list_screen_title">振替関係 / 一覧</string>
     <string name="payment_edit_screen_title">支払情報 / 登録・編集</string>
     <string name="transfer_relation_edit_screen_title">振替関係 / 編集</string>
-    <string name="payment_select_screen_title">支払情報 / 選択"</string>
     <string name="payer_registration_screen_title">支払元 / 登録"</string>
     <string name="payee_registration_screen_title">支払先 / 登録"</string>
 
     <!-- ホーム 画面 -->
     <string name="tap_to_next_label">タップして次へ</string>
-    <string name="payer_list_label">支払元　一覧</string>
-    <string name="payee_list_label">支払先　一覧</string>
-    <string name="relation_list_label">振替関係　一覧</string>
 
     <!-- 振替情報 一覧 画面 -->
-    <string name="list_view_tab_label">個別表示</string>
-    <string name="tree_view_tab_label">ツリー表示</string>
     <string name="load_error">データの取得に失敗しました。</string>
-    <string name="down_arrow">↓</string>
     <string name="welcome_animation_description">ユーザーを歓迎するアニメーション</string>
 
     <!-- 振替情報 編集 画面 -->
     <string name="destination_text_label">振替先</string>
     <string name="source_text_label">振替元</string>
-    <string name="destination_input_type_label">振替先の指定方法</string>
-    <string name="keyboard_input">手書き入力</string>
-    <string name="select_from_source">振替元から選択</string>
     <string name="transfer_date">振替予定日</string>
-    <string name="transfer_amount">振替金額</string>
     <string name="clear_text_icon_description">入力文字を削除</string>
     <string name="open_source_list_dialog_icon_description">振替元選択ダイアログを開くアイコン</string>
-    <string name="open_destination_list_dialog_icon_description">振替先選択ダイアログを開くアイコン</string>
 
     <!-- 振替関係 一覧 画面 -->
     <string name="empty_icon_description">開始のワクワクを表現する魔法の杖のアイコン</string>
