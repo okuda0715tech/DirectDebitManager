@@ -32,6 +32,7 @@
     <string name="payee_registration_screen_title">支払先 / 登録"</string>
 
     <!-- ホーム 画面 -->
+    <string name="tap_to_next_label">タップして次へ</string>
     <string name="payer_list_label">支払元　一覧</string>
     <string name="payee_list_label">支払先　一覧</string>
     <string name="relation_list_label">振替関係　一覧</string>
