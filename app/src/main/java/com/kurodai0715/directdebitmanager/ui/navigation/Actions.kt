@@ -32,7 +32,3 @@ fun NavController.navigateToPaymentSelect(
 fun NavController.popToTransferRelationList() {
     popBackStack(route = TransferRelationList, inclusive = false)
 }
-
-fun NavController.popToTransferRelationEdit(paymentId: Int) {
-    popBackStack(route = TransferRelationEdit(paymentId), inclusive = false)
-}
