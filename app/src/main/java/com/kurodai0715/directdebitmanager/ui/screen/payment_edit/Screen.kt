@@ -22,6 +22,7 @@ import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.EditableForm
 import com.kurodai0715.directdebitmanager.ui.common_ui.components.HorizontalTwoButton
 import com.kurodai0715.directdebitmanager.ui.common_ui.screens.BodyBottomButtonLayout
+import com.kurodai0715.directdebitmanager.ui.dialog.SaveCompletionDialog
 import com.kurodai0715.directdebitmanager.ui.theme.LayoutTokens
 import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 import kotlinx.coroutines.launch
@@ -75,6 +76,20 @@ fun Screen(
             onClickBack = onClickBack,
             onClickSave = { viewModel.onClickSave() },
         )
+
+        when (uiState.dialog) {
+            UiState.Dialog.None -> {
+                /* ダイアログを表示しない */
+            }
+
+            UiState.Dialog.SaveSuccess -> {
+                SaveCompletionDialog(onClickClose = onClickBack)
+            }
+
+            UiState.Dialog.SaveFailed -> {
+                TODO()
+            }
+        }
     }
 }
 

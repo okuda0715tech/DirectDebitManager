@@ -2,7 +2,6 @@ package com.kurodai0715.directdebitmanager.ui.screen.payment_edit
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kurodai0715.directdebitmanager.R
 import com.kurodai0715.directdebitmanager.domain.model.CreatePaymentResult
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentCommandUseCase
 import com.kurodai0715.directdebitmanager.domain.usecase.PaymentQueryUseCase
@@ -19,10 +18,17 @@ data class UiState(
     val id: Id = Id.Unassigned,
     val name: String = "",
     val nameValidation: NameValidation = NameValidation.Valid,
+    val dialog: Dialog = Dialog.None,
 ) {
     sealed interface Id {
         data object Unassigned : Id
         data class Assigned(val value: Int) : Id
+    }
+
+    sealed interface Dialog {
+        data object None : Dialog
+        data object SaveSuccess : Dialog
+        data object SaveFailed : Dialog
     }
 }
 
@@ -110,11 +116,11 @@ class ViewModel @Inject constructor(
 
             when (result) {
                 CreatePaymentResult.Succeeded -> {
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+                    _uiState.update { it.copy(dialog = UiState.Dialog.SaveSuccess) }
                 }
 
                 CreatePaymentResult.Failed ->
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+                    _uiState.update { it.copy(dialog = UiState.Dialog.SaveFailed) }
             }
         }
     }
