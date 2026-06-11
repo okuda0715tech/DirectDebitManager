@@ -31,7 +31,7 @@ import kotlinx.coroutines.launch
 fun Screen(
     paymentId: Int?,
     viewModel: ViewModel = hiltViewModel(),
-    onClickBack: () -> Unit,
+    navigateUp: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -64,7 +64,7 @@ fun Screen(
                         )
                     }
 
-                    UiEvent.NavigateUp -> onClickBack()
+                    UiEvent.NavigateUp -> navigateUp()
                 }
             }
         }
@@ -75,7 +75,7 @@ fun Screen(
             nameValidation = uiState.nameValidation,
             onChangeName = { viewModel.updateName(it) },
             onClickClear = { viewModel.updateName("") },
-            onClickBack = onClickBack,
+            onClickBack = navigateUp,
             onClickSave = { viewModel.onClickSave() },
         )
 

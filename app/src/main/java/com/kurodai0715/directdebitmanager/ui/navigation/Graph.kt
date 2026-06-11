@@ -58,7 +58,7 @@ fun AppNavGraph(
 
             PaymentEditScreen(
                 paymentId = paymentEdit.paymentId,
-                onClickBack = { navController.navigateUp() }
+                navigateUp = { navController.navigateUp() }
             )
 
             onChangeTitle(R.string.payment_edit_screen_title)
