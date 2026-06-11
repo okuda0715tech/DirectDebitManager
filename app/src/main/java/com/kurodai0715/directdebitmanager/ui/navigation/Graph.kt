@@ -70,7 +70,7 @@ fun AppNavGraph(
 
             TransferRelationEditScreen(
                 viewModel = viewModel,
-                onClickBack = {
+                navigateUp = {
                     navController.navigateUp()
                 },
                 openPaymentEdit = {
@@ -88,9 +88,6 @@ fun AppNavGraph(
                         target = Contract.SelectTarget.Payee,
                     )
                 },
-                onDeleted = {
-                    navController.popToTransferRelationList()
-                }
             )
 
             onChangeTitle(R.string.transfer_relation_edit_screen_title)

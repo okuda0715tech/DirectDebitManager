@@ -42,11 +42,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun Screen(
     viewModel: ViewModel,
-    onClickBack: () -> Unit,
+    navigateUp: () -> Unit,
     openPaymentEdit: (Int) -> Unit,
     openPayerSelect: (Int) -> Unit,
     openPayeeSelect: (Int) -> Unit,
-    onDeleted: () -> Unit,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -83,7 +82,7 @@ fun Screen(
 
                     is UiEvent.OpenPayeeSelect -> openPayeeSelect(event.paymentId)
 
-                    UiEvent.OnDeleted -> onDeleted()
+                    UiEvent.OnDeleted -> navigateUp()
                 }
             }
         }
@@ -94,7 +93,7 @@ fun Screen(
             paymentNameMessage = uiState.payment.messageRes,
             payer = uiState.payer,
             payees = uiState.payees,
-            onClickBack = onClickBack,
+            onClickBack = navigateUp,
             onClickDelete = { viewModel.onClickDeletePayment() },
             onClickPayment = { viewModel.onClickPayment() },
             onClickAddPayer = { viewModel.onClickAddPayer() },
