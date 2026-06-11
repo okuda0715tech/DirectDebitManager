@@ -23,8 +23,7 @@ import com.kurodai0715.directdebitmanager.ui.util.debouncedClick
 @Composable
 fun Screen(
     viewModel: ViewModel,
-    onClickBack: () -> Unit,
-    backToRelationEditScreen: () -> Unit,
+    navigateUp: () -> Unit,
 ) {
 
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -32,7 +31,7 @@ fun Screen(
     PaymentSelectContents(
         uiState = uiState,
         onClickItem = { viewModel.onClickItem(it) },
-        onClickBack = onClickBack,
+        onClickBack = navigateUp,
         onClickSave = viewModel::onClickSave,
         onClickSaveDialogClose = viewModel::onClickSaveDialogClose,
     )
@@ -40,7 +39,7 @@ fun Screen(
     LaunchedEffect(Unit) {
         viewModel.eventFlow.collect { event ->
             when (event) {
-                UiEvent.BackToRelationEditScreen -> backToRelationEditScreen()
+                UiEvent.NavigateUp -> navigateUp()
             }
         }
     }

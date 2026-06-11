@@ -57,7 +57,7 @@ sealed class PaymentSelectUiState {
 }
 
 sealed class UiEvent {
-    data object BackToRelationEditScreen : UiEvent()
+    data object NavigateUp : UiEvent()
 }
 
 @HiltViewModel
@@ -216,7 +216,7 @@ class ViewModel @Inject constructor(
         updateDialog(PaymentSelectUiState.Success.Dialog.None)
 
         viewModelScope.launch {
-            _eventChannel.send(UiEvent.BackToRelationEditScreen)
+            _eventChannel.send(UiEvent.NavigateUp)
         }
     }
 }

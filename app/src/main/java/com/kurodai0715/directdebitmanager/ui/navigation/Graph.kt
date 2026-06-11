@@ -104,10 +104,7 @@ fun AppNavGraph(
 
             PaymentSelectScreen(
                 viewModel = paymentSelectViewModel,
-                onClickBack = { navController.navigateUp() },
-                backToRelationEditScreen = {
-                    navController.popToTransferRelationEdit(paymentSelect.paymentId)
-                }
+                navigateUp = { navController.navigateUp() },
             )
 
             val target = Contract.SelectTarget.valueOf(paymentSelect.target)
