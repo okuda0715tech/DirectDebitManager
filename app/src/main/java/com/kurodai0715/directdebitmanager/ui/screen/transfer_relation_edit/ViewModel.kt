@@ -265,11 +265,11 @@ class ViewModel @Inject constructor(
 
             when (result) {
                 DetachPayerResult.Succeeded -> {
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_successfully))
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_detach_successfully))
                 }
 
                 DetachPayerResult.Failed ->
-                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_save_failed))
+                    _eventChannel.send(UiEvent.ShowSnackbar(R.string.common_detach_failed))
             }
         }
     }
