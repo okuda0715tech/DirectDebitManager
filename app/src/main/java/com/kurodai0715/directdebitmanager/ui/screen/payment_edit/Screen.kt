@@ -75,7 +75,7 @@ fun Screen(
             nameValidation = uiState.nameValidation,
             onChangeName = { viewModel.updateName(it) },
             onClickClear = { viewModel.updateName("") },
-            onClickBack = navigateUp,
+            onClickBack = viewModel::onClickBack,
             onClickSave = { viewModel.onClickSave() },
         )
 

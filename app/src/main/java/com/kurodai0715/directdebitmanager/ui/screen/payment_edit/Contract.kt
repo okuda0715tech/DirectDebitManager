@@ -130,9 +130,15 @@ class ViewModel @Inject constructor(
         return paymentCommandUseCase.savePayment(id, name)
     }
 
-    fun onClickClose(){
+    fun onClickClose() {
         _uiState.update { it.copy(dialog = UiState.Dialog.None) }
 
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.NavigateUp)
+        }
+    }
+
+    fun onClickBack() {
         viewModelScope.launch {
             _eventChannel.send(UiEvent.NavigateUp)
         }
