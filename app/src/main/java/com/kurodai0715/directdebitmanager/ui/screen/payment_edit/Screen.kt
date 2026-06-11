@@ -63,6 +63,8 @@ fun Screen(
                             message = context.getString(event.messageRes)
                         )
                     }
+
+                    UiEvent.NavigateUp -> onClickBack()
                 }
             }
         }
@@ -83,7 +85,7 @@ fun Screen(
             }
 
             UiState.Dialog.SaveSuccess -> {
-                SaveCompletionDialog(onClickClose = onClickBack)
+                SaveCompletionDialog(onClickClose = viewModel::onClickClose)
             }
 
             UiState.Dialog.SaveFailed -> {

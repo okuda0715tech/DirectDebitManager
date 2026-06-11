@@ -40,6 +40,7 @@ sealed interface NameValidation {
 
 sealed class UiEvent {
     data class ShowSnackbar(val messageRes: Int) : UiEvent()
+    data object NavigateUp : UiEvent()
 }
 
 @HiltViewModel
@@ -127,5 +128,13 @@ class ViewModel @Inject constructor(
 
     private suspend fun savePayment(id: Int?, name: String): CreatePaymentResult {
         return paymentCommandUseCase.savePayment(id, name)
+    }
+
+    fun onClickClose(){
+        _uiState.update { it.copy(dialog = UiState.Dialog.None) }
+
+        viewModelScope.launch {
+            _eventChannel.send(UiEvent.NavigateUp)
+        }
     }
 }
