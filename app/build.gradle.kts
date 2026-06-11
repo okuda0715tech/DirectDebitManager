@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace = "com.kurodai0715.directdebitmanager"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.kurodai0715.directdebitmanager"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
