@@ -23,9 +23,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -34,7 +32,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -76,14 +73,11 @@ fun AppBaseScreen() {
             )
         },
     ) {
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
         @StringRes var screenHeaderTitle by remember { mutableIntStateOf(R.string.no_title) }
 
         Scaffold(
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             topBar = {
                 AppTopBar(
-                    scrollBehavior = scrollBehavior,
                     onClickMenu = {
                         scope.launch {
                             drawerState.apply {
@@ -113,7 +107,6 @@ fun AppBaseScreen() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppTopBar(
-    scrollBehavior: TopAppBarScrollBehavior,
     onClickMenu: () -> Unit,
     title: String,
 ) {
@@ -139,7 +132,7 @@ fun AppTopBar(
                 )
             }
         },
-        scrollBehavior = scrollBehavior,
+        scrollBehavior = null,
     )
 }
 
