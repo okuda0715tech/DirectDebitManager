@@ -64,8 +64,9 @@ fun ListItemFrame(
                 modifier = Modifier.weight(1f),
                 text = label,
                 color = when (itemState) {
+                    ItemState.Selected -> MaterialTheme.colorScheme.onSecondaryContainer
                     ItemState.Registered -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
-                    else -> MaterialTheme.colorScheme.onPrimaryContainer
+                    ItemState.None -> MaterialTheme.colorScheme.onSurface
                 }
             )
 
